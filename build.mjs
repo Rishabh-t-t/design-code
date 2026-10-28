@@ -1,4 +1,5 @@
 // Inlines src/ into one self-contained HTML file: dist/connectx-case-study.html
+// and copies it to index.html at the repo root for GitHub Pages.
 // Usage: node build.mjs
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -22,4 +23,6 @@ html = html.replace(/<!-- @inline ([^ ]+) -->/g, (_, p) => read(p).trim());
 
 mkdirSync(dirname(out), { recursive: true });
 writeFileSync(out, html);
+// Root copy so GitHub Pages can serve the page at the site root
+writeFileSync(join(root, 'index.html'), html);
 console.log(`built ${out} (${(Buffer.byteLength(html) / 1024).toFixed(1)} KB)`);
