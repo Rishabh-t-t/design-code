@@ -568,27 +568,27 @@
     <p class="note compare__note">Phase 2 ✓ explored side dims and slides back as the chosen side comes forward.</p>
   </div>
 
-  <div class="twin" aria-label="Live digital twin of Meridian Tower">
+  <div class="twin" id="live-twin" data-twin>
     <div class="twin__stage" data-cursor="Explore">
-      <div class="twin__top"><p class="ph__label"><b>ConnectX top bar</b>brand · Meridian Tower · Home / Live twin / Reports · system pill · clock · role</p></div>
-      <div class="twin__kpis">
-        <div class="twin__card"><span class="t-meta">Live load</span></div>
-        <div class="twin__card"><span class="t-meta">Solar</span></div>
-        <div class="twin__card"><span class="t-meta">Battery SOC</span></div>
-        <div class="twin__card"><span class="t-meta">Grid import</span></div>
+      <div class="twin__poster" aria-hidden="true">
+        <div class="twin__poster-art"><!-- @inline components/twin-mini.svg --></div>
+        <p class="twin__poster-label">Loading the live twin…</p>
       </div>
-      <div class="twin__details">
-        <div class="twin__card twin__card--tall"><span class="t-meta">Asset detail</span></div>
-        <div class="twin__card"><span class="t-meta">Scenario</span></div>
+      <iframe class="twin__frame" title="ConnectX live digital twin of Meridian Tower" tabindex="-1" data-twin-frame hidden></iframe>
+      <div class="twin__shield" data-twin-shield></div>
+      <div class="twin__cta" data-twin-cta>
+        <button class="btn btn--dark twin__engage" type="button" data-twin-engage>Explore the live twin</button>
+        <div class="twin__chips">
+          <button type="button" data-twin-run="peak">Run peak tariff</button>
+          <button type="button" data-twin-run="outage">Grid outage</button>
+          <button type="button" data-twin-run="ev">EV rush</button>
+        </div>
       </div>
-      <div class="twin__scene"><p class="ph__label"><b>Live Twin · 3D scene</b>Full-bleed, borderless, 100vh (min 680). Floating KPI + detail cards drift ±3px.</p></div>
-      <button class="twin__engage btn btn--dark" type="button" disabled>Explore the live twin</button>
-      <div class="twin__chips" aria-hidden="true">
-        <span>Peak tariff</span><span>Grid outage</span><span>EV rush</span>
-      </div>
+      <button class="twin__exit" type="button" data-twin-exit hidden>Exit twin <span aria-hidden="true">✕</span></button>
     </div>
-    <div class="wrap">
-      <p class="note">Phase 4: lazy-loaded embed of the Live Twin (embed mode). Loader plays on first view. Click to engage → wheel/drag control the twin, Exit ✕ or Esc hands scroll back. Pauses when off-screen. Page background fades into the twin ground.</p>
+    <div class="wrap twin__below">
+      <p class="t-caption twin__caption">The live twin of Meridian Tower, running on sample data. Click <b>Explore</b> to take control: drag to orbit, scroll to zoom, click an asset, or run a scenario. Press Esc or Exit to hand scrolling back to the page.</p>
+      <p class="note">Phase 4 ✓ embedded twin: lazy-loaded, intro plays on first view, click to engage, Exit / Esc hands scroll back, pauses off-screen. Floating KPI and detail cards, scenario chips.</p>
     </div>
   </div>
 </section>
@@ -944,6 +944,8 @@
   </div>
 </footer>
 
+<!-- @twin-json twin/live-twin.html -->
+
 <div class="cursor is-hidden" aria-hidden="true"><span class="cursor__label"></span></div>
 
 <button class="notes-toggle" type="button" data-notes-toggle aria-pressed="true">Notes: on</button>
@@ -956,5 +958,6 @@
 <script src="js/motion.js"></script>
 <script src="js/scenes.js"></script>
 <script src="js/components.js"></script>
+<script src="js/twin.js"></script>
 </body>
 </html>

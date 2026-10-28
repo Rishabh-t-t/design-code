@@ -504,6 +504,38 @@ main{position:relative;flex:1;min-height:0}
 @media (max-width:420px){.top-r .clock{display:none}.nav button{padding:6px 9px;font-size:11.5px}.ov-tr .seg button{font-size:10.5px;padding:4px 6px}}
 @media (prefers-reduced-motion:reduce){.blob,.badge{animation:none}}
 
+/* ---------- embed mode (Tcules case study): floating layout, no side rails ---------- */
+#app.embed .rail,#app.embed .ov-tr{display:none}
+#app.embed .ov-tl{top:auto;bottom:92px}
+.emb{position:absolute;z-index:7;display:flex;gap:10px;pointer-events:none}
+.emb>*{pointer-events:auto}
+#app:not(.embed) .emb,#app.embed:not([data-view=live]) .emb{display:none}
+#app.embed.staging .emb{opacity:0}
+.emb-kpis{left:14px;top:14px;flex-direction:column}
+.emb-k{display:flex;flex-direction:column;gap:4px;min-width:118px;padding:10px 12px;background:#fff;border:1px solid var(--line);border-radius:4px;box-shadow:0 10px 28px rgba(60,58,52,.12);animation:emb-drift 7s ease-in-out infinite}
+.emb-k span{font-size:10.5px;color:var(--ink2);white-space:nowrap}
+.emb-k b{font-family:var(--mono);font-weight:400;font-size:17px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.emb-k small{font-family:var(--mono);font-size:10px;color:var(--ink3)}
+.emb-k[data-s=a] small{color:var(--blue)} .emb-k[data-s=f] b,.emb-k[data-s=f] small{color:var(--orange)}
+.emb-k:nth-child(2){animation-delay:-1.8s}.emb-k:nth-child(3){animation-delay:-3.4s}.emb-k:nth-child(4){animation-delay:-5.1s}
+.emb-side{right:14px;top:14px;flex-direction:column;width:300px}
+.emb-c{display:flex;flex-direction:column;gap:7px;padding:13px 15px;background:#fff;border:1px solid var(--line);border-radius:4px;box-shadow:0 10px 28px rgba(60,58,52,.12);animation:emb-drift 8s ease-in-out infinite}
+.emb-c:nth-child(2){animation-delay:-2.6s}.emb-c:nth-child(3){animation-delay:-5.2s}
+.emb-c h3{margin:0;font-size:15px;font-weight:600;letter-spacing:-.01em;line-height:1.2}
+.emb-c p{margin:0;font-size:12px;line-height:1.4;color:var(--ink2)}
+.emb-c .k{color:var(--blue)} .emb-c[data-s=f] .k{color:var(--orange)}
+.emb-rows{display:flex;flex-direction:column}
+.emb-rows div{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-top:1px solid var(--line2);font-size:11.5px;color:var(--ink2)}
+.emb-rows b{font-family:var(--mono);font-weight:400;color:var(--ink);white-space:nowrap}
+.emb-c .row{display:flex;gap:6px;flex-wrap:wrap}
+.emb-chips{left:50%;top:14px;transform:translateX(-50%);gap:6px}
+.emb-chips button{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;background:#fff;border:1px solid var(--line);border-radius:999px;box-shadow:0 6px 18px rgba(60,58,52,.10);font-size:12px;font-weight:500;white-space:nowrap}
+.emb-chips button svg{width:14px;height:14px;color:var(--ink2)}
+.emb-chips button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)} .emb-chips button[aria-pressed=true] svg{color:var(--blue2)}
+@keyframes emb-drift{50%{transform:translateY(-3px)}}
+@media (prefers-reduced-motion:reduce){.emb-k,.emb-c{animation:none}}
+@media (max-width:1180px){.emb-side{width:250px}.emb-chips button:nth-child(5){display:none}}
+
 </style>
 <div id="app" data-view="loader">
   <header class="top">
@@ -1831,7 +1863,7 @@ function finishLoader() {
   if (E) E.build(1);
   const ld = $('#loader');
   ld.style.opacity = '0';
-  setTimeout(() => { ld.style.display = 'none'; view = 'loader-x'; go('home'); }, 520);
+  setTimeout(() => { ld.style.display = 'none'; view = 'loader-x'; go(EMBED ? 'live' : 'home'); if (EMBED) embPost({ cx: 'live' }); }, 520);
 }
 $('#ldSkip').addEventListener('click', finishLoader);
 
@@ -2240,7 +2272,7 @@ glEl.addEventListener('pointercancel', endPtr);
 glEl.addEventListener('pointerleave', () => { hoverXY = null; setHover(null); });
 glEl.addEventListener('dblclick', (e) => { if (!E || view !== 'live') return; const p = localXY(e); const k = E.pick(p.x, p.y); if (k) { select(k, true); } });
 glEl.addEventListener('wheel', (e) => {
-  if (view !== 'live') return;
+  if (view !== 'live' || (EMBED && !EMB.engaged)) return;
   e.preventDefault(); userCam();
   V.d = Math.max(3, Math.min(42, V.d * Math.exp(e.deltaY * (e.deltaMode ? 0.05 : 0.0012))));
 }, { passive: false });
@@ -2747,9 +2779,10 @@ function topTick(F) {
 /* ---------- loop ---------- */
 let last = performance.now(), homeAcc = 0;
 function loop(now) {
+  if (EMBED && EMB.paused) { EMB.halted = true; return; }
   const dt = Math.min(0.1, Math.max(0, (now - last) / 1000)); last = now; T += dt;
   stepCam(now);
-  if (view === 'loader') loaderTick(dt);
+  if (view === 'loader' && (!EMBED || EMB.intro)) loaderTick(dt);
   if (RS) resolverTick(dt);
   traceTick(dt);
   runTick(dt);
@@ -2768,6 +2801,7 @@ function loop(now) {
   }
   if (view === 'live') {
     pinsTick(F); hoverTick(F); updateFlow(F); barTick(); cardTick(); renderLog(); wxTick(F); updateAsset(false);
+    if (EMBED) embTick(F);
   }
   topTick(F);
   requestAnimationFrame(loop);
@@ -2985,6 +3019,70 @@ function cancelResolve() {
   Object.assign(R0.turn, R0.ans || localAnswer(R0.q), { pending: false });
 }
 
+/* ---------- embed mode (Tcules case study) ----------
+   Enabled by window.CX_EMBED or ?embed=1. The page talks to the twin with postMessage:
+   in:  intro · skip · pause · resume · engage {on} · scenario {id|'live'}
+   out: ready · live · scenario {id|null} · esc */
+const EMBED = window.CX_EMBED === true || /[?&]embed=1\b/.test(location.search);
+const EMB = { intro: false, paused: false, halted: false, engaged: false, sig: {}, scn: undefined };
+function embPost(msg) { if (EMBED && window.parent !== window) window.parent.postMessage(msg, '*'); }
+function embSet(el, key, html) { if (EMB.sig[key] !== html) { EMB.sig[key] = html; el.innerHTML = html; } }
+let embTick = () => {};
+if (EMBED) {
+  app.classList.add('embed');
+  document.documentElement.style.setProperty('--ground', '#F3F3F1');
+  const cw = $('#cw');
+  const mk = (cls) => { const d = document.createElement('div'); d.className = 'emb ' + cls; cw.appendChild(d); return d; };
+  const kpis = mk('emb-kpis'), side = mk('emb-side'), chips = mk('emb-chips');
+  kpis.setAttribute('aria-label', 'Live readings');
+  kpis.innerHTML = ['load', 'solar', 'battery', 'grid'].map((k) => '<div class="emb-k" data-k="' + k + '"><span></span><b></b><small></small></div>').join('');
+  side.innerHTML = '<div class="emb-c" id="embScn"></div><div class="emb-c" id="embAsset"></div><div class="emb-c" id="embAlert" data-s="f"></div>';
+  const CHIPS = [['live', 'Live'], ['peak', 'Peak tariff'], ['outage', 'Grid outage'], ['ev', 'EV rush'], ['clouds', 'Clouds & rain']];
+  chips.innerHTML = CHIPS.map((c) => '<button data-id="' + c[0] + '" aria-pressed="false"><svg viewBox="0 0 16 16">' + ICON[c[0]] + '</svg>' + c[1] + '</button>').join('');
+  $$('button', chips).forEach((b) => b.addEventListener('click', () => (b.dataset.id === 'live' ? exitScenario() : startScenario(b.dataset.id))));
+  side.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-emb]'); if (!b) return;
+    if (b.dataset.emb === 'show') select(b.dataset.k, true);
+    if (b.dataset.emb === 'clear') select(null, true);
+  });
+  const setK = (k, label, val, sub, st) => {
+    const el = $('.emb-k[data-k="' + k + '"]', kpis);
+    setTxt(el.children[0], label); setTxt(el.children[1], val); setTxt(el.children[2], sub); el.dataset.s = st || '';
+  };
+  embTick = (F) => {
+    setK('load', 'Building load', kw(P.load), 'EV ' + kw(P.ev));
+    setK('solar', 'Solar', P.solar > 1 ? kw(P.solar) : 'No sun', P.solar > 1 ? Math.round(Math.min(100, P.solar / Math.max(1, P.load) * 100)) + '% of load' : 'standby', P.solar > 2 ? 'a' : '');
+    setK('battery', 'Battery', Math.round(P.soc) + '%', P.bat > 2 ? kw(P.bat) + ' out' : P.bat < -2 ? kw(-P.bat) + ' in' : 'idle', Math.abs(P.bat) > 2 ? 'a' : '');
+    if (F.gridFault) setK('grid', 'Grid', 'Fault', 'islanded', 'f');
+    else setK('grid', P.grid < -2 ? 'Grid export' : 'Grid import', kw(Math.abs(P.grid)), (P.tariff === 0.32 ? 'peak' : P.tariff === 0.19 ? 'day' : 'night') + ' £' + P.tariff.toFixed(2) + '/kWh', P.tariff === 0.32 ? 'f' : '');
+    // scenario card mirrors the (hidden) rail card
+    embSet($('#embScn'), 'scn', $('#scnNow').innerHTML);
+    // asset card: the selected asset, or a prompt to pick one
+    const d = sel && assetDef(sel, F);
+    embSet($('#embAsset'), 'asset', d
+      ? '<span class="k">:: ' + esc(d.k) + '</span><h3>' + esc(d.title) + '</h3><div class="emb-rows">' + d.rows.slice(0, 4).map((r) => '<div><span>' + esc(r[0]) + '</span><b>' + esc(r[1]) + '</b></div>').join('') + '</div><div class="row"><button class="btn ghost sm" data-emb="clear">Back to overview</button></div>'
+      : '<span class="k">:: Assets</span><h3>Click any asset</h3><p>Drag to orbit, scroll to zoom. Each asset shows its live readings here.</p>');
+    // alert card: the first open alert
+    const a = ALERTS.find((x) => U.alerts[x.id] === 'open');
+    $('#embAlert').hidden = !a;
+    if (a) embSet($('#embAlert'), 'alert', '<span class="k">:: Alert · ' + esc(a.val) + '</span><h3>' + esc(a.title) + '</h3><p>' + esc(a.where) + ' · ' + esc(a.age) + '</p><div class="row"><button class="btn ghost sm" data-emb="show" data-k="' + esc(a.focus) + '">Show on twin</button></div>');
+    // scenario chips and the outbound scenario event
+    const id = run ? run.sc.id : 'live';
+    $$('button', chips).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.id === id)));
+    if (EMB.scn !== id) { EMB.scn = id; embPost({ cx: 'scenario', id: run ? id : null }); }
+  };
+  window.addEventListener('message', (e) => {
+    const m = e.data || {};
+    if (m.cx === 'intro') EMB.intro = true;
+    if (m.cx === 'skip') { EMB.intro = true; finishLoader(); }
+    if (m.cx === 'pause') EMB.paused = true;
+    if (m.cx === 'resume') { EMB.paused = false; if (EMB.halted) { EMB.halted = false; last = performance.now(); requestAnimationFrame(loop); } }
+    if (m.cx === 'engage') EMB.engaged = !!m.on;
+    if (m.cx === 'scenario') { if (m.id === 'live') exitScenario(); else startScenario(m.id); }
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !sel && !run) embPost({ cx: 'esc' }); });
+}
+
 /* ---------- boot ---------- */
 bootRoles();
 renderScnList(); renderScnNow(); renderBar(); renderLog(); renderAlerts(); renderChat(); renderAsset();
@@ -2995,6 +3093,7 @@ document.addEventListener('keydown', (e) => {
 });
 if (!E) { L.t = LTOT; }
 requestAnimationFrame(loop);
+embPost({ cx: 'ready' });
 window.__cx = { E, setRole, resolveFlow, dbgRS(t) { if (RS) RS.t = t; }, get L() { return L; }, go, startScenario, exitScenario, select, finishLoader, ask, setTab, acceptAlert, get run() { return run; }, get P() { return P; }, V, U, setRunT(t) { if (run) { run.t = t; run.playing = false; } } };
 
 })();

@@ -21,6 +21,11 @@ html = html.replace(/<script src="((?!https?:)[^"]+)"><\/script>/g, (_, p) => `<
 // <!-- @inline path --> → file contents (SVGs, templates)
 html = html.replace(/<!-- @inline ([^ ]+) -->/g, (_, p) => read(p).trim());
 
+// <!-- @twin-json path --> → the Live Twin's HTML as JSON in an inert script tag.
+// "</" is escaped so the payload can never close the tag early; twin.js reads it back into a Blob.
+html = html.replace(/<!-- @twin-json ([^ ]+) -->/g, (_, p) =>
+  `<script type="application/json" id="twin-src">${JSON.stringify(read(p)).replace(/<\//g, '<\\/')}</script>`);
+
 mkdirSync(dirname(out), { recursive: true });
 writeFileSync(out, html);
 // Root copy so GitHub Pages can serve the page at the site root
