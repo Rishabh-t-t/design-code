@@ -168,6 +168,32 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
   display: grid; place-items: center;
 }
 
+/* ---- Image panels: a screenshot floats on a tint, sized to fit the panel ---- */
+.shot {
+  position: relative;
+  display: grid; place-items: center;
+  border-radius: var(--radius);
+  overflow: hidden;
+  container-type: size;
+  background: var(--placeholder);
+}
+.shot--blue  { background: var(--tint-blue); }
+.shot--stone { background: var(--tint-stone); }
+.shot__img {
+  width: auto; height: auto;
+  max-width: 88cqw; max-height: 86cqh;
+  border-radius: 6px;
+  box-shadow: var(--shadow-float);
+}
+/* Illustrations and white-ground images take on the panel tint instead of floating */
+.shot--blend .shot__img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; max-width: none; max-height: none;
+  object-fit: cover;
+  border-radius: 0; box-shadow: none;
+  mix-blend-mode: multiply;
+}
+
 /* ---- Wireframe annotations (toggle with the Notes button or the N key) ---- */
 .note {
   display: inline-block;

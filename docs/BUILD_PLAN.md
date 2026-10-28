@@ -320,7 +320,7 @@ All are built in the ConnectX product style: Instrument Sans + Geist Mono, produ
 | **P2 Motion system** ✅ | Smooth scroll, reveals, nav pill, cursor, both pinned scenes (on grey boxes), marquee, count-ups, accordion, reduced motion. | Feel, timing, pacing |
 | **P3 HTML components** ✅ | C1–C6 built and animated. | Each component's story |
 | **P4 Live Twin embed** ✅ | Embed mode, floating layout, lazy load, engage/exit, pause. | Interaction model |
-| **P5 Assets** | Real images on tint panels. | Composition |
+| **P5 Assets** ✅ | Real images on tint panels. | Composition |
 | **P6 QA** | Screenshots at 1024 / 1280 / 1440 / 1920 / 2560, contrast check, keyboard and reduced-motion passes, Lighthouse. | Sign-off |
 
 Every phase rebuilds `dist/connectx-case-study.html` and is committed to `claude/cool-rubin-hrpv85`.
@@ -341,4 +341,5 @@ Note: product mock values inside C2, C4 and C5 (318 kW, 262 kW, 17:00, battery h
 | **IMP-05** | A fully offline single file (embedded fonts, libraries and images). | Size cost; CDN for now |
 | **IMP-06** | Form wired to the CMS record + notify, and the scheduling link. | Prototype uses a stub |
 | **IMP-07** | Port into the Tcules Next.js site. | After design sign-off |
+| **IMP-09** | Replace the two embedded Figma concept frames (carousel 3 and 4) with exports hosted on Cloudinary, so the page is lighter. | They only exist in Figma today; embedded as WebP (~60 KB) |
 | **IMP-08** | Confirm or replace the illustrative values in the product mocks (C2, C4, C5). | Sample values, consistent with the Live Twin |

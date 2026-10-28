@@ -175,7 +175,7 @@
         clipPath: 'inset(0px 0px 0px 0px round 0px)', ease: 'none',
         scrollTrigger: { start: 0, end: () => innerHeight * 0.75, scrub: true, invalidateOnRefresh: true },
       });
-    gsap.fromTo('.hero__media .ph__screen', { scale: 0.94 }, {
+    gsap.fromTo('.hero__media .shot__img', { scale: 0.94 }, {
       scale: 1, ease: 'none',
       scrollTrigger: { start: 0, end: () => innerHeight * 0.75, scrub: true },
     });
@@ -230,15 +230,15 @@
       gsap.fromTo(el, { clipPath: 'inset(12% 5% 12% 5% round 24px)' }, {
         clipPath: 'inset(0% 0% 0% 0% round 24px)', duration: 1.5, ease: EASE, scrollTrigger: trigger,
       });
-      const inner = !el.classList.contains('areas__view') && el.querySelector('.ph__screen, .cx-app');
+      const inner = !el.classList.contains('areas__view') && el.querySelector('.ph__screen, .cx-app, .shot__img');
       if (inner) gsap.from(inner, { scale: 1.08, duration: 1.8, ease: EASE, scrollTrigger: trigger });
     });
 
     /* Demo image: light parallax */
-    gsap.fromTo('.demo__ph .ph__screen', { y: -40 }, {
-      y: 40, ease: 'none',
-      scrollTrigger: { trigger: '.demo__ph', start: 'top bottom', end: 'bottom top', scrub: true },
-    });
+    $$('.demo__ph .shot__img').forEach((img) => gsap.fromTo(img, { y: -24 }, {
+      y: 24, ease: 'none',
+      scrollTrigger: { trigger: img.parentElement, start: 'top bottom', end: 'bottom top', scrub: true },
+    }));
 
     /* Digital twin: the explored direction steps back, the chosen one comes forward */
     gsap.timeline({ scrollTrigger: { trigger: '.compare', start: 'top 80%', end: 'bottom 50%', scrub: true } })

@@ -21,6 +21,12 @@ html = html.replace(/<script src="((?!https?:)[^"]+)"><\/script>/g, (_, p) => `<
 // <!-- @inline path --> → file contents (SVGs, templates)
 html = html.replace(/<!-- @inline ([^ ]+) -->/g, (_, p) => read(p).trim());
 
+// "@datauri:path" (inside attributes) → base64 data URI, for the few images that only exist locally
+html = html.replace(/@datauri:([^"\s]+)/g, (_, p) => {
+  const type = { webp: 'image/webp', png: 'image/png', jpg: 'image/jpeg', svg: 'image/svg+xml' }[p.split('.').pop()];
+  return `data:${type};base64,${readFileSync(join(src, p)).toString('base64')}`;
+});
+
 // <!-- @twin-json path --> → the Live Twin's HTML as JSON in an inert script tag.
 // "</" is escaped so the payload can never close the tag early; twin.js reads it back into a Blob.
 html = html.replace(/<!-- @twin-json ([^ ]+) -->/g, (_, p) =>

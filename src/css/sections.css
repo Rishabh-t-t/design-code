@@ -59,6 +59,7 @@
   padding-inline: var(--margin);
 }
 .hero__media { aspect-ratio: 16 / 9; max-height: 92vh; width: 100%; border-radius: var(--radius-l); }
+.hero__media .shot__img { max-width: 80cqw; max-height: 84cqh; box-shadow: var(--shadow-lift); }
 .hero__note { left: calc(var(--margin) + 16px); bottom: 16px; }
 
 /* ---------- S2 Intro ---------- */
@@ -250,7 +251,10 @@
 
 /* ---------- S8 Demo to production ---------- */
 .demo__media { margin-top: var(--s-9); display: flex; flex-direction: column; gap: var(--s-4); }
-.demo__ph { aspect-ratio: 16 / 9; border-radius: var(--radius-l); }
+.demo__pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gutter); }
+.demo__ph { aspect-ratio: 3 / 2; border-radius: var(--radius-l); }
+.demo__step { display: flex; align-items: baseline; gap: 10px; margin-top: var(--s-3); color: var(--ink); font-weight: 500; }
+.demo__step span { font-family: var(--font-mono); font-size: var(--fs-meta); color: var(--ink-3); }
 
 .timeline-wrap { margin-top: var(--s-10); }
 .timeline__title { grid-column: 1 / span 3; max-width: 22ch; }
@@ -370,7 +374,8 @@
   border-radius: var(--radius-l);
   box-shadow: var(--shadow-lift);
 }
-.next__ph { aspect-ratio: 4 / 3; }
+.next__ph { aspect-ratio: 4 / 3; border-radius: var(--radius); overflow: hidden; background: var(--tint-stone); }
+.next__img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .next__name { display: flex; justify-content: space-between; padding: var(--s-4) var(--s-2) var(--s-2); }
 .related__more { margin-top: var(--s-6); border-bottom: 1px solid var(--line); }
 .related__row {
