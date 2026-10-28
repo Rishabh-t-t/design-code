@@ -22,7 +22,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..700&family=Figtree:wght@300..800&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..700&family=Figtree:wght@300..800&family=Geist+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap">
 
 <script>
   /* Hide the hero until the intro animation starts. Skipped for reduced motion; a timeout guarantees it never stays hidden. */
@@ -34,6 +34,7 @@
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/sections.css">
+<link rel="stylesheet" href="css/components.css">
 <link rel="stylesheet" href="css/motion.css">
 
 <script type="application/ld+json">
@@ -237,23 +238,32 @@
 
     <div class="chapter__media roles">
       <ul class="roles__list" aria-label="Three teams, three questions">
-        <li class="role-card">
-          <span class="role-card__avatar" aria-hidden="true">FO</span>
-          <p class="t-meta">Facilities operator</p>
-          <p class="role-card__q">An exception that requires action</p>
+        <li class="role-card cx" data-tone="orange">
+          <div class="role-card__top">
+            <span class="role-card__avatar" aria-hidden="true">FO</span>
+            <span class="role-card__role">Facilities operator</span>
+          </div>
+          <p class="cx-k">Needs to see</p>
+          <p class="role-card__ask"><span class="role-card__q" data-type>An exception that requires action</span><span class="cx-caret" aria-hidden="true"></span></p>
         </li>
-        <li class="role-card">
-          <span class="role-card__avatar" aria-hidden="true">FL</span>
-          <p class="t-meta">Finance leader</p>
-          <p class="role-card__q">Cost or a forecast</p>
+        <li class="role-card cx" data-tone="blue">
+          <div class="role-card__top">
+            <span class="role-card__avatar" aria-hidden="true">FL</span>
+            <span class="role-card__role">Finance leader</span>
+          </div>
+          <p class="cx-k">Needs to see</p>
+          <p class="role-card__ask"><span class="role-card__q" data-type>Cost or a forecast</span><span class="cx-caret" aria-hidden="true"></span></p>
         </li>
-        <li class="role-card">
-          <span class="role-card__avatar" aria-hidden="true">ST</span>
-          <p class="t-meta">Sustainability team</p>
-          <p class="role-card__q">Progress against an environmental target</p>
+        <li class="role-card cx" data-tone="ink">
+          <div class="role-card__top">
+            <span class="role-card__avatar" aria-hidden="true">ST</span>
+            <span class="role-card__role">Sustainability team</span>
+          </div>
+          <p class="cx-k">Needs to see</p>
+          <p class="role-card__ask"><span class="role-card__q" data-type>Progress against an environmental target</span><span class="cx-caret" aria-hidden="true"></span></p>
         </li>
       </ul>
-      <p class="note">C1 Role cards · Phase 3: product-styled floating cards, questions type in with stagger.</p>
+      <p class="note">C1 Role cards · Phase 3 ✓ product-styled cards; each need types in, staggered.</p>
     </div>
 
     <p class="chapter__pull t-statement">The ingredients were there. The work was to give them a structure that responds to what a person is trying to do.</p>
@@ -295,17 +305,72 @@
         <div class="choice">
           <div class="choice__dir">
             <p class="t-meta">Direction A</p>
-            <div class="ph ph--tint-stone choice__ph"><p class="ph__label"><b>C2 · Panel A</b>Fixed dashboard + AI assistant column</p></div>
+            <div class="cx-panel cx-panel--stone choice__ph" aria-hidden="true">
+              <div class="cx cx-app cx-app--muted">
+                <div class="cx-bar"><span class="cx-logo" aria-hidden="true">C</span><b>ConnectX</b><span class="cx-bar__site">Meridian Tower</span><span class="cx-bar__r"><span class="cx-dot"></span>Live</span></div>
+                <div class="cx-dash">
+                  <div class="cx-dash__main">
+                    <div class="cx-kpis">
+                <div class="cx-kpi"><span>Live load</span><b>318 <i>kW</i></b></div>
+                <div class="cx-kpi"><span>Solar</span><b>245 <i>kW</i></b></div>
+                <div class="cx-kpi"><span>Battery</span><b>78 <i>%</i></b></div>
+                <div class="cx-kpi"><span>Grid import</span><b>60 <i>kW</i></b></div>
+              </div>
+                    <div class="cx-card cx-card--chart"><div class="cx-card__h">Consumption · today</div><svg class="cx-chart" viewBox="0 0 200 64" preserveAspectRatio="none" aria-hidden="true"><path class="cx-chart__grid" d="M0 16H200M0 32H200M0 48H200"/><path class="cx-chart__area" d="M0 50 C20 46 30 30 50 32 S80 18 100 22 S130 40 150 30 S180 14 200 18 V64 H0Z"/><path class="cx-chart__line" d="M0 50 C20 46 30 30 50 32 S80 18 100 22 S130 40 150 30 S180 14 200 18"/></svg></div>
+                    <div class="cx-dash__row"><div class="cx-card cx-skel"><i></i><i></i></div><div class="cx-card cx-skel"><i></i><i></i></div></div>
+                  </div>
+                  <div class="cx-assist">
+                    <div class="cx-assist__h">AI assistant</div>
+                    <p class="cx-msg cx-msg--me">What's driving today's load?</p>
+                    <p class="cx-msg"><i></i><i></i><i></i></p>
+                    <div class="cx-assist__in">Ask a question…</div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <p class="choice__verdict">Familiar, but the interface stayed largely fixed.</p>
           </div>
           <div class="choice__dir">
             <p class="t-meta">Direction B</p>
-            <div class="ph ph--tint-stone choice__ph"><p class="ph__label"><b>C2 · Panel B</b>Conversation decides KPIs, assets, charts and twin views</p></div>
+            <div class="cx-panel cx-panel--stone choice__ph" aria-hidden="true">
+              <div class="cx cx-app cx-app--muted">
+                <div class="cx-bar"><span class="cx-logo" aria-hidden="true">C</span><b>ConnectX</b><span class="cx-bar__site">Meridian Tower</span><span class="cx-bar__r"><span class="cx-dot"></span>Live</span></div>
+                <div class="cx-chat">
+                  <p class="cx-msg cx-msg--me cx-msg--old">Battery state this morning?</p>
+                  <p class="cx-msg cx-msg--old"><i></i><i></i></p>
+                  <p class="cx-msg cx-msg--me">What's driving cost today?</p>
+                  <div class="cx-msg cx-msg--rich">
+                    <div class="cx-kpis cx-kpis--2">
+                      <div class="cx-kpi"><span>Live load</span><b>318 <i>kW</i></b></div>
+                      <div class="cx-kpi"><span>Peak tariff</span><b>17:00</b></div>
+                    </div>
+                    <div class="cx-card cx-card--chart"><svg class="cx-chart" viewBox="0 0 200 64" preserveAspectRatio="none" aria-hidden="true"><path class="cx-chart__grid" d="M0 16H200M0 32H200M0 48H200"/><path class="cx-chart__area" d="M0 50 C20 46 30 30 50 32 S80 18 100 22 S130 40 150 30 S180 14 200 18 V64 H0Z"/><path class="cx-chart__line" d="M0 50 C20 46 30 30 50 32 S80 18 100 22 S130 40 150 30 S180 14 200 18"/></svg></div>
+                  </div>
+                  <div class="cx-assist__in">Ask a question…</div>
+                </div>
+              </div>
+            </div>
             <p class="choice__verdict">Adapted more deeply, but nowhere to keep working.</p>
           </div>
           <div class="choice__merged" aria-hidden="true">
             <p class="t-meta">Chosen model</p>
-            <div class="ph ph--tint-blue choice__ph choice__ph--merged"><div class="ph__screen"><p class="ph__label"><b>C2 · Merged workspace</b>Conversation builds the view; the dashboard modules stay open to work with</p></div></div>
+            <div class="cx-panel cx-panel--blue choice__ph choice__ph--merged">
+              <div class="cx cx-app">
+                <div class="cx-bar"><span class="cx-logo" aria-hidden="true">C</span><b>ConnectX</b><span class="cx-bar__site">Meridian Tower</span><span class="cx-bar__r"><span class="cx-dot cx-dot--live"></span>Live</span></div>
+                <div class="cx-askbar"><span class="cx-askbar__q">What's driving cost today?</span><span class="cx-chip cx-chip--blue">Peak-price · 17:00</span></div>
+                <div class="cx-ws">
+                  <div class="cx-card cx-ws__twin" data-mod><div class="cx-card__h">Twin · affected assets</div><div class="cx-twin" data-blue="battery" data-hot="hvac"><!-- @inline components/twin-mini.svg --></div></div>
+                  <div class="cx-ws__side">
+                    <div class="cx-kpis cx-kpis--2" data-mod>
+                      <div class="cx-kpi"><span>Live load</span><b>318 <i>kW</i></b></div>
+                      <div class="cx-kpi cx-kpi--hot"><span>Tariff</span><b>Peak</b></div>
+                    </div>
+                    <div class="cx-card cx-card--chart" data-mod><div class="cx-card__h">Load vs price</div><svg class="cx-chart" viewBox="0 0 200 64" preserveAspectRatio="none" aria-hidden="true"><path class="cx-chart__grid" d="M0 16H200M0 32H200M0 48H200"/><path class="cx-chart__area" d="M0 50 C20 46 30 30 50 32 S80 18 100 22 S130 40 150 30 S180 14 200 18 V64 H0Z"/><path class="cx-chart__line" d="M0 50 C20 46 30 30 50 32 S80 18 100 22 S130 40 150 30 S180 14 200 18"/></svg></div>
+                    <div class="cx-card cx-action" data-mod><span class="cx-k">Suggested action</span><b>Carry the peak on the battery</b><span class="cx-action__btns"><span class="cx-btn cx-btn--dark">Schedule</span><span class="cx-btn">Adjust</span></span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <p class="choice__verdict">Conversation identifies the work. The workspace stays open.</p>
           </div>
         </div>
@@ -319,7 +384,7 @@
         </ol>
       </div>
       <p class="t-caption stage__caption">Conversation creates the workspace. The modules let people keep working with the result.</p>
-      <p class="note">Pinned ≈ 250vh · Phase 2 beats: (1) A + B side by side, grey → (2) slide together → (3) merge into one workspace, turning product blue → (4) C3 flow draws its 5 steps, closing line appears.</p>
+      <p class="note">C2 + C3 · Phase 3 ✓ product UI. Pinned ≈ 250vh · Phase 2 ✓ beats: (1) A + B side by side, grey → (2) slide together → (3) merge into one workspace, turning product blue → (4) C3 flow draws its 5 steps, closing line appears.</p>
     </div>
   </div>
 
@@ -355,13 +420,62 @@
         </ol>
         <p class="areas__progress t-meta"><span>1</span> / 4</p>
       </div>
-      <div class="areas__view ph ph--tint-blue" aria-hidden="true">
-        <div class="ph__screen areas__state is-active"><p class="ph__label"><b>C4 · System status</b>Exception card in orange · one asset highlighted in the mini twin</p></div>
-        <div class="ph__screen areas__state"><p class="ph__label"><b>C4 · Forecasting</b>Forecast chart module</p></div>
-        <div class="ph__screen areas__state"><p class="ph__label"><b>C4 · Asset performance</b>One asset in focus, the others dimmed</p></div>
-        <div class="ph__screen areas__state"><p class="ph__label"><b>C4 · Operational conditions</b>Operating-conditions module</p></div>
+      <div class="areas__view cx-panel cx-panel--blue" aria-hidden="true">
+        <div class="cx cx-app" data-area="0">
+          <div class="cx-bar"><span class="cx-logo" aria-hidden="true">C</span><b>ConnectX</b><span class="cx-bar__site">Meridian Tower</span><span class="cx-bar__r"><span class="cx-dot cx-dot--live"></span>Live</span></div>
+          <div class="cx-askbar"><span class="cx-askbar__q cx-askbar__q--empty">Ask about the building…</span></div>
+          <div class="cx-split">
+            <div class="cx-card cx-split__twin">
+              <div class="cx-card__h">Twin<span class="cx-weather" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg></span></div>
+              <div class="cx-twin"><!-- @inline components/twin-mini.svg --></div>
+            </div>
+            <div class="cx-split__mods">
+              <div class="cx-card areas__state is-active">
+                <div class="cx-card__h"><span class="cx-dot cx-dot--hot"></span>Exception</div>
+                <ul class="cx-status">
+                  <li class="is-hot"><span>HVAC</span><i></i></li>
+                  <li><span>Battery</span><i></i></li>
+                  <li><span>Solar</span><i></i></li>
+                  <li><span>EV chargers</span><i></i></li>
+                </ul>
+                <div class="cx-detail"><span class="cx-k">Since 06:40</span><i></i><i></i><i></i></div>
+                <span class="cx-action__btns"><span class="cx-btn cx-btn--hot">Review</span><span class="cx-btn">Dismiss</span></span>
+              </div>
+              <div class="cx-card areas__state">
+                <div class="cx-card__h">Forecast</div>
+                <svg class="cx-chart cx-chart--forecast" viewBox="0 0 200 90" preserveAspectRatio="none">
+                  <path class="cx-chart__grid" d="M0 22H200M0 45H200M0 68H200"/>
+                  <path class="cx-chart__band" d="M100 40 C120 30 140 26 160 34 S190 50 200 44 V70 C190 76 170 66 160 62 S120 58 100 52Z"/>
+                  <path class="cx-chart__line cx-draw" d="M0 70 C20 66 40 50 60 52 S90 44 100 46"/>
+                  <path class="cx-chart__line cx-chart__line--dash cx-draw" d="M100 46 C120 44 140 40 160 48 S190 62 200 57"/>
+                  <path class="cx-chart__now" d="M100 6V84"/>
+                </svg>
+                <div class="cx-axis"><span>Now</span><span>+24 h</span></div>
+              </div>
+              <div class="cx-card areas__state">
+                <div class="cx-card__h">Asset performance</div>
+                <div class="cx-perf">
+                  <div class="cx-perf__row"><span>Actual</span><i style="--v:.62"></i></div>
+                  <div class="cx-perf__row"><span>Expected</span><i style="--v:.86"></i></div>
+                </div>
+                <div class="cx-detail"><span class="cx-k">Last 7 days</span>
+                <svg class="cx-chart cx-chart--spark" viewBox="0 0 200 40" preserveAspectRatio="none"><path class="cx-chart__line cx-draw" d="M0 30 L25 26 L50 28 L75 18 L100 22 L125 14 L150 20 L175 12 L200 16"/></svg></div>
+                <div class="cx-kpis cx-kpis--2"><div class="cx-kpi"><span>Cycles</span><b>1.2 <i>/day</i></b></div><div class="cx-kpi"><span>Health</span><b>96 <i>%</i></b></div></div>
+              </div>
+              <div class="cx-card areas__state">
+                <div class="cx-card__h">Operating conditions</div>
+                <ul class="cx-conds">
+                  <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21"/></svg><span>Weather</span><i></i></li>
+                  <li><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="16.5" cy="9" r="2.5"/><path d="M3.5 19c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5M14 14.6c.8-.4 1.6-.6 2.5-.6 2.2 0 3.8 1.5 4.3 4"/></svg><span>Occupancy</span><i></i></li>
+                  <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/></svg><span>Tariff</span><i></i></li>
+                </ul>
+                <div class="cx-detail"><span class="cx-k">Next 6 h</span><div class="cx-hours"><i style="--v:.35"></i><i style="--v:.5"></i><i style="--v:.72"></i><i style="--v:.9"></i><i style="--v:.66"></i><i style="--v:.42"></i></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <p class="note areas__note">Pinned ≈ 300vh · Phase 2 ✓ active area turns --ink with a black rule, others --ink-3; C4 modules cross-fade and re-arrange; click an area to scroll to its step. IMP-01: extend to the 8 named scenarios later.</p>
+      <p class="note areas__note">C4 · Phase 3 ✓ twin highlights per area. Pinned ≈ 300vh · Phase 2 ✓ active area turns --ink with a black rule, others --ink-3; C4 modules cross-fade and re-arrange; click an area to scroll to its step. IMP-01: extend to the 8 named scenarios later.</p>
     </div>
   </div>
 
@@ -373,10 +487,53 @@
       <p>An operator asking about a peak-price event needs more than a suggested battery action. They need to see the affected assets, the data behind the suggestion and what the action would change.</p>
       <p>The scenario work connected the request to everything around it. That meant the information to display, the controls to offer and what the workspace should keep in place. Each scenario gave the adaptive interface a specific job.</p>
     </div>
-    <div class="sub__media ph ph--tint-blue">
-      <div class="ph__screen"><p class="ph__label"><b>C5 · Peak-price assembly</b>Ask bar → resolver (intent · data · tools) → affected assets light up → modules assemble: affected assets · data behind the suggestion · what the action changes · battery action</p></div>
-    </div>
-    <p class="note sub__note">Phase 3: plays once on enter, replay button.</p>
+    <figure class="sub__media cx-panel cx-panel--blue" data-peak>
+      <div class="cx cx-app" role="img" aria-label="ConnectX workspace answering a peak-price question: the affected assets, the data behind the suggestion, what the battery action would change, and the action itself.">
+        <div class="cx-bar"><span class="cx-logo" aria-hidden="true">C</span><b>ConnectX</b><span class="cx-bar__site">Meridian Tower</span><span class="cx-bar__r"><span class="cx-dot cx-dot--live"></span>Live</span></div>
+        <div class="cx-askbar"><span class="cx-askbar__q" data-peak-q>The price peaks at 17:00. What should we do?</span><span class="cx-caret" aria-hidden="true"></span></div>
+        <div class="cx-resolve">
+          <span class="cx-step" data-peak-step><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><b>Intent</b>Peak-price event</span>
+          <span class="cx-step" data-peak-step><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><b>Data</b>Tariff, load, battery</span>
+          <span class="cx-step" data-peak-step><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><b>Tools</b>Tariff feed, battery control</span>
+        </div>
+        <div class="cx-peak">
+          <div class="cx-card cx-peak__assets" data-mod>
+            <div class="cx-card__h">Affected assets</div>
+            <div class="cx-twin" data-blue="battery" data-hot="hvac ev"><!-- @inline components/twin-mini.svg --></div>
+            <ul class="cx-list">
+              <li><span class="cx-dot cx-dot--blue"></span>Battery<em>Ready to discharge</em></li>
+              <li><span class="cx-dot cx-dot--hot"></span>HVAC<em>Pre-cool first</em></li>
+              <li><span class="cx-dot cx-dot--hot"></span>EV chargers<em>Defer sessions</em></li>
+            </ul>
+          </div>
+          <div class="cx-card cx-peak__data" data-mod>
+            <div class="cx-card__h">Data behind the suggestion</div>
+            <svg class="cx-chart cx-chart--price" viewBox="0 0 200 80" preserveAspectRatio="none" aria-hidden="true">
+              <path class="cx-chart__grid" d="M0 20H200M0 40H200M0 60H200"/>
+              <path class="cx-chart__peak" d="M120 0H160V80H120Z"/>
+              <path class="cx-chart__step cx-draw" d="M0 58H60V50H120V14H160V44H200"/>
+              <path class="cx-chart__line cx-draw" d="M0 62 C30 58 60 50 90 44 S130 22 150 26 S180 40 200 44"/>
+            </svg>
+            <div class="cx-axis"><span>12:00</span><span>17:00</span><span>21:00</span></div>
+            <div class="cx-legend"><span><i class="cx-legend__price"></i>Price</span><span><i class="cx-legend__load"></i>Load</span></div>
+          </div>
+          <div class="cx-card cx-peak__change" data-mod>
+            <div class="cx-card__h">What the action changes</div>
+            <div class="cx-bars">
+              <div class="cx-bars__row"><span>Peak now</span><i style="--v:1"></i><b>318 kW</b></div>
+              <div class="cx-bars__row cx-bars__row--after"><span>With battery</span><i style="--v:.82"></i><b>262 kW</b></div>
+            </div>
+          </div>
+          <div class="cx-card cx-action cx-peak__action" data-mod>
+            <span class="cx-k">Battery action</span>
+            <b>Carry the 17:00 peak on the battery</b>
+            <span class="cx-action__btns"><span class="cx-btn cx-btn--dark">Schedule</span><span class="cx-btn">Adjust</span></span>
+          </div>
+        </div>
+      </div>
+      <button class="cx-replay" type="button" data-peak-replay hidden>Replay</button>
+    </figure>
+    <p class="note sub__note">C5 · Phase 3 ✓ plays once when it enters: question types, resolver steps tick, assets light up, modules assemble. Replay button. Values are illustrative.</p>
   </div>
 </section>
 
@@ -461,6 +618,7 @@
   <div class="wrap grid timeline-wrap" id="what-did-the-coded-demonstration-actually-establish">
     <h3 class="timeline__title t-label">What the work covered, from definition to production</h3>
     <ol class="timeline">
+      <li class="timeline__track" aria-hidden="true"><span class="timeline__fill"></span></li>
       <li class="timeline__step">
         <span class="timeline__node" aria-hidden="true"></span>
         <p class="t-meta">Product work</p>
@@ -477,7 +635,7 @@
         <p>The demo taken through to a production-ready module, <span class="pill-live">Live</span> since late 2025.</p>
       </li>
     </ol>
-    <p class="note timeline__note">C6 · Phase 3: line fills black with scroll, nodes pop as reached, last node becomes the green Live pill.</p>
+    <p class="note timeline__note">C6 · Phase 3 ✓ line fills black with scroll, nodes fill as it reaches them, the last one turns green with a pulse.</p>
   </div>
 </section>
 
@@ -797,5 +955,6 @@
 <script src="js/main.js"></script>
 <script src="js/motion.js"></script>
 <script src="js/scenes.js"></script>
+<script src="js/components.js"></script>
 </body>
 </html>

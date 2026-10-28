@@ -30,6 +30,8 @@ window.cxScenes = {
         // beat 3: they merge into one workspace, grey turns product blue
         .to([dirA, dirB], { opacity: 0, duration: 0.5 }, 1.05)
         .fromTo(merged, { autoAlpha: 0, scale: 0.92, y: 24 }, { autoAlpha: 1, scale: 1, y: 0, duration: 0.7 }, 1.05)
+        // the merged workspace assembles its modules around the question
+        .from($$('[data-mod]', merged), { opacity: 0, y: 14, scale: 0.97, stagger: 0.1, duration: 0.45 }, 1.3)
         // beat 4: the chosen model's five steps draw in
         .to(steps, { opacity: 1, y: 0, '--draw': 1, stagger: 0.22, duration: 0.6 }, 1.7)
         .to({}, { duration: 0.4 });
@@ -39,15 +41,11 @@ window.cxScenes = {
     const areas = $('[data-pin="areas"] .areas');
     if (areas) {
       const items = $$('.areas__item', areas);
-      const states = $$('.areas__state', areas);
-      const count = $('.areas__progress span', areas);
       let current = -1;
       const setArea = (i) => {
         if (i === current) return;
         current = i;
-        items.forEach((el, n) => el.classList.toggle('is-active', n === i));
-        states.forEach((el, n) => el.classList.toggle('is-active', n === i));
-        count.textContent = String(i + 1);
+        window.cxSetArea(i);
       };
       const st = ScrollTrigger.create({
         trigger: areas, start: `top ${NAV_CLEAR}px`, end: `+=${items.length * 60}%`,

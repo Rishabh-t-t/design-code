@@ -318,7 +318,7 @@ All are built in the ConnectX product style: Instrument Sans + Geist Mono, produ
 |---|---|---|
 | **P1 Foundation + grey-box layout** ✅ | Build script, tokens (incl. colour), grid, type, light nav, Tcules footer, all sections with real copy and labelled grey blocks. No motion. | Layout, hierarchy, spacing, colour usage |
 | **P2 Motion system** ✅ | Smooth scroll, reveals, nav pill, cursor, both pinned scenes (on grey boxes), marquee, count-ups, accordion, reduced motion. | Feel, timing, pacing |
-| **P3 HTML components** | C1–C6 built and animated. | Each component's story |
+| **P3 HTML components** ✅ | C1–C6 built and animated. | Each component's story |
 | **P4 Live Twin embed** | Embed mode, floating layout, lazy load, engage/exit, pause. | Interaction model |
 | **P5 Assets** | Real images on tint panels. | Composition |
 | **P6 QA** | Screenshots at 1024 / 1280 / 1440 / 1920 / 2560, contrast check, keyboard and reduced-motion passes, Lighthouse. | Sign-off |
@@ -329,6 +329,9 @@ Every phase rebuilds `dist/connectx-case-study.html` and is committed to `claude
 
 ## 11. Improvements backlog (come back to these)
 
+Note: product mock values inside C2, C4 and C5 (318 kW, 262 kW, 17:00, battery health) are illustrative, consistent with the Live Twin's sample data. Confirm or replace them before launch (IMP-08).
+
+
 | ID | Item | Why it's deferred |
 |---|---|---|
 | **IMP-01** | Name the **8 scenarios** and their details (request, intent, data, modules, twin behaviour, next action); extend S6 from 4 areas to 8 scenarios. | Not in the markdown; no placeholders allowed |
@@ -338,3 +341,4 @@ Every phase rebuilds `dist/connectx-case-study.html` and is committed to `claude
 | **IMP-05** | A fully offline single file (embedded fonts, libraries and images). | Size cost; CDN for now |
 | **IMP-06** | Form wired to the CMS record + notify, and the scheduling link. | Prototype uses a stub |
 | **IMP-07** | Port into the Tcules Next.js site. | After design sign-off |
+| **IMP-08** | Confirm or replace the illustrative values in the product mocks (C2, C4, C5). | Sample values, consistent with the Live Twin |

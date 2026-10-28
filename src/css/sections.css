@@ -173,7 +173,7 @@
 .areas__n { font-family: var(--font-mono); font-size: var(--fs-meta); color: var(--ink-3); }
 .areas__progress { margin-top: auto; padding-top: var(--s-5); }
 .areas__progress span { color: var(--ink); }
-.areas__view { grid-column: 6 / span 7; border-radius: var(--radius-l); min-height: 560px; }
+.areas__view { grid-column: 6 / span 7; align-self: center; aspect-ratio: 4 / 3; max-height: 100%; border-radius: var(--radius-l); }
 .areas__note { grid-column: 1 / -1; }
 
 /* S6 sub-section: peak-price */

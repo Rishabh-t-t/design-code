@@ -182,6 +182,7 @@
 
     /* Pinned scenes go first so later triggers measure the pin spacing */
     if (window.cxScenes) window.cxScenes.init({ lenis, EASE });
+    if (window.cxComponents) window.cxComponents.init({ EASE });
 
     /* Line reveals */
     $$([
@@ -229,7 +230,7 @@
       gsap.fromTo(el, { clipPath: 'inset(12% 5% 12% 5% round 24px)' }, {
         clipPath: 'inset(0% 0% 0% 0% round 24px)', duration: 1.5, ease: EASE, scrollTrigger: trigger,
       });
-      const inner = !el.classList.contains('areas__view') && el.querySelector('.ph__screen');
+      const inner = !el.classList.contains('areas__view') && el.querySelector('.ph__screen, .cx-app');
       if (inner) gsap.from(inner, { scale: 1.08, duration: 1.8, ease: EASE, scrollTrigger: trigger });
     });
 

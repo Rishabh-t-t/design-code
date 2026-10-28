@@ -44,15 +44,34 @@
   document.querySelector('[data-quotes-prev]').addEventListener('click', () => showQuote(q - 1));
   document.querySelector('[data-quotes-next]').addEventListener('click', () => showQuote(q + 1));
 
-  /* Scenario areas: static selection (the pinned scene in scenes.js takes over when motion is on) */
+  /* Scenario areas: one setter shared by the click fallback and the pinned scene (scenes.js).
+     Each area also changes what the mini twin highlights. */
   const areas = [...document.querySelectorAll('.areas__item')];
   const areaIndex = document.querySelector('.areas__progress span');
   const areaStates = [...document.querySelectorAll('.areas__state')];
-  areas.forEach((el, n) => el.addEventListener('click', () => {
-    areas.forEach((a) => a.classList.toggle('is-active', a === el));
+  const areaApp = document.querySelector('.areas__view .cx-app');
+  const areaTwin = areaApp && areaApp.querySelector('.cx-twin');
+  const AREA_TWIN = [
+    { hot: 'hvac' },                      // System status: the exception
+    { blue: 'solar' },                    // Forecasting: generation ahead
+    { blue: 'battery', dim: true },       // Asset performance: one asset in focus
+    {},                                   // Operational conditions: whole building, weather shown
+  ];
+  function setArea(n) {
+    areas.forEach((a, m) => a.classList.toggle('is-active', m === n));
     areaStates.forEach((a, m) => a.classList.toggle('is-active', m === n));
     areaIndex.textContent = String(n + 1);
-  }));
+    if (!areaApp) return;
+    areaApp.dataset.area = String(n);
+    const t = AREA_TWIN[n] || {};
+    ['hot', 'blue', 'dim'].forEach((k) => {
+      if (t[k]) areaTwin.setAttribute('data-' + k, t[k] === true ? '' : t[k]);
+      else areaTwin.removeAttribute('data-' + k);
+    });
+  }
+  window.cxSetArea = setArea;
+  setArea(0);
+  areas.forEach((el, n) => el.addEventListener('click', () => setArea(n)));
 
   /* Enquiry form: stub submit (IMP-06), keeps the entered data */
   const form = document.querySelector('[data-enquiry]');

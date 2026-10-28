@@ -22,7 +22,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..700&family=Figtree:wght@300..800&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..700&family=Figtree:wght@300..800&family=Geist+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap">
 
 <script>
   /* Hide the hero until the intro animation starts. Skipped for reduced motion; a timeout guarantees it never stays hidden. */
@@ -485,7 +485,7 @@ html.notes-off .note { display: none; }
 .areas__n { font-family: var(--font-mono); font-size: var(--fs-meta); color: var(--ink-3); }
 .areas__progress { margin-top: auto; padding-top: var(--s-5); }
 .areas__progress span { color: var(--ink); }
-.areas__view { grid-column: 6 / span 7; border-radius: var(--radius-l); min-height: 560px; }
+.areas__view { grid-column: 6 / span 7; align-self: center; aspect-ratio: 4 / 3; max-height: 100%; border-radius: var(--radius-l); }
 .areas__note { grid-column: 1 / -1; }
 
 /* S6 sub-section: peak-price */
@@ -765,6 +765,394 @@ html.notes-off .note { display: none; }
   .areas__nav { grid-column: 1 / span 5; }
   .twin__card { width: 148px; }
   .twin__details .twin__card { width: 240px; }
+}
+</style>
+<style>
+/* ==========================================================================
+   Product components (C1–C6) — the ConnectX voice.
+   Product fonts and colours stay inside these components; the page around
+   them keeps the Tcules palette. Sizes inside a panel are in em, and the
+   app's font-size follows the panel width (container query units).
+   ========================================================================== */
+
+/* ---------- Panels & app frame ---------- */
+.cx-panel {
+  position: relative;
+  border-radius: var(--radius-l);
+  overflow: hidden;
+  container-type: inline-size;
+}
+.cx-panel--blue  { background: var(--tint-blue); }
+.cx-panel--stone { background: var(--tint-stone); }
+
+.cx {
+  font-family: var(--font-product);
+  color: var(--cx-ink);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.3;
+  -webkit-font-smoothing: antialiased;
+}
+.cx-app {
+  position: absolute; inset: 7% 6%;
+  display: flex; flex-direction: column;
+  font-size: clamp(8px, 1.75cqi, 17px);
+  background: var(--cx-panel);
+  border: 1px solid var(--cx-line);
+  border-radius: 5px;
+  box-shadow: var(--shadow-float);
+  overflow: hidden;
+}
+.cx-app--muted { filter: grayscale(1); }
+.cx-app--muted .cx-chart__line { stroke: #9A978F; }
+
+.cx-bar {
+  display: flex; align-items: center; gap: .6em;
+  padding: .7em 1em;
+  background: #fff;
+  border-bottom: 1px solid var(--cx-line);
+  font-size: .92em;
+}
+.cx-bar b { font-weight: 600; }
+.cx-logo {
+  display: grid; place-items: center;
+  width: 1.6em; height: 1.6em;
+  border-radius: 3px;
+  background: var(--cx-ink); color: #fff;
+  font-size: .8em; font-weight: 600;
+}
+.cx-bar__site { color: var(--cx-ink-2); }
+.cx-bar__site::before { content: "/"; margin-right: .6em; color: var(--cx-line); }
+.cx-bar__r { margin-left: auto; display: inline-flex; align-items: center; gap: .45em; font-family: var(--font-mono); font-size: .8em; color: var(--cx-ink-2); }
+
+.cx-dot { display: inline-block; flex: none; width: .55em; height: .55em; border-radius: 50%; background: #B4B1A9; }
+.cx-dot--live { background: var(--cx-blue); box-shadow: 0 0 0 .22em rgb(77 124 255 / .18); }
+.cx-dot--blue { background: var(--cx-blue); }
+.cx-dot--hot  { background: var(--cx-orange); }
+
+.cx-k { font-family: var(--font-mono); font-size: .7em; letter-spacing: .08em; text-transform: uppercase; color: var(--cx-ink-2); }
+
+.cx-askbar {
+  display: flex; align-items: center; gap: .6em;
+  margin: .8em 1em 0;
+  padding: .6em .8em;
+  background: #fff;
+  border: 1px solid #DCD9D1;
+  border-radius: 3px;
+}
+.cx-askbar__q { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cx-askbar__q--empty { color: #9A978F; }
+.cx-chip {
+  margin-left: auto; flex: none;
+  padding: .25em .55em;
+  border-radius: 2px;
+  font-family: var(--font-mono); font-size: .72em;
+}
+.cx-chip--blue { color: var(--cx-blue); background: var(--cx-blue-soft); border: 1px solid #D8E1FF; }
+
+.cx-caret {
+  display: inline-block; flex: none;
+  width: 1px; height: 1.1em; margin-left: 1px;
+  background: currentColor;
+  vertical-align: -.15em;
+  animation: cx-blink 1s steps(1) infinite;
+}
+.is-typed .cx-caret, html:not(.motion) .cx-caret { opacity: 0; animation: none; }
+@keyframes cx-blink { 50% { opacity: 0; } }
+
+/* ---------- Cards, KPIs, buttons ---------- */
+.cx-card {
+  display: flex; flex-direction: column; gap: .5em;
+  min-height: 0; min-width: 0;
+  padding: .75em .85em;
+  background: #fff;
+  border: 1px solid var(--cx-line);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.cx-card__h { display: flex; align-items: center; gap: .5em; font-size: .8em; font-weight: 600; }
+
+.cx-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .5em; }
+.cx-kpis--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.cx-kpi {
+  display: flex; flex-direction: column; gap: .2em;
+  padding: .55em .7em;
+  background: #fff;
+  border: 1px solid var(--cx-line);
+  border-radius: 3px;
+  min-width: 0;
+}
+.cx-kpi span { font-size: .72em; color: var(--cx-ink-2); white-space: nowrap; }
+.cx-kpi b { font-family: var(--font-mono); font-weight: 400; font-size: 1.2em; white-space: nowrap; }
+.cx-kpi i { font-style: normal; font-size: .6em; color: var(--cx-ink-2); }
+.cx-kpi--hot b { color: var(--cx-orange); }
+
+.cx-btn {
+  display: inline-flex; align-items: center;
+  padding: .4em .8em;
+  border: 1px solid #DCD9D1; border-radius: 2px;
+  background: #fff;
+  font-size: .75em; font-weight: 600; white-space: nowrap;
+}
+.cx-btn--dark { background: var(--cx-ink); border-color: var(--cx-ink); color: #fff; }
+.cx-btn--hot  { background: var(--cx-orange); border-color: var(--cx-orange); color: #fff; }
+.cx-action b { font-size: .95em; font-weight: 600; line-height: 1.25; }
+.cx-action__btns { display: flex; gap: .4em; margin-top: auto; }
+
+/* ---------- Charts ---------- */
+.cx-chart { display: block; width: 100%; flex: 1; min-height: 3em; overflow: visible; }
+.cx-chart path { vector-effect: non-scaling-stroke; fill: none; }
+.cx-chart__grid { stroke: #EDEBE4; stroke-width: 1; }
+.cx-chart__area { fill: var(--cx-blue-soft) !important; }
+.cx-chart__band { fill: var(--cx-blue-soft) !important; }
+.cx-chart__line { stroke: var(--cx-blue); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.cx-chart__line--dash { stroke-dasharray: 4 3; }
+.cx-chart__now { stroke: #B4B1A9; stroke-width: 1; stroke-dasharray: 2 3; }
+.cx-chart__peak { fill: var(--cx-orange-soft) !important; }
+.cx-chart__step { stroke: var(--cx-orange); stroke-width: 1.6; stroke-linejoin: round; }
+.cx-chart--spark { flex: none; height: 2.6em; min-height: 0; }
+.cx-axis { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: .62em; color: #9A978F; }
+.cx-legend { display: flex; gap: 1.1em; font-family: var(--font-mono); font-size: .62em; color: var(--cx-ink-2); }
+.cx-legend i { display: inline-block; width: .9em; height: .2em; margin-right: .4em; vertical-align: .2em; border-radius: 1px; }
+.cx-legend__price { background: var(--cx-orange); }
+.cx-legend__load { background: var(--cx-blue); }
+
+/* ---------- Mini twin (shared SVG) ---------- */
+.cx-twin { flex: 1; min-height: 0; display: grid; place-items: center; }
+.twin-mini { width: 100%; height: 100%; max-height: 100%; overflow: visible; }
+.twin-mini polygon { stroke: #C9C5BC; stroke-width: .5; stroke-linejoin: round; transition: fill .5s ease; }
+.twin-mini .ground { fill: #ECEAE4; stroke: none; }
+.twin-mini .t { fill: var(--c-t, #FFFFFF); }
+.twin-mini .l { fill: var(--c-l, #E9E6DF); }
+.twin-mini .r { fill: var(--c-r, #DAD6CE); }
+.twin-mini .panel { fill: var(--c-panel, #8C93A3); stroke: none; }
+.twin-mini polyline { fill: none; }
+.twin-mini .floor { stroke: #D2CEC5; stroke-width: .5; }
+.twin-mini .panel-line { stroke: rgb(255 255 255 / .55); stroke-width: .5; }
+.twin-mini .cable { stroke: var(--c-cable, #CFCBC2); stroke-width: 1.2; stroke-dasharray: 3 2; transition: stroke .5s ease; }
+.twin-mini .bay { stroke: #D6D2C9; stroke-width: .7; }
+.twin-mini .a { transition: opacity .5s ease; }
+
+/* data-blue / data-hot name assets to highlight; data-dim fades the rest */
+.cx-twin[data-dim] .a { opacity: .22; }
+.cx-twin[data-blue~="solar"] .a[data-asset="solar"],
+.cx-twin[data-blue~="hvac"] .a[data-asset="hvac"],
+.cx-twin[data-blue~="battery"] .a[data-asset="battery"],
+.cx-twin[data-blue~="ev"] .a[data-asset="ev"],
+.cx-twin[data-blue~="grid"] .a[data-asset="grid"] {
+  --c-t: #C9D7FF; --c-l: #8FAEFF; --c-r: #4D7CFF; --c-panel: #4D7CFF; --c-cable: #4D7CFF;
+  opacity: 1;
+}
+.cx-twin[data-hot~="solar"] .a[data-asset="solar"],
+.cx-twin[data-hot~="hvac"] .a[data-asset="hvac"],
+.cx-twin[data-hot~="battery"] .a[data-asset="battery"],
+.cx-twin[data-hot~="ev"] .a[data-asset="ev"],
+.cx-twin[data-hot~="grid"] .a[data-asset="grid"] {
+  --c-t: #FFD3C2; --c-l: #FF9A76; --c-r: #FF6B3D; --c-panel: #FF6B3D; --c-cable: #FF6B3D;
+  opacity: 1;
+  animation: cx-glow 1.8s ease-in-out infinite;
+}
+@keyframes cx-glow { 50% { opacity: .6; } }
+
+/* ---------- C1 Role cards ---------- */
+.role-card.cx {
+  min-height: 0;
+  gap: var(--s-3);
+  font-size: clamp(13px, calc(9px + .4vw), 16px);
+  border-radius: 6px;
+}
+.role-card__top { display: flex; align-items: center; gap: .6em; margin-bottom: .6em; }
+.role-card .role-card__avatar { margin-bottom: 0; width: 2.2em; height: 2.2em; font-size: .78em; }
+.role-card[data-tone="orange"] .role-card__avatar { background: var(--cx-orange-soft); color: var(--cx-orange); }
+.role-card[data-tone="ink"] .role-card__avatar { background: #F1EFEA; color: var(--cx-ink); }
+.role-card__role { font-weight: 600; font-size: .9em; }
+.role-card__ask {
+  margin-top: auto;
+  min-height: 4.4em;
+  padding: .65em .75em;
+  background: var(--cx-panel);
+  border: 1px solid #DCD9D1;
+  border-radius: 3px;
+}
+.role-card .role-card__q { font-family: var(--font-product); font-size: 1.05em; line-height: 1.3; color: var(--cx-ink); }
+.role-card .t-off { color: transparent; }
+
+/* ---------- C2 Direction A: dashboard + assistant ---------- */
+.cx-dash {
+  flex: 1; min-height: 0;
+  display: grid; grid-template-columns: minmax(0, 1fr) 32%; gap: .8em;
+  padding: .8em 1em 1em;
+}
+.cx-dash__main { display: flex; flex-direction: column; gap: .6em; min-height: 0; }
+.cx-dash__main .cx-card--chart { flex: 1; }
+.cx-dash__row { display: grid; grid-template-columns: 1fr 1fr; gap: .6em; }
+.cx-skel i { display: block; height: .5em; border-radius: 2px; background: #EDEBE4; }
+.cx-skel i + i { width: 55%; }
+.cx-assist { display: flex; flex-direction: column; gap: .5em; padding-left: .8em; border-left: 1px solid var(--cx-line); min-height: 0; }
+.cx-assist__h { font-size: .8em; font-weight: 600; }
+.cx-assist__in {
+  margin-top: auto;
+  padding: .5em .65em;
+  border: 1px solid #DCD9D1; border-radius: 3px;
+  background: #fff;
+  font-size: .78em; color: #9A978F;
+}
+
+.cx-msg {
+  max-width: 92%;
+  padding: .5em .7em;
+  border-radius: 6px;
+  background: #F1EFEA;
+  font-size: .78em;
+}
+.cx-msg i { display: block; height: .5em; margin: .3em 0; border-radius: 2px; background: #DCD9D1; }
+.cx-msg i:nth-child(2) { width: 80%; }
+.cx-msg i:nth-child(3) { width: 55%; }
+.cx-msg--me { align-self: flex-end; background: var(--cx-ink); color: #fff; }
+
+/* ---------- C2 Direction B: chat only ---------- */
+.cx-chat {
+  flex: 1; min-height: 0;
+  display: flex; flex-direction: column; justify-content: flex-end; gap: .55em;
+  padding: .8em 1.4em 1em;
+}
+.cx-msg--old { opacity: .35; }
+.cx-msg--rich { width: 86%; max-width: none; display: flex; flex-direction: column; gap: .5em; font-size: 1em; padding: .6em; }
+.cx-msg--rich .cx-card--chart { height: 4.6em; flex: none; }
+
+/* ---------- C2 Merged workspace ---------- */
+.cx-ws {
+  flex: 1; min-height: 0;
+  display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: .7em;
+  padding: .8em 1em 1em;
+}
+.cx-ws__side { display: flex; flex-direction: column; gap: .6em; min-height: 0; }
+.cx-ws__side .cx-card--chart { flex: 1; }
+
+/* ---------- C4 Workspace states ---------- */
+.cx-split {
+  flex: 1; min-height: 0;
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: .7em;
+  padding: .8em 1em 1em;
+}
+.cx-split__twin .cx-twin { padding: .4em; }
+.cx-split__mods { position: relative; min-height: 0; }
+.cx-split__mods .areas__state { position: absolute; inset: 0; }
+.cx-weather { margin-left: auto; width: 1.3em; height: 1.3em; opacity: 0; transition: opacity .5s ease; }
+.cx-weather svg { width: 100%; height: 100%; fill: none; stroke: var(--cx-amber); stroke-width: 1.8; stroke-linecap: round; }
+.cx-app[data-area="3"] .cx-weather { opacity: 1; }
+
+.cx-status li {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .5em 0;
+  border-bottom: 1px solid #EDEBE4;
+  font-size: .8em;
+}
+.cx-status i { width: .55em; height: .55em; border-radius: 50%; background: #B4B1A9; }
+.cx-status .is-hot { color: var(--cx-orange); font-weight: 600; }
+.cx-status .is-hot i { background: var(--cx-orange); box-shadow: 0 0 0 .25em rgb(255 107 61 / .18); }
+
+.cx-perf { display: flex; flex-direction: column; gap: .55em; margin-top: .3em; }
+.cx-perf__row { display: grid; grid-template-columns: 5.2em minmax(0, 1fr); align-items: center; gap: .6em; font-size: .78em; color: var(--cx-ink-2); }
+.cx-perf__row i { display: block; height: .7em; border-radius: 2px; background: #EDEBE4; position: relative; overflow: hidden; }
+.cx-perf__row i::after { content: ""; position: absolute; inset: 0 auto 0 0; width: calc(var(--v) * 100%); background: var(--cx-blue); border-radius: 2px; }
+.cx-perf__row + .cx-perf__row i::after { background: #B4B1A9; }
+.areas__state.is-active .cx-perf__row i::after { animation: cx-grow 1.1s var(--ease-out) both; }
+
+.cx-conds li {
+  display: grid; grid-template-columns: 1.6em minmax(0, 1fr) 4em; align-items: center; gap: .6em;
+  padding: .55em 0;
+  border-bottom: 1px solid #EDEBE4;
+  font-size: .8em;
+}
+.cx-conds svg { width: 1.4em; height: 1.4em; fill: none; stroke: var(--cx-ink-2); stroke-width: 1.6; stroke-linecap: round; }
+.cx-conds i { display: block; height: .5em; border-radius: 2px; background: #DCD9D1; }
+
+.areas__state.is-active .cx-draw { animation: cx-wipe 1.3s var(--ease-out) both; }
+@keyframes cx-wipe { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes cx-grow { from { width: 0; } }
+
+.cx-detail { display: flex; flex-direction: column; gap: .45em; margin-top: auto; padding-top: .7em; border-top: 1px solid #EDEBE4; }
+.cx-detail > i { display: block; height: .5em; border-radius: 2px; background: #EDEBE4; }
+.cx-detail > i:nth-of-type(2) { width: 82%; }
+.cx-detail > i:nth-of-type(3) { width: 58%; }
+.cx-detail + .cx-action__btns { margin-top: .6em; }
+.cx-detail + .cx-kpis { margin-top: .6em; }
+.cx-hours { display: flex; align-items: flex-end; gap: .45em; height: 4.2em; }
+.cx-hours i { flex: 1; height: calc(var(--v) * 100%); border-radius: 2px 2px 0 0; background: #DCD9D1; transform-origin: 50% 100%; }
+.cx-hours i:nth-child(4) { background: var(--cx-amber); }
+.areas__state.is-active .cx-hours i { animation: cx-rise .9s var(--ease-out) both; }
+.areas__state.is-active .cx-hours i:nth-child(n) { animation-delay: calc(var(--v) * .3s); }
+@keyframes cx-rise { from { transform: scaleY(0); } }
+
+/* ---------- C5 Peak-price assembly ---------- */
+.sub__media .cx-app { inset: 6% 5% 12%; }
+.cx-resolve { display: flex; flex-wrap: wrap; gap: .45em; padding: .65em 1em 0; }
+.cx-step {
+  display: inline-flex; align-items: center; gap: .45em;
+  padding: .3em .6em;
+  background: var(--cx-blue-soft);
+  border: 1px solid #D8E1FF; border-radius: 2px;
+  font-family: var(--font-mono); font-size: .68em; color: var(--cx-ink);
+}
+.cx-step b { font-weight: 500; color: var(--cx-blue); }
+.cx-step svg { width: 1.1em; height: 1.1em; fill: none; stroke: var(--cx-blue); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.cx-peak {
+  flex: 1; min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  grid-template-rows: minmax(0, 1fr) auto auto;
+  gap: .6em;
+  padding: .7em 1em 1em;
+}
+.cx-peak__assets { grid-column: 1; grid-row: 1 / span 2; }
+.cx-peak__data { grid-column: 2; grid-row: 1; }
+.cx-peak__change { grid-column: 2; grid-row: 2; }
+.cx-peak__action { grid-column: 1 / -1; grid-row: 3; flex-direction: row; align-items: center; gap: .8em; }
+.cx-peak__action .cx-action__btns { margin: 0 0 0 auto; }
+.cx-list li {
+  display: flex; align-items: center; gap: .5em;
+  padding: .38em 0;
+  border-top: 1px solid #EDEBE4;
+  font-size: .76em;
+}
+.cx-list em { margin-left: auto; font-style: normal; font-family: var(--font-mono); font-size: .85em; color: var(--cx-ink-2); }
+
+.cx-bars { display: flex; flex-direction: column; gap: .45em; }
+.cx-bars__row { display: grid; grid-template-columns: 6.2em minmax(0, 1fr) 4.6em; align-items: center; gap: .6em; font-size: .76em; color: var(--cx-ink-2); }
+.cx-bars__row i { display: block; height: .75em; width: calc(var(--v) * 100%); border-radius: 2px; background: #B4B1A9; transform-origin: 0 50%; }
+.cx-bars__row--after i { background: var(--cx-blue); }
+.cx-bars__row b { font-family: var(--font-mono); font-weight: 400; color: var(--cx-ink); text-align: right; }
+
+.cx-replay {
+  position: absolute; right: 5%; bottom: 3.2%;
+  display: inline-flex; align-items: center; gap: .5em;
+  height: 30px; padding: 0 12px;
+  background: #fff; border-radius: 999px; box-shadow: var(--shadow-float);
+  font-family: var(--font-mono); font-size: 12px; color: var(--cx-ink);
+}
+.cx-replay::before { content: "↺"; font-size: 14px; }
+.cx-replay:hover { box-shadow: var(--shadow-lift); }
+
+/* ---------- C6 Timeline ---------- */
+.timeline { position: relative; }
+.timeline__track { position: absolute; left: 0; right: 0; top: 0; height: 2px; z-index: 1; pointer-events: none; }
+.timeline__fill { display: block; height: 100%; background: var(--ink); transform: scaleX(0); transform-origin: 0 50%; }
+html:not(.motion) .timeline__track { display: none; }
+.timeline__node { z-index: 2; transition: background-color .35s ease, border-color .35s ease, transform .45s var(--ease-out); }
+.motion .timeline__step--live .timeline__node { background: var(--bg); border-color: var(--ink-4); }
+.motion .timeline__step.is-reached .timeline__node { background: var(--ink); border-color: var(--ink); transform: scale(1.15); }
+.motion .timeline__step--live.is-reached .timeline__node { background: var(--brand); border-color: var(--ink); }
+.timeline__step--live.is-reached .timeline__node::after {
+  content: ""; position: absolute; inset: -2px; border-radius: 50%;
+  border: 2px solid var(--brand);
+  animation: cx-pulse 1.6s var(--ease-out) 2;
+}
+@keyframes cx-pulse { from { transform: scale(1); opacity: 1; } to { transform: scale(2.8); opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .cx-caret, .cx-twin .a, .timeline__node::after { animation: none !important; }
+  .areas__state.is-active .cx-draw, .areas__state.is-active .cx-perf__row i::after, .areas__state.is-active .cx-hours i { animation: none !important; }
 }
 </style>
 <style>
@@ -1154,23 +1542,32 @@ html.lenis, html.lenis body { height: auto; }
 
     <div class="chapter__media roles">
       <ul class="roles__list" aria-label="Three teams, three questions">
-        <li class="role-card">
-          <span class="role-card__avatar" aria-hidden="true">FO</span>
-          <p class="t-meta">Facilities operator</p>
-          <p class="role-card__q">An exception that requires action</p>
+        <li class="role-card cx" data-tone="orange">
+          <div class="role-card__top">
+            <span class="role-card__avatar" aria-hidden="true">FO</span>
+            <span class="role-card__role">Facilities operator</span>
+          </div>
+          <p class="cx-k">Needs to see</p>
+          <p class="role-card__ask"><span class="role-card__q" data-type>An exception that requires action</span><span class="cx-caret" aria-hidden="true"></span></p>
         </li>
-        <li class="role-card">
-          <span class="role-card__avatar" aria-hidden="true">FL</span>
-          <p class="t-meta">Finance leader</p>
-          <p class="role-card__q">Cost or a forecast</p>
+        <li class="role-card cx" data-tone="blue">
+          <div class="role-card__top">
+            <span class="role-card__avatar" aria-hidden="true">FL</span>
+            <span class="role-card__role">Finance leader</span>
+          </div>
+          <p class="cx-k">Needs to see</p>
+          <p class="role-card__ask"><span class="role-card__q" data-type>Cost or a forecast</span><span class="cx-caret" aria-hidden="true"></span></p>
         </li>
-        <li class="role-card">
-          <span class="role-card__avatar" aria-hidden="true">ST</span>
-          <p class="t-meta">Sustainability team</p>
-          <p class="role-card__q">Progress against an environmental target</p>
+        <li class="role-card cx" data-tone="ink">
+          <div class="role-card__top">
+            <span class="role-card__avatar" aria-hidden="true">ST</span>
+            <span class="role-card__role">Sustainability team</span>
+          </div>
+          <p class="cx-k">Needs to see</p>
+          <p class="role-card__ask"><span class="role-card__q" data-type>Progress against an environmental target</span><span class="cx-caret" aria-hidden="true"></span></p>
         </li>
       </ul>
-      <p class="note">C1 Role cards · Phase 3: product-styled floating cards, questions type in with stagger.</p>
+      <p class="note">C1 Role cards · Phase 3 ✓ product-styled cards; each need types in, staggered.</p>
     </div>
 
     <p class="chapter__pull t-statement">The ingredients were there. The work was to give them a structure that responds to what a person is trying to do.</p>
@@ -1212,17 +1609,72 @@ html.lenis, html.lenis body { height: auto; }
         <div class="choice">
           <div class="choice__dir">
             <p class="t-meta">Direction A</p>
-            <div class="ph ph--tint-stone choice__ph"><p class="ph__label"><b>C2 · Panel A</b>Fixed dashboard + AI assistant column</p></div>
+            <div class="cx-panel cx-panel--stone choice__ph" aria-hidden="true">
+              <div class="cx cx-app cx-app--muted">
+                <div class="cx-bar"><span class="cx-logo" aria-hidden="true">C</span><b>ConnectX</b><span class="cx-bar__site">Meridian Tower</span><span class="cx-bar__r"><span class="cx-dot"></span>Live</span></div>
+                <div class="cx-dash">
+                  <div class="cx-dash__main">
+                    <div class="cx-kpis">
+                <div class="cx-kpi"><span>Live load</span><b>318 <i>kW</i></b></div>
+                <div class="cx-kpi"><span>Solar</span><b>245 <i>kW</i></b></div>
+                <div class="cx-kpi"><span>Battery</span><b>78 <i>%</i></b></div>
+                <div class="cx-kpi"><span>Grid import</span><b>60 <i>kW</i></b></div>
+              </div>
+                    <div class="cx-card cx-card--chart"><div class="cx-card__h">Consumption · today</div><svg class="cx-chart" viewBox="0 0 200 64" preserveAspectRatio="none" aria-hidden="true"><path class="cx-chart__grid" d="M0 16H200M0 32H200M0 48H200"/><path class="cx-chart__area" d="M0 50 C20 46 30 30 50 32 S80 18 100 22 S130 40 150 30 S180 14 200 18 V64 H0Z"/><path class="cx-chart__line" d="M0 50 C20 46 30 30 50 32 S80 18 100 22 S130 40 150 30 S180 14 200 18"/></svg></div>
+                    <div class="cx-dash__row"><div class="cx-card cx-skel"><i></i><i></i></div><div class="cx-card cx-skel"><i></i><i></i></div></div>
+                  </div>
+                  <div class="cx-assist">
+                    <div class="cx-assist__h">AI assistant</div>
+                    <p class="cx-msg cx-msg--me">What's driving today's load?</p>
+                    <p class="cx-msg"><i></i><i></i><i></i></p>
+                    <div class="cx-assist__in">Ask a question…</div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <p class="choice__verdict">Familiar, but the interface stayed largely fixed.</p>
           </div>
           <div class="choice__dir">
             <p class="t-meta">Direction B</p>
-            <div class="ph ph--tint-stone choice__ph"><p class="ph__label"><b>C2 · Panel B</b>Conversation decides KPIs, assets, charts and twin views</p></div>
+            <div class="cx-panel cx-panel--stone choice__ph" aria-hidden="true">
+              <div class="cx cx-app cx-app--muted">
+                <div class="cx-bar"><span class="cx-logo" aria-hidden="true">C</span><b>ConnectX</b><span class="cx-bar__site">Meridian Tower</span><span class="cx-bar__r"><span class="cx-dot"></span>Live</span></div>
+                <div class="cx-chat">
+                  <p class="cx-msg cx-msg--me cx-msg--old">Battery state this morning?</p>
+                  <p class="cx-msg cx-msg--old"><i></i><i></i></p>
+                  <p class="cx-msg cx-msg--me">What's driving cost today?</p>
+                  <div class="cx-msg cx-msg--rich">
+                    <div class="cx-kpis cx-kpis--2">
+                      <div class="cx-kpi"><span>Live load</span><b>318 <i>kW</i></b></div>
+                      <div class="cx-kpi"><span>Peak tariff</span><b>17:00</b></div>
+                    </div>
+                    <div class="cx-card cx-card--chart"><svg class="cx-chart" viewBox="0 0 200 64" preserveAspectRatio="none" aria-hidden="true"><path class="cx-chart__grid" d="M0 16H200M0 32H200M0 48H200"/><path class="cx-chart__area" d="M0 50 C20 46 30 30 50 32 S80 18 100 22 S130 40 150 30 S180 14 200 18 V64 H0Z"/><path class="cx-chart__line" d="M0 50 C20 46 30 30 50 32 S80 18 100 22 S130 40 150 30 S180 14 200 18"/></svg></div>
+                  </div>
+                  <div class="cx-assist__in">Ask a question…</div>
+                </div>
+              </div>
+            </div>
             <p class="choice__verdict">Adapted more deeply, but nowhere to keep working.</p>
           </div>
           <div class="choice__merged" aria-hidden="true">
             <p class="t-meta">Chosen model</p>
-            <div class="ph ph--tint-blue choice__ph choice__ph--merged"><div class="ph__screen"><p class="ph__label"><b>C2 · Merged workspace</b>Conversation builds the view; the dashboard modules stay open to work with</p></div></div>
+            <div class="cx-panel cx-panel--blue choice__ph choice__ph--merged">
+              <div class="cx cx-app">
+                <div class="cx-bar"><span class="cx-logo" aria-hidden="true">C</span><b>ConnectX</b><span class="cx-bar__site">Meridian Tower</span><span class="cx-bar__r"><span class="cx-dot cx-dot--live"></span>Live</span></div>
+                <div class="cx-askbar"><span class="cx-askbar__q">What's driving cost today?</span><span class="cx-chip cx-chip--blue">Peak-price · 17:00</span></div>
+                <div class="cx-ws">
+                  <div class="cx-card cx-ws__twin" data-mod><div class="cx-card__h">Twin · affected assets</div><div class="cx-twin" data-blue="battery" data-hot="hvac"><svg class="twin-mini" viewBox="-118.6 -58.0 248.4 200.5" role="img" aria-label="Simplified 2.5D twin of Meridian Tower with its solar array, HVAC, battery, EV chargers and grid connection"><polygon class="ground" points="0.0,0.0 123.8,71.5 11.3,136.5 -112.6,65.0"/><g class="cables"><g class="a" data-asset="grid"><polyline class="cable" points="61.9,67.0 50.7,73.5 29.3,61.1"/></g><g class="a" data-asset="battery"><polyline class="cable" points="33.8,79.3 15.8,68.9"/></g><g class="a" data-asset="ev"><polyline class="cable" points="-34.9,74.8 -20.3,66.3"/></g></g><g class="a" data-asset="grid"><polygon class="t" points="72.1,35.1 90.1,45.5 74.3,54.6 56.3,44.2"/><polygon class="l" points="56.3,61.1 74.3,71.5 74.3,54.6 56.3,44.2"/><polygon class="r" points="90.1,62.4 74.3,71.5 74.3,54.6 90.1,45.5"/></g><g class="tower"><polygon class="t" points="0.0,-52.0 33.8,-32.5 0.0,-13.0 -33.8,-32.5"/><polygon class="l" points="-33.8,58.5 0.0,78.0 0.0,-13.0 -33.8,-32.5"/><polygon class="r" points="33.8,58.5 0.0,78.0 0.0,-13.0 33.8,-32.5"/><polyline class="floor" points="-33.8,45.5 0.0,65.0 33.8,45.5"/><polyline class="floor" points="-33.8,32.5 0.0,52.0 33.8,32.5"/><polyline class="floor" points="-33.8,19.5 0.0,39.0 33.8,19.5"/><polyline class="floor" points="-33.8,6.5 0.0,26.0 33.8,6.5"/><polyline class="floor" points="-33.8,-6.5 0.0,13.0 33.8,-6.5"/><polyline class="floor" points="-33.8,-19.5 0.0,0.0 33.8,-19.5"/></g><g class="a" data-asset="solar"><polygon class="panel" points="0.0,-48.4 18.0,-38.0 -9.0,-22.4 -27.0,-32.8"/><polyline class="panel-line" points="-6.8,-44.6 11.3,-34.2"/><polyline class="panel-line" points="-13.5,-40.7 4.5,-30.3"/><polyline class="panel-line" points="-20.3,-36.8 -2.3,-26.4"/></g><g class="a" data-asset="hvac"><polygon class="t" points="19.7,-42.6 27.0,-38.3 16.9,-32.5 9.6,-36.7"/><polygon class="l" points="9.6,-29.6 16.9,-25.3 16.9,-32.5 9.6,-36.7"/><polygon class="r" points="27.0,-31.2 16.9,-25.3 16.9,-32.5 27.0,-38.3"/></g><g class="a" data-asset="battery"><polygon class="t" points="40.5,63.7 50.7,69.5 44.5,73.1 34.3,67.3"/><polygon class="l" points="34.3,79.0 44.5,84.8 44.5,73.1 34.3,67.3"/><polygon class="r" points="50.7,81.2 44.5,84.8 44.5,73.1 50.7,69.5"/><polygon class="t" points="32.1,68.6 42.2,74.4 36.0,78.0 25.9,72.1"/><polygon class="l" points="25.9,83.8 36.0,89.7 36.0,78.0 25.9,72.1"/><polygon class="r" points="42.2,86.1 36.0,89.7 36.0,78.0 42.2,74.4"/></g><g class="a" data-asset="ev"><polygon class="t" points="-47.3,57.9 -43.7,59.9 -47.3,62.0 -50.9,59.9"/><polygon class="l" points="-50.9,71.0 -47.3,73.1 -47.3,62.0 -50.9,59.9"/><polygon class="r" points="-43.7,71.0 -47.3,73.1 -47.3,62.0 -43.7,59.9"/><polygon class="t" points="-38.3,63.1 -34.7,65.1 -38.3,67.2 -41.9,65.1"/><polygon class="l" points="-41.9,76.2 -38.3,78.3 -38.3,67.2 -41.9,65.1"/><polygon class="r" points="-34.7,76.2 -38.3,78.3 -38.3,67.2 -34.7,65.1"/><polygon class="t" points="-29.3,68.2 -25.7,70.3 -29.3,72.4 -32.9,70.3"/><polygon class="l" points="-32.9,81.4 -29.3,83.5 -29.3,72.4 -32.9,70.3"/><polygon class="r" points="-25.7,81.4 -29.3,83.5 -29.3,72.4 -25.7,70.3"/><polyline class="bay" points="-58.0,70.5 -73.7,79.6"/><polyline class="bay" points="-49.0,75.7 -64.7,84.8"/><polyline class="bay" points="-40.0,80.9 -55.7,90.0"/><polyline class="bay" points="-31.0,86.1 -46.7,95.2"/></g></svg></div></div>
+                  <div class="cx-ws__side">
+                    <div class="cx-kpis cx-kpis--2" data-mod>
+                      <div class="cx-kpi"><span>Live load</span><b>318 <i>kW</i></b></div>
+                      <div class="cx-kpi cx-kpi--hot"><span>Tariff</span><b>Peak</b></div>
+                    </div>
+                    <div class="cx-card cx-card--chart" data-mod><div class="cx-card__h">Load vs price</div><svg class="cx-chart" viewBox="0 0 200 64" preserveAspectRatio="none" aria-hidden="true"><path class="cx-chart__grid" d="M0 16H200M0 32H200M0 48H200"/><path class="cx-chart__area" d="M0 50 C20 46 30 30 50 32 S80 18 100 22 S130 40 150 30 S180 14 200 18 V64 H0Z"/><path class="cx-chart__line" d="M0 50 C20 46 30 30 50 32 S80 18 100 22 S130 40 150 30 S180 14 200 18"/></svg></div>
+                    <div class="cx-card cx-action" data-mod><span class="cx-k">Suggested action</span><b>Carry the peak on the battery</b><span class="cx-action__btns"><span class="cx-btn cx-btn--dark">Schedule</span><span class="cx-btn">Adjust</span></span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <p class="choice__verdict">Conversation identifies the work. The workspace stays open.</p>
           </div>
         </div>
@@ -1236,7 +1688,7 @@ html.lenis, html.lenis body { height: auto; }
         </ol>
       </div>
       <p class="t-caption stage__caption">Conversation creates the workspace. The modules let people keep working with the result.</p>
-      <p class="note">Pinned ≈ 250vh · Phase 2 beats: (1) A + B side by side, grey → (2) slide together → (3) merge into one workspace, turning product blue → (4) C3 flow draws its 5 steps, closing line appears.</p>
+      <p class="note">C2 + C3 · Phase 3 ✓ product UI. Pinned ≈ 250vh · Phase 2 ✓ beats: (1) A + B side by side, grey → (2) slide together → (3) merge into one workspace, turning product blue → (4) C3 flow draws its 5 steps, closing line appears.</p>
     </div>
   </div>
 
@@ -1272,13 +1724,62 @@ html.lenis, html.lenis body { height: auto; }
         </ol>
         <p class="areas__progress t-meta"><span>1</span> / 4</p>
       </div>
-      <div class="areas__view ph ph--tint-blue" aria-hidden="true">
-        <div class="ph__screen areas__state is-active"><p class="ph__label"><b>C4 · System status</b>Exception card in orange · one asset highlighted in the mini twin</p></div>
-        <div class="ph__screen areas__state"><p class="ph__label"><b>C4 · Forecasting</b>Forecast chart module</p></div>
-        <div class="ph__screen areas__state"><p class="ph__label"><b>C4 · Asset performance</b>One asset in focus, the others dimmed</p></div>
-        <div class="ph__screen areas__state"><p class="ph__label"><b>C4 · Operational conditions</b>Operating-conditions module</p></div>
+      <div class="areas__view cx-panel cx-panel--blue" aria-hidden="true">
+        <div class="cx cx-app" data-area="0">
+          <div class="cx-bar"><span class="cx-logo" aria-hidden="true">C</span><b>ConnectX</b><span class="cx-bar__site">Meridian Tower</span><span class="cx-bar__r"><span class="cx-dot cx-dot--live"></span>Live</span></div>
+          <div class="cx-askbar"><span class="cx-askbar__q cx-askbar__q--empty">Ask about the building…</span></div>
+          <div class="cx-split">
+            <div class="cx-card cx-split__twin">
+              <div class="cx-card__h">Twin<span class="cx-weather" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg></span></div>
+              <div class="cx-twin"><svg class="twin-mini" viewBox="-118.6 -58.0 248.4 200.5" role="img" aria-label="Simplified 2.5D twin of Meridian Tower with its solar array, HVAC, battery, EV chargers and grid connection"><polygon class="ground" points="0.0,0.0 123.8,71.5 11.3,136.5 -112.6,65.0"/><g class="cables"><g class="a" data-asset="grid"><polyline class="cable" points="61.9,67.0 50.7,73.5 29.3,61.1"/></g><g class="a" data-asset="battery"><polyline class="cable" points="33.8,79.3 15.8,68.9"/></g><g class="a" data-asset="ev"><polyline class="cable" points="-34.9,74.8 -20.3,66.3"/></g></g><g class="a" data-asset="grid"><polygon class="t" points="72.1,35.1 90.1,45.5 74.3,54.6 56.3,44.2"/><polygon class="l" points="56.3,61.1 74.3,71.5 74.3,54.6 56.3,44.2"/><polygon class="r" points="90.1,62.4 74.3,71.5 74.3,54.6 90.1,45.5"/></g><g class="tower"><polygon class="t" points="0.0,-52.0 33.8,-32.5 0.0,-13.0 -33.8,-32.5"/><polygon class="l" points="-33.8,58.5 0.0,78.0 0.0,-13.0 -33.8,-32.5"/><polygon class="r" points="33.8,58.5 0.0,78.0 0.0,-13.0 33.8,-32.5"/><polyline class="floor" points="-33.8,45.5 0.0,65.0 33.8,45.5"/><polyline class="floor" points="-33.8,32.5 0.0,52.0 33.8,32.5"/><polyline class="floor" points="-33.8,19.5 0.0,39.0 33.8,19.5"/><polyline class="floor" points="-33.8,6.5 0.0,26.0 33.8,6.5"/><polyline class="floor" points="-33.8,-6.5 0.0,13.0 33.8,-6.5"/><polyline class="floor" points="-33.8,-19.5 0.0,0.0 33.8,-19.5"/></g><g class="a" data-asset="solar"><polygon class="panel" points="0.0,-48.4 18.0,-38.0 -9.0,-22.4 -27.0,-32.8"/><polyline class="panel-line" points="-6.8,-44.6 11.3,-34.2"/><polyline class="panel-line" points="-13.5,-40.7 4.5,-30.3"/><polyline class="panel-line" points="-20.3,-36.8 -2.3,-26.4"/></g><g class="a" data-asset="hvac"><polygon class="t" points="19.7,-42.6 27.0,-38.3 16.9,-32.5 9.6,-36.7"/><polygon class="l" points="9.6,-29.6 16.9,-25.3 16.9,-32.5 9.6,-36.7"/><polygon class="r" points="27.0,-31.2 16.9,-25.3 16.9,-32.5 27.0,-38.3"/></g><g class="a" data-asset="battery"><polygon class="t" points="40.5,63.7 50.7,69.5 44.5,73.1 34.3,67.3"/><polygon class="l" points="34.3,79.0 44.5,84.8 44.5,73.1 34.3,67.3"/><polygon class="r" points="50.7,81.2 44.5,84.8 44.5,73.1 50.7,69.5"/><polygon class="t" points="32.1,68.6 42.2,74.4 36.0,78.0 25.9,72.1"/><polygon class="l" points="25.9,83.8 36.0,89.7 36.0,78.0 25.9,72.1"/><polygon class="r" points="42.2,86.1 36.0,89.7 36.0,78.0 42.2,74.4"/></g><g class="a" data-asset="ev"><polygon class="t" points="-47.3,57.9 -43.7,59.9 -47.3,62.0 -50.9,59.9"/><polygon class="l" points="-50.9,71.0 -47.3,73.1 -47.3,62.0 -50.9,59.9"/><polygon class="r" points="-43.7,71.0 -47.3,73.1 -47.3,62.0 -43.7,59.9"/><polygon class="t" points="-38.3,63.1 -34.7,65.1 -38.3,67.2 -41.9,65.1"/><polygon class="l" points="-41.9,76.2 -38.3,78.3 -38.3,67.2 -41.9,65.1"/><polygon class="r" points="-34.7,76.2 -38.3,78.3 -38.3,67.2 -34.7,65.1"/><polygon class="t" points="-29.3,68.2 -25.7,70.3 -29.3,72.4 -32.9,70.3"/><polygon class="l" points="-32.9,81.4 -29.3,83.5 -29.3,72.4 -32.9,70.3"/><polygon class="r" points="-25.7,81.4 -29.3,83.5 -29.3,72.4 -25.7,70.3"/><polyline class="bay" points="-58.0,70.5 -73.7,79.6"/><polyline class="bay" points="-49.0,75.7 -64.7,84.8"/><polyline class="bay" points="-40.0,80.9 -55.7,90.0"/><polyline class="bay" points="-31.0,86.1 -46.7,95.2"/></g></svg></div>
+            </div>
+            <div class="cx-split__mods">
+              <div class="cx-card areas__state is-active">
+                <div class="cx-card__h"><span class="cx-dot cx-dot--hot"></span>Exception</div>
+                <ul class="cx-status">
+                  <li class="is-hot"><span>HVAC</span><i></i></li>
+                  <li><span>Battery</span><i></i></li>
+                  <li><span>Solar</span><i></i></li>
+                  <li><span>EV chargers</span><i></i></li>
+                </ul>
+                <div class="cx-detail"><span class="cx-k">Since 06:40</span><i></i><i></i><i></i></div>
+                <span class="cx-action__btns"><span class="cx-btn cx-btn--hot">Review</span><span class="cx-btn">Dismiss</span></span>
+              </div>
+              <div class="cx-card areas__state">
+                <div class="cx-card__h">Forecast</div>
+                <svg class="cx-chart cx-chart--forecast" viewBox="0 0 200 90" preserveAspectRatio="none">
+                  <path class="cx-chart__grid" d="M0 22H200M0 45H200M0 68H200"/>
+                  <path class="cx-chart__band" d="M100 40 C120 30 140 26 160 34 S190 50 200 44 V70 C190 76 170 66 160 62 S120 58 100 52Z"/>
+                  <path class="cx-chart__line cx-draw" d="M0 70 C20 66 40 50 60 52 S90 44 100 46"/>
+                  <path class="cx-chart__line cx-chart__line--dash cx-draw" d="M100 46 C120 44 140 40 160 48 S190 62 200 57"/>
+                  <path class="cx-chart__now" d="M100 6V84"/>
+                </svg>
+                <div class="cx-axis"><span>Now</span><span>+24 h</span></div>
+              </div>
+              <div class="cx-card areas__state">
+                <div class="cx-card__h">Asset performance</div>
+                <div class="cx-perf">
+                  <div class="cx-perf__row"><span>Actual</span><i style="--v:.62"></i></div>
+                  <div class="cx-perf__row"><span>Expected</span><i style="--v:.86"></i></div>
+                </div>
+                <div class="cx-detail"><span class="cx-k">Last 7 days</span>
+                <svg class="cx-chart cx-chart--spark" viewBox="0 0 200 40" preserveAspectRatio="none"><path class="cx-chart__line cx-draw" d="M0 30 L25 26 L50 28 L75 18 L100 22 L125 14 L150 20 L175 12 L200 16"/></svg></div>
+                <div class="cx-kpis cx-kpis--2"><div class="cx-kpi"><span>Cycles</span><b>1.2 <i>/day</i></b></div><div class="cx-kpi"><span>Health</span><b>96 <i>%</i></b></div></div>
+              </div>
+              <div class="cx-card areas__state">
+                <div class="cx-card__h">Operating conditions</div>
+                <ul class="cx-conds">
+                  <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21"/></svg><span>Weather</span><i></i></li>
+                  <li><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="16.5" cy="9" r="2.5"/><path d="M3.5 19c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5M14 14.6c.8-.4 1.6-.6 2.5-.6 2.2 0 3.8 1.5 4.3 4"/></svg><span>Occupancy</span><i></i></li>
+                  <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/></svg><span>Tariff</span><i></i></li>
+                </ul>
+                <div class="cx-detail"><span class="cx-k">Next 6 h</span><div class="cx-hours"><i style="--v:.35"></i><i style="--v:.5"></i><i style="--v:.72"></i><i style="--v:.9"></i><i style="--v:.66"></i><i style="--v:.42"></i></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <p class="note areas__note">Pinned ≈ 300vh · Phase 2 ✓ active area turns --ink with a black rule, others --ink-3; C4 modules cross-fade and re-arrange; click an area to scroll to its step. IMP-01: extend to the 8 named scenarios later.</p>
+      <p class="note areas__note">C4 · Phase 3 ✓ twin highlights per area. Pinned ≈ 300vh · Phase 2 ✓ active area turns --ink with a black rule, others --ink-3; C4 modules cross-fade and re-arrange; click an area to scroll to its step. IMP-01: extend to the 8 named scenarios later.</p>
     </div>
   </div>
 
@@ -1290,10 +1791,53 @@ html.lenis, html.lenis body { height: auto; }
       <p>An operator asking about a peak-price event needs more than a suggested battery action. They need to see the affected assets, the data behind the suggestion and what the action would change.</p>
       <p>The scenario work connected the request to everything around it. That meant the information to display, the controls to offer and what the workspace should keep in place. Each scenario gave the adaptive interface a specific job.</p>
     </div>
-    <div class="sub__media ph ph--tint-blue">
-      <div class="ph__screen"><p class="ph__label"><b>C5 · Peak-price assembly</b>Ask bar → resolver (intent · data · tools) → affected assets light up → modules assemble: affected assets · data behind the suggestion · what the action changes · battery action</p></div>
-    </div>
-    <p class="note sub__note">Phase 3: plays once on enter, replay button.</p>
+    <figure class="sub__media cx-panel cx-panel--blue" data-peak>
+      <div class="cx cx-app" role="img" aria-label="ConnectX workspace answering a peak-price question: the affected assets, the data behind the suggestion, what the battery action would change, and the action itself.">
+        <div class="cx-bar"><span class="cx-logo" aria-hidden="true">C</span><b>ConnectX</b><span class="cx-bar__site">Meridian Tower</span><span class="cx-bar__r"><span class="cx-dot cx-dot--live"></span>Live</span></div>
+        <div class="cx-askbar"><span class="cx-askbar__q" data-peak-q>The price peaks at 17:00. What should we do?</span><span class="cx-caret" aria-hidden="true"></span></div>
+        <div class="cx-resolve">
+          <span class="cx-step" data-peak-step><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><b>Intent</b>Peak-price event</span>
+          <span class="cx-step" data-peak-step><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><b>Data</b>Tariff, load, battery</span>
+          <span class="cx-step" data-peak-step><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><b>Tools</b>Tariff feed, battery control</span>
+        </div>
+        <div class="cx-peak">
+          <div class="cx-card cx-peak__assets" data-mod>
+            <div class="cx-card__h">Affected assets</div>
+            <div class="cx-twin" data-blue="battery" data-hot="hvac ev"><svg class="twin-mini" viewBox="-118.6 -58.0 248.4 200.5" role="img" aria-label="Simplified 2.5D twin of Meridian Tower with its solar array, HVAC, battery, EV chargers and grid connection"><polygon class="ground" points="0.0,0.0 123.8,71.5 11.3,136.5 -112.6,65.0"/><g class="cables"><g class="a" data-asset="grid"><polyline class="cable" points="61.9,67.0 50.7,73.5 29.3,61.1"/></g><g class="a" data-asset="battery"><polyline class="cable" points="33.8,79.3 15.8,68.9"/></g><g class="a" data-asset="ev"><polyline class="cable" points="-34.9,74.8 -20.3,66.3"/></g></g><g class="a" data-asset="grid"><polygon class="t" points="72.1,35.1 90.1,45.5 74.3,54.6 56.3,44.2"/><polygon class="l" points="56.3,61.1 74.3,71.5 74.3,54.6 56.3,44.2"/><polygon class="r" points="90.1,62.4 74.3,71.5 74.3,54.6 90.1,45.5"/></g><g class="tower"><polygon class="t" points="0.0,-52.0 33.8,-32.5 0.0,-13.0 -33.8,-32.5"/><polygon class="l" points="-33.8,58.5 0.0,78.0 0.0,-13.0 -33.8,-32.5"/><polygon class="r" points="33.8,58.5 0.0,78.0 0.0,-13.0 33.8,-32.5"/><polyline class="floor" points="-33.8,45.5 0.0,65.0 33.8,45.5"/><polyline class="floor" points="-33.8,32.5 0.0,52.0 33.8,32.5"/><polyline class="floor" points="-33.8,19.5 0.0,39.0 33.8,19.5"/><polyline class="floor" points="-33.8,6.5 0.0,26.0 33.8,6.5"/><polyline class="floor" points="-33.8,-6.5 0.0,13.0 33.8,-6.5"/><polyline class="floor" points="-33.8,-19.5 0.0,0.0 33.8,-19.5"/></g><g class="a" data-asset="solar"><polygon class="panel" points="0.0,-48.4 18.0,-38.0 -9.0,-22.4 -27.0,-32.8"/><polyline class="panel-line" points="-6.8,-44.6 11.3,-34.2"/><polyline class="panel-line" points="-13.5,-40.7 4.5,-30.3"/><polyline class="panel-line" points="-20.3,-36.8 -2.3,-26.4"/></g><g class="a" data-asset="hvac"><polygon class="t" points="19.7,-42.6 27.0,-38.3 16.9,-32.5 9.6,-36.7"/><polygon class="l" points="9.6,-29.6 16.9,-25.3 16.9,-32.5 9.6,-36.7"/><polygon class="r" points="27.0,-31.2 16.9,-25.3 16.9,-32.5 27.0,-38.3"/></g><g class="a" data-asset="battery"><polygon class="t" points="40.5,63.7 50.7,69.5 44.5,73.1 34.3,67.3"/><polygon class="l" points="34.3,79.0 44.5,84.8 44.5,73.1 34.3,67.3"/><polygon class="r" points="50.7,81.2 44.5,84.8 44.5,73.1 50.7,69.5"/><polygon class="t" points="32.1,68.6 42.2,74.4 36.0,78.0 25.9,72.1"/><polygon class="l" points="25.9,83.8 36.0,89.7 36.0,78.0 25.9,72.1"/><polygon class="r" points="42.2,86.1 36.0,89.7 36.0,78.0 42.2,74.4"/></g><g class="a" data-asset="ev"><polygon class="t" points="-47.3,57.9 -43.7,59.9 -47.3,62.0 -50.9,59.9"/><polygon class="l" points="-50.9,71.0 -47.3,73.1 -47.3,62.0 -50.9,59.9"/><polygon class="r" points="-43.7,71.0 -47.3,73.1 -47.3,62.0 -43.7,59.9"/><polygon class="t" points="-38.3,63.1 -34.7,65.1 -38.3,67.2 -41.9,65.1"/><polygon class="l" points="-41.9,76.2 -38.3,78.3 -38.3,67.2 -41.9,65.1"/><polygon class="r" points="-34.7,76.2 -38.3,78.3 -38.3,67.2 -34.7,65.1"/><polygon class="t" points="-29.3,68.2 -25.7,70.3 -29.3,72.4 -32.9,70.3"/><polygon class="l" points="-32.9,81.4 -29.3,83.5 -29.3,72.4 -32.9,70.3"/><polygon class="r" points="-25.7,81.4 -29.3,83.5 -29.3,72.4 -25.7,70.3"/><polyline class="bay" points="-58.0,70.5 -73.7,79.6"/><polyline class="bay" points="-49.0,75.7 -64.7,84.8"/><polyline class="bay" points="-40.0,80.9 -55.7,90.0"/><polyline class="bay" points="-31.0,86.1 -46.7,95.2"/></g></svg></div>
+            <ul class="cx-list">
+              <li><span class="cx-dot cx-dot--blue"></span>Battery<em>Ready to discharge</em></li>
+              <li><span class="cx-dot cx-dot--hot"></span>HVAC<em>Pre-cool first</em></li>
+              <li><span class="cx-dot cx-dot--hot"></span>EV chargers<em>Defer sessions</em></li>
+            </ul>
+          </div>
+          <div class="cx-card cx-peak__data" data-mod>
+            <div class="cx-card__h">Data behind the suggestion</div>
+            <svg class="cx-chart cx-chart--price" viewBox="0 0 200 80" preserveAspectRatio="none" aria-hidden="true">
+              <path class="cx-chart__grid" d="M0 20H200M0 40H200M0 60H200"/>
+              <path class="cx-chart__peak" d="M120 0H160V80H120Z"/>
+              <path class="cx-chart__step cx-draw" d="M0 58H60V50H120V14H160V44H200"/>
+              <path class="cx-chart__line cx-draw" d="M0 62 C30 58 60 50 90 44 S130 22 150 26 S180 40 200 44"/>
+            </svg>
+            <div class="cx-axis"><span>12:00</span><span>17:00</span><span>21:00</span></div>
+            <div class="cx-legend"><span><i class="cx-legend__price"></i>Price</span><span><i class="cx-legend__load"></i>Load</span></div>
+          </div>
+          <div class="cx-card cx-peak__change" data-mod>
+            <div class="cx-card__h">What the action changes</div>
+            <div class="cx-bars">
+              <div class="cx-bars__row"><span>Peak now</span><i style="--v:1"></i><b>318 kW</b></div>
+              <div class="cx-bars__row cx-bars__row--after"><span>With battery</span><i style="--v:.82"></i><b>262 kW</b></div>
+            </div>
+          </div>
+          <div class="cx-card cx-action cx-peak__action" data-mod>
+            <span class="cx-k">Battery action</span>
+            <b>Carry the 17:00 peak on the battery</b>
+            <span class="cx-action__btns"><span class="cx-btn cx-btn--dark">Schedule</span><span class="cx-btn">Adjust</span></span>
+          </div>
+        </div>
+      </div>
+      <button class="cx-replay" type="button" data-peak-replay hidden>Replay</button>
+    </figure>
+    <p class="note sub__note">C5 · Phase 3 ✓ plays once when it enters: question types, resolver steps tick, assets light up, modules assemble. Replay button. Values are illustrative.</p>
   </div>
 </section>
 
@@ -1378,6 +1922,7 @@ html.lenis, html.lenis body { height: auto; }
   <div class="wrap grid timeline-wrap" id="what-did-the-coded-demonstration-actually-establish">
     <h3 class="timeline__title t-label">What the work covered, from definition to production</h3>
     <ol class="timeline">
+      <li class="timeline__track" aria-hidden="true"><span class="timeline__fill"></span></li>
       <li class="timeline__step">
         <span class="timeline__node" aria-hidden="true"></span>
         <p class="t-meta">Product work</p>
@@ -1394,7 +1939,7 @@ html.lenis, html.lenis body { height: auto; }
         <p>The demo taken through to a production-ready module, <span class="pill-live">Live</span> since late 2025.</p>
       </li>
     </ol>
-    <p class="note timeline__note">C6 · Phase 3: line fills black with scroll, nodes pop as reached, last node becomes the green Live pill.</p>
+    <p class="note timeline__note">C6 · Phase 3 ✓ line fills black with scroll, nodes fill as it reaches them, the last one turns green with a pulse.</p>
   </div>
 </section>
 
@@ -1767,15 +2312,34 @@ html.lenis, html.lenis body { height: auto; }
   document.querySelector('[data-quotes-prev]').addEventListener('click', () => showQuote(q - 1));
   document.querySelector('[data-quotes-next]').addEventListener('click', () => showQuote(q + 1));
 
-  /* Scenario areas: static selection (the pinned scene in scenes.js takes over when motion is on) */
+  /* Scenario areas: one setter shared by the click fallback and the pinned scene (scenes.js).
+     Each area also changes what the mini twin highlights. */
   const areas = [...document.querySelectorAll('.areas__item')];
   const areaIndex = document.querySelector('.areas__progress span');
   const areaStates = [...document.querySelectorAll('.areas__state')];
-  areas.forEach((el, n) => el.addEventListener('click', () => {
-    areas.forEach((a) => a.classList.toggle('is-active', a === el));
+  const areaApp = document.querySelector('.areas__view .cx-app');
+  const areaTwin = areaApp && areaApp.querySelector('.cx-twin');
+  const AREA_TWIN = [
+    { hot: 'hvac' },                      // System status: the exception
+    { blue: 'solar' },                    // Forecasting: generation ahead
+    { blue: 'battery', dim: true },       // Asset performance: one asset in focus
+    {},                                   // Operational conditions: whole building, weather shown
+  ];
+  function setArea(n) {
+    areas.forEach((a, m) => a.classList.toggle('is-active', m === n));
     areaStates.forEach((a, m) => a.classList.toggle('is-active', m === n));
     areaIndex.textContent = String(n + 1);
-  }));
+    if (!areaApp) return;
+    areaApp.dataset.area = String(n);
+    const t = AREA_TWIN[n] || {};
+    ['hot', 'blue', 'dim'].forEach((k) => {
+      if (t[k]) areaTwin.setAttribute('data-' + k, t[k] === true ? '' : t[k]);
+      else areaTwin.removeAttribute('data-' + k);
+    });
+  }
+  window.cxSetArea = setArea;
+  setArea(0);
+  areas.forEach((el, n) => el.addEventListener('click', () => setArea(n)));
 
   /* Enquiry form: stub submit (IMP-06), keeps the entered data */
   const form = document.querySelector('[data-enquiry]');
@@ -1983,6 +2547,7 @@ html.lenis, html.lenis body { height: auto; }
 
     /* Pinned scenes go first so later triggers measure the pin spacing */
     if (window.cxScenes) window.cxScenes.init({ lenis, EASE });
+    if (window.cxComponents) window.cxComponents.init({ EASE });
 
     /* Line reveals */
     $$([
@@ -2030,7 +2595,7 @@ html.lenis, html.lenis body { height: auto; }
       gsap.fromTo(el, { clipPath: 'inset(12% 5% 12% 5% round 24px)' }, {
         clipPath: 'inset(0% 0% 0% 0% round 24px)', duration: 1.5, ease: EASE, scrollTrigger: trigger,
       });
-      const inner = !el.classList.contains('areas__view') && el.querySelector('.ph__screen');
+      const inner = !el.classList.contains('areas__view') && el.querySelector('.ph__screen, .cx-app');
       if (inner) gsap.from(inner, { scale: 1.08, duration: 1.8, ease: EASE, scrollTrigger: trigger });
     });
 
@@ -2160,6 +2725,8 @@ window.cxScenes = {
         // beat 3: they merge into one workspace, grey turns product blue
         .to([dirA, dirB], { opacity: 0, duration: 0.5 }, 1.05)
         .fromTo(merged, { autoAlpha: 0, scale: 0.92, y: 24 }, { autoAlpha: 1, scale: 1, y: 0, duration: 0.7 }, 1.05)
+        // the merged workspace assembles its modules around the question
+        .from($$('[data-mod]', merged), { opacity: 0, y: 14, scale: 0.97, stagger: 0.1, duration: 0.45 }, 1.3)
         // beat 4: the chosen model's five steps draw in
         .to(steps, { opacity: 1, y: 0, '--draw': 1, stagger: 0.22, duration: 0.6 }, 1.7)
         .to({}, { duration: 0.4 });
@@ -2169,15 +2736,11 @@ window.cxScenes = {
     const areas = $('[data-pin="areas"] .areas');
     if (areas) {
       const items = $$('.areas__item', areas);
-      const states = $$('.areas__state', areas);
-      const count = $('.areas__progress span', areas);
       let current = -1;
       const setArea = (i) => {
         if (i === current) return;
         current = i;
-        items.forEach((el, n) => el.classList.toggle('is-active', n === i));
-        states.forEach((el, n) => el.classList.toggle('is-active', n === i));
-        count.textContent = String(i + 1);
+        window.cxSetArea(i);
       };
       const st = ScrollTrigger.create({
         trigger: areas, start: `top ${NAV_CLEAR}px`, end: `+=${items.length * 60}%`,
@@ -2189,6 +2752,99 @@ window.cxScenes = {
         e.stopPropagation();
         lenis.scrollTo(st.start + (st.end - st.start) * ((n + 0.5) / items.length), { duration: 1.2 });
       }));
+    }
+  },
+};
+</script>
+<script>
+/* ConnectX case study — product component motion (Phase 3).
+   Called by motion.js once fonts are ready: window.cxComponents.init({ EASE }).
+   Without motion the components render in their finished state. */
+window.cxComponents = {
+  init({ EASE }) {
+    const $ = (s, c = document) => c.querySelector(s);
+    const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+
+    /* Types `el`'s text in. The untyped rest stays in the layout (transparent), so nothing reflows. */
+    function typer(el) {
+      const full = el.textContent;
+      const caret = el.parentElement.querySelector('.cx-caret');
+      el.textContent = '';
+      const on = document.createElement('span');
+      const off = document.createElement('span');
+      off.className = 't-off';
+      el.append(on);
+      if (caret) el.append(caret);
+      el.append(off);
+      const render = (n) => { on.textContent = full.slice(0, n); off.textContent = full.slice(n); };
+      render(0);
+      return { length: full.length, render };
+    }
+
+    /* ---------- C1 Role cards: each need types in, staggered ---------- */
+    $$('.role-card').forEach((card, i) => {
+      const t = typer($('[data-type]', card));
+      const proxy = { n: 0 };
+      gsap.to(proxy, {
+        n: t.length, duration: t.length * 0.035, ease: 'none', delay: 0.5 + i * 0.35,
+        onUpdate: () => t.render(Math.round(proxy.n)),
+        onComplete: () => setTimeout(() => card.classList.add('is-typed'), 1200),
+        scrollTrigger: { trigger: '.roles__list', start: 'top 80%', once: true },
+      });
+    });
+
+    /* ---------- C5 Peak-price assembly: plays once on enter, then can replay ---------- */
+    const peak = $('[data-peak]');
+    if (peak) {
+      const q = typer($('[data-peak-q]', peak));
+      const ask = $('.cx-askbar', peak);
+      const twin = $('.cx-twin', peak);
+      const replay = $('[data-peak-replay]', peak);
+      const twinAttrs = { blue: twin.getAttribute('data-blue'), hot: twin.getAttribute('data-hot') };
+      const lightTwin = (on) => {
+        Object.entries(twinAttrs).forEach(([k, v]) => (on ? twin.setAttribute('data-' + k, v) : twin.removeAttribute('data-' + k)));
+      };
+      const proxy = { n: 0 };
+
+      const tl = gsap.timeline({
+        paused: true,
+        onStart: () => { replay.hidden = true; ask.classList.remove('is-typed'); },
+        onComplete: () => { ask.classList.add('is-typed'); replay.hidden = false; },
+      })
+        .add(() => lightTwin(false), 0)
+        .fromTo(proxy, { n: 0 }, { n: q.length, duration: q.length * 0.03, ease: 'none', onUpdate: () => q.render(Math.round(proxy.n)) }, 0.2)
+        .from($$('[data-peak-step]', peak), { opacity: 0, x: -8, duration: 0.45, stagger: 0.35, ease: EASE }, '>0.15')
+        .from($$('[data-mod]', peak), { opacity: 0, y: 18, scale: 0.97, duration: 0.7, stagger: 0.14, ease: EASE }, '>-0.1')
+        .add(() => lightTwin(true), '<0.15')
+        .fromTo($$('.cx-draw', peak), { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 1.2, stagger: 0.15, ease: 'power2.inOut' }, '<0.3')
+        .from($$('.cx-bars__row i', peak), { scaleX: 0, duration: 0.9, stagger: 0.2, ease: EASE }, '<0.2');
+
+      // Start hidden: render the first frame now, play when it scrolls into view
+      q.render(0);
+      lightTwin(false);
+      tl.progress(0.0001).pause();
+      ScrollTrigger.create({ trigger: peak, start: 'top 70%', once: true, onEnter: () => tl.play(0) });
+      replay.addEventListener('click', () => tl.restart());
+    }
+
+    /* ---------- C6 Timeline: the line fills with scroll, nodes fill as it reaches them ---------- */
+    const timeline = $('.timeline');
+    if (timeline) {
+      const fill = $('.timeline__fill', timeline);
+      const steps = $$('.timeline__step', timeline);
+      const stops = () => {
+        const box = timeline.getBoundingClientRect();
+        return steps.map((s) => (s.getBoundingClientRect().left - box.left) / box.width);
+      };
+      let at = stops();
+      ScrollTrigger.addEventListener('refreshInit', () => { at = stops(); });
+      gsap.fromTo(fill, { scaleX: 0 }, {
+        scaleX: 1, ease: 'none',
+        scrollTrigger: {
+          trigger: timeline, start: 'top 85%', end: 'top 40%', scrub: 0.5,
+          onUpdate: (self) => steps.forEach((s, i) => s.classList.toggle('is-reached', self.progress >= at[i] + 0.01)),
+        },
+      });
     }
   },
 };
