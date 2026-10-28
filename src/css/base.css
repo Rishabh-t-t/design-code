@@ -1,0 +1,192 @@
+/* ==========================================================================
+   Base — reset, grid, typography, shared primitives
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink-2);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+h1, h2, h3, h4, p, dl, dd, figure, blockquote, ul, ol { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; background: none; border: 0; padding: 0; }
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px rgb(4 236 80 / .45);
+  border-radius: 4px;
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ---- Layout ---- */
+.wrap {
+  width: 100%;
+  max-width: calc(var(--content-max) + var(--margin) * 2);
+  margin-inline: auto;
+  padding-inline: var(--margin);
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+}
+.bleed { width: 100%; }
+
+/* ---- Type roles ---- */
+.t-display {
+  font-family: var(--font-display);
+  font-size: var(--fs-display);
+  font-weight: 500;
+  line-height: .95;
+  letter-spacing: -.035em;
+  color: var(--ink);
+}
+.t-intro {
+  font-family: var(--font-display);
+  font-size: var(--fs-intro);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -.02em;
+  color: var(--ink);
+}
+.t-statement {
+  font-family: var(--font-display);
+  font-size: var(--fs-statement);
+  font-weight: 400;
+  line-height: 1.16;
+  letter-spacing: -.015em;
+  color: var(--ink);
+}
+.t-stat {
+  font-family: var(--font-display);
+  font-size: var(--fs-stat);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -.03em;
+  color: var(--ink);
+}
+.t-label {
+  font-family: var(--font-body);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--ink);
+}
+.t-body { font-size: var(--fs-body); line-height: 1.55; color: var(--ink-2); }
+.t-body p + p { margin-top: 1em; }
+.t-meta {
+  font-family: var(--font-body);
+  font-size: var(--fs-meta);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.t-caption { font-size: var(--fs-meta); line-height: 1.4; color: var(--ink-3); }
+
+/* ---- Links & buttons ---- */
+.link {
+  display: inline-flex; align-items: center; gap: .4em;
+  color: var(--ink);
+  font-weight: 500;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 100% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  padding-bottom: 2px;
+}
+.link:hover { background-size: 0 1px; background-position: 100% 100%; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  height: 44px; padding: 0 20px;
+  border-radius: 999px;
+  font-size: 14px; font-weight: 600; letter-spacing: .01em;
+  white-space: nowrap;
+}
+.btn--dark { background: var(--ink); color: #fff; }
+.btn--dark:hover { background: #2A2A2A; }
+.btn--ghost { box-shadow: inset 0 0 0 1px var(--line); color: var(--ink); background: var(--surface); }
+.btn--ghost:hover { box-shadow: inset 0 0 0 1px var(--ink); }
+.btn--sm { height: 36px; padding: 0 16px; font-size: 13px; }
+
+.pill-live {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 24px; padding: 0 10px;
+  border-radius: 999px;
+  background: var(--brand); color: var(--brand-ink);
+  font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+}
+.pill-live::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--brand-ink);
+}
+
+.rule { height: 1px; background: var(--line); border: 0; margin: 0; }
+
+/* ---- Grey-box placeholder (Phase 1) ---- */
+.ph {
+  position: relative;
+  display: grid; place-items: center;
+  background: var(--placeholder);
+  color: var(--placeholder-ink);
+  border-radius: var(--radius);
+  overflow: hidden;
+  min-height: 120px;
+}
+.ph--tint-blue  { background: var(--tint-blue); }
+.ph--tint-stone { background: var(--tint-stone); }
+.ph--tint-sage  { background: var(--tint-sage); }
+.ph__label {
+  max-width: 34ch; padding: 16px; text-align: center;
+  font-family: var(--font-mono); font-size: 12px; line-height: 1.5; letter-spacing: .02em;
+}
+.ph__label b { display: block; margin-bottom: 4px; font-weight: 500; color: var(--ink); letter-spacing: .06em; text-transform: uppercase; }
+/* Inner "screen" block inside a tint panel, so the composition reads */
+.ph__screen {
+  position: absolute; inset: 9% 8%;
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-float);
+  display: grid; place-items: center;
+}
+
+/* ---- Wireframe annotations (toggle with the Notes button or the N key) ---- */
+.note {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: var(--note-soft);
+  color: var(--note);
+  font-family: var(--font-mono); font-size: 11px; line-height: 1.45;
+  max-width: 60ch;
+  justify-self: start;
+  align-self: start;
+}
+.note--float { position: absolute; z-index: 3; margin: 0; }
+html.notes-off .note { display: none; }
+
+.notes-toggle {
+  position: fixed; left: 16px; bottom: 16px; z-index: 100;
+  height: 32px; padding: 0 12px; border-radius: 999px;
+  background: var(--note); color: #fff;
+  font-family: var(--font-mono); font-size: 11px;
+  box-shadow: var(--shadow-float);
+}

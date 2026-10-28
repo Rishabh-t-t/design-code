@@ -1,0 +1,25 @@
+// Inlines src/ into one self-contained HTML file: dist/connectx-case-study.html
+// Usage: node build.mjs
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const root = dirname(fileURLToPath(import.meta.url));
+const src = join(root, 'src');
+const out = join(root, 'dist', 'connectx-case-study.html');
+const read = (p) => readFileSync(join(src, p), 'utf8');
+
+let html = read('index.html');
+
+// <link rel="stylesheet" href="css/…"> → <style>…</style>  (external URLs are left alone)
+html = html.replace(/<link rel="stylesheet" href="((?!https?:)[^"]+)">/g, (_, p) => `<style>\n${read(p)}</style>`);
+
+// <script src="js/…"></script> → <script>…</script>
+html = html.replace(/<script src="((?!https?:)[^"]+)"><\/script>/g, (_, p) => `<script>\n${read(p)}</script>`);
+
+// <!-- @inline path --> → file contents (SVGs, templates)
+html = html.replace(/<!-- @inline ([^ ]+) -->/g, (_, p) => read(p).trim());
+
+mkdirSync(dirname(out), { recursive: true });
+writeFileSync(out, html);
+console.log(`built ${out} (${(Buffer.byteLength(html) / 1024).toFixed(1)} KB)`);

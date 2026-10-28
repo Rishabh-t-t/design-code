@@ -1,0 +1,1557 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ConnectX AI energy product case study: digital twin | Tcules</title>
+<meta name="description" content="ConnectX AI energy product case study: how Tcules turned plain-language questions into a workspace with data, assets and a digital twin, now production-ready.">
+<link rel="canonical" href="https://www.tcules.com/case-studies/ai-native-building-energy-product-connectx">
+<meta name="robots" content="index,follow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Tcules">
+<meta property="og:locale" content="en_GB">
+<meta property="og:url" content="https://www.tcules.com/case-studies/ai-native-building-energy-product-connectx">
+<meta property="og:title" content="ConnectX AI energy product case study: digital twin | Tcules">
+<meta property="og:description" content="ConnectX AI energy product case study: how Tcules turned plain-language questions into a workspace with data, assets and a digital twin, now production-ready.">
+<meta property="og:image" content="https://www.tcules.com/assets/og/case-studies.png">
+<meta property="og:image:alt" content="Tcules social card headed Selected work, on a white background with the Tcules wordmark.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ConnectX AI energy product case study: digital twin | Tcules">
+<meta name="twitter:description" content="ConnectX AI energy product case study: how Tcules turned plain-language questions into a workspace with data, assets and a digital twin, now production-ready.">
+<meta name="twitter:image" content="https://www.tcules.com/assets/og/case-studies.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..700&family=Figtree:wght@300..800&family=Geist+Mono:wght@400;500&display=swap">
+
+<style>
+/* ==========================================================================
+   Tokens — ConnectX case study
+   Fluid values interpolate linearly between 1024px and 1920px viewports.
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* ---- Page (Tcules voice) ---- */
+  --bg: #F3F3F1;
+  --bg-2: #ECECE9;
+  --surface: #FFFFFF;
+  --ink: #0B0B0B;
+  --ink-2: #464646;
+  --ink-3: #7A7A7A;
+  --ink-4: #B5B5B2;
+  --line: #DCDCD8;
+  --line-strong: #0B0B0B;
+  --brand: #04EC50;
+  --brand-ink: #000000;
+
+  /* ---- Media backdrops ---- */
+  --tint-blue: #E6ECF8;
+  --tint-stone: #ECEAE4;
+  --tint-sage: #E4EDE6;
+  --placeholder: #D9D9D5;
+  --placeholder-ink: #6B6B67;
+
+  /* ---- Product (ConnectX voice) — product components only ---- */
+  --cx-ground: #F2F1ED;
+  --cx-panel: #FBFAF7;
+  --cx-ink: #1A1A17;
+  --cx-ink-2: #6E6C65;
+  --cx-line: #E2E0DA;
+  --cx-blue: #4D7CFF;
+  --cx-blue-soft: #EEF2FF;
+  --cx-orange: #FF6B3D;
+  --cx-orange-soft: #FFF3EE;
+  --cx-amber: #F5A524;
+
+  /* ---- Wireframe annotations (Phase 1 only, never part of the design) ---- */
+  --note: #C026D3;
+  --note-soft: #FAE8FF;
+
+  /* ---- Type ---- */
+  --font-display: 'Bricolage Grotesque', 'Figtree', system-ui, sans-serif;
+  --font-body: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-product: 'Instrument Sans', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --fs-display:   clamp(104px, calc(30.86px + 7.143vw), 168px);
+  --fs-intro:     clamp(40px,  calc(12.57px + 2.679vw), 64px);
+  --fs-statement: clamp(30px,  calc(9.43px  + 2.009vw), 48px);
+  --fs-stat:      clamp(72px,  calc(26.29px + 4.464vw), 112px);
+  --fs-label:     clamp(17px,  calc(11.29px + 0.558vw), 22px);
+  --fs-body:      clamp(16px,  calc(13.71px + 0.223vw), 18px);
+  --fs-meta:      clamp(12px,  calc(10.86px + 0.112vw), 13px);
+
+  /* ---- Layout ---- */
+  --margin: clamp(32px, 3.2vw, 64px);
+  --gutter: clamp(16px, 1.4vw, 28px);
+  --content-max: 1760px;
+  --chapter-gap: clamp(128px, 12vw, 224px);
+
+  /* ---- Spacing scale ---- */
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;  --s-5: 24px;  --s-6: 32px;
+  --s-7: 48px; --s-8: 64px; --s-9: 96px; --s-10: 128px; --s-11: 192px;
+
+  /* ---- Shape & elevation ---- */
+  --radius-s: 8px;
+  --radius: 14px;
+  --radius-l: 24px;
+  --shadow-float: 0 1px 2px rgb(0 0 0 / .06), 0 12px 32px -8px rgb(20 20 40 / .14);
+  --shadow-lift: 0 2px 4px rgb(0 0 0 / .06), 0 24px 48px -12px rgb(20 20 40 / .22);
+
+  /* ---- Motion (used from Phase 2) ---- */
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --ease-io: cubic-bezier(.65, 0, .35, 1);
+  --dur-ui: .4s;
+  --dur-reveal: .8s;
+  --dur-media: 1.2s;
+}
+</style>
+<style>
+/* ==========================================================================
+   Base — reset, grid, typography, shared primitives
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink-2);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+h1, h2, h3, h4, p, dl, dd, figure, blockquote, ul, ol { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; background: none; border: 0; padding: 0; }
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px rgb(4 236 80 / .45);
+  border-radius: 4px;
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ---- Layout ---- */
+.wrap {
+  width: 100%;
+  max-width: calc(var(--content-max) + var(--margin) * 2);
+  margin-inline: auto;
+  padding-inline: var(--margin);
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+}
+.bleed { width: 100%; }
+
+/* ---- Type roles ---- */
+.t-display {
+  font-family: var(--font-display);
+  font-size: var(--fs-display);
+  font-weight: 500;
+  line-height: .95;
+  letter-spacing: -.035em;
+  color: var(--ink);
+}
+.t-intro {
+  font-family: var(--font-display);
+  font-size: var(--fs-intro);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -.02em;
+  color: var(--ink);
+}
+.t-statement {
+  font-family: var(--font-display);
+  font-size: var(--fs-statement);
+  font-weight: 400;
+  line-height: 1.16;
+  letter-spacing: -.015em;
+  color: var(--ink);
+}
+.t-stat {
+  font-family: var(--font-display);
+  font-size: var(--fs-stat);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -.03em;
+  color: var(--ink);
+}
+.t-label {
+  font-family: var(--font-body);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--ink);
+}
+.t-body { font-size: var(--fs-body); line-height: 1.55; color: var(--ink-2); }
+.t-body p + p { margin-top: 1em; }
+.t-meta {
+  font-family: var(--font-body);
+  font-size: var(--fs-meta);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.t-caption { font-size: var(--fs-meta); line-height: 1.4; color: var(--ink-3); }
+
+/* ---- Links & buttons ---- */
+.link {
+  display: inline-flex; align-items: center; gap: .4em;
+  color: var(--ink);
+  font-weight: 500;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 100% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  padding-bottom: 2px;
+}
+.link:hover { background-size: 0 1px; background-position: 100% 100%; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  height: 44px; padding: 0 20px;
+  border-radius: 999px;
+  font-size: 14px; font-weight: 600; letter-spacing: .01em;
+  white-space: nowrap;
+}
+.btn--dark { background: var(--ink); color: #fff; }
+.btn--dark:hover { background: #2A2A2A; }
+.btn--ghost { box-shadow: inset 0 0 0 1px var(--line); color: var(--ink); background: var(--surface); }
+.btn--ghost:hover { box-shadow: inset 0 0 0 1px var(--ink); }
+.btn--sm { height: 36px; padding: 0 16px; font-size: 13px; }
+
+.pill-live {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 24px; padding: 0 10px;
+  border-radius: 999px;
+  background: var(--brand); color: var(--brand-ink);
+  font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+}
+.pill-live::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--brand-ink);
+}
+
+.rule { height: 1px; background: var(--line); border: 0; margin: 0; }
+
+/* ---- Grey-box placeholder (Phase 1) ---- */
+.ph {
+  position: relative;
+  display: grid; place-items: center;
+  background: var(--placeholder);
+  color: var(--placeholder-ink);
+  border-radius: var(--radius);
+  overflow: hidden;
+  min-height: 120px;
+}
+.ph--tint-blue  { background: var(--tint-blue); }
+.ph--tint-stone { background: var(--tint-stone); }
+.ph--tint-sage  { background: var(--tint-sage); }
+.ph__label {
+  max-width: 34ch; padding: 16px; text-align: center;
+  font-family: var(--font-mono); font-size: 12px; line-height: 1.5; letter-spacing: .02em;
+}
+.ph__label b { display: block; margin-bottom: 4px; font-weight: 500; color: var(--ink); letter-spacing: .06em; text-transform: uppercase; }
+/* Inner "screen" block inside a tint panel, so the composition reads */
+.ph__screen {
+  position: absolute; inset: 9% 8%;
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-float);
+  display: grid; place-items: center;
+}
+
+/* ---- Wireframe annotations (toggle with the Notes button or the N key) ---- */
+.note {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: var(--note-soft);
+  color: var(--note);
+  font-family: var(--font-mono); font-size: 11px; line-height: 1.45;
+  max-width: 60ch;
+  justify-self: start;
+  align-self: start;
+}
+.note--float { position: absolute; z-index: 3; margin: 0; }
+html.notes-off .note { display: none; }
+
+.notes-toggle {
+  position: fixed; left: 16px; bottom: 16px; z-index: 100;
+  height: 32px; padding: 0 12px; border-radius: 999px;
+  background: var(--note); color: #fff;
+  font-family: var(--font-mono); font-size: 11px;
+  box-shadow: var(--shadow-float);
+}
+</style>
+<style>
+/* ==========================================================================
+   Sections — layout per section, desktop 1024 → 1920+
+   ========================================================================== */
+
+.skip-link {
+  position: absolute; left: 16px; top: -48px; z-index: 200;
+  padding: 10px 14px; border-radius: 999px;
+  background: var(--ink); color: #fff; font-size: 14px; font-weight: 600;
+}
+.skip-link:focus { top: 12px; }
+
+/* ---------- Nav ---------- */
+.nav { position: absolute; inset: 0 0 auto; z-index: 50; }
+.nav__bar {
+  position: relative;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 76px;
+  max-width: calc(var(--content-max) + var(--margin) * 2);
+  margin-inline: auto;
+  padding-inline: var(--margin);
+}
+.nav__logo svg { height: 26px; width: auto; }
+.nav__logo svg path[fill="#222222"] { fill: var(--ink); }
+.nav__context { position: absolute; left: 50%; transform: translateX(-50%); }
+.nav__note { position: absolute; left: var(--margin); top: 72px; }
+
+/* ---------- Shared chapter module ---------- */
+.chapter { padding-top: var(--chapter-gap); }
+.chapter__head { grid-column: 1 / span 9; }
+.chapter__label { display: flex; align-items: baseline; gap: 12px; margin-bottom: var(--s-5); }
+.chapter__num { font-family: var(--font-mono); font-size: var(--fs-meta); color: var(--ink-3); letter-spacing: .04em; }
+.chapter__body { margin-top: var(--s-8); }
+.chapter__pull { grid-column: 3 / span 8; margin-top: var(--s-10); }
+
+/* Variant A: body left, media right */
+.chapter--a .chapter__body { grid-column: 1 / span 4; }
+.chapter--a .chapter__media { grid-column: 6 / span 7; margin-top: var(--s-8); }
+
+/* Variant B: body sits in a narrow right column, media runs full width below */
+.chapter--b .chapter__body { grid-column: 8 / span 5; }
+
+/* Variant C: body right, media left */
+.chapter--c .chapter__body { grid-column: 7 / span 6; }
+
+/* ---------- S1 Hero ---------- */
+.hero { padding-top: 168px; }
+.hero__eyebrow { margin-bottom: var(--s-5); }
+.hero__name { margin-left: -.04em; }
+.hero__credits { margin-top: var(--s-8); row-gap: var(--s-5); }
+.hero__credit { grid-column: span 3; padding-top: var(--s-3); border-top: 1px solid var(--line); }
+.hero__credit dt { margin-bottom: var(--s-2); }
+.hero__credit dd { color: var(--ink); font-weight: 500; max-width: 28ch; }
+.hero__status { display: flex; align-items: center; gap: 10px; }
+.hero__h1 { grid-column: 1 / span 7; margin-top: var(--s-7); max-width: 46ch; color: var(--ink-2); font-weight: 400; }
+.hero__media-wrap {
+  position: relative;
+  max-width: calc(var(--content-max) + var(--margin) * 2);
+  margin: var(--s-8) auto 0;
+  padding-inline: var(--margin);
+}
+.hero__media { aspect-ratio: 16 / 9; max-height: 92vh; width: 100%; border-radius: var(--radius-l); }
+.hero__note { left: calc(var(--margin) + 16px); bottom: 16px; }
+
+/* ---------- S2 Intro ---------- */
+.intro { padding-top: var(--chapter-gap); }
+.intro__text { grid-column: 1 / span 11; }
+.intro__text .t-intro + .t-intro { margin-top: .6em; }
+.intro__links { grid-column: 1 / span 11; display: flex; gap: var(--s-6); margin-top: var(--s-7); font-size: var(--fs-label); }
+
+/* ---------- S3 At a glance ---------- */
+.glance { padding-top: var(--chapter-gap); }
+.glance__head { grid-column: 1 / span 3; }
+.glance__head h2 { margin-top: var(--s-3); }
+.glance__list { grid-column: 4 / span 9; border-bottom: 1px solid var(--line); }
+.glance__row {
+  display: grid; grid-template-columns: minmax(140px, 3fr) 9fr; column-gap: var(--gutter);
+  padding-block: var(--s-5);
+  border-top: 1px solid var(--line);
+}
+.glance__row dt { padding-top: .3em; }
+.glance__row dd { color: var(--ink); font-size: var(--fs-label); line-height: 1.4; max-width: 56ch; }
+.glance__row--key { padding-block: var(--s-7); }
+.glance__row--key dd { font-size: var(--fs-statement); max-width: 28ch; }
+.glance__services {
+  grid-column: 4 / span 9;
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-3) var(--s-5);
+  margin-top: var(--s-6);
+}
+.glance__services .t-meta { margin-right: var(--s-2); }
+.glance__note { grid-column: 4 / span 9; }
+
+/* ---------- S4 Starting point ---------- */
+.roles__list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gutter); }
+.role-card {
+  display: flex; flex-direction: column; gap: var(--s-3);
+  min-height: 220px; padding: var(--s-5);
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-float);
+}
+.role-card__avatar {
+  display: grid; place-items: center;
+  width: 36px; height: 36px; margin-bottom: auto;
+  border-radius: 50%;
+  background: var(--cx-blue-soft); color: var(--cx-blue);
+  font-family: var(--font-mono); font-size: 12px; font-weight: 500;
+}
+.role-card__q { font-family: var(--font-display); font-size: calc(var(--fs-label) * 1.15); line-height: 1.25; color: var(--ink); }
+
+.carousel { margin-top: var(--s-10); }
+.carousel__track {
+  display: flex; gap: var(--gutter);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  --track-pad: max(var(--margin), calc((100vw - var(--content-max)) / 2));
+  padding-inline: var(--track-pad);
+  scroll-padding-inline: var(--track-pad);
+  scrollbar-width: thin;
+}
+.carousel__item {
+  flex: 0 0 clamp(520px, 46vw, 900px);
+  aspect-ratio: 4 / 3;
+  scroll-snap-align: start;
+  border-radius: var(--radius-l);
+}
+.carousel__caption { margin-top: var(--s-4); }
+
+/* ---------- Pinned stages (S5, S6) ---------- */
+.stage { margin-top: var(--s-9); }
+.stage__frame {
+  display: grid; grid-template-rows: 1fr auto; gap: var(--s-7);
+  min-height: max(640px, calc(100vh - 160px));
+  padding: var(--s-7);
+  border-radius: var(--radius-l);
+  background: var(--bg-2);
+}
+.stage__caption { margin-top: var(--s-4); }
+
+/* S5 Choice */
+.choice { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gutter); align-items: start; }
+.choice__dir { display: flex; flex-direction: column; gap: var(--s-3); }
+.choice__ph { aspect-ratio: 16 / 10; }
+.choice__verdict { color: var(--ink); font-weight: 500; }
+
+.flow { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--gutter); counter-reset: none; }
+.flow__step {
+  display: flex; flex-direction: column; gap: var(--s-3);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--line-strong);
+  color: var(--ink); font-weight: 500; line-height: 1.35;
+}
+.flow__n {
+  display: grid; place-items: center;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--ink); color: #fff;
+  font-family: var(--font-mono); font-size: 11px;
+}
+
+/* S6 Areas */
+.areas { align-items: stretch; min-height: max(640px, calc(100vh - 160px)); }
+.areas__nav { grid-column: 1 / span 4; display: flex; flex-direction: column; }
+.areas__list { margin-top: var(--s-5); }
+.areas__item {
+  display: flex; align-items: baseline; gap: var(--s-4);
+  padding-block: var(--s-5);
+  border-top: 1px solid var(--line);
+  font-family: var(--font-display); font-size: var(--fs-statement); line-height: 1.1;
+  color: var(--ink-3);
+  cursor: pointer;
+}
+.areas__item:last-child { border-bottom: 1px solid var(--line); }
+.areas__item.is-active { color: var(--ink); border-top: 2px solid var(--line-strong); padding-top: calc(var(--s-5) - 1px); }
+.areas__n { font-family: var(--font-mono); font-size: var(--fs-meta); color: var(--ink-3); }
+.areas__progress { margin-top: auto; padding-top: var(--s-5); }
+.areas__progress span { color: var(--ink); }
+.areas__view { grid-column: 6 / span 7; border-radius: var(--radius-l); min-height: 560px; }
+.areas__note { grid-column: 1 / -1; }
+
+/* S6 sub-section: peak-price */
+.sub { margin-top: var(--s-10); row-gap: 0; }
+.sub__head { grid-column: 1 / span 5; grid-row: 1; }
+.sub__body { grid-column: 1 / span 4; grid-row: 2; margin-top: var(--s-6); }
+.sub__media { grid-column: 6 / span 7; grid-row: 1 / span 3; aspect-ratio: 16 / 11; border-radius: var(--radius-l); }
+.sub__note { grid-column: 1 / span 4; grid-row: 3; align-self: start; }
+
+/* ---------- S7 Digital twin ---------- */
+.compare {
+  grid-column: 1 / -1;
+  display: grid; grid-template-columns: 5fr 7fr; gap: var(--gutter);
+  margin-top: var(--s-9);
+  align-items: end;
+}
+.compare__item { display: flex; flex-direction: column; gap: var(--s-3); }
+.compare__ph { border-radius: var(--radius-l); }
+.compare__item--explored .compare__ph { aspect-ratio: 4 / 3.4; filter: grayscale(1); }
+.compare__item--chosen .compare__ph { aspect-ratio: 16 / 10; }
+.compare__item figcaption { max-width: 48ch; }
+.compare__note { grid-column: 1 / -1; }
+
+.twin { margin-top: var(--s-10); }
+.twin__stage {
+  position: relative;
+  height: 100vh; min-height: 680px;
+  background: var(--cx-ground);
+  overflow: hidden;
+}
+.twin__top {
+  position: absolute; inset: 0 0 auto; height: 56px; z-index: 2;
+  display: grid; place-items: center;
+  background: rgb(251 250 247 / .85);
+  border-bottom: 1px solid var(--cx-line);
+}
+.twin__top .ph__label { padding: 0; max-width: none; white-space: nowrap; color: var(--placeholder-ink); }
+.twin__top .ph__label b { display: inline; margin: 0 8px 0 0; }
+.twin__scene { position: absolute; inset: 56px 0 0; display: grid; place-items: center; color: var(--placeholder-ink); }
+.twin__kpis { position: absolute; z-index: 2; left: var(--margin); top: 88px; display: flex; gap: var(--s-3); }
+.twin__details { position: absolute; z-index: 2; right: var(--margin); top: 88px; display: flex; flex-direction: column; gap: var(--s-3); }
+.twin__card {
+  width: 168px; height: 76px; padding: var(--s-3);
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-float);
+}
+.twin__details .twin__card { width: 280px; }
+.twin__card--tall { height: 220px !important; }
+.twin__engage { position: absolute; z-index: 3; left: 50%; top: 58%; transform: translateX(-50%); opacity: 1; cursor: default; }
+.twin__chips {
+  position: absolute; z-index: 2; left: 50%; bottom: 32px; transform: translateX(-50%);
+  display: flex; gap: var(--s-2);
+}
+.twin__chips span {
+  height: 32px; padding: 0 14px; display: inline-flex; align-items: center;
+  background: var(--surface); border-radius: 999px; box-shadow: var(--shadow-float);
+  font-family: var(--font-mono); font-size: 12px; color: var(--cx-ink);
+}
+
+/* ---------- S8 Demo to production ---------- */
+.demo__media { margin-top: var(--s-9); display: flex; flex-direction: column; gap: var(--s-4); }
+.demo__ph { aspect-ratio: 16 / 9; border-radius: var(--radius-l); }
+
+.timeline-wrap { margin-top: var(--s-10); }
+.timeline__title { grid-column: 1 / span 3; max-width: 22ch; }
+.timeline { grid-column: 4 / span 9; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gutter); }
+.timeline__step {
+  position: relative;
+  display: flex; flex-direction: column; gap: var(--s-3);
+  padding-top: var(--s-6);
+  border-top: 2px solid var(--line);
+  color: var(--ink-2); max-width: 36ch;
+}
+.timeline__node {
+  position: absolute; top: -8px; left: 0;
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--bg); border: 2px solid var(--ink-4);
+}
+.timeline__step--live .timeline__node { background: var(--brand); border-color: var(--ink); }
+.timeline__step .pill-live { vertical-align: 2px; margin-inline: 2px; }
+.timeline__note { grid-column: 4 / span 9; }
+
+/* ---------- S9 How we decide ---------- */
+.decide__h2 { color: var(--ink-2); font-weight: 400; }
+.decide__lead { grid-column: 1 / span 11; margin-top: var(--s-6); }
+.decide__defs { grid-column: 1 / span 5; margin-top: var(--s-9); }
+.defs { margin-top: var(--s-4); border-bottom: 1px solid var(--line); }
+.defs li {
+  display: flex; align-items: baseline; gap: var(--s-4);
+  padding-block: var(--s-4);
+  border-top: 1px solid var(--line);
+  font-size: var(--fs-label); font-weight: 500; color: var(--ink);
+}
+.defs__n { font-family: var(--font-mono); font-size: var(--fs-meta); color: var(--ink-3); }
+.decide__body { grid-column: 7 / span 5; margin-top: var(--s-9); padding-top: calc(var(--fs-meta) + var(--s-4)); }
+.decide__note { grid-column: 1 / -1; }
+
+/* ---------- S10 Facts ---------- */
+.facts { padding-top: var(--chapter-gap); }
+.facts__title { grid-column: 1 / span 4; }
+.facts__list { grid-column: 5 / span 8; border-bottom: 1px solid var(--line); }
+.facts__row {
+  display: grid; grid-template-columns: 5fr 7fr; align-items: baseline; column-gap: var(--gutter);
+  padding-block: var(--s-7);
+  border-top: 1px solid var(--line);
+}
+.facts__ph {
+  display: inline-flex; align-items: center; height: 22px; margin-left: 8px; padding: 0 8px;
+  border: 1px dashed var(--ink-3); border-radius: 999px;
+  font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-3);
+  vertical-align: 3px;
+}
+.facts__note { grid-column: 5 / span 8; }
+
+/* ---------- S11 Quotes ---------- */
+.quotes { padding-top: var(--chapter-gap); }
+.quotes__title { grid-column: 1 / -1; margin-bottom: var(--s-6); }
+.quotes__stage { grid-column: 1 / span 10; }
+.quote blockquote { margin: 0; }
+.quote blockquote p { text-indent: -.4em; }
+.quote__by { display: flex; flex-direction: column; gap: 2px; margin-top: var(--s-6); }
+.quotes__controls { grid-column: 1 / -1; display: flex; align-items: center; gap: var(--s-4); margin-top: var(--s-7); }
+.quotes__btn {
+  display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
+  box-shadow: inset 0 0 0 1px var(--line); color: var(--ink); font-size: 18px;
+}
+.quotes__btn:hover { box-shadow: inset 0 0 0 1px var(--ink); }
+.quotes__note { grid-column: 1 / -1; }
+
+/* ---------- S12 FAQ ---------- */
+.faq { padding-top: var(--chapter-gap); }
+.faq__title { grid-column: 1 / span 4; }
+.faq__list { grid-column: 6 / span 7; border-bottom: 1px solid var(--line); }
+.faq__item { border-top: 1px solid var(--line); }
+.faq__item summary {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s-5);
+  padding-block: var(--s-5);
+  list-style: none; cursor: pointer;
+}
+.faq__item summary::-webkit-details-marker { display: none; }
+.faq__icon { position: relative; flex: 0 0 20px; height: 20px; }
+.faq__icon::before, .faq__icon::after {
+  content: ""; position: absolute; left: 50%; top: 50%;
+  width: 16px; height: 1.5px; background: var(--ink);
+  transform: translate(-50%, -50%);
+}
+.faq__icon::after { transform: translate(-50%, -50%) rotate(90deg); }
+.faq__item[open] .faq__icon::after { transform: translate(-50%, -50%) rotate(0deg); }
+.faq__a { padding-bottom: var(--s-6); max-width: 64ch; }
+
+/* ---------- S13 Trust ---------- */
+.trust { padding-top: var(--chapter-gap); }
+.trust__list {
+  display: flex; justify-content: space-between; gap: var(--s-6);
+  padding-block: var(--s-6);
+  border-block: 1px solid var(--line);
+}
+.trust__list li { display: flex; flex-direction: column; gap: var(--s-2); }
+.trust__v { font-family: var(--font-display); font-size: calc(var(--fs-label) * 1.4); color: var(--ink); line-height: 1.1; }
+.trust__v small { font-family: var(--font-body); font-size: var(--fs-meta); color: var(--ink-3); }
+.trust__link { font-size: var(--fs-meta); align-self: flex-start; }
+
+/* ---------- S14 Related ---------- */
+.related { padding-top: var(--chapter-gap); }
+.related__title { grid-column: 1 / span 8; }
+.related__lead { grid-column: 1 / span 6; margin-top: var(--s-5); }
+.next { position: relative; margin-top: var(--s-9); padding-block: var(--s-9); overflow: hidden; }
+.next__marquee {
+  white-space: nowrap;
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(120px, 14vw, 280px); line-height: 1; letter-spacing: -.03em;
+  color: var(--ink);
+}
+.next__card {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: clamp(320px, 26vw, 480px);
+  padding: var(--s-3);
+  background: var(--surface);
+  border-radius: var(--radius-l);
+  box-shadow: var(--shadow-lift);
+}
+.next__ph { aspect-ratio: 4 / 3; }
+.next__name { display: flex; justify-content: space-between; padding: var(--s-4) var(--s-2) var(--s-2); }
+.related__more { margin-top: var(--s-6); border-bottom: 1px solid var(--line); }
+.related__row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-block: var(--s-5);
+  border-top: 1px solid var(--line);
+  color: var(--ink);
+}
+.related__row:hover { color: var(--ink-2); }
+
+/* ---------- S15 Enquiry ---------- */
+.enquiry { padding-block: var(--chapter-gap); }
+.enquiry__head { grid-column: 1 / span 6; }
+.enquiry__title {
+  font-family: var(--font-display);
+  font-size: clamp(56px, calc(8px + 4.7vw), 104px);
+  font-weight: 500; line-height: 1; letter-spacing: -.03em;
+  color: var(--ink);
+}
+.enquiry__sub { margin-top: var(--s-6); max-width: 44ch; }
+.enquiry__form { grid-column: 8 / span 5; display: flex; flex-direction: column; gap: var(--s-5); align-self: end; }
+.field { display: flex; flex-direction: column; gap: var(--s-2); }
+.field__opt { color: var(--ink-4); margin-left: 6px; }
+.field input, .field textarea {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 0; border-radius: 10px;
+  box-shadow: inset 0 0 0 1px var(--line);
+  color: var(--ink); font-size: 16px;
+  resize: vertical;
+}
+.field input { height: 52px; }
+.field input:hover, .field textarea:hover { box-shadow: inset 0 0 0 1px var(--ink-3); }
+.field input:focus-visible, .field textarea:focus-visible { box-shadow: inset 0 0 0 1px var(--ink), 0 0 0 4px rgb(4 236 80 / .45); outline: 0; }
+.enquiry__actions { display: flex; align-items: center; gap: var(--s-5); margin-top: var(--s-2); }
+.enquiry__success { padding: var(--s-6); background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow-float); }
+.enquiry__success .t-body { margin-top: var(--s-2); }
+.enquiry__note { grid-column: 8 / span 5; }
+
+/* ---------- S16 Footer ---------- */
+.footer {
+  margin: 8px;
+  padding: var(--s-8) 0 var(--s-6);
+  border-radius: var(--radius-l);
+  background: var(--brand);
+  color: var(--brand-ink);
+  font-size: 14px;
+}
+.footer a:hover { opacity: .6; }
+.footer__brand { grid-column: 1 / span 3; display: flex; flex-direction: column; align-items: flex-start; gap: var(--s-5); }
+.footer__logo svg { height: 32px; width: auto; }
+.footer__logo svg path { fill: var(--brand-ink); }
+.footer__tag { font-family: var(--font-display); font-size: calc(var(--fs-label) * 1.3); font-weight: 500; line-height: 1.15; letter-spacing: -.01em; }
+.footer__cols {
+  grid-column: 5 / span 8;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-7) var(--gutter);
+}
+.footer__h { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; margin-bottom: var(--s-4); }
+.footer__col li { line-height: 1.5; padding-block: 2px; }
+.footer__mid {
+  margin-top: var(--s-8); padding-top: var(--s-6);
+  border-top: 1px solid rgb(0 0 0 / .18);
+  align-items: stretch;
+}
+.footer__follow { grid-column: 1 / span 3; display: flex; flex-direction: column; gap: var(--s-2); }
+.footer__k { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.footer__small { font-size: 13px; line-height: 1.45; max-width: 36ch; }
+.footer__socials { display: flex; gap: var(--s-4); margin-top: auto; padding-top: var(--s-4); }
+.footer__sub {
+  grid-column: 5 / span 8;
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s-5);
+  padding: var(--s-6);
+  background: #F2F2F2; border-radius: var(--radius);
+}
+.footer__sub-title { font-weight: 600; font-size: 16px; margin-bottom: 4px; }
+.footer__sub-btn { color: var(--ink); background: transparent; box-shadow: inset 0 0 0 1px var(--ink); }
+.footer__bottom {
+  display: flex; justify-content: space-between; gap: var(--s-5);
+  margin-top: var(--s-7); padding-top: var(--s-5);
+  border-top: 1px solid rgb(0 0 0 / .18);
+  font-size: 12px;
+}
+.footer__bottom ul { display: flex; gap: var(--s-5); }
+
+/* ---------- Narrow desktop (1024–1279): ease the tightest compositions ---------- */
+@media (max-width: 1279px) {
+  .chapter--a .chapter__body { grid-column: 1 / span 5; }
+  .chapter--a .chapter__media { grid-column: 6 / span 7; }
+  .roles__list { gap: var(--s-3); }
+  .role-card { min-height: 200px; padding: var(--s-4); }
+  .footer__cols { grid-column: 4 / span 9; }
+  .footer__sub { grid-column: 4 / span 9; }
+  .areas__nav { grid-column: 1 / span 5; }
+  .twin__card { width: 148px; }
+  .twin__details .twin__card { width: 240px; }
+}
+</style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://www.tcules.com/case-studies/ai-native-building-energy-product-connectx",
+      "url": "https://www.tcules.com/case-studies/ai-native-building-energy-product-connectx",
+      "name": "ConnectX AI energy product case study: digital twin | Tcules",
+      "inLanguage": "en-GB",
+      "isPartOf": { "@id": "https://www.tcules.com/#website" },
+      "publisher": { "@id": "https://www.tcules.com/#organization" },
+      "creator": { "@id": "https://www.tcules.com/#organization" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.tcules.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Case Studies", "item": "https://www.tcules.com/case-studies" },
+        { "@type": "ListItem", "position": 3, "name": "ConnectX: AI-native building energy product", "item": "https://www.tcules.com/case-studies/ai-native-building-energy-product-connectx" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "What did Tcules design for ConnectX?", "acceptedAnswer": { "@type": "Answer", "text": "Tcules designed an AI-native building-energy workspace for facilities, finance and sustainability teams. The work covered product definition, interaction design, eight scenarios, an adaptive interaction model and a 2.5D digital twin. A request in plain words opens a view with the relevant data, modules and assets together." } },
+        { "@type": "Question", "name": "Did Tcules take ConnectX beyond a prototype?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Tcules proved the product direction in a coded demo running on sample data, so ConnectX could review a request, its data and the twin as one product. We then took the demo through to a production-ready module, live since late 2025." } },
+        { "@type": "Question", "name": "What does the ConnectX digital twin interface look like?", "acceptedAnswer": { "@type": "Answer", "text": "It is a simplified 2.5D view of the building's connected energy assets, chosen after early directions explored detailed 3D buildings and maps. The twin works as an explanation layer. It highlights, dims or brings an asset into focus, so people see which assets are connected, what state they are in and which one matters now." } },
+        { "@type": "Question", "name": "Why did ConnectX keep a dashboard alongside the AI conversation?", "acceptedAnswer": { "@type": "Answer", "text": "People still needed somewhere to compare results and work with the data directly. Conversation identifies the work, the system matches it to a known situation and permitted tools retrieve the data. The product then assembles the relevant modules and twin view, and the workspace stays open for ordinary use." } }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ======================================================================
+     NAV — light case-study nav
+     ====================================================================== -->
+<header class="nav" data-nav>
+  <div class="nav__bar">
+    <a class="nav__logo" href="https://www.tcules.com/" aria-label="Tcules home">
+      <svg width="94" height="24" viewBox="0 0 94 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M75.6292 10.8988C75.4661 10.438 75.269 10.0016 75.0352 9.59103C75.008 9.54209 74.9808 9.4945 74.9522 9.44692C74.7062 9.035 74.4261 8.65164 74.1094 8.29002C73.3154 7.3887 72.3638 6.74567 71.2531 6.35958C71.2137 6.34734 71.1743 6.33375 71.1362 6.32151C71.0642 6.29704 70.9921 6.27529 70.9187 6.2549C70.9119 6.25218 70.9051 6.24946 70.8983 6.2481C70.8181 6.22499 70.7379 6.20324 70.6563 6.18285C70.2376 6.07545 69.7985 6.0034 69.3376 5.96397C69.3336 5.96397 69.3295 5.96261 69.3254 5.96261C69.2588 5.95718 69.1935 5.9531 69.1269 5.94902C69.1052 5.94766 69.0834 5.9463 69.0617 5.94494C69.0168 5.94222 68.9719 5.9395 68.9257 5.93814C68.8917 5.93679 68.8564 5.93407 68.8211 5.93407C68.7871 5.93271 68.7517 5.93135 68.7164 5.93135C68.7014 5.92999 68.6851 5.92999 68.6701 5.92999H68.6362C68.609 5.92863 68.5818 5.92863 68.5546 5.92863H68.5165C68.5002 5.92863 68.4853 5.92863 68.4689 5.92999C68.4581 5.92863 68.4458 5.92863 68.435 5.92999C68.4023 5.92863 68.3683 5.92863 68.3344 5.92863C68.2949 5.92863 68.2555 5.92863 68.2161 5.92999H68.1821C68.1658 5.93135 68.1495 5.93135 68.1345 5.93135C67.9809 5.93271 67.83 5.9395 67.6791 5.95038C66.6826 6.01291 65.7419 6.23179 64.8568 6.60564C64.4789 6.7647 64.12 6.94958 63.7802 7.15758C63.7502 7.17526 63.7217 7.19429 63.6931 7.21197C63.1018 7.59262 62.5661 8.04939 62.0876 8.5823C61.344 9.39255 60.7744 10.3387 60.3815 11.4236C60.1966 11.9307 60.0552 12.4541 59.9573 12.9924C59.9533 13.0128 59.9492 13.0332 59.9465 13.0522C59.9369 13.1107 59.9274 13.1678 59.9179 13.2262C59.8744 13.5158 59.8418 13.8122 59.8214 14.1126C59.8173 14.1724 59.8132 14.2336 59.8092 14.2948C59.8051 14.36 59.8024 14.4253 59.7996 14.4905C59.7942 14.6224 59.7915 14.7543 59.7901 14.8875V14.9419C59.7901 15.0071 59.7901 15.0724 59.7928 15.1376C59.8159 16.334 60.0117 17.4433 60.3815 18.4656C60.7744 19.5613 61.344 20.513 62.0876 21.3232C62.8544 22.1552 63.7747 22.7901 64.846 23.2278C65.9186 23.6656 67.0891 23.8844 68.3602 23.8844C69.566 23.8844 70.6754 23.6819 71.6827 23.2768C72.1572 23.0864 72.6085 22.8512 73.0381 22.5712C73.8497 22.0437 74.5267 21.398 75.0705 20.6326L71.8894 18.1108C71.6202 18.6682 71.2368 19.1154 70.7393 19.4512C70.0949 19.8903 69.3118 20.1078 68.3915 20.1078C67.2549 20.1078 66.306 19.7367 65.5529 18.9917C64.7957 18.2481 64.3443 17.219 64.1894 15.9044H76.1894C76.1894 15.9044 76.1894 15.6515 76.1894 15.5672V14.4797C76.1894 13.1542 76.0017 11.9606 75.6292 10.8988ZM64.3538 12.7858C64.6162 11.7567 65.0812 10.9695 65.75 10.4217C66.4162 9.8738 67.221 9.60054 68.1617 9.60054C69.1704 9.60054 69.9752 9.89011 70.5761 10.4706C71.1784 11.0511 71.491 11.8233 71.5114 12.7858H64.3538Z" fill="#222222"/>
+<path d="M20.4554 4.16404H13.1904V23.5391H8.44312V4.16404H1.14551V0H20.4554V4.16404Z" fill="#222222"/>
+<path d="M48.9579 6.20052V23.1843H44.4377V21.4401C43.8558 22.1294 43.1788 22.6514 42.4039 23.0062C41.629 23.3611 40.778 23.5391 39.8536 23.5391C38.1094 23.5391 36.7105 22.9845 35.6555 21.8765C34.6006 20.7672 34.0731 19.2881 34.0731 17.4365V6.19916H38.5933V16.4346C38.5933 17.446 38.8244 18.2155 39.288 18.7429C39.7502 19.2704 40.4232 19.5342 41.3068 19.5342C42.1905 19.5342 42.9328 19.2215 43.535 18.5975C44.1372 17.9735 44.439 17.166 44.439 16.1763V6.19916L48.9579 6.20052Z" fill="#222222"/>
+<path d="M57.1052 0.00136079V23.5405H52.585V0.00136079H57.1052Z" fill="#222222"/>
+<path d="M80.6144 23.1068C79.1503 22.5127 78.0437 21.7079 77.2946 20.6951L80.1685 17.7546C80.7626 18.5472 81.5388 19.1861 82.4973 19.6701C83.4557 20.1541 84.4304 20.3974 85.4215 20.3974C86.3242 20.3974 87.0352 20.2384 87.5518 19.9189C88.0697 19.5994 88.328 19.1644 88.328 18.6138C88.328 18.2168 88.207 17.9042 87.965 17.6717C87.7231 17.4406 87.2935 17.2475 86.6763 17.0939C86.5226 17.0504 86.335 17.0056 86.1148 16.962C85.8946 16.9185 85.2774 16.7976 84.2646 16.5991C83.1417 16.3788 82.2879 16.164 81.7047 15.9547C81.1215 15.7453 80.6198 15.5088 80.2011 15.2437C79.5839 14.8467 79.1217 14.3464 78.8131 13.7401C78.5045 13.1338 78.3509 12.4133 78.3509 11.5758C78.3509 9.90234 79.0116 8.54288 80.333 7.49609C81.6544 6.4493 83.3605 5.92727 85.4527 5.92727C86.9278 5.92727 88.3158 6.20324 89.6154 6.75247C90.9151 7.30305 91.917 8.03036 92.6212 8.93304L89.9784 11.8396C89.4061 11.0905 88.7127 10.5182 87.8971 10.1212C87.0827 9.72426 86.2236 9.52713 85.3209 9.52713C84.5936 9.52713 84.0104 9.66987 83.5699 9.95672C83.1294 10.2436 82.9092 10.6283 82.9092 11.1136C82.9092 11.444 83.0084 11.7077 83.2069 11.9062C83.4054 12.1047 83.7357 12.2692 84.198 12.4024C84.3747 12.469 84.5772 12.5288 84.8097 12.5846C85.0408 12.6403 85.5085 12.7328 86.2141 12.866C87.5572 13.1528 88.5265 13.3948 89.1206 13.5933C89.7147 13.7918 90.2326 14.012 90.6731 14.254C91.4004 14.6727 91.9455 15.2015 92.3085 15.8391C92.6715 16.4781 92.8537 17.238 92.8537 18.119C92.8537 19.8591 92.144 21.2743 90.7234 22.3646C89.3027 23.4549 87.5028 24 85.3222 24C83.6474 23.9986 82.0786 23.7009 80.6144 23.1068Z" fill="#222222"/>
+<path d="M48.9579 0.00136079H31.743V3.67192H48.9579V0.00136079Z" fill="#04EC50"/>
+<path d="M28.5224 17.7886L31.8259 20.3634C26.6056 27.0153 16.7481 23.1544 16.7481 14.6632C16.7481 4.62082 28.5183 4.08383 31.8789 9.4646L28.5224 12.0802C26.0224 7.72312 21.233 9.98799 21.233 14.8753C21.233 19.9801 25.9829 21.8779 28.5183 17.7859L28.5224 17.7886Z" fill="#222222"/>
+<path d="M31.8286 20.3594L31.8259 20.3634C31.8259 20.3634 28.5211 17.7859 28.5183 17.7859C28.5183 17.7832 28.5197 17.7818 28.5197 17.7818L31.8286 20.3594Z" fill="#222222"/>
+</svg>
+    </a>
+    <p class="nav__context t-meta">Case study <span aria-hidden="true">·</span> ConnectX</p>
+    <div class="nav__actions">
+      <a class="btn btn--dark btn--sm" href="#enquiry">Start a project</a>
+    </div>
+  </div>
+  <p class="note nav__note">NAV · Phase 2: shrinks into a floating centred pill after the hero (logo · current chapter · menu), hides on fast scroll down, returns on scroll up.</p>
+</header>
+
+<main id="main">
+
+<!-- ======================================================================
+     S1 HERO
+     ====================================================================== -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap">
+    <p class="hero__eyebrow t-meta">Case study <span aria-hidden="true">·</span> ConnectX</p>
+    <p class="hero__name t-display" aria-hidden="true">ConnectX</p>
+
+    <dl class="hero__credits grid">
+      <div class="hero__credit">
+        <dt class="t-meta">Company</dt>
+        <dd>ConnectX</dd>
+      </div>
+      <div class="hero__credit">
+        <dt class="t-meta">Sector</dt>
+        <dd>Building energy</dd>
+      </div>
+      <div class="hero__credit">
+        <dt class="t-meta">Our role</dt>
+        <dd>Product definition, interaction design, coded demo to production</dd>
+      </div>
+      <div class="hero__credit">
+        <dt class="t-meta">Status</dt>
+        <dd class="hero__status"><span class="pill-live">Live</span> since late 2025</dd>
+      </div>
+    </dl>
+
+    <h1 id="hero-title" class="hero__h1 t-label">ConnectX AI energy product: a plain-language question opens the right workspace</h1>
+  </div>
+
+  <div class="hero__media-wrap">
+    <figure class="hero__media ph ph--tint-blue">
+      <div class="ph__screen"><p class="ph__label"><b>Hero image</b>CX_Hero_4800x2000 · ConnectX workspace with the twin</p></div>
+    </figure>
+    <p class="note note--float hero__note">Phase 2: media scales 0.86 → 1 and radius 24 → 0 on scroll, ending full-bleed. Title reveals per character on load.</p>
+  </div>
+</section>
+
+<!-- ======================================================================
+     S2 INTRO
+     ====================================================================== -->
+<section class="intro" aria-label="Introduction">
+  <div class="wrap grid">
+    <div class="intro__text">
+      <p class="t-intro">ConnectX wanted facilities, finance and sustainability teams to ask about a building in plain words. They would get a working view back, with the right data, the right assets and a digital twin.</p>
+      <p class="t-intro">Tcules shaped the product around eight scenarios drawn from the questions those teams ask. We proved it in a coded demo, then took the demo through to a production-ready module, live since late 2025.</p>
+      <p class="t-intro">One question in plain words now opens a working view of the building, with the data, modules and assets that matter already in place.</p>
+      <p class="note">Phase 2: line reveal, then words brighten --ink-4 → --ink, scrubbed with scroll.</p>
+    </div>
+    <div class="intro__links">
+      <a class="link" href="#choice">Follow the product choice <span aria-hidden="true">↓</span></a>
+      <a class="link" href="https://www.tcules.com/case-studies">Browse all case studies <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     S3 AT A GLANCE
+     ====================================================================== -->
+<section class="glance" id="case-context" aria-labelledby="glance-title">
+  <div class="wrap grid">
+    <header class="glance__head">
+      <p class="t-meta">At a glance</p>
+      <h2 id="glance-title" class="t-label">ConnectX at a glance</h2>
+    </header>
+
+    <dl class="glance__list">
+      <div class="glance__row">
+        <dt class="t-meta">Product</dt>
+        <dd>ConnectX, an AI-native building-energy product for facilities, finance and sustainability teams.</dd>
+      </div>
+      <div class="glance__row">
+        <dt class="t-meta">Our role</dt>
+        <dd>Product definition, interaction design, eight scenarios and a coded demo, which we then took through to a production-ready module.</dd>
+      </div>
+      <div class="glance__row glance__row--key">
+        <dt class="t-meta">The key question</dt>
+        <dd class="t-statement">How could a question asked in plain words open a working view of the building, with the right data and assets on screen, instead of a chat reply?</dd>
+      </div>
+      <div class="glance__row">
+        <dt class="t-meta">What we delivered</dt>
+        <dd>Eight scenarios, an adaptive interaction model, a digital twin and a coded demo on sample data, then the production-ready module, live since late 2025.</dd>
+      </div>
+      <div class="glance__row">
+        <dt class="t-meta">Scenario areas</dt>
+        <dd>System status, forecasting, asset performance and operational conditions.</dd>
+      </div>
+      <div class="glance__row">
+        <dt class="t-meta">Digital twin</dt>
+        <dd>A simplified 2.5D view that highlights, dims or brings an asset into focus for each scenario.</dd>
+      </div>
+    </dl>
+
+    <p class="glance__services">
+      <span class="t-meta">Related Tcules services</span>
+      <a class="link" href="https://www.tcules.com/services/product-design">Product Design</a>
+      <a class="link" href="https://www.tcules.com/services/ai-product-ux">AI Product UX</a>
+      <a class="link" href="https://www.tcules.com/services/design-engineering/coded-prototyping">Coded Prototyping</a>
+      <a class="link" href="https://www.tcules.com/services/software-development/ai-product-engineering">AI Product Engineering</a>
+    </p>
+    <p class="note glance__note">Phase 2: rules draw left → right, rows stagger in.</p>
+  </div>
+</section>
+
+<!-- ======================================================================
+     S4 CHAPTER 01 — STARTING POINT (variant A)
+     ====================================================================== -->
+<section class="chapter chapter--a" id="starting-point" aria-labelledby="ch1-title">
+  <div class="wrap grid">
+    <header class="chapter__head">
+      <p class="chapter__label t-label"><span class="chapter__num">01</span> Starting point</p>
+      <h2 id="ch1-title" class="t-statement">Where ConnectX started: three teams asking different energy questions</h2>
+    </header>
+
+    <div class="chapter__body t-body">
+      <p>A facilities operator, a finance leader and a sustainability team can enter the same energy system with very different questions. One needs an exception that requires action. Another needs to see cost or a forecast. A third needs progress against an environmental target.</p>
+      <p>The early concepts held much of the right material. The opportunity was a dependable path from a person's request to the data, the view and the action they needed.</p>
+      <p>One dashboard for everyone would keep everything available by showing too much. Separate fixed dashboards would multiply product structures and still fail whenever a situation crossed roles.</p>
+    </div>
+
+    <div class="chapter__media roles">
+      <ul class="roles__list" aria-label="Three teams, three questions">
+        <li class="role-card">
+          <span class="role-card__avatar" aria-hidden="true">FO</span>
+          <p class="t-meta">Facilities operator</p>
+          <p class="role-card__q">An exception that requires action</p>
+        </li>
+        <li class="role-card">
+          <span class="role-card__avatar" aria-hidden="true">FL</span>
+          <p class="t-meta">Finance leader</p>
+          <p class="role-card__q">Cost or a forecast</p>
+        </li>
+        <li class="role-card">
+          <span class="role-card__avatar" aria-hidden="true">ST</span>
+          <p class="t-meta">Sustainability team</p>
+          <p class="role-card__q">Progress against an environmental target</p>
+        </li>
+      </ul>
+      <p class="note">C1 Role cards · Phase 3: product-styled floating cards, questions type in with stagger.</p>
+    </div>
+
+    <p class="chapter__pull t-statement">The ingredients were there. The work was to give them a structure that responds to what a person is trying to do.</p>
+  </div>
+
+  <div class="carousel" aria-label="ConnectX's early product concepts">
+    <div class="carousel__track">
+      <figure class="carousel__item ph ph--tint-stone"><div class="ph__screen"><p class="ph__label"><b>Early concept 1</b>Section_2_Image_1 · dashboard with an AI assistant beside a 3D building</p></div></figure>
+      <figure class="carousel__item ph ph--tint-stone"><div class="ph__screen"><p class="ph__label"><b>Early concept 2</b>Section_2_Image_2 · AI-led workspace assembling data on request</p></div></figure>
+      <figure class="carousel__item ph ph--tint-stone"><div class="ph__screen"><p class="ph__label"><b>Early concept 3</b>Figma · "Good Afternoon, Sarah" home</p></div></figure>
+      <figure class="carousel__item ph ph--tint-stone"><div class="ph__screen"><p class="ph__label"><b>Early concept 4</b>Figma · Building overview</p></div></figure>
+    </div>
+    <div class="wrap">
+      <p class="t-caption carousel__caption">ConnectX’s early product concepts.</p>
+      <p class="note">Phase 2: drag carousel, "Drag" cursor, arrow keys; items reveal with a clip wipe.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     S5 CHAPTER 02 — THE CHOICE (pinned scene)
+     ====================================================================== -->
+<section class="chapter chapter--b" id="choice" aria-labelledby="ch2-title">
+  <div class="wrap grid">
+    <header class="chapter__head">
+      <p class="chapter__label t-label"><span class="chapter__num">02</span> The choice</p>
+      <h2 id="ch2-title" class="t-statement">Two directions: an assistant beside the dashboard, or conversation that builds it</h2>
+    </header>
+    <div class="chapter__body t-body">
+      <p>Two directions were on the table. The first kept a conventional dashboard and added an AI assistant. It was familiar, but the interface stayed largely fixed.</p>
+      <p>The second let conversation decide which KPIs, assets, charts and twin views appeared. It adapted more deeply, yet people still needed somewhere to keep comparing and to work with the data directly.</p>
+      <p>The chosen model combined both. Conversation identifies the work. The system matches the request to a known situation. Permitted tools retrieve the data. The product assembles the relevant modules and twin view, and the workspace stays open for ordinary use.</p>
+    </div>
+  </div>
+
+  <div class="stage" data-pin="choice">
+    <div class="wrap">
+      <div class="stage__frame">
+        <div class="choice">
+          <div class="choice__dir">
+            <p class="t-meta">Direction A</p>
+            <div class="ph ph--tint-stone choice__ph"><p class="ph__label"><b>C2 · Panel A</b>Fixed dashboard + AI assistant column</p></div>
+            <p class="choice__verdict">Familiar, but the interface stayed largely fixed.</p>
+          </div>
+          <div class="choice__dir">
+            <p class="t-meta">Direction B</p>
+            <div class="ph ph--tint-stone choice__ph"><p class="ph__label"><b>C2 · Panel B</b>Conversation decides KPIs, assets, charts and twin views</p></div>
+            <p class="choice__verdict">Adapted more deeply, but nowhere to keep working.</p>
+          </div>
+        </div>
+
+        <ol class="flow" aria-label="The chosen model">
+          <li class="flow__step"><span class="flow__n">1</span>Conversation identifies the work</li>
+          <li class="flow__step"><span class="flow__n">2</span>The system matches a known situation</li>
+          <li class="flow__step"><span class="flow__n">3</span>Permitted tools retrieve the data</li>
+          <li class="flow__step"><span class="flow__n">4</span>The product assembles modules and the twin view</li>
+          <li class="flow__step"><span class="flow__n">5</span>The workspace stays open</li>
+        </ol>
+      </div>
+      <p class="t-caption stage__caption">Conversation creates the workspace. The modules let people keep working with the result.</p>
+      <p class="note">Pinned ≈ 250vh · Phase 2 beats: (1) A + B side by side, grey → (2) slide together → (3) merge into one workspace, turning product blue → (4) C3 flow draws its 5 steps, closing line appears.</p>
+    </div>
+  </div>
+
+  <div class="wrap grid">
+    <p class="chapter__pull t-statement">The dashboard stayed, and chat became one way to build the right version of it for the work at hand.</p>
+  </div>
+</section>
+
+<!-- ======================================================================
+     S6 CHAPTER 03 — SCENARIOS (pinned split)
+     ====================================================================== -->
+<section class="chapter chapter--a" id="turning-adaptation-into-scenarios" aria-labelledby="ch3-title">
+  <div class="wrap grid">
+    <header class="chapter__head">
+      <p class="chapter__label t-label"><span class="chapter__num">03</span> Scenarios</p>
+      <h2 id="ch3-title" class="t-statement">Eight scenarios that made the adaptive workspace testable</h2>
+    </header>
+    <div class="chapter__body t-body">
+      <p>An interface that can assemble anything is hard to specify, test or trust. Tcules and ConnectX defined eight representative situations across system status, forecasting, asset performance and operational conditions.</p>
+      <p>Each scenario named the request that starts it, the intent detected, the data required, the interface modules, the twin's behaviour and the next action available. The model could adapt, but only within those product rules.</p>
+    </div>
+  </div>
+
+  <div class="stage" data-pin="areas">
+    <div class="wrap grid areas">
+      <div class="areas__nav">
+        <p class="t-meta">Scenario areas</p>
+        <ol class="areas__list">
+          <li class="areas__item is-active"><span class="areas__n">01</span>System status</li>
+          <li class="areas__item"><span class="areas__n">02</span>Forecasting</li>
+          <li class="areas__item"><span class="areas__n">03</span>Asset performance</li>
+          <li class="areas__item"><span class="areas__n">04</span>Operational conditions</li>
+        </ol>
+        <p class="areas__progress t-meta"><span>1</span> / 4</p>
+      </div>
+      <div class="areas__view ph ph--tint-blue">
+        <div class="ph__screen"><p class="ph__label"><b>C4 · Workspace states</b>One product workspace that changes per area: exception card (status) · forecast chart (forecasting) · one asset in focus, others dimmed (asset performance) · conditions module (operational). Module titles only.</p></div>
+      </div>
+      <p class="note areas__note">Pinned ≈ 300vh · Phase 2: active area turns --ink with a black rule, others --ink-3; C4 modules cross-fade and re-arrange; click an area to scroll to its step. IMP-01: extend to the 8 named scenarios later.</p>
+    </div>
+  </div>
+
+  <div class="wrap grid sub" id="one-request-a-complete-decision-context">
+    <header class="sub__head">
+      <h3 class="t-statement">A peak-price request, with everything needed to act</h3>
+    </header>
+    <div class="sub__body t-body">
+      <p>An operator asking about a peak-price event needs more than a suggested battery action. They need to see the affected assets, the data behind the suggestion and what the action would change.</p>
+      <p>The scenario work connected the request to everything around it. That meant the information to display, the controls to offer and what the workspace should keep in place. Each scenario gave the adaptive interface a specific job.</p>
+    </div>
+    <div class="sub__media ph ph--tint-blue">
+      <div class="ph__screen"><p class="ph__label"><b>C5 · Peak-price assembly</b>Ask bar → resolver (intent · data · tools) → affected assets light up → modules assemble: affected assets · data behind the suggestion · what the action changes · battery action</p></div>
+    </div>
+    <p class="note sub__note">Phase 3: plays once on enter, replay button.</p>
+  </div>
+</section>
+
+<!-- ======================================================================
+     S7 CHAPTER 04 — DIGITAL TWIN (variant C) + LIVE TWIN
+     ====================================================================== -->
+<section class="chapter chapter--c" id="designing-the-digital-twin" aria-labelledby="ch4-title">
+  <div class="wrap grid">
+    <header class="chapter__head">
+      <p class="chapter__label t-label"><span class="chapter__num">04</span> Digital twin</p>
+      <h2 id="ch4-title" class="t-statement">Building energy digital twin UX: a 2.5D view that explains the system</h2>
+    </header>
+    <div class="chapter__body t-body">
+      <p>Early directions explored detailed 3D buildings, maps and realistic representation. Realism was tempting, so the team tested it against a harder question: does it help someone understand the energy system?</p>
+      <p>The useful questions were narrower: which assets are connected, where are they, what state are they in, and which one matters now? The chosen 2.5D direction treated the twin as an explanation layer. It could highlight, dim or bring an asset into focus depending on the scenario.</p>
+    </div>
+
+    <div class="compare">
+      <figure class="compare__item compare__item--explored">
+        <p class="t-meta">Explored</p>
+        <div class="ph ph--tint-stone compare__ph"><div class="ph__screen"><p class="ph__label"><b>Explored</b>Map view (a7b45d…) · detailed 3D / realistic representation — desaturated</p></div></div>
+        <figcaption class="t-caption">Detailed 3D buildings, maps and realistic representation.</figcaption>
+      </figure>
+      <figure class="compare__item compare__item--chosen">
+        <p class="t-meta">Chosen</p>
+        <div class="ph ph--tint-blue compare__ph"><div class="ph__screen"><p class="ph__label"><b>Chosen · 2.5D</b>Section_5_Image_1 · simplified twin of HVAC, lighting, solar and EV charging</p></div></div>
+        <figcaption class="t-caption">The twin leaves out detail on purpose, so the connected assets and why they matter stand out in the concept.</figcaption>
+      </figure>
+    </div>
+
+    <p class="chapter__pull t-statement">The simpler look followed from the twin's job: to explain how the energy system works.</p>
+    <p class="note compare__note">Phase 2: explored side dims and slides back as the chosen side comes forward.</p>
+  </div>
+
+  <div class="twin" aria-label="Live digital twin of Meridian Tower">
+    <div class="twin__stage">
+      <div class="twin__top"><p class="ph__label"><b>ConnectX top bar</b>brand · Meridian Tower · Home / Live twin / Reports · system pill · clock · role</p></div>
+      <div class="twin__kpis">
+        <div class="twin__card"><span class="t-meta">Live load</span></div>
+        <div class="twin__card"><span class="t-meta">Solar</span></div>
+        <div class="twin__card"><span class="t-meta">Battery SOC</span></div>
+        <div class="twin__card"><span class="t-meta">Grid import</span></div>
+      </div>
+      <div class="twin__details">
+        <div class="twin__card twin__card--tall"><span class="t-meta">Asset detail</span></div>
+        <div class="twin__card"><span class="t-meta">Scenario</span></div>
+      </div>
+      <div class="twin__scene"><p class="ph__label"><b>Live Twin · 3D scene</b>Full-bleed, borderless, 100vh (min 680). Floating KPI + detail cards drift ±3px.</p></div>
+      <button class="twin__engage btn btn--dark" type="button" disabled>Explore the live twin</button>
+      <div class="twin__chips" aria-hidden="true">
+        <span>Peak tariff</span><span>Grid outage</span><span>EV rush</span>
+      </div>
+    </div>
+    <div class="wrap">
+      <p class="note">Phase 4: lazy-loaded embed of the Live Twin (embed mode). Loader plays on first view. Click to engage → wheel/drag control the twin, Exit ✕ or Esc hands scroll back. Pauses when off-screen. Page background fades into the twin ground.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     S8 CHAPTER 05 — DEMO TO PRODUCTION (variant B)
+     ====================================================================== -->
+<section class="chapter chapter--b" id="the-demonstration-ran-in-code-on-interim-data" aria-labelledby="ch5-title">
+  <div class="wrap grid">
+    <header class="chapter__head">
+      <p class="chapter__label t-label"><span class="chapter__num">05</span> Demo to production</p>
+      <h2 id="ch5-title" class="t-statement">From coded demonstration to production-ready module</h2>
+    </header>
+    <div class="chapter__body t-body">
+      <p>The coded demo ran on sample data and made the product direction concrete enough to review as a whole. ConnectX could see how a request, the relevant information and the twin worked together as one product. Tcules then took the demo through to a production-ready module, live since late 2025.</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <figure class="demo__media">
+      <div class="ph ph--tint-blue demo__ph"><div class="ph__screen"><p class="ph__label"><b>Demo workspace</b>Section_4_Image · coded ConnectX workspace demonstrating an AI-assisted building-energy scenario</p></div></div>
+      <figcaption class="t-caption">The coded demo, shown with sample data.</figcaption>
+    </figure>
+    <p class="note">Phase 2: clip-path reveal + light parallax.</p>
+  </div>
+
+  <div class="wrap grid timeline-wrap" id="what-did-the-coded-demonstration-actually-establish">
+    <h3 class="timeline__title t-label">What the work covered, from definition to production</h3>
+    <ol class="timeline">
+      <li class="timeline__step">
+        <span class="timeline__node" aria-hidden="true"></span>
+        <p class="t-meta">Product work</p>
+        <p>Product definition, interaction design, eight scenario descriptions and the digital-twin direction.</p>
+      </li>
+      <li class="timeline__step">
+        <span class="timeline__node" aria-hidden="true"></span>
+        <p class="t-meta">Demo</p>
+        <p>A coded demo running on sample data, shown here as still screens.</p>
+      </li>
+      <li class="timeline__step timeline__step--live">
+        <span class="timeline__node" aria-hidden="true"></span>
+        <p class="t-meta">Production</p>
+        <p>The demo taken through to a production-ready module, <span class="pill-live">Live</span> since late 2025.</p>
+      </li>
+    </ol>
+    <p class="note timeline__note">C6 · Phase 3: line fills black with scroll, nodes pop as reached, last node becomes the green Live pill.</p>
+  </div>
+</section>
+
+<!-- ======================================================================
+     S9 CHAPTER 06 — HOW WE DECIDE
+     ====================================================================== -->
+<section class="chapter chapter--statement" id="chat-is-an-interaction-mode-not-a-complete-produ" aria-labelledby="ch6-title">
+  <div class="wrap grid">
+    <header class="chapter__head">
+      <p class="chapter__label t-label"><span class="chapter__num">06</span> How we decide</p>
+      <h2 id="ch6-title" class="t-label decide__h2">How we decide what chat controls in an AI workspace</h2>
+    </header>
+    <p class="decide__lead t-intro">When people need to inspect, compare and act on changing information, we decide what the conversation controls and what stays on screen. We begin with a small set of consequential scenarios.</p>
+
+    <div class="decide__defs">
+      <p class="t-meta">For each scenario we define</p>
+      <ol class="defs">
+        <li><span class="defs__n">01</span>The request</li>
+        <li><span class="defs__n">02</span>The data behind it</li>
+        <li><span class="defs__n">03</span>The permitted tools</li>
+        <li><span class="defs__n">04</span>What the screen shows</li>
+        <li><span class="defs__n">05</span>The action</li>
+        <li><span class="defs__n">06</span>The way back from a mistake</li>
+      </ol>
+    </div>
+
+    <div class="decide__body t-body">
+      <p>For each, we define the request, the data behind it, the permitted tools, what the screen shows, the action and the way back from a mistake. The AI gets room to be useful inside limits the product team sets.</p>
+      <p>That structure is what the work opened up for ConnectX. Each new question its customers bring can become one more scenario, with its own data, tools and view, so the product grows by adding situations it understands. We think it is where AI products are heading: interfaces that assemble around the question, with the product team still setting the rules.</p>
+    </div>
+    <p class="note decide__note">Phase 2: lead words brighten with scroll; list rules draw in with stagger.</p>
+  </div>
+</section>
+
+<!-- ======================================================================
+     S10 WHAT THE WORK DELIVERED
+     ====================================================================== -->
+<section class="facts" aria-labelledby="facts-title">
+  <div class="wrap grid">
+    <h2 id="facts-title" class="facts__title t-statement">What the work delivered</h2>
+    <ul class="facts__list">
+      <li class="facts__row">
+        <span class="t-stat">8</span>
+        <span class="t-label">Scenarios defined</span>
+      </li>
+      <li class="facts__row">
+        <span class="t-stat">4</span>
+        <span class="t-label">Scenario areas covered</span>
+      </li>
+      <li class="facts__row" data-placeholder="IMP-03">
+        <span class="t-stat">60%</span>
+        <span class="t-label">Faster to the right view <span class="facts__ph">Placeholder</span></span>
+      </li>
+    </ul>
+    <p class="note facts__note">Phase 2: numbers count up, rules draw in. Third metric is a placeholder (IMP-03) — replace with an approved figure.</p>
+  </div>
+</section>
+
+<!-- ======================================================================
+     S11 TESTIMONIALS
+     ====================================================================== -->
+<section class="quotes" id="testimonials" aria-labelledby="quotes-title">
+  <div class="wrap grid">
+    <h2 id="quotes-title" class="quotes__title t-meta">What ConnectX says about the AI workspace</h2>
+    <div class="quotes__stage" data-quotes>
+      <figure class="quote is-active">
+        <blockquote class="t-statement"><p>“We didn't want another AI chat window. Tcules designed a dashboard where you ask a question and the digital twin of your building answers, with the right data and assets in view. They proved it in a working demo, then made it production-ready.”</p></blockquote>
+        <figcaption class="quote__by"><span class="t-label">Pratik Ghoshal</span><span class="t-caption">CEO, ConnectX</span></figcaption>
+      </figure>
+      <figure class="quote" hidden>
+        <blockquote class="t-statement"><p>“Tcules turned our early ideas into eight scenarios, built around the questions our operators, finance leaders and sustainability leads actually ask. Their coded demo let us see each question with its data and the digital twin in one view, before any live integration.”</p></blockquote>
+        <figcaption class="quote__by"><span class="t-label">Pratik Ghoshal</span><span class="t-caption">CEO, ConnectX</span></figcaption>
+      </figure>
+    </div>
+    <div class="quotes__controls">
+      <button class="quotes__btn" type="button" data-quotes-prev aria-label="Previous quote">←</button>
+      <p class="t-meta" aria-live="polite"><span data-quotes-index>1</span> / 2</p>
+      <button class="quotes__btn" type="button" data-quotes-next aria-label="Next quote">→</button>
+    </div>
+    <p class="note quotes__note">Phase 2: crossfade with line reveal between quotes.</p>
+  </div>
+</section>
+
+<!-- ======================================================================
+     S12 FAQ
+     ====================================================================== -->
+<section class="faq" id="faq" aria-labelledby="faq-title">
+  <div class="wrap grid">
+    <h2 id="faq-title" class="faq__title t-statement">Questions about the ConnectX AI energy product</h2>
+    <div class="faq__list">
+      <details class="faq__item">
+        <summary><h3 class="t-label">What did Tcules design for ConnectX?</h3><span class="faq__icon" aria-hidden="true"></span></summary>
+        <div class="faq__a t-body"><p>Tcules designed an AI-native building-energy workspace for facilities, finance and sustainability teams. The work covered product definition, interaction design, eight scenarios, an adaptive interaction model and a 2.5D digital twin. A request in plain words opens a view with the relevant data, modules and assets together.</p></div>
+      </details>
+      <details class="faq__item">
+        <summary><h3 class="t-label">Did Tcules take ConnectX beyond a prototype?</h3><span class="faq__icon" aria-hidden="true"></span></summary>
+        <div class="faq__a t-body"><p>Yes. Tcules proved the product direction in a coded demo running on sample data, so ConnectX could review a request, its data and the twin as one product. We then took the demo through to a production-ready module, live since late 2025.</p></div>
+      </details>
+      <details class="faq__item">
+        <summary><h3 class="t-label">What does the ConnectX digital twin interface look like?</h3><span class="faq__icon" aria-hidden="true"></span></summary>
+        <div class="faq__a t-body"><p>It is a simplified 2.5D view of the building's connected energy assets, chosen after early directions explored detailed 3D buildings and maps. The twin works as an explanation layer. It highlights, dims or brings an asset into focus, so people see which assets are connected, what state they are in and which one matters now.</p></div>
+      </details>
+      <details class="faq__item">
+        <summary><h3 class="t-label">Why did ConnectX keep a dashboard alongside the AI conversation?</h3><span class="faq__icon" aria-hidden="true"></span></summary>
+        <div class="faq__a t-body"><p>People still needed somewhere to compare results and work with the data directly. Conversation identifies the work, the system matches it to a known situation and permitted tools retrieve the data. The product then assembles the relevant modules and twin view, and the workspace stays open for ordinary use.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     S13 TRUST STRIP
+     ====================================================================== -->
+<section class="trust" aria-label="About Tcules">
+  <div class="wrap">
+    <ul class="trust__list">
+      <li><span class="trust__k t-meta">Founded</span><span class="trust__v">2017</span></li>
+      <li><span class="trust__k t-meta">Projects</span><span class="trust__v">90+</span></li>
+      <li><span class="trust__k t-meta">Clients in</span><span class="trust__v">19 countries</span></li>
+      <li><span class="trust__k t-meta">Studio</span><span class="trust__v">Ahmedabad, India</span></li>
+      <li><span class="trust__k t-meta">Clutch</span><span class="trust__v">4.8 <small>from 13 reviews</small></span><a class="link trust__link" href="https://clutch.co/profile/tcules-saas-product-design-studio">Read the reviews</a></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ======================================================================
+     S14 RELATED / NEXT CASE STUDY
+     ====================================================================== -->
+<section class="related" id="related" aria-labelledby="related-title">
+  <div class="wrap grid">
+    <h2 id="related-title" class="related__title t-statement">Other AI products where people check the model's work</h2>
+    <p class="related__lead t-body">BuildTwin and Eden AI had the same need: a model's contribution that people could inspect. Tcules' energy and sustainability product work is gathered under <a class="link" href="https://www.tcules.com/expertise/climatetech-energy">ClimateTech and energy</a>.</p>
+  </div>
+
+  <div class="next">
+    <div class="next__marquee" aria-hidden="true">
+      <span>Next case study • BuildTwin • Next case study • BuildTwin •</span>
+    </div>
+    <a class="next__card" href="https://www.tcules.com/case-studies/ai-quality-control-expert-review-buildtwin">
+      <div class="ph ph--tint-stone next__ph"><p class="ph__label"><b>BuildTwin</b>card image</p></div>
+      <span class="next__name t-label">Read the BuildTwin case <span aria-hidden="true">↗</span></span>
+    </a>
+  </div>
+
+  <div class="wrap">
+    <ul class="related__more">
+      <li><a class="related__row" href="https://www.tcules.com/case-studies/eden-ai-workflow-builder-search-redesign"><span class="t-label">Read the Eden AI case</span><span aria-hidden="true">↗</span></a></li>
+      <li><a class="related__row" href="https://www.tcules.com/services/product-design"><span class="t-label">See Product Design</span><span aria-hidden="true">↗</span></a></li>
+    </ul>
+    <p class="note">Phase 2: marquee drifts and speeds up with scroll velocity; card image scales on hover; cursor shows "Read".</p>
+  </div>
+</section>
+
+<!-- ======================================================================
+     S15 ENQUIRY
+     ====================================================================== -->
+<section class="enquiry" id="enquiry" aria-labelledby="enquiry-title">
+  <div class="wrap grid">
+    <div class="enquiry__head">
+      <h2 id="enquiry-title" class="enquiry__title">Tell us what your AI product should be able to answer</h2>
+      <p class="t-body enquiry__sub">Describe the product area, the data behind it and the questions people are trying to answer with it.</p>
+    </div>
+
+    <form class="enquiry__form" data-enquiry novalidate>
+      <input type="hidden" name="origin_route" value="/case-studies/ai-native-building-energy-product-connectx">
+      <input type="hidden" name="placement" value="case_enquiry">
+      <input type="hidden" name="case" value="connectx">
+      <input type="hidden" name="referrer" value="">
+      <input type="hidden" name="campaign" value="">
+
+      <div class="field">
+        <label for="f-email" class="t-meta">Email</label>
+        <input id="f-email" name="email" type="email" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label for="f-work" class="t-meta">What are you working on?</label>
+        <textarea id="f-work" name="working_on" rows="4" required></textarea>
+      </div>
+      <div class="field">
+        <label for="f-url" class="t-meta">Product or company URL <span class="field__opt">Optional</span></label>
+        <input id="f-url" name="url" type="url" inputmode="url" autocomplete="url">
+      </div>
+      <div class="enquiry__actions">
+        <button class="btn btn--dark" type="submit">Send enquiry</button>
+        <a class="link" href="https://www.tcules.com/contact">See available times</a>
+      </div>
+      <div class="enquiry__success" role="status" hidden>
+        <p class="t-statement">Your enquiry has reached us</p>
+        <p class="t-body">We'll reply within one business day.</p>
+      </div>
+    </form>
+    <p class="note enquiry__note">Prototype: submits to a stub (IMP-06). Phase 2: heading line-reveals, fields stagger in, button morphs into the success state.</p>
+  </div>
+</section>
+
+</main>
+
+<!-- ======================================================================
+     S16 TCULES FOOTER (rebuilt)
+     ====================================================================== -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__top grid">
+      <div class="footer__brand">
+        <a class="footer__logo" href="https://www.tcules.com/" aria-label="Tcules home">
+          <svg width="94" height="24" viewBox="0 0 94 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M75.6292 10.8988C75.4661 10.438 75.269 10.0016 75.0352 9.59103C75.008 9.54209 74.9808 9.4945 74.9522 9.44692C74.7062 9.035 74.4261 8.65164 74.1094 8.29002C73.3154 7.3887 72.3638 6.74567 71.2531 6.35958C71.2137 6.34734 71.1743 6.33375 71.1362 6.32151C71.0642 6.29704 70.9921 6.27529 70.9187 6.2549C70.9119 6.25218 70.9051 6.24946 70.8983 6.2481C70.8181 6.22499 70.7379 6.20324 70.6563 6.18285C70.2376 6.07545 69.7985 6.0034 69.3376 5.96397C69.3336 5.96397 69.3295 5.96261 69.3254 5.96261C69.2588 5.95718 69.1935 5.9531 69.1269 5.94902C69.1052 5.94766 69.0834 5.9463 69.0617 5.94494C69.0168 5.94222 68.9719 5.9395 68.9257 5.93814C68.8917 5.93679 68.8564 5.93407 68.8211 5.93407C68.7871 5.93271 68.7517 5.93135 68.7164 5.93135C68.7014 5.92999 68.6851 5.92999 68.6701 5.92999H68.6362C68.609 5.92863 68.5818 5.92863 68.5546 5.92863H68.5165C68.5002 5.92863 68.4853 5.92863 68.4689 5.92999C68.4581 5.92863 68.4458 5.92863 68.435 5.92999C68.4023 5.92863 68.3683 5.92863 68.3344 5.92863C68.2949 5.92863 68.2555 5.92863 68.2161 5.92999H68.1821C68.1658 5.93135 68.1495 5.93135 68.1345 5.93135C67.9809 5.93271 67.83 5.9395 67.6791 5.95038C66.6826 6.01291 65.7419 6.23179 64.8568 6.60564C64.4789 6.7647 64.12 6.94958 63.7802 7.15758C63.7502 7.17526 63.7217 7.19429 63.6931 7.21197C63.1018 7.59262 62.5661 8.04939 62.0876 8.5823C61.344 9.39255 60.7744 10.3387 60.3815 11.4236C60.1966 11.9307 60.0552 12.4541 59.9573 12.9924C59.9533 13.0128 59.9492 13.0332 59.9465 13.0522C59.9369 13.1107 59.9274 13.1678 59.9179 13.2262C59.8744 13.5158 59.8418 13.8122 59.8214 14.1126C59.8173 14.1724 59.8132 14.2336 59.8092 14.2948C59.8051 14.36 59.8024 14.4253 59.7996 14.4905C59.7942 14.6224 59.7915 14.7543 59.7901 14.8875V14.9419C59.7901 15.0071 59.7901 15.0724 59.7928 15.1376C59.8159 16.334 60.0117 17.4433 60.3815 18.4656C60.7744 19.5613 61.344 20.513 62.0876 21.3232C62.8544 22.1552 63.7747 22.7901 64.846 23.2278C65.9186 23.6656 67.0891 23.8844 68.3602 23.8844C69.566 23.8844 70.6754 23.6819 71.6827 23.2768C72.1572 23.0864 72.6085 22.8512 73.0381 22.5712C73.8497 22.0437 74.5267 21.398 75.0705 20.6326L71.8894 18.1108C71.6202 18.6682 71.2368 19.1154 70.7393 19.4512C70.0949 19.8903 69.3118 20.1078 68.3915 20.1078C67.2549 20.1078 66.306 19.7367 65.5529 18.9917C64.7957 18.2481 64.3443 17.219 64.1894 15.9044H76.1894C76.1894 15.9044 76.1894 15.6515 76.1894 15.5672V14.4797C76.1894 13.1542 76.0017 11.9606 75.6292 10.8988ZM64.3538 12.7858C64.6162 11.7567 65.0812 10.9695 65.75 10.4217C66.4162 9.8738 67.221 9.60054 68.1617 9.60054C69.1704 9.60054 69.9752 9.89011 70.5761 10.4706C71.1784 11.0511 71.491 11.8233 71.5114 12.7858H64.3538Z" fill="#222222"/>
+<path d="M20.4554 4.16404H13.1904V23.5391H8.44312V4.16404H1.14551V0H20.4554V4.16404Z" fill="#222222"/>
+<path d="M48.9579 6.20052V23.1843H44.4377V21.4401C43.8558 22.1294 43.1788 22.6514 42.4039 23.0062C41.629 23.3611 40.778 23.5391 39.8536 23.5391C38.1094 23.5391 36.7105 22.9845 35.6555 21.8765C34.6006 20.7672 34.0731 19.2881 34.0731 17.4365V6.19916H38.5933V16.4346C38.5933 17.446 38.8244 18.2155 39.288 18.7429C39.7502 19.2704 40.4232 19.5342 41.3068 19.5342C42.1905 19.5342 42.9328 19.2215 43.535 18.5975C44.1372 17.9735 44.439 17.166 44.439 16.1763V6.19916L48.9579 6.20052Z" fill="#222222"/>
+<path d="M57.1052 0.00136079V23.5405H52.585V0.00136079H57.1052Z" fill="#222222"/>
+<path d="M80.6144 23.1068C79.1503 22.5127 78.0437 21.7079 77.2946 20.6951L80.1685 17.7546C80.7626 18.5472 81.5388 19.1861 82.4973 19.6701C83.4557 20.1541 84.4304 20.3974 85.4215 20.3974C86.3242 20.3974 87.0352 20.2384 87.5518 19.9189C88.0697 19.5994 88.328 19.1644 88.328 18.6138C88.328 18.2168 88.207 17.9042 87.965 17.6717C87.7231 17.4406 87.2935 17.2475 86.6763 17.0939C86.5226 17.0504 86.335 17.0056 86.1148 16.962C85.8946 16.9185 85.2774 16.7976 84.2646 16.5991C83.1417 16.3788 82.2879 16.164 81.7047 15.9547C81.1215 15.7453 80.6198 15.5088 80.2011 15.2437C79.5839 14.8467 79.1217 14.3464 78.8131 13.7401C78.5045 13.1338 78.3509 12.4133 78.3509 11.5758C78.3509 9.90234 79.0116 8.54288 80.333 7.49609C81.6544 6.4493 83.3605 5.92727 85.4527 5.92727C86.9278 5.92727 88.3158 6.20324 89.6154 6.75247C90.9151 7.30305 91.917 8.03036 92.6212 8.93304L89.9784 11.8396C89.4061 11.0905 88.7127 10.5182 87.8971 10.1212C87.0827 9.72426 86.2236 9.52713 85.3209 9.52713C84.5936 9.52713 84.0104 9.66987 83.5699 9.95672C83.1294 10.2436 82.9092 10.6283 82.9092 11.1136C82.9092 11.444 83.0084 11.7077 83.2069 11.9062C83.4054 12.1047 83.7357 12.2692 84.198 12.4024C84.3747 12.469 84.5772 12.5288 84.8097 12.5846C85.0408 12.6403 85.5085 12.7328 86.2141 12.866C87.5572 13.1528 88.5265 13.3948 89.1206 13.5933C89.7147 13.7918 90.2326 14.012 90.6731 14.254C91.4004 14.6727 91.9455 15.2015 92.3085 15.8391C92.6715 16.4781 92.8537 17.238 92.8537 18.119C92.8537 19.8591 92.144 21.2743 90.7234 22.3646C89.3027 23.4549 87.5028 24 85.3222 24C83.6474 23.9986 82.0786 23.7009 80.6144 23.1068Z" fill="#222222"/>
+<path d="M48.9579 0.00136079H31.743V3.67192H48.9579V0.00136079Z" fill="#04EC50"/>
+<path d="M28.5224 17.7886L31.8259 20.3634C26.6056 27.0153 16.7481 23.1544 16.7481 14.6632C16.7481 4.62082 28.5183 4.08383 31.8789 9.4646L28.5224 12.0802C26.0224 7.72312 21.233 9.98799 21.233 14.8753C21.233 19.9801 25.9829 21.8779 28.5183 17.7859L28.5224 17.7886Z" fill="#222222"/>
+<path d="M31.8286 20.3594L31.8259 20.3634C31.8259 20.3634 28.5211 17.7859 28.5183 17.7859C28.5183 17.7832 28.5197 17.7818 28.5197 17.7818L31.8286 20.3594Z" fill="#222222"/>
+</svg>
+        </a>
+        <p class="footer__tag">Modern products,<br>designed and engineered as one.</p>
+        <a class="btn btn--dark btn--sm footer__cta" href="https://www.tcules.com/contact">Connect now</a>
+      </div>
+
+      <nav class="footer__cols" aria-label="Footer">
+        <div class="footer__col">
+          <h3 class="footer__h"><a href="https://www.tcules.com/services">Services</a></h3>
+          <ul>
+            <li><a href="https://www.tcules.com/services/product-design">Product Design</a></li>
+            <li><a href="https://www.tcules.com/services/product-modernisation">Product Modernisation</a></li>
+            <li><a href="https://www.tcules.com/services/design-systems">Design Systems</a></li>
+            <li><a href="https://www.tcules.com/services/ai-product-ux">AI Product UX</a></li>
+            <li><a href="https://www.tcules.com/services/design-engineering">Design Engineering</a></li>
+            <li><a href="https://www.tcules.com/services/software-development">Software Development</a></li>
+            <li><a href="https://www.tcules.com/audits">Audits</a></li>
+            <li><a href="https://www.tcules.com/how-we-work">How We Work</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h3 class="footer__h"><a href="https://www.tcules.com/expertise">Expertise</a></h3>
+          <ul>
+            <li><a href="https://www.tcules.com/expertise/b2b-saas-workflow-software">B2B SaaS and Workflow Software</a></li>
+            <li><a href="https://www.tcules.com/expertise/ai-products-developer-tools">AI Products and Developer Tools</a></li>
+            <li><a href="https://www.tcules.com/expertise/data-analytics-decision-products">Data and Decision Products</a></li>
+            <li><a href="https://www.tcules.com/expertise/marketplaces-multi-sided-platforms">Marketplaces</a></li>
+            <li><a href="https://www.tcules.com/expertise/content-knowledge-discovery-platforms">Content and Knowledge Platforms</a></li>
+            <li><a href="https://www.tcules.com/expertise/fintech-insurtech">FinTech</a></li>
+            <li><a href="https://www.tcules.com/expertise/healthtech-care">HealthTech</a></li>
+            <li><a href="https://www.tcules.com/expertise/edtech-learning">EdTech</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h3 class="footer__h"><a href="https://www.tcules.com/case-studies">Work</a></h3>
+          <ul>
+            <li><a href="https://www.tcules.com/case-studies">Case Studies</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h3 class="footer__h"><a href="https://www.tcules.com/insights">Insights</a></h3>
+          <ul>
+            <li><a href="https://www.tcules.com/insights/articles">Articles</a></li>
+            <li><a href="https://www.tcules.com/insights/guides">Guides</a></li>
+            <li><a href="https://www.tcules.com/insights/podcasts">Podcasts</a></li>
+            <li><a href="https://www.tcules.com/insights/videos">Videos</a></li>
+            <li><a href="https://www.tcules.com/insights/events">Events</a></li>
+            <li><a href="https://www.tcules.com/glossary">Glossary</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h3 class="footer__h"><a href="https://www.tcules.com/future-interfaces-lab">Lab</a></h3>
+          <ul>
+            <li><a href="https://www.tcules.com/future-interfaces-lab">Future Interfaces Lab</a></li>
+            <li><a href="https://www.tcules.com/matter-design-system">Matter Design System</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h3 class="footer__h"><a href="https://www.tcules.com/about">Company</a></h3>
+          <ul>
+            <li><a href="https://www.tcules.com/about">About</a></li>
+            <li><a href="https://www.tcules.com/careers">Careers</a></li>
+            <li><a href="https://www.tcules.com/contact">Contact</a></li>
+            <li><a href="https://www.tcules.com/sitemap.xml">HTML Sitemap</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+    <div class="footer__mid grid">
+      <div class="footer__follow">
+        <p class="footer__k">Follow us on</p>
+        <p class="footer__small">Ideas, experiments, and product thinking from the studio.</p>
+        <ul class="footer__socials">
+          <li><a href="https://www.linkedin.com/company/tcules/" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4V21H3V9.75Zm6.5 0h3.83v1.54h.05c.53-1 1.84-2.06 3.79-2.06 4.05 0 4.8 2.66 4.8 6.13V21h-4v-5.06c0-1.2-.02-2.76-1.68-2.76-1.69 0-1.95 1.32-1.95 2.67V21h-4V9.75Z"/></svg></a></li>
+          <li><a href="https://youtube.com/@tcules" aria-label="YouTube"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.2 3.6-6.2 3.6Z"/></svg></a></li>
+          <li><a href="https://instagram.com/tcules.ux" aria-label="Instagram"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 2.2c3.2 0 3.6 0 4.8.1 3.2.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 4 2.4 7.2 2.3c1.2-.1 1.6-.1 4.8-.1Zm0 4.8a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4Zm5.2-9.6a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4Z"/></svg></a></li>
+          <li><a href="https://x.com/tculesux" aria-label="X"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M18.2 2.25h3.4l-7.4 8.5 8.7 11.5h-6.8l-5.3-7-6.1 7H1.3l7.9-9.1L.8 2.25h7l4.8 6.4 5.6-6.4Zm-1.2 18h1.9L7.1 4.2H5.1l11.9 16.05Z"/></svg></a></li>
+        </ul>
+      </div>
+      <div class="footer__sub">
+        <div>
+          <p class="footer__sub-title">Beyond Interfaces</p>
+          <p class="footer__small">A deep dive into the intersection of design, strategy, &amp; product innovation.</p>
+        </div>
+        <a class="btn btn--ghost btn--sm footer__sub-btn" href="https://youtube.com/@tcules">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="#FF0033" d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8Z"/><path fill="#fff" d="M9.6 15.6V8.4l6.2 3.6-6.2 3.6Z"/></svg>
+          Subscribe
+        </a>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <p>614, Silver Radiance 2, Science City Road, Sola, Ahmedabad - 380060, Gujarat</p>
+      <ul>
+        <li><a href="https://www.tcules.com/privacy-policy">Privacy policy</a></li>
+        <li><a href="https://www.tcules.com/terms-of-use">Terms of use</a></li>
+        <li>© Tcules <span data-year>2026</span></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<button class="notes-toggle" type="button" data-notes-toggle aria-pressed="true">Notes: on</button>
+
+<script>
+/* ConnectX case study — Phase 1 behaviour (no motion yet). */
+(function () {
+  const root = document.documentElement;
+
+  /* Wireframe notes toggle: button or the N key */
+  const notesBtn = document.querySelector('[data-notes-toggle]');
+  function setNotes(on) {
+    root.classList.toggle('notes-off', !on);
+    notesBtn.setAttribute('aria-pressed', String(on));
+    notesBtn.textContent = on ? 'Notes: on' : 'Notes: off';
+  }
+  notesBtn.addEventListener('click', () => setNotes(root.classList.contains('notes-off')));
+  document.addEventListener('keydown', (e) => {
+    if (e.key.toLowerCase() !== 'n' || /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) return;
+    setNotes(root.classList.contains('notes-off'));
+  });
+
+  /* Testimonials: previous / next */
+  const quotes = [...document.querySelectorAll('[data-quotes] .quote')];
+  const quoteIndex = document.querySelector('[data-quotes-index]');
+  let q = 0;
+  function showQuote(i) {
+    q = (i + quotes.length) % quotes.length;
+    quotes.forEach((el, n) => { el.hidden = n !== q; el.classList.toggle('is-active', n === q); });
+    quoteIndex.textContent = String(q + 1);
+  }
+  document.querySelector('[data-quotes-prev]').addEventListener('click', () => showQuote(q - 1));
+  document.querySelector('[data-quotes-next]').addEventListener('click', () => showQuote(q + 1));
+
+  /* Scenario areas: static selection until the pinned scene arrives in Phase 2 */
+  const areas = [...document.querySelectorAll('.areas__item')];
+  const areaIndex = document.querySelector('.areas__progress span');
+  areas.forEach((el, n) => el.addEventListener('click', () => {
+    areas.forEach((a) => a.classList.toggle('is-active', a === el));
+    areaIndex.textContent = String(n + 1);
+  }));
+
+  /* Enquiry form: stub submit (IMP-06), keeps the entered data */
+  const form = document.querySelector('[data-enquiry]');
+  form.referrer.value = document.referrer;
+  form.campaign.value = new URLSearchParams(location.search).get('utm_campaign') || '';
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    form.querySelector('.enquiry__success').hidden = false;
+    form.querySelector('button[type="submit"]').disabled = true;
+  });
+
+  document.querySelectorAll('[data-year]').forEach((el) => { el.textContent = String(new Date().getFullYear()); });
+})();
+</script>
+</body>
+</html>
