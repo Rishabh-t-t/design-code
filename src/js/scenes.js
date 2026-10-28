@@ -14,7 +14,9 @@ window.cxScenes = {
       const merged = $('.choice__merged', frame);
       const steps = $$('.flow__step', frame);
       steps.forEach((el) => el.classList.add('draw'));
-      gsap.set(steps, { opacity: 0.15, y: 12, '--draw': 0, '--draw-c': 'var(--line-strong)' });
+      // steps wait in legible grey (4.6:1) and turn black as the line reaches them
+      const ink = getComputedStyle(document.documentElement);
+      gsap.set(steps, { color: ink.getPropertyValue('--ink-3').trim(), '--draw': 0, '--draw-c': 'var(--line-strong)' });
 
       gsap.timeline({
         defaults: { ease: 'none' },
@@ -33,7 +35,7 @@ window.cxScenes = {
         // the merged workspace assembles its modules around the question
         .from($$('[data-mod]', merged), { opacity: 0, y: 14, scale: 0.97, stagger: 0.1, duration: 0.45 }, 1.3)
         // beat 4: the chosen model's five steps draw in
-        .to(steps, { opacity: 1, y: 0, '--draw': 1, stagger: 0.22, duration: 0.6 }, 1.7)
+        .to(steps, { color: ink.getPropertyValue('--ink').trim(), '--draw': 1, stagger: 0.22, duration: 0.6 }, 1.7)
         .to({}, { duration: 0.4 });
     }
 

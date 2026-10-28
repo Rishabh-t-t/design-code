@@ -13,6 +13,7 @@
   const frame = $('[data-twin-frame]', root);
   const engageBtn = $('[data-twin-engage]', root);
   const exitBtn = $('[data-twin-exit]', root);
+  const cta = $('[data-twin-cta]', root);
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   let loaded = false, ready = false, introSent = false, engaged = false, visible = false;
@@ -36,7 +37,7 @@
       queue.splice(0).forEach(send);
       if (!visible) send({ cx: 'pause' });
     }
-    if (m.cx === 'live') root.classList.add('is-live');
+    if (m.cx === 'live') { root.classList.add('is-live'); cta.inert = false; }
     if (m.cx === 'esc') disengage();
     if (m.cx === 'scenario') root.dataset.scenario = m.id || '';
   });
@@ -65,6 +66,7 @@
     stage.dataset.cursor = '';
     if (cursor()) cursor().classList.add('is-hidden');
     exitBtn.hidden = false;
+    cta.inert = true;
     frame.tabIndex = 0;
     send({ cx: 'engage', on: true });
     frame.focus({ preventScroll: true });
@@ -76,6 +78,7 @@
     document.documentElement.classList.remove('twin-engaged');
     stage.dataset.cursor = 'Explore';
     exitBtn.hidden = true;
+    cta.inert = false;
     frame.tabIndex = -1;
     send({ cx: 'engage', on: false });
     engageBtn.focus({ preventScroll: true });

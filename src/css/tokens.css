@@ -12,8 +12,9 @@
   --surface: #FFFFFF;
   --ink: #0B0B0B;
   --ink-2: #464646;
-  --ink-3: #7A7A7A;
-  --ink-4: #B5B5B2;
+  --ink-3: #696965;          /* labels: ≥4.5:1 on the page and every panel tint */
+  --ink-4: #B5B5B2;          /* decorative only (rules, inactive dots) */
+  --ink-dim: #8A8A86;        /* words before they brighten: 3.1:1, large text only */
   --line: #DCDCD8;
   --line-strong: #0B0B0B;
   --brand: #04EC50;
@@ -31,6 +32,9 @@
   --cx-panel: #FBFAF7;
   --cx-ink: #1A1A17;
   --cx-ink-2: #6E6C65;
+  --cx-ink-3: #77746C;
+  --cx-blue-ink: #2F51B8;
+  --cx-orange-ink: #C4471C;
   --cx-line: #E2E0DA;
   --cx-blue: #4D7CFF;
   --cx-blue-soft: #EEF2FF;

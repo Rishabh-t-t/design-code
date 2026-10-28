@@ -104,7 +104,7 @@
   function revealLines(el, { start = 'top 85%', stagger = 0.08 } = {}) {
     let played = false;
     SplitText.create(el, {
-      type: 'lines', mask: 'lines', linesClass: 'split-line', autoSplit: true,
+      type: 'lines', mask: 'lines', linesClass: 'split-line', autoSplit: true, aria: 'none',
       onSplit(self) {
         if (played) return undefined;
         return gsap.from(self.lines, {
@@ -116,10 +116,10 @@
   }
 
   function brighten(el) {
-    const from = token('--ink-4');
+    const from = token('--ink-dim');
     const to = token('--ink');
     SplitText.create(el, {
-      type: 'words', autoSplit: true,
+      type: 'words', autoSplit: true, aria: 'none',
       onSplit(self) {
         return gsap.fromTo(self.words, { color: from }, {
           color: to, ease: 'none', stagger: 0.1,
@@ -159,7 +159,7 @@
     gsap.set('.hero__credit', { '--draw': 0 });
     root.classList.remove('is-loading');
 
-    const name = SplitText.create('.hero__name', { type: 'lines,chars', mask: 'lines' });
+    const name = SplitText.create('.hero__name', { type: 'lines,chars', mask: 'lines', aria: 'none' });
     gsap.timeline({ defaults: { ease: EASE } })
       .from(name.chars, { yPercent: 110, duration: 1.2, stagger: 0.035 }, 0)
       .from('.hero__eyebrow', { opacity: 0, y: 12, duration: 0.8 }, 0.1)
@@ -264,6 +264,13 @@
 
     ScrollTrigger.refresh();
   }
+
+  /* Keyboard users never land on something still mid-reveal */
+  document.addEventListener('focusin', (e) => {
+    for (let el = e.target; el && el !== document.body; el = el.parentElement) {
+      if (el.style.opacity !== '' && parseFloat(el.style.opacity) < 1) gsap.to(el, { opacity: 1, y: 0, duration: 0.25, overwrite: true });
+    }
+  });
 
   /* ---------- Carousel: drag with the mouse, arrow keys ---------- */
   const track = $('.carousel__track');

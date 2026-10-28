@@ -35,7 +35,7 @@
         gsap.set(prev, { clearProps: 'opacity,transform' });
         swapQuote();
         const p = quotes[q].querySelector('blockquote p');
-        const split = SplitText.create(p, { type: 'lines', mask: 'lines' });
+        const split = SplitText.create(p, { type: 'lines', mask: 'lines', aria: 'none' });
         gsap.from(split.lines, { yPercent: 105, duration: 0.9, ease: 'expo.out', stagger: 0.06, onComplete: () => split.revert() });
         gsap.from(quotes[q].querySelector('.quote__by'), { opacity: 0, y: 12, duration: 0.6, delay: 0.25, ease: 'expo.out' });
       },
