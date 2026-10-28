@@ -24,9 +24,17 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..700&family=Figtree:wght@300..800&family=Geist+Mono:wght@400;500&display=swap">
 
+<script>
+  /* Hide the hero until the intro animation starts. Skipped for reduced motion; a timeout guarantees it never stays hidden. */
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.classList.add('is-loading');
+    setTimeout(function () { document.documentElement.classList.remove('is-loading'); }, 2500);
+  }
+</script>
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/sections.css">
+<link rel="stylesheet" href="css/motion.css">
 
 <script type="application/ld+json">
 {
@@ -75,12 +83,34 @@
     <a class="nav__logo" href="https://www.tcules.com/" aria-label="Tcules home">
       <!-- @inline assets/tcules-logo.svg -->
     </a>
-    <p class="nav__context t-meta">Case study <span aria-hidden="true">·</span> ConnectX</p>
+    <p class="nav__context t-meta">
+      <span class="nav__case">Case study <span aria-hidden="true">·</span> ConnectX</span>
+      <span class="nav__chapter" data-nav-chapter aria-live="polite"></span>
+    </p>
     <div class="nav__actions">
-      <a class="btn btn--dark btn--sm" href="#enquiry">Start a project</a>
+      <a class="btn btn--dark btn--sm nav__cta" href="#enquiry">Start a project</a>
+      <button class="nav__menu-btn" type="button" data-nav-menu aria-expanded="false" aria-controls="nav-menu">
+        <span class="nav__menu-label">Menu</span>
+        <span class="nav__menu-icon" aria-hidden="true"></span>
+      </button>
     </div>
   </div>
-  <p class="note nav__note">NAV · Phase 2: shrinks into a floating centred pill after the hero (logo · current chapter · menu), hides on fast scroll down, returns on scroll up.</p>
+  <nav class="nav__menu" id="nav-menu" aria-label="Case study chapters" hidden>
+    <ol class="nav__chapters">
+      <li><a href="#starting-point"><span>01</span>Starting point</a></li>
+      <li><a href="#choice"><span>02</span>The choice</a></li>
+      <li><a href="#turning-adaptation-into-scenarios"><span>03</span>Scenarios</a></li>
+      <li><a href="#designing-the-digital-twin"><span>04</span>Digital twin</a></li>
+      <li><a href="#the-demonstration-ran-in-code-on-interim-data"><span>05</span>Demo to production</a></li>
+      <li><a href="#chat-is-an-interaction-mode-not-a-complete-produ"><span>06</span>How we decide</a></li>
+    </ol>
+    <ul class="nav__site">
+      <li><a href="https://www.tcules.com/case-studies">Work</a></li>
+      <li><a href="https://www.tcules.com/services">Services</a></li>
+      <li><a href="https://www.tcules.com/about">About</a></li>
+      <li><a href="#enquiry">Start a project</a></li>
+    </ul>
+  </nav>
 </header>
 
 <main id="main">
@@ -119,7 +149,7 @@
     <figure class="hero__media ph ph--tint-blue">
       <div class="ph__screen"><p class="ph__label"><b>Hero image</b>CX_Hero_4800x2000 · ConnectX workspace with the twin</p></div>
     </figure>
-    <p class="note note--float hero__note">Phase 2: media scales 0.86 → 1 and radius 24 → 0 on scroll, ending full-bleed. Title reveals per character on load.</p>
+    <p class="note note--float hero__note">Phase 2 ✓ media scales 0.86 → 1 and radius 24 → 0 on scroll, ending full-bleed. Title reveals per character on load.</p>
   </div>
 </section>
 
@@ -132,7 +162,7 @@
       <p class="t-intro">ConnectX wanted facilities, finance and sustainability teams to ask about a building in plain words. They would get a working view back, with the right data, the right assets and a digital twin.</p>
       <p class="t-intro">Tcules shaped the product around eight scenarios drawn from the questions those teams ask. We proved it in a coded demo, then took the demo through to a production-ready module, live since late 2025.</p>
       <p class="t-intro">One question in plain words now opens a working view of the building, with the data, modules and assets that matter already in place.</p>
-      <p class="note">Phase 2: line reveal, then words brighten --ink-4 → --ink, scrubbed with scroll.</p>
+      <p class="note">Phase 2 ✓ line reveal, then words brighten --ink-4 → --ink, scrubbed with scroll.</p>
     </div>
     <div class="intro__links">
       <a class="link" href="#choice">Follow the product choice <span aria-hidden="true">↓</span></a>
@@ -185,14 +215,14 @@
       <a class="link" href="https://www.tcules.com/services/design-engineering/coded-prototyping">Coded Prototyping</a>
       <a class="link" href="https://www.tcules.com/services/software-development/ai-product-engineering">AI Product Engineering</a>
     </p>
-    <p class="note glance__note">Phase 2: rules draw left → right, rows stagger in.</p>
+    <p class="note glance__note">Phase 2 ✓ rules draw left → right, rows stagger in.</p>
   </div>
 </section>
 
 <!-- ======================================================================
      S4 CHAPTER 01 — STARTING POINT (variant A)
      ====================================================================== -->
-<section class="chapter chapter--a" id="starting-point" aria-labelledby="ch1-title">
+<section class="chapter chapter--a" id="starting-point" data-chapter="01 · Starting point" aria-labelledby="ch1-title">
   <div class="wrap grid">
     <header class="chapter__head">
       <p class="chapter__label t-label"><span class="chapter__num">01</span> Starting point</p>
@@ -230,7 +260,7 @@
   </div>
 
   <div class="carousel" aria-label="ConnectX's early product concepts">
-    <div class="carousel__track">
+    <div class="carousel__track" tabindex="0" data-cursor="Drag" aria-label="Early concepts, scroll sideways or use the arrow keys">
       <figure class="carousel__item ph ph--tint-stone"><div class="ph__screen"><p class="ph__label"><b>Early concept 1</b>Section_2_Image_1 · dashboard with an AI assistant beside a 3D building</p></div></figure>
       <figure class="carousel__item ph ph--tint-stone"><div class="ph__screen"><p class="ph__label"><b>Early concept 2</b>Section_2_Image_2 · AI-led workspace assembling data on request</p></div></figure>
       <figure class="carousel__item ph ph--tint-stone"><div class="ph__screen"><p class="ph__label"><b>Early concept 3</b>Figma · "Good Afternoon, Sarah" home</p></div></figure>
@@ -238,7 +268,7 @@
     </div>
     <div class="wrap">
       <p class="t-caption carousel__caption">ConnectX’s early product concepts.</p>
-      <p class="note">Phase 2: drag carousel, "Drag" cursor, arrow keys; items reveal with a clip wipe.</p>
+      <p class="note">Phase 2 ✓ drag carousel, "Drag" cursor, arrow keys; items reveal with a clip wipe.</p>
     </div>
   </div>
 </section>
@@ -246,7 +276,7 @@
 <!-- ======================================================================
      S5 CHAPTER 02 — THE CHOICE (pinned scene)
      ====================================================================== -->
-<section class="chapter chapter--b" id="choice" aria-labelledby="ch2-title">
+<section class="chapter chapter--b" id="choice" data-chapter="02 · The choice" aria-labelledby="ch2-title">
   <div class="wrap grid">
     <header class="chapter__head">
       <p class="chapter__label t-label"><span class="chapter__num">02</span> The choice</p>
@@ -273,6 +303,11 @@
             <div class="ph ph--tint-stone choice__ph"><p class="ph__label"><b>C2 · Panel B</b>Conversation decides KPIs, assets, charts and twin views</p></div>
             <p class="choice__verdict">Adapted more deeply, but nowhere to keep working.</p>
           </div>
+          <div class="choice__merged" aria-hidden="true">
+            <p class="t-meta">Chosen model</p>
+            <div class="ph ph--tint-blue choice__ph choice__ph--merged"><div class="ph__screen"><p class="ph__label"><b>C2 · Merged workspace</b>Conversation builds the view; the dashboard modules stay open to work with</p></div></div>
+            <p class="choice__verdict">Conversation identifies the work. The workspace stays open.</p>
+          </div>
         </div>
 
         <ol class="flow" aria-label="The chosen model">
@@ -296,7 +331,7 @@
 <!-- ======================================================================
      S6 CHAPTER 03 — SCENARIOS (pinned split)
      ====================================================================== -->
-<section class="chapter chapter--a" id="turning-adaptation-into-scenarios" aria-labelledby="ch3-title">
+<section class="chapter chapter--a" id="turning-adaptation-into-scenarios" data-chapter="03 · Scenarios" aria-labelledby="ch3-title">
   <div class="wrap grid">
     <header class="chapter__head">
       <p class="chapter__label t-label"><span class="chapter__num">03</span> Scenarios</p>
@@ -313,17 +348,20 @@
       <div class="areas__nav">
         <p class="t-meta">Scenario areas</p>
         <ol class="areas__list">
-          <li class="areas__item is-active"><span class="areas__n">01</span>System status</li>
-          <li class="areas__item"><span class="areas__n">02</span>Forecasting</li>
-          <li class="areas__item"><span class="areas__n">03</span>Asset performance</li>
-          <li class="areas__item"><span class="areas__n">04</span>Operational conditions</li>
+          <li class="areas__item is-active"><button type="button"><span class="areas__n">01</span>System status</button></li>
+          <li class="areas__item"><button type="button"><span class="areas__n">02</span>Forecasting</button></li>
+          <li class="areas__item"><button type="button"><span class="areas__n">03</span>Asset performance</button></li>
+          <li class="areas__item"><button type="button"><span class="areas__n">04</span>Operational conditions</button></li>
         </ol>
         <p class="areas__progress t-meta"><span>1</span> / 4</p>
       </div>
-      <div class="areas__view ph ph--tint-blue">
-        <div class="ph__screen"><p class="ph__label"><b>C4 · Workspace states</b>One product workspace that changes per area: exception card (status) · forecast chart (forecasting) · one asset in focus, others dimmed (asset performance) · conditions module (operational). Module titles only.</p></div>
+      <div class="areas__view ph ph--tint-blue" aria-hidden="true">
+        <div class="ph__screen areas__state is-active"><p class="ph__label"><b>C4 · System status</b>Exception card in orange · one asset highlighted in the mini twin</p></div>
+        <div class="ph__screen areas__state"><p class="ph__label"><b>C4 · Forecasting</b>Forecast chart module</p></div>
+        <div class="ph__screen areas__state"><p class="ph__label"><b>C4 · Asset performance</b>One asset in focus, the others dimmed</p></div>
+        <div class="ph__screen areas__state"><p class="ph__label"><b>C4 · Operational conditions</b>Operating-conditions module</p></div>
       </div>
-      <p class="note areas__note">Pinned ≈ 300vh · Phase 2: active area turns --ink with a black rule, others --ink-3; C4 modules cross-fade and re-arrange; click an area to scroll to its step. IMP-01: extend to the 8 named scenarios later.</p>
+      <p class="note areas__note">Pinned ≈ 300vh · Phase 2 ✓ active area turns --ink with a black rule, others --ink-3; C4 modules cross-fade and re-arrange; click an area to scroll to its step. IMP-01: extend to the 8 named scenarios later.</p>
     </div>
   </div>
 
@@ -345,7 +383,7 @@
 <!-- ======================================================================
      S7 CHAPTER 04 — DIGITAL TWIN (variant C) + LIVE TWIN
      ====================================================================== -->
-<section class="chapter chapter--c" id="designing-the-digital-twin" aria-labelledby="ch4-title">
+<section class="chapter chapter--c" id="designing-the-digital-twin" data-chapter="04 · Digital twin" aria-labelledby="ch4-title">
   <div class="wrap grid">
     <header class="chapter__head">
       <p class="chapter__label t-label"><span class="chapter__num">04</span> Digital twin</p>
@@ -370,11 +408,11 @@
     </div>
 
     <p class="chapter__pull t-statement">The simpler look followed from the twin's job: to explain how the energy system works.</p>
-    <p class="note compare__note">Phase 2: explored side dims and slides back as the chosen side comes forward.</p>
+    <p class="note compare__note">Phase 2 ✓ explored side dims and slides back as the chosen side comes forward.</p>
   </div>
 
   <div class="twin" aria-label="Live digital twin of Meridian Tower">
-    <div class="twin__stage">
+    <div class="twin__stage" data-cursor="Explore">
       <div class="twin__top"><p class="ph__label"><b>ConnectX top bar</b>brand · Meridian Tower · Home / Live twin / Reports · system pill · clock · role</p></div>
       <div class="twin__kpis">
         <div class="twin__card"><span class="t-meta">Live load</span></div>
@@ -401,7 +439,7 @@
 <!-- ======================================================================
      S8 CHAPTER 05 — DEMO TO PRODUCTION (variant B)
      ====================================================================== -->
-<section class="chapter chapter--b" id="the-demonstration-ran-in-code-on-interim-data" aria-labelledby="ch5-title">
+<section class="chapter chapter--b" id="the-demonstration-ran-in-code-on-interim-data" data-chapter="05 · Demo to production" aria-labelledby="ch5-title">
   <div class="wrap grid">
     <header class="chapter__head">
       <p class="chapter__label t-label"><span class="chapter__num">05</span> Demo to production</p>
@@ -417,7 +455,7 @@
       <div class="ph ph--tint-blue demo__ph"><div class="ph__screen"><p class="ph__label"><b>Demo workspace</b>Section_4_Image · coded ConnectX workspace demonstrating an AI-assisted building-energy scenario</p></div></div>
       <figcaption class="t-caption">The coded demo, shown with sample data.</figcaption>
     </figure>
-    <p class="note">Phase 2: clip-path reveal + light parallax.</p>
+    <p class="note">Phase 2 ✓ clip-path reveal + light parallax.</p>
   </div>
 
   <div class="wrap grid timeline-wrap" id="what-did-the-coded-demonstration-actually-establish">
@@ -446,7 +484,7 @@
 <!-- ======================================================================
      S9 CHAPTER 06 — HOW WE DECIDE
      ====================================================================== -->
-<section class="chapter chapter--statement" id="chat-is-an-interaction-mode-not-a-complete-produ" aria-labelledby="ch6-title">
+<section class="chapter chapter--statement" id="chat-is-an-interaction-mode-not-a-complete-produ" data-chapter="06 · How we decide" aria-labelledby="ch6-title">
   <div class="wrap grid">
     <header class="chapter__head">
       <p class="chapter__label t-label"><span class="chapter__num">06</span> How we decide</p>
@@ -470,7 +508,7 @@
       <p>For each, we define the request, the data behind it, the permitted tools, what the screen shows, the action and the way back from a mistake. The AI gets room to be useful inside limits the product team sets.</p>
       <p>That structure is what the work opened up for ConnectX. Each new question its customers bring can become one more scenario, with its own data, tools and view, so the product grows by adding situations it understands. We think it is where AI products are heading: interfaces that assemble around the question, with the product team still setting the rules.</p>
     </div>
-    <p class="note decide__note">Phase 2: lead words brighten with scroll; list rules draw in with stagger.</p>
+    <p class="note decide__note">Phase 2 ✓ lead words brighten with scroll; list rules draw in with stagger.</p>
   </div>
 </section>
 
@@ -494,7 +532,7 @@
         <span class="t-label">Faster to the right view <span class="facts__ph">Placeholder</span></span>
       </li>
     </ul>
-    <p class="note facts__note">Phase 2: numbers count up, rules draw in. Third metric is a placeholder (IMP-03) — replace with an approved figure.</p>
+    <p class="note facts__note">Phase 2 ✓ numbers count up, rules draw in. Third metric is a placeholder (IMP-03) — replace with an approved figure.</p>
   </div>
 </section>
 
@@ -519,7 +557,7 @@
       <p class="t-meta" aria-live="polite"><span data-quotes-index>1</span> / 2</p>
       <button class="quotes__btn" type="button" data-quotes-next aria-label="Next quote">→</button>
     </div>
-    <p class="note quotes__note">Phase 2: crossfade with line reveal between quotes.</p>
+    <p class="note quotes__note">Phase 2 ✓ crossfade with line reveal between quotes.</p>
   </div>
 </section>
 
@@ -576,9 +614,9 @@
 
   <div class="next">
     <div class="next__marquee" aria-hidden="true">
-      <span>Next case study • BuildTwin • Next case study • BuildTwin •</span>
+      <div class="next__track"><span>Next case study • BuildTwin •&nbsp;</span><span>Next case study • BuildTwin •&nbsp;</span></div>
     </div>
-    <a class="next__card" href="https://www.tcules.com/case-studies/ai-quality-control-expert-review-buildtwin">
+    <a class="next__card" data-cursor="Read" href="https://www.tcules.com/case-studies/ai-quality-control-expert-review-buildtwin">
       <div class="ph ph--tint-stone next__ph"><p class="ph__label"><b>BuildTwin</b>card image</p></div>
       <span class="next__name t-label">Read the BuildTwin case <span aria-hidden="true">↗</span></span>
     </a>
@@ -589,7 +627,7 @@
       <li><a class="related__row" href="https://www.tcules.com/case-studies/eden-ai-workflow-builder-search-redesign"><span class="t-label">Read the Eden AI case</span><span aria-hidden="true">↗</span></a></li>
       <li><a class="related__row" href="https://www.tcules.com/services/product-design"><span class="t-label">See Product Design</span><span aria-hidden="true">↗</span></a></li>
     </ul>
-    <p class="note">Phase 2: marquee drifts and speeds up with scroll velocity; card image scales on hover; cursor shows "Read".</p>
+    <p class="note">Phase 2 ✓ marquee drifts and speeds up with scroll velocity; card image scales on hover; cursor shows "Read".</p>
   </div>
 </section>
 
@@ -631,7 +669,7 @@
         <p class="t-body">We'll reply within one business day.</p>
       </div>
     </form>
-    <p class="note enquiry__note">Prototype: submits to a stub (IMP-06). Phase 2: heading line-reveals, fields stagger in, button morphs into the success state.</p>
+    <p class="note enquiry__note">Prototype: submits to a stub (IMP-06). Phase 2 ✓ heading line-reveals, fields stagger in, button morphs into the success state.</p>
   </div>
 </section>
 
@@ -748,8 +786,16 @@
   </div>
 </footer>
 
+<div class="cursor is-hidden" aria-hidden="true"><span class="cursor__label"></span></div>
+
 <button class="notes-toggle" type="button" data-notes-toggle aria-pressed="true">Notes: on</button>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<script src="https://unpkg.com/lenis@1.3.4/dist/lenis.min.js"></script>
 <script src="js/main.js"></script>
+<script src="js/motion.js"></script>
+<script src="js/scenes.js"></script>
 </body>
 </html>

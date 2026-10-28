@@ -316,8 +316,8 @@ All are built in the ConnectX product style: Instrument Sans + Geist Mono, produ
 
 | Phase | Output | You review |
 |---|---|---|
-| **P1 Foundation + grey-box layout** | Build script, tokens (incl. colour), grid, type, light nav, Tcules footer, all sections with real copy and labelled grey blocks. No motion. | Layout, hierarchy, spacing, colour usage |
-| **P2 Motion system** | Smooth scroll, reveals, nav pill, cursor, both pinned scenes (on grey boxes), marquee, count-ups, accordion, reduced motion. | Feel, timing, pacing |
+| **P1 Foundation + grey-box layout** ✅ | Build script, tokens (incl. colour), grid, type, light nav, Tcules footer, all sections with real copy and labelled grey blocks. No motion. | Layout, hierarchy, spacing, colour usage |
+| **P2 Motion system** ✅ | Smooth scroll, reveals, nav pill, cursor, both pinned scenes (on grey boxes), marquee, count-ups, accordion, reduced motion. | Feel, timing, pacing |
 | **P3 HTML components** | C1–C6 built and animated. | Each component's story |
 | **P4 Live Twin embed** | Embed mode, floating layout, lazy load, engage/exit, pause. | Interaction model |
 | **P5 Assets** | Real images on tint panels. | Composition |

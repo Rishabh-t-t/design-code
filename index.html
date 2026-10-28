@@ -24,6 +24,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..700&family=Figtree:wght@300..800&family=Geist+Mono:wght@400;500&display=swap">
 
+<script>
+  /* Hide the hero until the intro animation starts. Skipped for reduced motion; a timeout guarantees it never stays hidden. */
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.classList.add('is-loading');
+    setTimeout(function () { document.documentElement.classList.remove('is-loading'); }, 2500);
+  }
+</script>
 <style>
 /* ==========================================================================
    Tokens — ConnectX case study
@@ -760,6 +767,182 @@ html.notes-off .note { display: none; }
   .twin__details .twin__card { width: 240px; }
 }
 </style>
+<style>
+/* ==========================================================================
+   Motion — states used by js/motion.js and js/scenes.js.
+   Everything here is scoped to html.motion, so with reduced motion or without
+   JS the page renders complete and static.
+   ========================================================================== */
+
+/* ---- Lenis ---- */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* ---- Loading guard (set in <head>, cleared when the intro starts) ---- */
+.is-loading .hero { opacity: 0; }
+
+/* ---- Nav: bar at the top, floating pill after the hero ---- */
+.nav { position: fixed; transition: transform .5s var(--ease-out); }
+.nav.is-hidden { transform: translateY(calc(-100% - 24px)); }
+.nav__bar {
+  transition:
+    max-width .7s var(--ease-out),
+    height .7s var(--ease-out),
+    margin-top .7s var(--ease-out),
+    padding .7s var(--ease-out),
+    background-color .5s ease,
+    box-shadow .5s ease,
+    border-radius .7s var(--ease-out);
+  border-radius: 0;
+}
+.nav__context { display: grid; white-space: nowrap; }
+.nav__case, .nav__chapter { grid-area: 1 / 1; text-align: center; transition: opacity .4s ease, transform .5s var(--ease-out); }
+.nav__chapter { opacity: 0; transform: translateY(8px); color: var(--ink); }
+.nav__actions { display: flex; align-items: center; gap: var(--s-3); }
+.nav__cta { transition: opacity .3s ease; }
+
+.nav__menu-btn {
+  display: none; align-items: center; gap: 10px;
+  height: 36px; padding: 0 6px 0 14px;
+  border-radius: 999px;
+  font-size: 13px; font-weight: 600; color: var(--ink);
+}
+.nav__menu-icon { position: relative; width: 24px; height: 24px; border-radius: 50%; background: var(--ink); }
+.nav__menu-icon::before, .nav__menu-icon::after {
+  content: ""; position: absolute; left: 7px; right: 7px; height: 1.5px; background: #fff;
+  transition: transform .35s var(--ease-out);
+}
+.nav__menu-icon::before { top: 9px; }
+.nav__menu-icon::after { top: 13px; }
+.nav__menu-btn[aria-expanded="true"] .nav__menu-icon::before { transform: translateY(2px) rotate(45deg); }
+.nav__menu-btn[aria-expanded="true"] .nav__menu-icon::after { transform: translateY(-2px) rotate(-45deg); }
+
+.nav.is-pill .nav__bar {
+  max-width: 560px;
+  height: 52px;
+  margin-top: 14px;
+  padding-inline: 18px 8px;
+  border-radius: 999px;
+  background-color: rgb(255 255 255 / .8);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  backdrop-filter: blur(16px) saturate(1.4);
+  box-shadow: var(--shadow-float);
+}
+.nav.is-pill .nav__logo svg { height: 20px; }
+.nav__logo svg { transition: height .6s var(--ease-out); }
+.nav.is-pill .nav__case { opacity: 0; transform: translateY(-8px); }
+.nav.is-pill .nav__chapter { opacity: 1; transform: none; }
+.nav.is-pill .nav__cta { display: none; }
+.nav.is-pill .nav__menu-btn { display: inline-flex; }
+
+.nav__menu {
+  position: absolute; left: 50%; top: 76px;
+  width: min(560px, calc(100vw - 2 * var(--margin)));
+  transform: translateX(-50%);
+  padding: var(--s-5);
+  background: var(--surface);
+  border-radius: var(--radius-l);
+  box-shadow: var(--shadow-lift);
+  display: grid; grid-template-columns: 3fr 2fr; gap: var(--s-5);
+}
+.nav__menu[hidden] { display: none; }
+.nav__chapters a, .nav__site a {
+  display: flex; align-items: baseline; gap: 10px;
+  padding: 7px 0;
+  color: var(--ink); font-weight: 500;
+}
+.nav__chapters a span { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); }
+.nav__chapters a:hover, .nav__site a:hover { color: var(--ink-3); }
+.nav__site { padding-left: var(--s-5); border-left: 1px solid var(--line); }
+
+/* ---- Context cursor ---- */
+.cursor {
+  position: fixed; left: 0; top: 0; z-index: 90;
+  display: none;
+  pointer-events: none;
+}
+.motion.has-pointer .cursor { display: block; }
+.cursor__label {
+  position: absolute; left: 0; top: 0;
+  display: flex; align-items: center; justify-content: center;
+  min-width: 10px; height: 10px;
+  padding: 0;
+  border-radius: 999px;
+  background: var(--ink); color: #fff;
+  font-size: 0; font-weight: 600; letter-spacing: .02em; white-space: nowrap;
+  transform: translate(-50%, -50%);
+  transition: height .35s var(--ease-out), padding .35s var(--ease-out), font-size .2s ease, opacity .25s ease, background-color .25s ease;
+}
+.cursor.is-hidden .cursor__label { opacity: 0; }
+.cursor.is-label .cursor__label { height: 40px; padding: 0 16px; font-size: 13px; }
+
+/* ---- Drawn rules: border lines become scaleX-able pseudo elements ---- */
+.motion .draw { position: relative; border-top-color: transparent !important; }
+.motion .draw::before {
+  content: ""; position: absolute; left: 0; right: 0; top: var(--draw-top, -1px);
+  height: var(--draw-h, 1px);
+  background: var(--draw-c, var(--line));
+  transform: scaleX(var(--draw, 0));
+  transform-origin: 0 50%;
+  pointer-events: none;
+}
+.motion .timeline__step.draw { --draw-h: 2px; --draw-top: -2px; }
+.motion .timeline__node { z-index: 1; }
+
+/* ---- Split text ---- */
+.split-line { padding-bottom: .06em; margin-bottom: -.06em; }
+
+/* ---- Hero media: full-bleed element, clipped back to the margins ---- */
+.motion .hero__media-wrap { max-width: none; padding-inline: 0; }
+.motion .hero__media { border-radius: 0; will-change: clip-path; }
+.motion .hero__note { left: calc(var(--margin) + 16px); }
+
+/* ---- Carousel ---- */
+.carousel__track { cursor: grab; }
+.carousel__track.is-dragging { cursor: grabbing; scroll-snap-type: none; user-select: none; }
+.carousel__track.is-dragging * { pointer-events: none; }
+.motion.has-pointer [data-cursor] { cursor: none; }
+.motion.has-pointer [data-cursor] a, .motion.has-pointer [data-cursor] button { cursor: none; }
+
+/* ---- Choice scene ---- */
+.choice { position: relative; }
+.choice__merged {
+  position: absolute; inset: 0 22% auto;
+  display: flex; flex-direction: column; gap: var(--s-3);
+  opacity: 0; visibility: hidden;
+}
+.motion-off .choice__merged, html:not(.motion) .choice__merged { display: none; }
+
+/* ---- Scenario areas ---- */
+.areas__item button {
+  display: flex; align-items: baseline; gap: var(--s-4);
+  width: 100%; text-align: left;
+  font: inherit; color: inherit;
+}
+.areas__item { transition: color .4s ease; }
+.areas__view { position: relative; }
+.areas__state { opacity: 0; transform: translateY(16px) scale(.98); transition: opacity .5s ease, transform .7s var(--ease-out); }
+.areas__state.is-active { opacity: 1; transform: none; }
+.areas__progress span { display: inline-block; min-width: 1ch; }
+
+/* ---- Marquee ---- */
+.next__track { display: inline-flex; will-change: transform; }
+.next__track span { flex: none; }
+.next__ph { transition: transform .8s var(--ease-out); }
+.next__card { overflow: hidden; transition: box-shadow .5s ease, transform .6s var(--ease-out); }
+.next__card:hover .next__ph { transform: scale(1.04); }
+
+/* ---- FAQ ---- */
+.faq__icon::after { transition: transform .45s var(--ease-out); }
+.faq__item.is-closing .faq__icon::after { transform: translate(-50%, -50%) rotate(90deg); }
+.faq__a { overflow: hidden; }
+
+/* ---- Enquiry ---- */
+.enquiry__actions .btn { transition: background-color .3s ease, opacity .3s ease; }
+.enquiry__actions .btn:disabled { opacity: .4; cursor: default; }
+</style>
 
 <script type="application/ld+json">
 {
@@ -817,12 +1000,34 @@ html.notes-off .note { display: none; }
 <path d="M31.8286 20.3594L31.8259 20.3634C31.8259 20.3634 28.5211 17.7859 28.5183 17.7859C28.5183 17.7832 28.5197 17.7818 28.5197 17.7818L31.8286 20.3594Z" fill="#222222"/>
 </svg>
     </a>
-    <p class="nav__context t-meta">Case study <span aria-hidden="true">·</span> ConnectX</p>
+    <p class="nav__context t-meta">
+      <span class="nav__case">Case study <span aria-hidden="true">·</span> ConnectX</span>
+      <span class="nav__chapter" data-nav-chapter aria-live="polite"></span>
+    </p>
     <div class="nav__actions">
-      <a class="btn btn--dark btn--sm" href="#enquiry">Start a project</a>
+      <a class="btn btn--dark btn--sm nav__cta" href="#enquiry">Start a project</a>
+      <button class="nav__menu-btn" type="button" data-nav-menu aria-expanded="false" aria-controls="nav-menu">
+        <span class="nav__menu-label">Menu</span>
+        <span class="nav__menu-icon" aria-hidden="true"></span>
+      </button>
     </div>
   </div>
-  <p class="note nav__note">NAV · Phase 2: shrinks into a floating centred pill after the hero (logo · current chapter · menu), hides on fast scroll down, returns on scroll up.</p>
+  <nav class="nav__menu" id="nav-menu" aria-label="Case study chapters" hidden>
+    <ol class="nav__chapters">
+      <li><a href="#starting-point"><span>01</span>Starting point</a></li>
+      <li><a href="#choice"><span>02</span>The choice</a></li>
+      <li><a href="#turning-adaptation-into-scenarios"><span>03</span>Scenarios</a></li>
+      <li><a href="#designing-the-digital-twin"><span>04</span>Digital twin</a></li>
+      <li><a href="#the-demonstration-ran-in-code-on-interim-data"><span>05</span>Demo to production</a></li>
+      <li><a href="#chat-is-an-interaction-mode-not-a-complete-produ"><span>06</span>How we decide</a></li>
+    </ol>
+    <ul class="nav__site">
+      <li><a href="https://www.tcules.com/case-studies">Work</a></li>
+      <li><a href="https://www.tcules.com/services">Services</a></li>
+      <li><a href="https://www.tcules.com/about">About</a></li>
+      <li><a href="#enquiry">Start a project</a></li>
+    </ul>
+  </nav>
 </header>
 
 <main id="main">
@@ -861,7 +1066,7 @@ html.notes-off .note { display: none; }
     <figure class="hero__media ph ph--tint-blue">
       <div class="ph__screen"><p class="ph__label"><b>Hero image</b>CX_Hero_4800x2000 · ConnectX workspace with the twin</p></div>
     </figure>
-    <p class="note note--float hero__note">Phase 2: media scales 0.86 → 1 and radius 24 → 0 on scroll, ending full-bleed. Title reveals per character on load.</p>
+    <p class="note note--float hero__note">Phase 2 ✓ media scales 0.86 → 1 and radius 24 → 0 on scroll, ending full-bleed. Title reveals per character on load.</p>
   </div>
 </section>
 
@@ -874,7 +1079,7 @@ html.notes-off .note { display: none; }
       <p class="t-intro">ConnectX wanted facilities, finance and sustainability teams to ask about a building in plain words. They would get a working view back, with the right data, the right assets and a digital twin.</p>
       <p class="t-intro">Tcules shaped the product around eight scenarios drawn from the questions those teams ask. We proved it in a coded demo, then took the demo through to a production-ready module, live since late 2025.</p>
       <p class="t-intro">One question in plain words now opens a working view of the building, with the data, modules and assets that matter already in place.</p>
-      <p class="note">Phase 2: line reveal, then words brighten --ink-4 → --ink, scrubbed with scroll.</p>
+      <p class="note">Phase 2 ✓ line reveal, then words brighten --ink-4 → --ink, scrubbed with scroll.</p>
     </div>
     <div class="intro__links">
       <a class="link" href="#choice">Follow the product choice <span aria-hidden="true">↓</span></a>
@@ -927,14 +1132,14 @@ html.notes-off .note { display: none; }
       <a class="link" href="https://www.tcules.com/services/design-engineering/coded-prototyping">Coded Prototyping</a>
       <a class="link" href="https://www.tcules.com/services/software-development/ai-product-engineering">AI Product Engineering</a>
     </p>
-    <p class="note glance__note">Phase 2: rules draw left → right, rows stagger in.</p>
+    <p class="note glance__note">Phase 2 ✓ rules draw left → right, rows stagger in.</p>
   </div>
 </section>
 
 <!-- ======================================================================
      S4 CHAPTER 01 — STARTING POINT (variant A)
      ====================================================================== -->
-<section class="chapter chapter--a" id="starting-point" aria-labelledby="ch1-title">
+<section class="chapter chapter--a" id="starting-point" data-chapter="01 · Starting point" aria-labelledby="ch1-title">
   <div class="wrap grid">
     <header class="chapter__head">
       <p class="chapter__label t-label"><span class="chapter__num">01</span> Starting point</p>
@@ -972,7 +1177,7 @@ html.notes-off .note { display: none; }
   </div>
 
   <div class="carousel" aria-label="ConnectX's early product concepts">
-    <div class="carousel__track">
+    <div class="carousel__track" tabindex="0" data-cursor="Drag" aria-label="Early concepts, scroll sideways or use the arrow keys">
       <figure class="carousel__item ph ph--tint-stone"><div class="ph__screen"><p class="ph__label"><b>Early concept 1</b>Section_2_Image_1 · dashboard with an AI assistant beside a 3D building</p></div></figure>
       <figure class="carousel__item ph ph--tint-stone"><div class="ph__screen"><p class="ph__label"><b>Early concept 2</b>Section_2_Image_2 · AI-led workspace assembling data on request</p></div></figure>
       <figure class="carousel__item ph ph--tint-stone"><div class="ph__screen"><p class="ph__label"><b>Early concept 3</b>Figma · "Good Afternoon, Sarah" home</p></div></figure>
@@ -980,7 +1185,7 @@ html.notes-off .note { display: none; }
     </div>
     <div class="wrap">
       <p class="t-caption carousel__caption">ConnectX’s early product concepts.</p>
-      <p class="note">Phase 2: drag carousel, "Drag" cursor, arrow keys; items reveal with a clip wipe.</p>
+      <p class="note">Phase 2 ✓ drag carousel, "Drag" cursor, arrow keys; items reveal with a clip wipe.</p>
     </div>
   </div>
 </section>
@@ -988,7 +1193,7 @@ html.notes-off .note { display: none; }
 <!-- ======================================================================
      S5 CHAPTER 02 — THE CHOICE (pinned scene)
      ====================================================================== -->
-<section class="chapter chapter--b" id="choice" aria-labelledby="ch2-title">
+<section class="chapter chapter--b" id="choice" data-chapter="02 · The choice" aria-labelledby="ch2-title">
   <div class="wrap grid">
     <header class="chapter__head">
       <p class="chapter__label t-label"><span class="chapter__num">02</span> The choice</p>
@@ -1015,6 +1220,11 @@ html.notes-off .note { display: none; }
             <div class="ph ph--tint-stone choice__ph"><p class="ph__label"><b>C2 · Panel B</b>Conversation decides KPIs, assets, charts and twin views</p></div>
             <p class="choice__verdict">Adapted more deeply, but nowhere to keep working.</p>
           </div>
+          <div class="choice__merged" aria-hidden="true">
+            <p class="t-meta">Chosen model</p>
+            <div class="ph ph--tint-blue choice__ph choice__ph--merged"><div class="ph__screen"><p class="ph__label"><b>C2 · Merged workspace</b>Conversation builds the view; the dashboard modules stay open to work with</p></div></div>
+            <p class="choice__verdict">Conversation identifies the work. The workspace stays open.</p>
+          </div>
         </div>
 
         <ol class="flow" aria-label="The chosen model">
@@ -1038,7 +1248,7 @@ html.notes-off .note { display: none; }
 <!-- ======================================================================
      S6 CHAPTER 03 — SCENARIOS (pinned split)
      ====================================================================== -->
-<section class="chapter chapter--a" id="turning-adaptation-into-scenarios" aria-labelledby="ch3-title">
+<section class="chapter chapter--a" id="turning-adaptation-into-scenarios" data-chapter="03 · Scenarios" aria-labelledby="ch3-title">
   <div class="wrap grid">
     <header class="chapter__head">
       <p class="chapter__label t-label"><span class="chapter__num">03</span> Scenarios</p>
@@ -1055,17 +1265,20 @@ html.notes-off .note { display: none; }
       <div class="areas__nav">
         <p class="t-meta">Scenario areas</p>
         <ol class="areas__list">
-          <li class="areas__item is-active"><span class="areas__n">01</span>System status</li>
-          <li class="areas__item"><span class="areas__n">02</span>Forecasting</li>
-          <li class="areas__item"><span class="areas__n">03</span>Asset performance</li>
-          <li class="areas__item"><span class="areas__n">04</span>Operational conditions</li>
+          <li class="areas__item is-active"><button type="button"><span class="areas__n">01</span>System status</button></li>
+          <li class="areas__item"><button type="button"><span class="areas__n">02</span>Forecasting</button></li>
+          <li class="areas__item"><button type="button"><span class="areas__n">03</span>Asset performance</button></li>
+          <li class="areas__item"><button type="button"><span class="areas__n">04</span>Operational conditions</button></li>
         </ol>
         <p class="areas__progress t-meta"><span>1</span> / 4</p>
       </div>
-      <div class="areas__view ph ph--tint-blue">
-        <div class="ph__screen"><p class="ph__label"><b>C4 · Workspace states</b>One product workspace that changes per area: exception card (status) · forecast chart (forecasting) · one asset in focus, others dimmed (asset performance) · conditions module (operational). Module titles only.</p></div>
+      <div class="areas__view ph ph--tint-blue" aria-hidden="true">
+        <div class="ph__screen areas__state is-active"><p class="ph__label"><b>C4 · System status</b>Exception card in orange · one asset highlighted in the mini twin</p></div>
+        <div class="ph__screen areas__state"><p class="ph__label"><b>C4 · Forecasting</b>Forecast chart module</p></div>
+        <div class="ph__screen areas__state"><p class="ph__label"><b>C4 · Asset performance</b>One asset in focus, the others dimmed</p></div>
+        <div class="ph__screen areas__state"><p class="ph__label"><b>C4 · Operational conditions</b>Operating-conditions module</p></div>
       </div>
-      <p class="note areas__note">Pinned ≈ 300vh · Phase 2: active area turns --ink with a black rule, others --ink-3; C4 modules cross-fade and re-arrange; click an area to scroll to its step. IMP-01: extend to the 8 named scenarios later.</p>
+      <p class="note areas__note">Pinned ≈ 300vh · Phase 2 ✓ active area turns --ink with a black rule, others --ink-3; C4 modules cross-fade and re-arrange; click an area to scroll to its step. IMP-01: extend to the 8 named scenarios later.</p>
     </div>
   </div>
 
@@ -1087,7 +1300,7 @@ html.notes-off .note { display: none; }
 <!-- ======================================================================
      S7 CHAPTER 04 — DIGITAL TWIN (variant C) + LIVE TWIN
      ====================================================================== -->
-<section class="chapter chapter--c" id="designing-the-digital-twin" aria-labelledby="ch4-title">
+<section class="chapter chapter--c" id="designing-the-digital-twin" data-chapter="04 · Digital twin" aria-labelledby="ch4-title">
   <div class="wrap grid">
     <header class="chapter__head">
       <p class="chapter__label t-label"><span class="chapter__num">04</span> Digital twin</p>
@@ -1112,11 +1325,11 @@ html.notes-off .note { display: none; }
     </div>
 
     <p class="chapter__pull t-statement">The simpler look followed from the twin's job: to explain how the energy system works.</p>
-    <p class="note compare__note">Phase 2: explored side dims and slides back as the chosen side comes forward.</p>
+    <p class="note compare__note">Phase 2 ✓ explored side dims and slides back as the chosen side comes forward.</p>
   </div>
 
   <div class="twin" aria-label="Live digital twin of Meridian Tower">
-    <div class="twin__stage">
+    <div class="twin__stage" data-cursor="Explore">
       <div class="twin__top"><p class="ph__label"><b>ConnectX top bar</b>brand · Meridian Tower · Home / Live twin / Reports · system pill · clock · role</p></div>
       <div class="twin__kpis">
         <div class="twin__card"><span class="t-meta">Live load</span></div>
@@ -1143,7 +1356,7 @@ html.notes-off .note { display: none; }
 <!-- ======================================================================
      S8 CHAPTER 05 — DEMO TO PRODUCTION (variant B)
      ====================================================================== -->
-<section class="chapter chapter--b" id="the-demonstration-ran-in-code-on-interim-data" aria-labelledby="ch5-title">
+<section class="chapter chapter--b" id="the-demonstration-ran-in-code-on-interim-data" data-chapter="05 · Demo to production" aria-labelledby="ch5-title">
   <div class="wrap grid">
     <header class="chapter__head">
       <p class="chapter__label t-label"><span class="chapter__num">05</span> Demo to production</p>
@@ -1159,7 +1372,7 @@ html.notes-off .note { display: none; }
       <div class="ph ph--tint-blue demo__ph"><div class="ph__screen"><p class="ph__label"><b>Demo workspace</b>Section_4_Image · coded ConnectX workspace demonstrating an AI-assisted building-energy scenario</p></div></div>
       <figcaption class="t-caption">The coded demo, shown with sample data.</figcaption>
     </figure>
-    <p class="note">Phase 2: clip-path reveal + light parallax.</p>
+    <p class="note">Phase 2 ✓ clip-path reveal + light parallax.</p>
   </div>
 
   <div class="wrap grid timeline-wrap" id="what-did-the-coded-demonstration-actually-establish">
@@ -1188,7 +1401,7 @@ html.notes-off .note { display: none; }
 <!-- ======================================================================
      S9 CHAPTER 06 — HOW WE DECIDE
      ====================================================================== -->
-<section class="chapter chapter--statement" id="chat-is-an-interaction-mode-not-a-complete-produ" aria-labelledby="ch6-title">
+<section class="chapter chapter--statement" id="chat-is-an-interaction-mode-not-a-complete-produ" data-chapter="06 · How we decide" aria-labelledby="ch6-title">
   <div class="wrap grid">
     <header class="chapter__head">
       <p class="chapter__label t-label"><span class="chapter__num">06</span> How we decide</p>
@@ -1212,7 +1425,7 @@ html.notes-off .note { display: none; }
       <p>For each, we define the request, the data behind it, the permitted tools, what the screen shows, the action and the way back from a mistake. The AI gets room to be useful inside limits the product team sets.</p>
       <p>That structure is what the work opened up for ConnectX. Each new question its customers bring can become one more scenario, with its own data, tools and view, so the product grows by adding situations it understands. We think it is where AI products are heading: interfaces that assemble around the question, with the product team still setting the rules.</p>
     </div>
-    <p class="note decide__note">Phase 2: lead words brighten with scroll; list rules draw in with stagger.</p>
+    <p class="note decide__note">Phase 2 ✓ lead words brighten with scroll; list rules draw in with stagger.</p>
   </div>
 </section>
 
@@ -1236,7 +1449,7 @@ html.notes-off .note { display: none; }
         <span class="t-label">Faster to the right view <span class="facts__ph">Placeholder</span></span>
       </li>
     </ul>
-    <p class="note facts__note">Phase 2: numbers count up, rules draw in. Third metric is a placeholder (IMP-03) — replace with an approved figure.</p>
+    <p class="note facts__note">Phase 2 ✓ numbers count up, rules draw in. Third metric is a placeholder (IMP-03) — replace with an approved figure.</p>
   </div>
 </section>
 
@@ -1261,7 +1474,7 @@ html.notes-off .note { display: none; }
       <p class="t-meta" aria-live="polite"><span data-quotes-index>1</span> / 2</p>
       <button class="quotes__btn" type="button" data-quotes-next aria-label="Next quote">→</button>
     </div>
-    <p class="note quotes__note">Phase 2: crossfade with line reveal between quotes.</p>
+    <p class="note quotes__note">Phase 2 ✓ crossfade with line reveal between quotes.</p>
   </div>
 </section>
 
@@ -1318,9 +1531,9 @@ html.notes-off .note { display: none; }
 
   <div class="next">
     <div class="next__marquee" aria-hidden="true">
-      <span>Next case study • BuildTwin • Next case study • BuildTwin •</span>
+      <div class="next__track"><span>Next case study • BuildTwin •&nbsp;</span><span>Next case study • BuildTwin •&nbsp;</span></div>
     </div>
-    <a class="next__card" href="https://www.tcules.com/case-studies/ai-quality-control-expert-review-buildtwin">
+    <a class="next__card" data-cursor="Read" href="https://www.tcules.com/case-studies/ai-quality-control-expert-review-buildtwin">
       <div class="ph ph--tint-stone next__ph"><p class="ph__label"><b>BuildTwin</b>card image</p></div>
       <span class="next__name t-label">Read the BuildTwin case <span aria-hidden="true">↗</span></span>
     </a>
@@ -1331,7 +1544,7 @@ html.notes-off .note { display: none; }
       <li><a class="related__row" href="https://www.tcules.com/case-studies/eden-ai-workflow-builder-search-redesign"><span class="t-label">Read the Eden AI case</span><span aria-hidden="true">↗</span></a></li>
       <li><a class="related__row" href="https://www.tcules.com/services/product-design"><span class="t-label">See Product Design</span><span aria-hidden="true">↗</span></a></li>
     </ul>
-    <p class="note">Phase 2: marquee drifts and speeds up with scroll velocity; card image scales on hover; cursor shows "Read".</p>
+    <p class="note">Phase 2 ✓ marquee drifts and speeds up with scroll velocity; card image scales on hover; cursor shows "Read".</p>
   </div>
 </section>
 
@@ -1373,7 +1586,7 @@ html.notes-off .note { display: none; }
         <p class="t-body">We'll reply within one business day.</p>
       </div>
     </form>
-    <p class="note enquiry__note">Prototype: submits to a stub (IMP-06). Phase 2: heading line-reveals, fields stagger in, button morphs into the success state.</p>
+    <p class="note enquiry__note">Prototype: submits to a stub (IMP-06). Phase 2 ✓ heading line-reveals, fields stagger in, button morphs into the success state.</p>
   </div>
 </section>
 
@@ -1499,10 +1712,16 @@ html.notes-off .note { display: none; }
   </div>
 </footer>
 
+<div class="cursor is-hidden" aria-hidden="true"><span class="cursor__label"></span></div>
+
 <button class="notes-toggle" type="button" data-notes-toggle aria-pressed="true">Notes: on</button>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<script src="https://unpkg.com/lenis@1.3.4/dist/lenis.min.js"></script>
 <script>
-/* ConnectX case study — Phase 1 behaviour (no motion yet). */
+/* ConnectX case study — page behaviour that works with or without motion. */
 (function () {
   const root = document.documentElement;
 
@@ -1523,19 +1742,38 @@ html.notes-off .note { display: none; }
   const quotes = [...document.querySelectorAll('[data-quotes] .quote')];
   const quoteIndex = document.querySelector('[data-quotes-index]');
   let q = 0;
-  function showQuote(i) {
-    q = (i + quotes.length) % quotes.length;
+  function swapQuote() {
     quotes.forEach((el, n) => { el.hidden = n !== q; el.classList.toggle('is-active', n === q); });
     quoteIndex.textContent = String(q + 1);
+  }
+  function showQuote(i) {
+    const prev = quotes[q];
+    q = (i + quotes.length) % quotes.length;
+    if (!root.classList.contains('motion')) { swapQuote(); return; }
+    /* Crossfade: the old quote lifts away, the new one reveals line by line */
+    gsap.killTweensOf(prev);
+    gsap.to(prev, {
+      opacity: 0, y: -16, duration: 0.35, ease: 'power2.in',
+      onComplete() {
+        gsap.set(prev, { clearProps: 'opacity,transform' });
+        swapQuote();
+        const p = quotes[q].querySelector('blockquote p');
+        const split = SplitText.create(p, { type: 'lines', mask: 'lines' });
+        gsap.from(split.lines, { yPercent: 105, duration: 0.9, ease: 'expo.out', stagger: 0.06, onComplete: () => split.revert() });
+        gsap.from(quotes[q].querySelector('.quote__by'), { opacity: 0, y: 12, duration: 0.6, delay: 0.25, ease: 'expo.out' });
+      },
+    });
   }
   document.querySelector('[data-quotes-prev]').addEventListener('click', () => showQuote(q - 1));
   document.querySelector('[data-quotes-next]').addEventListener('click', () => showQuote(q + 1));
 
-  /* Scenario areas: static selection until the pinned scene arrives in Phase 2 */
+  /* Scenario areas: static selection (the pinned scene in scenes.js takes over when motion is on) */
   const areas = [...document.querySelectorAll('.areas__item')];
   const areaIndex = document.querySelector('.areas__progress span');
+  const areaStates = [...document.querySelectorAll('.areas__state')];
   areas.forEach((el, n) => el.addEventListener('click', () => {
     areas.forEach((a) => a.classList.toggle('is-active', a === el));
+    areaStates.forEach((a, m) => a.classList.toggle('is-active', m === n));
     areaIndex.textContent = String(n + 1);
   }));
 
@@ -1546,12 +1784,414 @@ html.notes-off .note { display: none; }
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     if (!form.checkValidity()) { form.reportValidity(); return; }
-    form.querySelector('.enquiry__success').hidden = false;
-    form.querySelector('button[type="submit"]').disabled = true;
+    const success = form.querySelector('.enquiry__success');
+    const button = form.querySelector('button[type="submit"]');
+    button.disabled = true;
+    button.textContent = 'Sent';
+    success.hidden = false;
+    if (root.classList.contains('motion')) {
+      gsap.from(success, { opacity: 0, y: 16, duration: 0.8, ease: 'expo.out' });
+      ScrollTrigger.refresh();
+    }
   });
 
   document.querySelectorAll('[data-year]').forEach((el) => { el.textContent = String(new Date().getFullYear()); });
 })();
+</script>
+<script>
+/* ConnectX case study — motion system (Phase 2).
+   Runs only when motion is allowed and the libraries loaded; otherwise the
+   page stays complete and static (html.motion-off). */
+(function () {
+  const root = document.documentElement;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const libs = window.gsap && window.ScrollTrigger && window.SplitText && window.Lenis;
+  if (reduce || !libs) {
+    root.classList.remove('is-loading');
+    root.classList.add('motion-off');
+    return;
+  }
+
+  gsap.registerPlugin(ScrollTrigger, SplitText);
+  root.classList.add('motion');
+
+  const EASE = 'expo.out';
+  const $ = (s, c = document) => c.querySelector(s);
+  const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+  const token = (name) => getComputedStyle(root).getPropertyValue(name).trim();
+
+  /* ---------- Smooth scroll ---------- */
+  const lenis = new Lenis({ lerp: 0.1 });
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add((t) => lenis.raf(t * 1000));
+  gsap.ticker.lagSmoothing(0);
+  window.cxMotion = { lenis };
+
+  /* ---------- Nav ---------- */
+  const nav = $('[data-nav]');
+  const chapterEl = $('[data-nav-chapter]');
+  const menuBtn = $('[data-nav-menu]');
+  const menu = $('#nav-menu');
+
+  function setMenu(open) {
+    menu.hidden = !open;
+    menuBtn.setAttribute('aria-expanded', String(open));
+    if (open) nav.classList.remove('is-hidden');
+  }
+  menuBtn.addEventListener('click', () => setMenu(menu.hidden));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !menu.hidden) { setMenu(false); menuBtn.focus(); } });
+  document.addEventListener('click', (e) => { if (!menu.hidden && !nav.contains(e.target)) setMenu(false); });
+
+  /* In-page links scroll smoothly and clear the fixed nav */
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const id = a.getAttribute('href');
+    const el = id.length > 1 && document.querySelector(id);
+    if (!el) return;
+    e.preventDefault();
+    setMenu(false);
+    lenis.scrollTo(el, { offset: -96, duration: 1.4 });
+    history.replaceState(null, '', id);
+  });
+
+  chapterEl.textContent = 'ConnectX';
+  ScrollTrigger.create({
+    trigger: '.hero', start: 'top -120px',
+    onEnter: () => nav.classList.add('is-pill'),
+    onLeaveBack: () => { nav.classList.remove('is-pill'); setMenu(false); },
+  });
+  /* Current chapter = the one crossing the middle of the screen; outside the chapters it reads "ConnectX".
+     Measured on every scroll so jumps (menu links, fast scrolls) never leave a stale label. */
+  const chapters = $$('[data-chapter]');
+  function updateChapter() {
+    const mid = innerHeight / 2;
+    const sec = chapters.find((el) => { const r = el.getBoundingClientRect(); return r.top <= mid && r.bottom > mid; });
+    const text = sec ? sec.dataset.chapter : 'ConnectX';
+    if (chapterEl.textContent !== text) chapterEl.textContent = text;
+  }
+  lenis.on('scroll', updateChapter);
+
+  /* Hide on a fast scroll down, return on any scroll up */
+  lenis.on('scroll', ({ velocity, direction, scroll }) => {
+    if (!menu.hidden || scroll < innerHeight) { nav.classList.remove('is-hidden'); return; }
+    if (direction > 0 && velocity > 14) nav.classList.add('is-hidden');
+    else if (direction < 0) nav.classList.remove('is-hidden');
+  });
+
+  /* ---------- Context cursor ---------- */
+  if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    root.classList.add('has-pointer');
+    const cursor = $('.cursor');
+    const label = $('.cursor__label');
+    const xTo = gsap.quickTo(cursor, 'x', { duration: 0.35, ease: 'power3' });
+    const yTo = gsap.quickTo(cursor, 'y', { duration: 0.35, ease: 'power3' });
+    addEventListener('pointermove', (e) => {
+      if (cursor.classList.contains('is-hidden')) { gsap.set(cursor, { x: e.clientX, y: e.clientY }); cursor.classList.remove('is-hidden'); }
+      xTo(e.clientX); yTo(e.clientY);
+    }, { passive: true });
+    document.addEventListener('pointerover', (e) => {
+      const t = e.target.closest('[data-cursor]');
+      const text = t && t.dataset.cursor;
+      cursor.classList.toggle('is-label', !!text);
+      if (text) label.textContent = text;
+    });
+    document.documentElement.addEventListener('mouseleave', () => cursor.classList.add('is-hidden'));
+    document.documentElement.addEventListener('mouseenter', () => cursor.classList.remove('is-hidden'));
+    window.cxMotion.cursor = cursor;
+  }
+
+  /* ---------- Helpers ---------- */
+  function revealLines(el, { start = 'top 85%', stagger = 0.08 } = {}) {
+    let played = false;
+    SplitText.create(el, {
+      type: 'lines', mask: 'lines', linesClass: 'split-line', autoSplit: true,
+      onSplit(self) {
+        if (played) return undefined;
+        return gsap.from(self.lines, {
+          yPercent: 105, duration: 1.1, ease: EASE, stagger,
+          scrollTrigger: { trigger: el, start, once: true, onEnter: () => { played = true; } },
+        });
+      },
+    });
+  }
+
+  function brighten(el) {
+    const from = token('--ink-4');
+    const to = token('--ink');
+    SplitText.create(el, {
+      type: 'words', autoSplit: true,
+      onSplit(self) {
+        return gsap.fromTo(self.words, { color: from }, {
+          color: to, ease: 'none', stagger: 0.1,
+          scrollTrigger: { trigger: el, start: 'top 82%', end: 'bottom 55%', scrub: true },
+        });
+      },
+    });
+  }
+
+  function countUp(el) {
+    const node = [...el.childNodes].find((n) => n.nodeType === 3 && /\d/.test(n.textContent));
+    if (!node) return;
+    const m = node.textContent.match(/^(\s*)([\d.]+)(.*)$/s);
+    if (!m) return;
+    const target = parseFloat(m[2]);
+    const decimals = (m[2].split('.')[1] || '').length;
+    const obj = { v: 0 };
+    const write = () => { node.textContent = m[1] + obj.v.toFixed(decimals) + m[3]; };
+    write();
+    gsap.to(obj, {
+      v: target, duration: 1.6, ease: 'power3.out', onUpdate: write,
+      scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+    });
+  }
+
+  /* ---------- Start once fonts are ready (line breaks depend on them) ---------- */
+  let started = false;
+  function start() {
+    if (started) return;
+    started = true;
+
+    /* Hero: title by character, credits, then the media */
+    const media = $('.hero__media');
+    const gutter = () => parseFloat(getComputedStyle($('.hero .wrap')).paddingLeft);
+    gsap.set(media, { clipPath: `inset(0px ${gutter()}px 0px ${gutter()}px round 24px)` });
+    $$('.hero__credit').forEach((el) => el.classList.add('draw'));
+    gsap.set('.hero__credit', { '--draw': 0 });
+    root.classList.remove('is-loading');
+
+    const name = SplitText.create('.hero__name', { type: 'lines,chars', mask: 'lines' });
+    gsap.timeline({ defaults: { ease: EASE } })
+      .from(name.chars, { yPercent: 110, duration: 1.2, stagger: 0.035 }, 0)
+      .from('.hero__eyebrow', { opacity: 0, y: 12, duration: 0.8 }, 0.1)
+      .to('.hero__credit', { '--draw': 1, duration: 1.2, stagger: 0.08 }, 0.35)
+      .from('.hero__credit > *', { opacity: 0, y: 14, duration: 0.8, stagger: 0.04 }, 0.45)
+      .from('.hero__h1', { opacity: 0, y: 14, duration: 0.8 }, 0.6)
+      .from(media, { opacity: 0, y: 48, duration: 1.4 }, 0.55);
+
+    /* Hero media opens to full-bleed as the page scrolls */
+    gsap.fromTo(media,
+      { clipPath: () => `inset(0px ${gutter()}px 0px ${gutter()}px round 24px)` },
+      {
+        clipPath: 'inset(0px 0px 0px 0px round 0px)', ease: 'none',
+        scrollTrigger: { start: 0, end: () => innerHeight * 0.75, scrub: true, invalidateOnRefresh: true },
+      });
+    gsap.fromTo('.hero__media .ph__screen', { scale: 0.94 }, {
+      scale: 1, ease: 'none',
+      scrollTrigger: { start: 0, end: () => innerHeight * 0.75, scrub: true },
+    });
+
+    /* Pinned scenes go first so later triggers measure the pin spacing */
+    if (window.cxScenes) window.cxScenes.init({ lenis, EASE });
+
+    /* Line reveals */
+    $$([
+      '.chapter__head .t-statement', '.chapter__pull', '.sub__head h3', '.glance__row--key dd',
+      '.facts__title', '.faq__title', '.related__title', '.enquiry__title', '.quote.is-active blockquote p',
+    ].join(',')).forEach((el) => revealLines(el));
+
+    /* Big reads brighten word by word, scrubbed */
+    $$('.intro__text .t-intro, .decide__lead').forEach(brighten);
+
+    /* Fade-up for supporting elements */
+    const fades = $$([
+      '.intro__links', '.glance__head', '.glance__row dt', '.glance__row:not(.glance__row--key) dd', '.glance__services',
+      '.chapter__label', '.chapter__body > p', '.role-card', '.carousel__caption', '.stage__caption',
+      '.areas__nav > .t-meta', '.sub__body > p', '.compare__item > .t-meta', '.compare__item figcaption',
+      '.demo__media figcaption', '.timeline__title', '.timeline__step > p', '.decide__h2', '.decide__defs > .t-meta',
+      '.defs li > *', '.decide__body > p', '.facts__row > *', '.quotes__title', '.quote__by', '.quotes__controls',
+      '.trust__list li', '.related__lead', '.related__row > *', '.enquiry__sub', '.field', '.enquiry__actions',
+    ].join(','));
+    gsap.set(fades, { opacity: 0, y: 24 });
+    ScrollTrigger.batch(fades, {
+      start: 'top 90%', once: true,
+      onEnter: (els) => gsap.to(els, { opacity: 1, y: 0, duration: 0.9, ease: EASE, stagger: 0.07, overwrite: true }),
+    });
+
+    /* Footer: columns rise together once its top is on screen */
+    const footerBits = $$('.footer__brand > *, .footer__col, .footer__mid > *, .footer__bottom');
+    gsap.from(footerBits, {
+      opacity: 0, y: 32, duration: 1, ease: EASE, stagger: 0.05,
+      scrollTrigger: { trigger: '.footer', start: 'top 85%', once: true },
+    });
+
+    /* Hairline rules draw left to right */
+    const rules = $$('.glance__row, .defs li, .facts__row, .faq__item, .related__row, .timeline__step');
+    rules.forEach((el) => el.classList.add('draw'));
+    gsap.set(rules, { '--draw': 0 });
+    ScrollTrigger.batch(rules, {
+      start: 'top 92%', once: true,
+      onEnter: (els) => gsap.to(els, { '--draw': 1, duration: 1.3, ease: 'expo.inOut', stagger: 0.08 }),
+    });
+
+    /* Media: clip wipe open, inner screen settles */
+    $$('.carousel__item, .sub__media, .compare__ph, .demo__ph, .areas__view').forEach((el) => {
+      const trigger = { trigger: el, start: 'top 88%', once: true };
+      gsap.fromTo(el, { clipPath: 'inset(12% 5% 12% 5% round 24px)' }, {
+        clipPath: 'inset(0% 0% 0% 0% round 24px)', duration: 1.5, ease: EASE, scrollTrigger: trigger,
+      });
+      const inner = !el.classList.contains('areas__view') && el.querySelector('.ph__screen');
+      if (inner) gsap.from(inner, { scale: 1.08, duration: 1.8, ease: EASE, scrollTrigger: trigger });
+    });
+
+    /* Demo image: light parallax */
+    gsap.fromTo('.demo__ph .ph__screen', { y: -40 }, {
+      y: 40, ease: 'none',
+      scrollTrigger: { trigger: '.demo__ph', start: 'top bottom', end: 'bottom top', scrub: true },
+    });
+
+    /* Digital twin: the explored direction steps back, the chosen one comes forward */
+    gsap.timeline({ scrollTrigger: { trigger: '.compare', start: 'top 80%', end: 'bottom 50%', scrub: true } })
+      .to('.compare__item--explored', { opacity: 0.55, scale: 0.95, y: 24, transformOrigin: '50% 100%', ease: 'none' }, 0)
+      .fromTo('.compare__item--chosen', { y: 64 }, { y: 0, ease: 'none' }, 0);
+
+    /* Numbers count up */
+    $$('.facts__row .t-stat').forEach(countUp);
+    $$('.trust__v').filter((el) => !/^\s*\d{4}\s*$/.test(el.textContent)).forEach(countUp);
+
+    /* Next case study marquee: drifts, speeds up with scroll velocity */
+    const loop = gsap.to('.next__track', { xPercent: -50, duration: 32, ease: 'none', repeat: -1 });
+    let boost = 1;
+    lenis.on('scroll', ({ velocity }) => { boost = Math.max(boost, 1 + Math.min(Math.abs(velocity) * 0.35, 6)); });
+    gsap.ticker.add(() => {
+      boost += (1 - boost) * 0.05;
+      loop.timeScale(loop.timeScale() + (boost - loop.timeScale()) * 0.1);
+    });
+    ScrollTrigger.create({
+      trigger: '.next', start: 'top bottom', end: 'bottom top',
+      onToggle: (self) => (self.isActive ? loop.play() : loop.pause()),
+    });
+
+    ScrollTrigger.refresh();
+  }
+
+  /* ---------- Carousel: drag with the mouse, arrow keys ---------- */
+  const track = $('.carousel__track');
+  let drag = null;
+  track.addEventListener('pointerdown', (e) => {
+    if (e.pointerType !== 'mouse' || e.button !== 0) return;
+    drag = { x: e.clientX, left: track.scrollLeft, moved: false };
+    track.setPointerCapture(e.pointerId);
+  });
+  track.addEventListener('pointermove', (e) => {
+    if (!drag) return;
+    const dx = e.clientX - drag.x;
+    if (!drag.moved && Math.abs(dx) > 4) { drag.moved = true; track.classList.add('is-dragging'); }
+    if (drag.moved) track.scrollLeft = drag.left - dx;
+  });
+  const endDrag = () => { drag = null; track.classList.remove('is-dragging'); };
+  track.addEventListener('pointerup', endDrag);
+  track.addEventListener('pointercancel', endDrag);
+  track.addEventListener('keydown', (e) => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    e.preventDefault();
+    const item = $('.carousel__item', track);
+    const step = item.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 0);
+    track.scrollBy({ left: e.key === 'ArrowRight' ? step : -step, behavior: 'smooth' });
+  });
+
+  /* ---------- FAQ: animated height ---------- */
+  $$('.faq__item').forEach((item) => {
+    const body = $('.faq__a', item);
+    $('summary', item).addEventListener('click', (e) => {
+      e.preventDefault();
+      gsap.killTweensOf(body);
+      if (item.open && !item.classList.contains('is-closing')) {
+        item.classList.add('is-closing');
+        gsap.to(body, {
+          height: 0, opacity: 0, duration: 0.5, ease: 'power3.inOut',
+          onComplete: () => {
+            item.open = false;
+            item.classList.remove('is-closing');
+            gsap.set(body, { clearProps: 'height,opacity' });
+            ScrollTrigger.refresh();
+          },
+        });
+      } else {
+        item.classList.remove('is-closing');
+        item.open = true;
+        gsap.fromTo(body, { height: 0, opacity: 0 }, {
+          height: 'auto', opacity: 1, duration: 0.6, ease: 'power3.out',
+          onComplete: () => { gsap.set(body, { clearProps: 'height' }); ScrollTrigger.refresh(); },
+        });
+      }
+    });
+  });
+
+  /* Wait for every script (scenes.js loads after this file), then for fonts — cached fonts resolve instantly */
+  const domReady = document.readyState === 'loading'
+    ? new Promise((r) => document.addEventListener('DOMContentLoaded', r, { once: true }))
+    : Promise.resolve();
+  domReady
+    .then(() => Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 1500))]))
+    .then(start);
+})();
+</script>
+<script>
+/* ConnectX case study — pinned scenes (Phase 2, on grey boxes).
+   Called by motion.js once fonts are ready: window.cxScenes.init({ lenis, EASE }). */
+window.cxScenes = {
+  init({ lenis }) {
+    const $ = (s, c = document) => c.querySelector(s);
+    const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+    const NAV_CLEAR = 88; // pinned stages sit just under the floating nav
+
+    /* ---------- S5 The choice: two directions merge into the chosen model ---------- */
+    const frame = $('[data-pin="choice"] .stage__frame');
+    if (frame) {
+      const [dirA, dirB] = $$('.choice__dir', frame);
+      const verdicts = $$('.choice__dir .choice__verdict', frame);
+      const merged = $('.choice__merged', frame);
+      const steps = $$('.flow__step', frame);
+      steps.forEach((el) => el.classList.add('draw'));
+      gsap.set(steps, { opacity: 0.15, y: 12, '--draw': 0, '--draw-c': 'var(--line-strong)' });
+
+      gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: {
+          trigger: frame, start: `top ${NAV_CLEAR}px`, end: '+=160%',
+          pin: true, scrub: 0.6, anticipatePin: 1, refreshPriority: 2,
+        },
+      })
+        // beat 1 → 2: verdicts step aside, the directions slide together
+        .to(verdicts, { opacity: 0, y: -8, duration: 0.4 }, 0.2)
+        .to(dirA, { xPercent: 26, scale: 0.9, duration: 1 }, 0.2)
+        .to(dirB, { xPercent: -26, scale: 0.9, duration: 1 }, 0.2)
+        // beat 3: they merge into one workspace, grey turns product blue
+        .to([dirA, dirB], { opacity: 0, duration: 0.5 }, 1.05)
+        .fromTo(merged, { autoAlpha: 0, scale: 0.92, y: 24 }, { autoAlpha: 1, scale: 1, y: 0, duration: 0.7 }, 1.05)
+        // beat 4: the chosen model's five steps draw in
+        .to(steps, { opacity: 1, y: 0, '--draw': 1, stagger: 0.22, duration: 0.6 }, 1.7)
+        .to({}, { duration: 0.4 });
+    }
+
+    /* ---------- S6 Scenario areas: pinned list drives the workspace view ---------- */
+    const areas = $('[data-pin="areas"] .areas');
+    if (areas) {
+      const items = $$('.areas__item', areas);
+      const states = $$('.areas__state', areas);
+      const count = $('.areas__progress span', areas);
+      let current = -1;
+      const setArea = (i) => {
+        if (i === current) return;
+        current = i;
+        items.forEach((el, n) => el.classList.toggle('is-active', n === i));
+        states.forEach((el, n) => el.classList.toggle('is-active', n === i));
+        count.textContent = String(i + 1);
+      };
+      const st = ScrollTrigger.create({
+        trigger: areas, start: `top ${NAV_CLEAR}px`, end: `+=${items.length * 60}%`,
+        pin: true, anticipatePin: 1, refreshPriority: 1,
+        onUpdate: (self) => setArea(Math.min(items.length - 1, Math.floor(self.progress * items.length))),
+      });
+      setArea(0);
+      items.forEach((el, n) => $('button', el).addEventListener('click', (e) => {
+        e.stopPropagation();
+        lenis.scrollTo(st.start + (st.end - st.start) * ((n + 0.5) / items.length), { duration: 1.2 });
+      }));
+    }
+  },
+};
 </script>
 </body>
 </html>

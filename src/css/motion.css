@@ -1,0 +1,174 @@
+/* ==========================================================================
+   Motion — states used by js/motion.js and js/scenes.js.
+   Everything here is scoped to html.motion, so with reduced motion or without
+   JS the page renders complete and static.
+   ========================================================================== */
+
+/* ---- Lenis ---- */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* ---- Loading guard (set in <head>, cleared when the intro starts) ---- */
+.is-loading .hero { opacity: 0; }
+
+/* ---- Nav: bar at the top, floating pill after the hero ---- */
+.nav { position: fixed; transition: transform .5s var(--ease-out); }
+.nav.is-hidden { transform: translateY(calc(-100% - 24px)); }
+.nav__bar {
+  transition:
+    max-width .7s var(--ease-out),
+    height .7s var(--ease-out),
+    margin-top .7s var(--ease-out),
+    padding .7s var(--ease-out),
+    background-color .5s ease,
+    box-shadow .5s ease,
+    border-radius .7s var(--ease-out);
+  border-radius: 0;
+}
+.nav__context { display: grid; white-space: nowrap; }
+.nav__case, .nav__chapter { grid-area: 1 / 1; text-align: center; transition: opacity .4s ease, transform .5s var(--ease-out); }
+.nav__chapter { opacity: 0; transform: translateY(8px); color: var(--ink); }
+.nav__actions { display: flex; align-items: center; gap: var(--s-3); }
+.nav__cta { transition: opacity .3s ease; }
+
+.nav__menu-btn {
+  display: none; align-items: center; gap: 10px;
+  height: 36px; padding: 0 6px 0 14px;
+  border-radius: 999px;
+  font-size: 13px; font-weight: 600; color: var(--ink);
+}
+.nav__menu-icon { position: relative; width: 24px; height: 24px; border-radius: 50%; background: var(--ink); }
+.nav__menu-icon::before, .nav__menu-icon::after {
+  content: ""; position: absolute; left: 7px; right: 7px; height: 1.5px; background: #fff;
+  transition: transform .35s var(--ease-out);
+}
+.nav__menu-icon::before { top: 9px; }
+.nav__menu-icon::after { top: 13px; }
+.nav__menu-btn[aria-expanded="true"] .nav__menu-icon::before { transform: translateY(2px) rotate(45deg); }
+.nav__menu-btn[aria-expanded="true"] .nav__menu-icon::after { transform: translateY(-2px) rotate(-45deg); }
+
+.nav.is-pill .nav__bar {
+  max-width: 560px;
+  height: 52px;
+  margin-top: 14px;
+  padding-inline: 18px 8px;
+  border-radius: 999px;
+  background-color: rgb(255 255 255 / .8);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  backdrop-filter: blur(16px) saturate(1.4);
+  box-shadow: var(--shadow-float);
+}
+.nav.is-pill .nav__logo svg { height: 20px; }
+.nav__logo svg { transition: height .6s var(--ease-out); }
+.nav.is-pill .nav__case { opacity: 0; transform: translateY(-8px); }
+.nav.is-pill .nav__chapter { opacity: 1; transform: none; }
+.nav.is-pill .nav__cta { display: none; }
+.nav.is-pill .nav__menu-btn { display: inline-flex; }
+
+.nav__menu {
+  position: absolute; left: 50%; top: 76px;
+  width: min(560px, calc(100vw - 2 * var(--margin)));
+  transform: translateX(-50%);
+  padding: var(--s-5);
+  background: var(--surface);
+  border-radius: var(--radius-l);
+  box-shadow: var(--shadow-lift);
+  display: grid; grid-template-columns: 3fr 2fr; gap: var(--s-5);
+}
+.nav__menu[hidden] { display: none; }
+.nav__chapters a, .nav__site a {
+  display: flex; align-items: baseline; gap: 10px;
+  padding: 7px 0;
+  color: var(--ink); font-weight: 500;
+}
+.nav__chapters a span { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); }
+.nav__chapters a:hover, .nav__site a:hover { color: var(--ink-3); }
+.nav__site { padding-left: var(--s-5); border-left: 1px solid var(--line); }
+
+/* ---- Context cursor ---- */
+.cursor {
+  position: fixed; left: 0; top: 0; z-index: 90;
+  display: none;
+  pointer-events: none;
+}
+.motion.has-pointer .cursor { display: block; }
+.cursor__label {
+  position: absolute; left: 0; top: 0;
+  display: flex; align-items: center; justify-content: center;
+  min-width: 10px; height: 10px;
+  padding: 0;
+  border-radius: 999px;
+  background: var(--ink); color: #fff;
+  font-size: 0; font-weight: 600; letter-spacing: .02em; white-space: nowrap;
+  transform: translate(-50%, -50%);
+  transition: height .35s var(--ease-out), padding .35s var(--ease-out), font-size .2s ease, opacity .25s ease, background-color .25s ease;
+}
+.cursor.is-hidden .cursor__label { opacity: 0; }
+.cursor.is-label .cursor__label { height: 40px; padding: 0 16px; font-size: 13px; }
+
+/* ---- Drawn rules: border lines become scaleX-able pseudo elements ---- */
+.motion .draw { position: relative; border-top-color: transparent !important; }
+.motion .draw::before {
+  content: ""; position: absolute; left: 0; right: 0; top: var(--draw-top, -1px);
+  height: var(--draw-h, 1px);
+  background: var(--draw-c, var(--line));
+  transform: scaleX(var(--draw, 0));
+  transform-origin: 0 50%;
+  pointer-events: none;
+}
+.motion .timeline__step.draw { --draw-h: 2px; --draw-top: -2px; }
+.motion .timeline__node { z-index: 1; }
+
+/* ---- Split text ---- */
+.split-line { padding-bottom: .06em; margin-bottom: -.06em; }
+
+/* ---- Hero media: full-bleed element, clipped back to the margins ---- */
+.motion .hero__media-wrap { max-width: none; padding-inline: 0; }
+.motion .hero__media { border-radius: 0; will-change: clip-path; }
+.motion .hero__note { left: calc(var(--margin) + 16px); }
+
+/* ---- Carousel ---- */
+.carousel__track { cursor: grab; }
+.carousel__track.is-dragging { cursor: grabbing; scroll-snap-type: none; user-select: none; }
+.carousel__track.is-dragging * { pointer-events: none; }
+.motion.has-pointer [data-cursor] { cursor: none; }
+.motion.has-pointer [data-cursor] a, .motion.has-pointer [data-cursor] button { cursor: none; }
+
+/* ---- Choice scene ---- */
+.choice { position: relative; }
+.choice__merged {
+  position: absolute; inset: 0 22% auto;
+  display: flex; flex-direction: column; gap: var(--s-3);
+  opacity: 0; visibility: hidden;
+}
+.motion-off .choice__merged, html:not(.motion) .choice__merged { display: none; }
+
+/* ---- Scenario areas ---- */
+.areas__item button {
+  display: flex; align-items: baseline; gap: var(--s-4);
+  width: 100%; text-align: left;
+  font: inherit; color: inherit;
+}
+.areas__item { transition: color .4s ease; }
+.areas__view { position: relative; }
+.areas__state { opacity: 0; transform: translateY(16px) scale(.98); transition: opacity .5s ease, transform .7s var(--ease-out); }
+.areas__state.is-active { opacity: 1; transform: none; }
+.areas__progress span { display: inline-block; min-width: 1ch; }
+
+/* ---- Marquee ---- */
+.next__track { display: inline-flex; will-change: transform; }
+.next__track span { flex: none; }
+.next__ph { transition: transform .8s var(--ease-out); }
+.next__card { overflow: hidden; transition: box-shadow .5s ease, transform .6s var(--ease-out); }
+.next__card:hover .next__ph { transform: scale(1.04); }
+
+/* ---- FAQ ---- */
+.faq__icon::after { transition: transform .45s var(--ease-out); }
+.faq__item.is-closing .faq__icon::after { transform: translate(-50%, -50%) rotate(90deg); }
+.faq__a { overflow: hidden; }
+
+/* ---- Enquiry ---- */
+.enquiry__actions .btn { transition: background-color .3s ease, opacity .3s ease; }
+.enquiry__actions .btn:disabled { opacity: .4; cursor: default; }
