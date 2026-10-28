@@ -1,289 +1,314 @@
-# ConnectX case study — build plan
+# ConnectX case study — build plan (v2)
 
 Status: **plan for review. Nothing is built yet.**
-Scope of this round: page **layout**, **animations** and **interactions**. Final visual polish comes later.
+Scope of this round: page **layout**, **animations** and **interactions**, desktop **1024 → 1920+**.
 
 ---
 
-## 0. Decisions already made
+## 0. Decisions
 
 | Topic | Decision |
 |---|---|
 | Copy | `case-studies__ai-native-building-energy-product-connectx.md` is the source of truth. The live page copy is older and is only used as an image source. |
-| Reference | Metalab › Midjourney: its structure, rhythm and motion, **inverted to light mode** (light background, dark foreground). |
-| Fonts | Tcules' own: **Bricolage Grotesque** (display / headings) + **Figtree** (body / UI labels). Swappable later through one token. |
-| Layout deliverable | A scrollable **grey-box HTML page**: real copy, real grid, real motion, with placeholder media blocks labelled with the asset that goes there. |
-| Live Twin | Embedded **borderless and fully interactive** inside the page. |
-| Video | **None.** Every moving product moment is an **HTML component with code-driven animation**. |
+| Reference | Metalab › Midjourney: its structure, rhythm and motion, **inverted to light mode**. |
+| Fonts | Tcules' own: **Bricolage Grotesque** (display / headings) + **Figtree** (body / labels). Swappable through one token. |
+| Layout step | A scrollable **grey-box HTML page**: real copy, grid and motion, with labelled placeholder media. |
+| Video | None. Every moving product moment is an **HTML component with code-driven animation**. |
+| Scenarios | Only the **4 scenario areas named in the markdown** (System status, Forecasting, Asset performance, Operational conditions). The 8 individual scenarios aren't named or listed anywhere on the page → backlog item **IMP-01**. |
+| Nav | A **light, case-study nav** (Metalab-style). |
+| Footer | The **Tcules green footer**, rebuilt. |
+| Metrics | A **placeholder metric** is allowed for now, visibly marked in the source and logged as **IMP-03**. |
+| Live Twin | Embedded borderless and interactive, in a **stripped-back "floating" layout**: ConnectX top bar + 3D scene + a few floating KPI cards + a few floating detail cards (see §6). |
+| Viewports | Desktop **1024 → 1920+**. Below 1024 is not designed this round → **IMP-04**. |
+| Output | **One self-contained `.html` file** (see §2). |
 
 ---
 
-## 1. What the reference actually does (measured, not guessed)
+## 1. What the reference does (measured)
 
-Captured from metalab.com/work/midjourney in a headless browser:
+Measured on metalab.com/work/midjourney in a headless browser:
 
-- **Type scale** (only 5 sizes): 140px display title · 56px intro paragraph · 40px chapter statement · 20px chapter label / stat caption · 16px body.
-- **Rhythm**: Hero (giant name → credits row → full-width image that grows on scroll) → one big intro paragraph → **chapter module × 4** (small label + one-line statement, then an asymmetric media composition with a narrow body column tucked beside it) → Outcomes (hairline-ruled stats) → huge "Next case study" marquee → "How can we help?" closing.
-- **Motion**: Lenis smooth scroll · nav turns from a full-width bar into a floating blurred pill after the hero · hero image scale-up · line-by-line masked text reveals · media reveals · a context cursor ("Hover" / "Drag") · drag carousel · marquee. Restrained everywhere else.
-- **Media treatment**: UI is never shown flat. It is placed on coloured or photographic backdrops, cropped, layered and pulled apart into components.
-
-**Light-mode translation for us:** a warm off-white page, near-black text, and the product UI placed on **soft tinted panels**. The ConnectX UI is itself light, so it needs a tinted backdrop to stand off the page, the way Metalab uses orange. Tcules green appears only as a small accent, never as large fields of colour.
+- **Type**: only 5 sizes: 140 display · 56 intro · 40 chapter statement · 20 label · 16 body.
+- **Rhythm**: Hero (giant name → credits row → full-width image that grows on scroll) → one big intro paragraph → **chapter module × 4** (label + one-line statement, then an asymmetric media composition with a narrow body column) → Outcomes (hairline-ruled stats) → "Next case study" marquee → "How can we help?" closing.
+- **Motion**: smooth scroll · nav turns from a bar into a floating pill · hero image scale-up · line-masked text reveals · clipped media reveals · context cursor · drag carousel · marquee.
+- **Media**: UI is never shown flat. It is placed on coloured backdrops, cropped, layered and pulled apart.
 
 ---
 
-## 2. Tech approach
+## 2. Output and tech
 
-- **Static, no build step**: `index.html` + `css/` + `js/`, so it can be opened locally, shared, and later ported into the Tcules Next.js site.
-- Libraries from CDN, pinned versions:
-  - **Lenis** (smooth scroll)
-  - **GSAP 3 + ScrollTrigger** (scroll-linked motion and pinning)
-  - **GSAP SplitText** (line reveals; free since GSAP 3.13)
-- **Live Twin** stays its own file (`twin/live-twin.html`), loaded in a same-origin `<iframe>` with a small **embed mode** added (see §6). three.js stays inside the twin only.
-- Vanilla JS modules, one file per concern (nav, cursor, reveals, each pinned scene, twin bridge).
+**Deliverable: a single file, `dist/connectx-case-study.html`.** You open it in a browser and it just works.
+- All CSS and JS are inline.
+- The **Live Twin is inside the same file**: its HTML is held in an inline `<template>` and loaded into an iframe from a same-origin Blob URL. It stays isolated from the page's styles and scripts, but no second file is needed.
+- Fonts (Google Fonts) and libraries (Lenis, GSAP + ScrollTrigger + SplitText, three.js for the twin) load from CDNs at pinned versions. Images are linked from the existing Tcules Cloudinary URLs.
+- **One caveat**: the file needs an internet connection to fetch fonts, libraries and images. A fully offline version (everything embedded) is possible later, at a cost of several MB → **IMP-05**.
+
+**How I'll work**:
+- I keep readable source files (`src/…`) and run a tiny Node script (`build.mjs`, no dependencies) that inlines everything into the single HTML. Both the source and the built file are committed.
 
 ```
-/index.html
-/css/tokens.css      colours, type, spacing, motion tokens
-/css/base.css        reset, grid, typography
-/css/sections.css    per-section layout
-/css/components.css  HTML product components (Instrument Sans, product tokens)
-/js/main.js          boot: Lenis + GSAP wiring, reduced-motion switch
-/js/nav.js  /js/cursor.js  /js/reveal.js  /js/marquee.js
-/js/scenes/choice.js  scenarios.js  peak.js  twin-bridge.js  timeline.js
-/twin/live-twin.html (patched copy of ConnectX_Live_Twin.html)
-/assets/img/         images (Phase 5)
-/docs/BUILD_PLAN.md
+src/index.html
+src/css/tokens.css  base.css  sections.css  components.css
+src/js/main.js  nav.js  cursor.js  reveal.js  marquee.js
+src/js/scenes/choice.js  areas.js  peak.js  twin-bridge.js  timeline.js
+src/twin/live-twin.html      (copy of ConnectX_Live_Twin.html + embed mode)
+build.mjs                    → dist/connectx-case-study.html
+docs/BUILD_PLAN.md
 ```
 
 ---
 
-## 3. Design foundations (grey-box values, to be tuned)
+## 3. Colour and theme
 
-**Grid:** 12 columns, max width 1440, outer margin 40 / 32 / 16 (desktop / tablet / mobile), gutter 24 / 20 / 12.
+### 3.1 Principles
+1. **Two voices, kept apart.** The **page** speaks in Tcules' neutral black and white. The **product** (twin and HTML components) speaks in ConnectX colours (blue for normal/info, orange for alerts). Product colour never leaks into page chrome, and Tcules green never appears inside the product. That way the reader always knows whether they're looking at the studio's story or the client's product.
+2. **Light, but not white.** The page sits on a soft off-white so white product cards can lift off it with shadow. That's how the "floating" look works without borders.
+3. **Green is a signal, not a surface.** Tcules green `#04EC50` has a contrast of only about 1.5:1 on light backgrounds, so it is **never used for text on light**. It appears only as a fill with black text on it (about 14:1), and only in small, meaningful places. The one large green area is the footer, as on the live site, which closes the page on brand.
+4. **Colour carries the story's state.** Grey means "explored / rejected", product blue means "chosen / working", orange means "needs attention", and green means "live / delivered".
 
-**Type scale** (Metalab sizes mapped to Tcules fonts):
+### 3.2 Tokens
 
-| Token | Desktop | Mobile | Font / weight | Used for |
+**Page (Tcules)**
+
+| Token | Value | Use |
+|---|---|---|
+| `--bg` | `#F3F3F1` | Page background (Tcules' `#F2F2F2` with a slight warm shift so the twin's ground `#F2F1ED` blends in) |
+| `--surface` | `#FFFFFF` | Cards, form fields, floating panels |
+| `--ink` | `#0B0B0B` | Headings, display text |
+| `--ink-2` | `#464646` | Body copy (Tcules value), 9.5:1 contrast on `--bg` |
+| `--ink-3` | `#7A7A7A` | Labels, captions, inactive text (4.6:1, passes AA) |
+| `--ink-4` | `#B5B5B2` | Text before it is revealed in the scroll-brightening effect; decorative only |
+| `--line` | `#DCDCD8` | Hairline rules |
+| `--line-strong` | `#0B0B0B` | Active rules (timeline fill, active list item) |
+| `--brand` | `#04EC50` | Tcules green: "Live" pill, focus ring halo, cursor dot, footer field |
+| `--brand-ink` | `#000000` | Text on green |
+
+**Media backdrops** (Metalab's orange fields, made light): low-chroma tints from the product palette, so screens sit on a related colour:
+
+| Token | Value | Use |
+|---|---|---|
+| `--tint-blue` | `#E6ECF8` | Workspace and dashboard shots (matches product blue) |
+| `--tint-stone` | `#ECEAE4` | Early concepts, the "explored" side (neutral = past) |
+| `--tint-sage` | `#E4EDE6` | Production / live moments (a faint green echo) |
+| `--placeholder` | `#D9D9D5` | Grey-box blocks in Phase 1 |
+
+**Product (ConnectX, taken from the twin file)**: `--cx-blue #4D7CFF` · `--cx-blue-soft #EEF2FF` · `--cx-orange #FF6B3D` · `--cx-orange-soft #FFF3EE` · `--cx-amber #F5A524` · `--cx-ink #1A1A17` · `--cx-panel #FBFAF7`. Fonts: Instrument Sans + Geist Mono, **inside product components only**.
+
+**Elevation (the floating look):**
+- `--shadow-float`: a soft two-layer shadow (`0 1px 2px rgb(0 0 0/.06), 0 12px 32px -8px rgb(20 20 40/.14)`).
+- `--shadow-lift`: a stronger version for hover and the active state.
+- No borders on floating cards; 14px radius, matching the product.
+
+### 3.3 Theme rules
+- **Light only.** There's no dark mode, and the page ignores the system dark setting.
+- In the twin section, the page background fades to the twin's ground over 200px of scroll, so there's no seam. In embed mode the twin's `--ground` is set to the page `--bg`.
+- Every text colour pair is checked for WCAG AA in Phase 6.
+
+---
+
+## 4. Grid and type (1024 → 1920+)
+
+**Container:**
+- Fluid 12 columns.
+- Outer margin `clamp(32px, 3.2vw, 64px)`, gutter `clamp(16px, 1.4vw, 28px)`.
+- Text never stretches too wide: reading blocks are capped by column count (body copy at about 60ch).
+- Above 1920 the content area stops growing at **1760px**, centred; full-bleed media keeps going edge to edge.
+
+**Type** scales smoothly between 1024 and 1920 with `clamp()`:
+
+| Token | @1024 | @1440 | @1920+ | Font |
 |---|---|---|---|---|
-| `display` | 140 / 0.95 | 64 | Bricolage 500 | Hero "ConnectX", closing heading |
-| `intro` | 56 / 1.15 | 30 | Bricolage 400 | Intro paragraph, "How we decide" statement |
-| `statement` | 40 / 1.2 | 26 | Bricolage 400 | Chapter statements (H2) |
-| `stat` | 96 / 1 | 56 | Bricolage 400 | Facts / trust numerals |
-| `label` | 20 / 1.3 | 16 | Figtree 500 | Chapter labels, captions |
-| `body` | 16 / 1.45 | 16 | Figtree 400 | Body copy, narrow columns (max ~34ch beside media, ~60ch alone) |
-| `meta` | 12 / 1.2 | 12 | Figtree 500, caps | Credits keys, eyebrows |
+| `display` | 104 | 140 | 168 | Bricolage 500, tracking −0.03em |
+| `intro` | 40 | 56 | 64 | Bricolage 400 |
+| `statement` | 30 | 40 | 48 | Bricolage 400 |
+| `stat` | 72 | 96 | 112 | Bricolage 400 |
+| `label` | 17 | 20 | 22 | Figtree 500 |
+| `body` | 16 | 16 | 18 | Figtree 400 / 1.5 |
+| `meta` | 12 | 12 | 13 | Figtree 600, caps, +0.06em |
 
-**Colour tokens** (light):
-`--bg #F6F5F1` (close to the twin's `#F2F1ED`, so the embed blends in) · `--bg-2 #EEECE6` · `--ink #0F0F0D` · `--ink-2 #5F5D57` · `--ink-3 #9A978F` · `--line #DEDBD3` · `--accent` Tcules green (sampled from the site footer) · media panel tints: `--tint-sky #E7EDF7`, `--tint-sand #EFE8DC`, `--tint-sage #E5ECE3` · grey-box placeholder `#D9D7D1`.
-
-**Spacing scale:** 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96 · 128 · 192. Space between chapters: 192 desktop / 96 mobile.
+**Spacing:** 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96 · 128 · 192. Space between chapters is `clamp(128px, 12vw, 224px)`.
 
 **Motion tokens:**
-- `--ease-out: cubic-bezier(.16,1,.3,1)` (expo-out, used for most reveals)
-- `--ease-io: cubic-bezier(.65,0,.35,1)` (scrubbed / pinned scenes)
-- Durations: 0.4 (UI), 0.8 (reveals), 1.2 (large media)
-- Stagger: 0.08 (lines), 0.12 (cards)
-- Reveal distance: 24px
-- Default trigger: element top at 85% of the viewport, played once
+- `--ease-out: cubic-bezier(.16,1,.3,1)`
+- `--ease-io: cubic-bezier(.65,0,.35,1)`
+- Durations 0.4 / 0.8 / 1.2s; stagger 0.08 (lines) / 0.12 (cards); reveal distance 24px.
+- Reveals trigger when the element's top reaches 85% of the viewport and play once.
+
+Checked at **1024×768, 1280×800, 1440×900, 1920×1080, 2560×1440**.
 
 ---
 
-## 4. Global components and interactions
+## 5. Global components and interactions
 
-1. **Smooth scroll** with Lenis, synced to the ScrollTrigger ticker. Switched off when reduced motion is on.
-2. **Nav**:
-   - At the top of the page: a full-width bar (Tcules logo · Work / Services / Expertise / Insights / Lab / About · "Start a project").
-   - After the hero: shrinks into a **floating centred pill** with a blurred light glass background.
+1. **Smooth scroll**: Lenis, synced to ScrollTrigger.
+2. **Light nav**:
+   - At the top: a thin bar with the Tcules logo on the left, "Case study · ConnectX" in the centre and "Start a project" on the right (black button).
+   - After the hero: becomes a **floating centred pill** (white at 80% opacity with blur and `--shadow-float`) showing the logo, the current chapter ("03 · Scenarios") and a menu button.
+   - The menu opens a small panel: chapter links + Work / Services / About.
    - Hides on fast scroll down and reappears on scroll up.
-   - Shows a chapter progress indicator ("03 / Eight scenarios").
-3. **Context cursor** (pointer devices only): a small dot that grows into a labelled pill over interactive areas:
-   - "Drag" over carousels
-   - "Explore" over the twin
-   - "Read" over related-case cards
-   - The normal cursor comes back inside the twin once it's engaged.
-4. **Line reveal**: H2s, the intro and the statements are split into lines, and each line slides up from behind a mask with a stagger.
-5. **Media reveal**: frames open with a `clip-path: inset()` wipe while the content inside scales from 1.08 to 1. Light parallax (±40px) on large media only.
-6. **Chapter module** (reused six times): label · statement · media composition · narrow body column, in 3 layout variants (A: body left, media right; B: media full width with body below; C: media left, body right) so chapters don't repeat.
-7. **Footer**: the existing Tcules green footer, rebuilt so the page feels part of the site.
+3. **Context cursor**: a small black dot that grows into a labelled pill: "Drag" over carousels, "Explore" over the twin before it's engaged, "Read" over related cards. The normal cursor comes back once the twin is engaged.
+4. **Line reveal** with SplitText and masks, used on H2s, the intro and statements.
+5. **Media reveal**: a `clip-path: inset()` wipe plus an inner 1.08 → 1 scale; parallax of ±40px on large media only.
+6. **Chapter module** in 3 variants (A: body left, media right · B: media full width, body below · C: media left, body right).
+7. **Tcules footer**, rebuilt:
+   - A green field with the logo and "Modern products, designed and engineered as one."
+   - "Connect now" (black button).
+   - Link columns: Services, Expertise, Work, Insights, Lab, Company.
+   - Socials, the "Beyond Interfaces" subscribe card, and the address / legal row.
+   - Motion: the columns stagger up as the footer enters.
 
 ---
 
-## 5. Section-by-section spec
+## 6. Live Twin embed: "floating" layout
 
-Notation: **L** = layout · **M** = media (Phase 1 placeholder → final) · **Mo** = motion · **I** = interaction.
+**What's kept** (embed mode `?embed=1`, set via the Blob URL):
+- **ConnectX top bar** (brand, Meridian Tower, Home / Live twin / Reports, system pill, clock, role switcher). Kept as is.
+- **The 3D scene**, full-bleed, with the twin's ground colour set to the page background.
+- **3–4 floating KPI cards** (live load, solar, battery state of charge, grid import). These are small white cards with `--shadow-float`, placed over the scene and drifting slightly with idle motion (±3px). They update live from the twin's data.
+- **2–3 floating detail cards**: the asset detail card when an asset is clicked, the current scenario card, and one alert card. Each enters with a soft rise.
+- **Scenario chips**: a small floating row to run Peak tariff, Grid outage, EV rush, and others.
+
+**What's hidden in embed mode:** the fixed right rail (Asset / Alerts / Ask tabs), the decision log, the power-flow panel and the scenario sidebar list. Their information comes through the floating cards instead.
+
+**Page side:**
+- **Lazy load**: the iframe is created about 1 viewport before the section, with a poster image shown until then.
+- **Intro**: the "Building a digital twin" loader plays the first time the section comes into view; "Skip intro" stays.
+- **Engage model**:
+  - Before engaging, a centred floating pill reads "Explore the live twin", and **page scroll passes straight through** (the twin's wheel-zoom is off).
+  - Clicking engages it: wheel and drag control the twin, and an "Exit ✕" pill appears. Esc, clicking Exit, or scrolling past the section hands control back.
+- **Performance**: a `postMessage` bridge pauses the twin's render loop when it's off-screen.
+- **Size**: 100vh, minimum 680px, full-bleed, no frame.
+
+The twin file is changed only behind the embed flag. The standalone twin is unchanged.
+
+---
+
+## 7. Section-by-section spec
+
+**L** = layout · **M** = media · **Mo** = motion · **I** = interaction · **C#** = HTML component (see §8).
 
 ### S1 Hero
 - **L**:
-  - Eyebrow "Case study · ConnectX" (meta).
-  - **"ConnectX"** at display size, left-aligned, across the full width.
-  - A credits row in 4 columns: Company: ConnectX · Sector: Building energy · Our role: Product definition, interaction design, coded demo → production · Status: **Live since late 2025**.
-  - Below that, a full-width media block at 16:9.
-  - The SEO H1 (*"ConnectX AI energy product: a plain-language question opens the right workspace"*) sits at label size beneath the credits, so the visual title stays short like Metalab's.
-- **M**: the hero image (`CX_Hero_4800x2000`) on a tint panel.
-- **Mo**:
-  - On load, the title reveals per character and the credits fade up with a stagger.
-  - On scroll, the media scales from 0.86 to 1, its corner radius goes from 24 to 0, and it becomes full-bleed.
-- **I**: none.
+  - Eyebrow "Case study · ConnectX".
+  - **"ConnectX"** at display size.
+  - Credits row in 4 columns: Company · Sector: Building energy · Our role · Status: a **green "Live" pill** + "since late 2025".
+  - The SEO H1 at label size beneath the credits.
+  - Full-width media.
+- **M**: `CX_Hero` on `--tint-blue`.
+- **Mo**: the title reveals per character on load and the credits stagger in. On scroll, the media scales from 0.86 to 1 and its corner radius goes from 24 to 0, becoming full-bleed.
 
 ### S2 Intro
-- **L**: the 3 intro lines from the markdown as **one 56px paragraph** spanning 9 columns. Below it, two text links: "Follow the product choice ↓" (anchor to #choice) and "Browse all case studies".
-- **Mo**: line reveal, then the words brighten from `--ink-3` to `--ink` as the paragraph scrolls past (scrubbed).
+- **L**: the 3 intro lines as one paragraph at intro size across 10 columns, then two links ("Follow the product choice ↓", "Browse all case studies").
+- **Mo**: line reveal, then the words brighten from `--ink-4` to `--ink` as you scroll (scrubbed).
 
 ### S3 At a glance (#case-context)
-- **L**: a 2-column definition list with hairline rules (Product, Our role, Key question, What we delivered, Scenario areas, Digital twin). The "Key question" row is promoted to statement size as the section's pull line. "Related services" sits as a small link row underneath.
-- **Mo**: the rules draw from left to right and the rows stagger in.
+- **L**: a ruled 2-column definition list (Product, Our role, Key question, What we delivered, Scenario areas, Digital twin). The Key question is promoted to statement size. A "Related services" link row sits underneath.
+- **Mo**: the rules draw left to right and the rows stagger in.
 
-### S4 Chapter 01: Starting point (#starting-point)
-- **L** (variant A): label "Starting point" · statement *"Three teams asking different energy questions."* · body copy. Then:
-  - **C1: Role question cards**: three cards (Facilities operator / Finance leader / Sustainability lead), each with an avatar chip and the question that role asks.
-  - The closing line *"The ingredients were there…"* as a pull line.
-  - **Early concepts carousel**: draggable, using the two `Section_2` images plus Figma's early "Good Afternoon, Sarah" and building-overview frames. Caption: *"ConnectX's early product concepts."*
-- **Mo**: in C1, each card's question **types itself in** as the card enters, staggered across the three. The carousel images reveal with the clip-path wipe.
-- **I**: drag the carousel (with "Drag" cursor and keyboard arrows); hovering a card lifts it slightly.
+### S4 Chapter 01: Starting point (#starting-point), variant A
+- **L**: label · statement · body copy.
+- **M**:
+  - **C1 Role cards**: three floating cards: Facilities operator ("Which exception needs action?"), Finance leader ("What will this cost, and what's the forecast?"), Sustainability lead ("Are we on track for our target?"). The wording is taken from the markdown's description of each team.
+  - Then the pull line, then the **early concepts drag carousel** on `--tint-stone`. Caption from the markdown.
+- **Mo**: in C1 the questions type in, staggered. Carousel items reveal with the clip wipe.
+- **I**: drag or arrow keys on the carousel; a slight lift on hovering a card.
 
-### S5 Chapter 02: The choice (#choice). Pinned scene 1
-- **L**: label · statement *"An assistant beside the dashboard, or conversation that builds it."* · body copy. Then a **pinned stage about 250vh tall**:
-  - **C2: Two directions**:
-    - Panel A: a fixed dashboard with an AI chat column.
-    - Panel B: chat on its own, assembling KPI cards.
-  - **C3: Chosen model flow**: Conversation → Match to a known situation → Permitted tools fetch data → Assemble modules + twin view → Workspace stays open.
-- **Mo** (scrubbed with scroll, 4 beats):
-  1. Panels A and B sit side by side, each with a one-line verdict ("Familiar, but fixed" / "Adaptive, but nowhere to keep working").
-  2. They slide together and overlap.
+### S5 Chapter 02: The choice (#choice). Pinned, about 250vh
+- **L**: label · statement · body copy, then the pinned stage.
+- **M**: **C2 Two directions** (A: dashboard + assistant / B: chat builds the view) → **C3 Chosen model flow** (Conversation → Known situation → Permitted tools → Modules + twin → Workspace stays open).
+- **Colour story**: A and B start in grey (`--tint-stone`, "explored"). As they merge, the result turns **product blue** ("chosen").
+- **Mo** (scrubbed, 4 beats):
+  1. A and B side by side with one-line verdicts.
+  2. They slide together.
   3. They merge into one workspace.
-  4. The C3 flow draws its 5 steps along a connecting line, and the closing line appears: *"The dashboard stayed, and chat became one way to build the right version of it."*
-- **Mobile**: not pinned. The beats stack vertically, each with its own reveal.
+  4. The 5 flow steps draw in, and the closing line appears.
 
-### S6 Chapter 03: Eight scenarios (#turning-adaptation-into-scenarios). Pinned scene 2
-- **L**: label · statement *"Eight scenarios made the adaptive workspace testable."* · body copy. Then a **pinned split** (5 / 7 columns):
-  - **Left**: the list of 8 scenarios, grouped under the 4 areas (System status / Forecasting / Asset performance / Operational conditions).
-  - **Right**: **C4: Scenario spec card**, with 6 rows: *Request · Intent detected · Data required · Interface modules · Twin behaviour · Next action*.
-- **Mo**: as you scroll, the active list item highlights, and the spec card's rows update one after another (the old value slides up, the new one in). A progress bar shows "3 / 8".
-- **I**: clicking a list item jumps to its scroll position.
-- **Sub-section: "A peak-price request, with everything needed to act"** (not pinned, variant B):
-  - **C5: Peak-price assembly**: a small product UI on a tint panel.
-- **C5 motion** (plays once on enter, with a replay button):
-  1. The question types into the ask bar: *"Price spikes at 17:00, what should we do?"*
-  2. Resolver steps tick: Intent → Data → Tools.
-  3. The affected assets light up in a mini twin diagram.
-  4. KPI tiles and a battery action card slide into a grid, each tile labelled with *why it's there*.
+### S6 Chapter 03: Scenarios (#turning-adaptation-into-scenarios). Pinned, about 300vh
+- **L**: label · statement · body copy (the markdown copy says "eight" and is kept as is). Then a pinned split, 5 / 7 columns:
+  - **Left: the 4 scenario areas** as a large ruled list: System status · Forecasting · Asset performance · Operational conditions.
+  - **Right: C4 Workspace states**: one product workspace mock that changes as each area becomes active:
+    - **Status**: an exception card in orange; one asset highlighted in the mini twin.
+    - **Forecasting**: a forecast chart module.
+    - **Asset performance**: one asset in focus with the others dimmed.
+    - **Operational conditions**: an operating-conditions module.
+  - These are visual states, with **no invented scenario text**: module titles only.
+- **Mo**: the active area turns `--ink` with a black rule while the rest stay `--ink-3`. The workspace modules cross-fade and re-arrange. A progress marker shows "2 / 4".
+- **I**: clicking an area scrolls to its step.
+- **Sub-section, "A peak-price request…"** (variant B):
+  - **C5 Peak-price assembly**:
+    1. The question types into the ask bar.
+    2. Resolver steps tick: intent → data → tools.
+    3. The affected assets light up in the mini twin.
+    4. Modules assemble: affected assets, the data behind the suggestion, and what the action changes (all three named in the markdown), plus the battery action card.
+  - Plays on enter, with a replay button.
 
-### S7 Chapter 04: Digital twin (#designing-the-digital-twin)
-- **L** (variant C): label · statement *"A 2.5D view that explains the system."* · body copy. Then:
-  - **Compare strip**: "Explored: realistic 3D / maps" (the map-view and realistic images, desaturated) next to "Chosen: 2.5D explanation layer" (`Section_5_Image_1`).
-  - Caption from the markdown.
-  - Then the **Live Twin feature** (§6): full-bleed, borderless, 100vh, starting with the twin's own "Building a digital twin" loader the first time it's seen.
-- **Mo**: in the compare strip, the "Explored" side dims and slides back as the "Chosen" side comes forward. The twin section fades the page background into the twin's ground colour so there's no visible edge.
-- **I**: see §6.
+### S7 Chapter 04: Digital twin (#designing-the-digital-twin), variant C
+- **L**: label · statement · body copy. Then a **compare strip**: "Explored" (map view and realistic image, desaturated, on `--tint-stone`) next to "Chosen: 2.5D" (`Section_5_Image_1`, on `--tint-blue`). Caption. Then the **Live Twin** (§6).
+- **Mo**: the explored side dims and slides back while the chosen side comes forward. The background fades into the twin.
 
-### S8 Chapter 05: Demo to production (#the-demonstration-ran-in-code-on-interim-data)
-- **L** (variant B): label · statement *"From coded demo to production-ready module."* · body copy. Then:
-  - The full-width workspace image (`Section_4_Image`), captioned *"The coded demo, shown with sample data."*
-  - **C6: Timeline**: 3 steps, Product work → Demo → Production, *live since late 2025*.
-- **Mo**: the image reveals with clip-path plus parallax. The timeline line fills with scroll, and each node pops and reveals its text as the fill reaches it. The last node pulses once in Tcules green ("Live").
+### S8 Chapter 05: Demo to production (#the-demonstration-ran-in-code-on-interim-data), variant B
+- **L**: label · statement · body copy. Then the full-width `Section_4_Image` on `--tint-blue` with its caption. Then **C6 Timeline**: Product work → Demo → Production.
+- **Colour story**: the line fills black, and the last node becomes the **green "Live" pill** ("since late 2025").
+- **Mo**: clip-path reveal plus parallax on the image; the timeline fill is scrubbed and the nodes pop as it reaches them.
 
 ### S9 Chapter 06: How we decide (#chat-is-an-interaction-mode-not-a-complete-produ)
-- **L**: label · statement at **intro size (56px)**, like Metalab's big read: *"We decide what the conversation controls and what stays on screen."* Below it, the 6 things defined per scenario as a ruled list (request · data · permitted tools · what the screen shows · the action · the way back from a mistake). Then the closing paragraph.
-- **Mo**: the words brighten with scroll; the list rules draw in with a stagger.
+- **L**: the statement at intro size, then a ruled list of the 6 things defined per scenario, then the closing paragraph.
+- **Mo**: words brighten with scroll; the rules draw in.
 
-### S10 Facts (Metalab's "Outcomes", with no invented metrics)
-- **L**: heading *"What the work delivered"*, then 3 rows with hairline rules: **8** · scenarios defined · **4** · scenario areas · **Late 2025** · live in production.
-- **Mo**: numbers count up, and the rules draw in.
+### S10 What the work delivered (Metalab's "Outcomes")
+- **L**: 3 hairline-ruled rows with stat numerals:
+  - **8**: scenarios defined (from the markdown)
+  - **4**: scenario areas (from the markdown)
+  - **[placeholder metric]**: e.g. "**60%** faster to the right view" (illustrative). Marked `data-placeholder` in the source → **IMP-03**.
+- **Mo**: count-up and the rules draw in.
 
-### S11 Testimonials (#testimonials)
-- **L**: one large quote at statement size, with attribution (Pratik Ghoshal, CEO, ConnectX), plus "1 / 2" and previous/next controls.
-- **Mo / I**: crossfade between the quotes with a line reveal. Auto-advance is off; arrows, swipe and keyboard all work.
+### S11 Testimonials
+- One large quote at statement size with attribution, "1 / 2" and previous/next controls; crossfade with a line reveal; keyboard accessible.
 
-### S12 FAQ (#faq)
-- **L**: a 4-item accordion, 8 columns wide, with hairline rules. The FAQPage structured data from the frontmatter is kept.
-- **Mo**: height animates open and closed and the plus rotates into a cross. Keyboard accessible.
+### S12 FAQ
+- A 4-item accordion with hairline rules. FAQPage structured data is kept. Height animates and the plus rotates into a cross.
 
 ### S13 Trust strip
-- **L**: one row: Founded **2017** · **90+** projects · Clients in **19** countries · **4.8** on Clutch (13 reviews, linked).
-- **Mo**: count-up on enter.
+- 2017 · 90+ projects · 19 countries · 4.8 on Clutch (13 reviews), with count-up.
 
-### S14 Related → Next case study (#related)
-- **L**:
-  - The line *"Other AI products where people check the model's work"*.
-  - A **huge marquee** reading "Next case study • BuildTwin •" with a BuildTwin card overlapping it, Metalab-style.
-  - Underneath: a secondary row (Eden AI case · Product Design · ClimateTech & energy).
-- **Mo / I**: the marquee drifts constantly and speeds up with scroll velocity. Hovering the card scales its image, and the cursor shows "Read".
+### S14 Next case study
+- The line "Other AI products where people check the model's work".
+- A huge marquee "Next case study • BuildTwin •" with a floating BuildTwin card over it.
+- A secondary row: Eden AI · Product Design · ClimateTech & energy.
+- The marquee speeds up with scroll velocity; hovering the card scales its image and the cursor shows "Read".
 
-### S15 Enquiry (#enquiry)
-- **L**:
-  - Display-size heading: *"Tell us what your AI product should be able to answer"*, with the subline.
-  - A 3-field form: Email · What are you working on? · Product or company URL (optional).
-  - "Send enquiry" as the primary button and "See available times" as a secondary link.
-  - Success state: *"Your enquiry has reached us / We'll reply within one business day."*, keeping what was typed.
-  - Hidden context fields: route, placement, case.
-- **Mo**: the heading line-reveals and the fields rise in with a stagger. Submitting morphs the button into the success state. In this prototype the form is wired to a stub, not the CMS.
+### S15 Enquiry
+- Display-size heading plus subline.
+- A 3-field form on white floating fields (Email · What are you working on? · URL, optional).
+- "Send enquiry" (black) and "See available times" (text link).
+- Success state from the markdown, keeping what was typed. The form submits to a stub in this prototype.
+- Motion: the heading line-reveals and the fields stagger in.
 
-### S16 Footer
-The Tcules green footer, as on the live site.
+### S16 Tcules footer (§5.7)
 
 ---
 
-## 6. Live Twin embed: technical spec
+## 8. HTML components (replacing video)
 
-The twin is a 3,000-line single file (three.js r149) with Home, Live and Reports views, 6 scenarios, roles, a loader, and a `window.__cx` API. It already has a mobile layout and a no-WebGL fallback.
-
-**Changes to a copy (`twin/live-twin.html`), only when `?embed=1` is in the URL:**
-1. **Borderless**: the twin keeps its own product chrome (ConnectX top bar, panels), because that is the product, but loses any outer framing. Its background matches the page token, so the iframe edge is invisible.
-2. **Scroll safety**: the twin currently uses the mouse wheel to zoom (`preventDefault`), which would trap page scrolling. In embed mode, wheel zoom only works once the reader has **engaged** the twin.
-3. **Pause / resume**: a `postMessage` bridge lets the page stop the render loop while the twin is off-screen, saving battery and GPU.
-4. **Loader**: the "Building a digital twin" intro plays when the section first comes into view, not on page load. "Skip intro" stays.
-5. **Events out**: the twin tells the page when a scenario starts or ends, so the page can show a caption.
-
-**Page side:**
-- **Lazy load**: the iframe is injected when the section is about 1 viewport away, with a static poster image shown until then.
-- **Engage model**:
-  - Before engaging, an overlay pill reads "Explore the live twin" with three suggested chips ("Run peak tariff", "Grid outage", "Ask a question"), and the page scrolls straight past.
-  - Clicking engages the twin: the overlay fades, the cursor returns to normal and wheel/drag control the twin. A small "Exit ✕" button appears, and Esc also exits.
-  - Scrolling out of the section disengages it automatically.
-- **Size**: 100vh (minimum 720px) on desktop, full-bleed.
-- **Mobile**: a full-width poster plus an "Open the live twin" button that opens the same embed full-screen in an overlay. A twin squeezed into a scrolling page on a phone would fight touch scrolling.
-- **Reduced motion**: the loader is skipped and the twin opens in its static Live view.
-
----
-
-## 7. HTML components that replace video
-
-All are built in the **ConnectX product style** (Instrument Sans + Geist Mono and the twin's colour tokens), so they read as "the product" against the Tcules-styled page.
+All are built in the ConnectX product style: Instrument Sans + Geist Mono, product tokens, white floating cards.
 
 | ID | Component | Section | What animates |
 |---|---|---|---|
 | C1 | Role question cards | S4 | Questions type in; avatars pop |
-| C2 | Two directions | S5 | Panels slide, overlap and merge (scrubbed) |
-| C3 | Request → workspace flow | S5 | 5 steps draw along a connecting line |
-| C4 | Scenario spec card | S6 | Rows swap per active scenario |
-| C5 | Peak-price assembly | S6 | Ask → resolver steps → assets light → modules assemble |
-| C6 | Demo → production timeline | S8 | Line fills, nodes reveal, "Live" pulse |
-
-In Phase 1 these are grey-box rectangles of the right size with labels. They're built properly in Phase 3.
-
----
-
-## 8. Responsive
-
-- Breakpoints: ≥1280 desktop · 1024 small desktop · 768 tablet · <768 mobile. Each breakpoint is checked at 1440 / 1024 / 768 / 390.
-- On mobile both pinned scenes (S5, S6) are unpinned and become stacked, step-by-step reveals.
-- On mobile the hero title scales with the viewport (`clamp`) so "ConnectX" always fits on one line.
-- On touch devices the custom cursor is off; carousels use native swipe.
-- No horizontal scroll at any width.
+| C2 | Two directions | S5 | Panels slide, overlap and merge; grey → blue |
+| C3 | Chosen model flow | S5 | 5 steps draw along a connecting line |
+| C4 | Workspace states (4 areas) | S6 | Modules cross-fade and re-arrange per area |
+| C5 | Peak-price assembly | S6 | Ask → resolver → assets light → modules assemble |
+| C6 | Demo → production timeline | S8 | Fill, nodes, green "Live" pill |
 
 ---
 
 ## 9. Accessibility, SEO, performance
 
-- **Reduced motion**: Lenis off, no pinning, no scrub. Content appears with a short fade. Everything stays readable without JS: the server HTML holds the full copy, and JS only adds motion.
-- **Semantics**: one H1, H2 per section using the markdown anchors, the FAQ marked as `<details>`-style accessible disclosure, visible focus states, labelled form fields, and alt text from the markdown's media bindings.
-- **SEO**: meta tags from the frontmatter (title, description, canonical, OG/Twitter), plus JSON-LD for WebPage, BreadcrumbList and FAQPage.
-- **Performance budget**:
-  - Page JS without the twin is under 120 KB gzipped.
-  - Images in WebP/AVIF with `srcset`.
-  - The twin loads lazily and pauses when off-screen.
-  - Only `transform` / `opacity` / `clip-path` are animated.
-  - Target: Lighthouse performance ≥ 85 on desktop with the twin section not yet loaded.
+- **Reduced motion**: no smooth scroll, pinning or scrub, just short fades. The full copy is in the HTML, so it reads without JS.
+- One H1, H2s with the markdown anchors, visible focus (black ring + green halo), labelled form fields, alt text from the markdown's media bindings.
+- Meta tags and OG from the frontmatter; JSON-LD for WebPage, BreadcrumbList and FAQPage.
+- Only transform / opacity / clip-path are animated. The twin loads lazily and pauses off-screen.
 
 ---
 
@@ -291,27 +316,25 @@ In Phase 1 these are grey-box rectangles of the right size with labels. They're 
 
 | Phase | Output | You review |
 |---|---|---|
-| **P1 Foundation + grey-box layout** | Tokens, grid, type, nav, footer, all 16 sections with real copy and labelled grey placeholders. No motion. | Layout, hierarchy, spacing, section order |
-| **P2 Motion system** | Lenis, line and media reveals, nav pill, cursor, both pinned scenes on grey boxes, marquee, count-ups, accordion, reduced-motion path. | Feel, timing, pacing |
+| **P1 Foundation + grey-box layout** | Build script, tokens (incl. colour), grid, type, light nav, Tcules footer, all sections with real copy and labelled grey blocks. No motion. | Layout, hierarchy, spacing, colour usage |
+| **P2 Motion system** | Smooth scroll, reveals, nav pill, cursor, both pinned scenes (on grey boxes), marquee, count-ups, accordion, reduced motion. | Feel, timing, pacing |
 | **P3 HTML components** | C1–C6 built and animated. | Each component's story |
-| **P4 Live Twin embed** | Patched twin, lazy load, engage/exit, pause, mobile overlay. | Interaction model |
-| **P5 Assets** | Real images placed on tint panels (live-page Cloudinary images + Figma exports). | Visual composition |
-| **P6 QA** | Playwright screenshots at 4 widths, reduced-motion pass, keyboard pass, Lighthouse, cross-browser smoke test. | Sign-off |
+| **P4 Live Twin embed** | Embed mode, floating layout, lazy load, engage/exit, pause. | Interaction model |
+| **P5 Assets** | Real images on tint panels. | Composition |
+| **P6 QA** | Screenshots at 1024 / 1280 / 1440 / 1920 / 2560, contrast check, keyboard and reduced-motion passes, Lighthouse. | Sign-off |
 
-Each phase is committed to `claude/cool-rubin-hrpv85` and shared as a link you can scroll.
-
----
-
-## 11. Out of scope for this round
-- Final art direction (colour of tint panels, image crops): rough in P5, refined later.
-- CMS / form backend wiring and scheduling integration.
-- Porting into the production Next.js site.
-- New copy. Only structural tweaks are proposed, flagged in review.
+Every phase rebuilds `dist/connectx-case-study.html` and is committed to `claude/cool-rubin-hrpv85`.
 
 ---
 
-## 12. Open questions (answers change the build)
-1. **The 8 scenarios**: the markdown names the 4 areas but not the 8 scenarios. The twin has 6 (Clouds & rain, Clear sky, EV rush, Grid outage, Floor anomaly, Peak tariff). What are the 8 names, and what are their request/intent/data/modules/twin/action values?
-2. **Nav and footer**: rebuild the Tcules site nav and green footer (assumed), or use a lighter, case-study-only nav like Metalab's?
-3. **Facts row (S10)**: is "8 scenarios · 4 areas · live since late 2025" acceptable, or is there a real metric you can share?
-4. **Twin chrome**: inside the embed, keep the ConnectX product top bar (assumed), or hide it so only the 3D scene and its panels show?
+## 11. Improvements backlog (come back to these)
+
+| ID | Item | Why it's deferred |
+|---|---|---|
+| **IMP-01** | Name the **8 scenarios** and their details (request, intent, data, modules, twin behaviour, next action); extend S6 from 4 areas to 8 scenarios. | Not in the markdown; no placeholders allowed |
+| **IMP-02** | Swap the S1/S15 fonts for a display serif (Metalab-style), if wanted. | Tcules fonts kept for now |
+| **IMP-03** | Replace the **placeholder metric** in S10 with a real, approved figure. | No metric available yet |
+| **IMP-04** | Tablet and mobile layouts (< 1024), including a full-screen twin overlay. | Desktop-only this round |
+| **IMP-05** | A fully offline single file (embedded fonts, libraries and images). | Size cost; CDN for now |
+| **IMP-06** | Form wired to the CMS record + notify, and the scheduling link. | Prototype uses a stub |
+| **IMP-07** | Port into the Tcules Next.js site. | After design sign-off |
