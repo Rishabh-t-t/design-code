@@ -145,12 +145,11 @@
     });
   }
 
-  /* ---------- Start once fonts are ready (line breaks depend on them) ---------- */
-  let started = false;
-  function start() {
-    if (started) return;
-    started = true;
+  /* ---------- Start: the hero right away, everything else once fonts are ready ----------
+     The set-up is split into short tasks so the main thread never blocks for long. */
+  const yieldToBrowser = () => new Promise((r) => setTimeout(r, 0));
 
+  function startHero() {
     /* Hero: title by character, credits, then the media */
     const media = $('.hero__media');
     const gutter = () => parseFloat(getComputedStyle($('.hero .wrap')).paddingLeft);
@@ -179,19 +178,26 @@
       scale: 1, ease: 'none',
       scrollTrigger: { start: 0, end: () => innerHeight * 0.75, scrub: true },
     });
+  }
 
+  /* Line breaks depend on the web fonts, so text splitting waits for them */
+  async function startRest() {
     /* Pinned scenes go first so later triggers measure the pin spacing */
     if (window.cxScenes) window.cxScenes.init({ lenis, EASE });
+    await yieldToBrowser();
     if (window.cxComponents) window.cxComponents.init({ EASE });
+    await yieldToBrowser();
 
     /* Line reveals */
     $$([
       '.chapter__head .t-statement', '.chapter__pull', '.sub__head h3', '.glance__row--key dd',
       '.facts__title', '.faq__title', '.related__title', '.enquiry__title', '.quote.is-active blockquote p',
     ].join(',')).forEach((el) => revealLines(el));
+    await yieldToBrowser();
 
     /* Big reads brighten word by word, scrubbed */
     $$('.intro__text .t-intro, .decide__lead').forEach(brighten);
+    await yieldToBrowser();
 
     /* Fade-up for supporting elements */
     const fades = $$([
@@ -223,6 +229,8 @@
       start: 'top 92%', once: true,
       onEnter: (els) => gsap.to(els, { '--draw': 1, duration: 1.3, ease: 'expo.inOut', stagger: 0.08 }),
     });
+
+    await yieldToBrowser();
 
     /* Media: clip wipe open, inner screen settles */
     $$('.carousel__item, .sub__media, .compare__ph, .demo__ph, .areas__view').forEach((el) => {
@@ -330,6 +338,7 @@
     ? new Promise((r) => document.addEventListener('DOMContentLoaded', r, { once: true }))
     : Promise.resolve();
   domReady
+    .then(startHero)
     .then(() => Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 1500))]))
-    .then(start);
+    .then(startRest);
 })();
