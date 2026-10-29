@@ -45,6 +45,9 @@
       f.className = 'twin-frame';
       f.title = host.dataset.twinTitle || 'ConnectX live digital twin of Meridian Tower';
       f.setAttribute('tabindex', '-1');
+      // A sandboxed frame gets an opaque origin, so Chrome can run it in its own process:
+      // the twin's 3D work then never blocks the page's thread. postMessage still works.
+      f.setAttribute('sandbox', 'allow-scripts');
       const page = twinHtml().replace('<head>', `<head><script>window.CX_EMBED = { mode: '${t.mode}' };<\/script>`);
       f.src = URL.createObjectURL(new Blob([page], { type: 'text/html' }));
       host.appendChild(f);

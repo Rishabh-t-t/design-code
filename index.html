@@ -1087,7 +1087,8 @@ html.notes-off .note { display: none; }
   display: flex; flex-direction: column; justify-content: flex-end; gap: .55em;
   padding: .8em 1.4em 1em;
 }
-.cx-msg--old { opacity: .35; }
+.cx-msg--old { opacity: .55; }
+.cx-msg--me.cx-msg--old { opacity: 1; background: #D5D2CB; color: #3A3935; }
 .cx-msg--rich { width: 86%; max-width: none; display: flex; flex-direction: column; gap: .5em; font-size: 1em; padding: .6em; }
 .cx-msg--rich .cx-card--chart { height: 4.6em; flex: none; }
 
@@ -2777,6 +2778,9 @@ window.cxComponents = {
       f.className = 'twin-frame';
       f.title = host.dataset.twinTitle || 'ConnectX live digital twin of Meridian Tower';
       f.setAttribute('tabindex', '-1');
+      // A sandboxed frame gets an opaque origin, so Chrome can run it in its own process:
+      // the twin's 3D work then never blocks the page's thread. postMessage still works.
+      f.setAttribute('sandbox', 'allow-scripts');
       const page = twinHtml().replace('<head>', `<head><script>window.CX_EMBED = { mode: '${t.mode}' };<\/script>`);
       f.src = URL.createObjectURL(new Blob([page], { type: 'text/html' }));
       host.appendChild(f);
