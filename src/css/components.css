@@ -113,7 +113,7 @@
 }
 .cx-kpi span { font-size: .72em; color: var(--cx-ink-2); white-space: nowrap; }
 .cx-kpi b { font-family: var(--font-mono); font-weight: 400; font-size: 1.2em; white-space: nowrap; }
-.cx-kpi i { font-style: normal; font-size: .6em; color: var(--cx-ink-2); }
+.cx-kpi i { font-style: normal; font-size: .6em; color: #57554F; }
 .cx-kpi--hot b { color: var(--cx-orange-ink); }
 
 .cx-btn {

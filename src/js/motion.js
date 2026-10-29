@@ -150,14 +150,22 @@
   const yieldToBrowser = () => new Promise((r) => setTimeout(r, 0));
 
   function startHero() {
-    /* Hero: eyebrow, title line by line, the credits line, then the media */
+    /* Hero: eyebrow, title line by line, then the credits line. The twin below shows its picture
+       right away and fades to live on its own, so it is not part of this sequence.
+       Lines re-split if the fonts arrive later, without replaying the reveal. */
     root.classList.remove('is-loading');
-    const title = SplitText.create('.hero__title', { type: 'lines', mask: 'lines', aria: 'none' });
-    gsap.timeline({ defaults: { ease: EASE } })
-      .from('.hero__eyebrow', { opacity: 0, y: 12, duration: 0.8 }, 0)
-      .from(title.lines, { yPercent: 105, duration: 1.2, stagger: 0.09 }, 0.1)
-      .from('.hero__credits > div', { opacity: 0, y: 10, duration: 0.8, stagger: 0.06 }, 0.5)
-      .from('.hero__media', { opacity: 0, y: 40, duration: 1.4 }, 0.6);
+    let heroPlayed = false;
+    SplitText.create('.hero__title', {
+      type: 'lines', mask: 'lines', aria: 'none', autoSplit: true,
+      onSplit(self) {
+        if (heroPlayed) return undefined;
+        heroPlayed = true;
+        return gsap.timeline({ defaults: { ease: EASE } })
+          .from('.hero__eyebrow', { opacity: 0, y: 12, duration: 0.8 }, 0)
+          .from(self.lines, { yPercent: 105, duration: 1.2, stagger: 0.09 }, 0.1)
+          .from('.hero__credits > div', { opacity: 0, y: 10, duration: 0.8, stagger: 0.06 }, 0.5);
+      },
+    });
   }
 
   /* Line breaks depend on the web fonts, so text splitting waits for them */
@@ -256,7 +264,7 @@
   /* Keyboard users never land on something still mid-reveal */
   document.addEventListener('focusin', (e) => {
     for (let el = e.target; el && el !== document.body; el = el.parentElement) {
-      if (el.style.opacity !== '' && parseFloat(el.style.opacity) < 1) gsap.to(el, { opacity: 1, y: 0, duration: 0.25, overwrite: true });
+      if (el.style.opacity !== '' && parseFloat(el.style.opacity) < 1) { gsap.killTweensOf(el); gsap.set(el, { opacity: 1, y: 0 }); }
     }
   });
 
@@ -318,6 +326,7 @@
     ? new Promise((r) => document.addEventListener('DOMContentLoaded', r, { once: true }))
     : Promise.resolve();
   domReady
+    .then(() => Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 700))]))
     .then(startHero)
     .then(() => Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 1500))]))
     .then(startRest);
