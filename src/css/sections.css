@@ -147,36 +147,52 @@
 .carousel__item .shot__img { max-width: 100cqw; max-height: 100cqh; border-radius: 6px; box-shadow: 0 2px 6px rgb(20 20 40 / .06), 0 24px 48px -16px rgb(20 20 40 / .22); }
 .carousel__caption { margin-top: var(--s-2); }
 
-/* ---------- Pinned stages (S5, S6) ---------- */
+/* ---------- Sticky stages (S5, S6) ----------
+   With motion on, each stage is a tall track and its content sticks under the nav with
+   position: sticky, so it stops exactly at its line with no snap. Without motion it is laid out flat. */
 .stage { margin-top: var(--s-9); }
 .stage__frame {
-  display: grid; grid-template-rows: 1fr auto; gap: var(--s-7);
+  display: grid; grid-template-rows: 1fr auto; gap: var(--s-8);
   min-height: max(640px, calc(100vh - 160px));
-  padding: var(--s-7);
+  padding: var(--s-7) var(--s-8) var(--s-8);
   border-radius: var(--radius-l);
   background: var(--bg-2);
 }
+.motion [data-pin="choice"] .stage__track { height: 260vh; }
+.motion [data-pin="choice"] .stage__frame { position: sticky; top: 96px; }
+.motion [data-pin="areas"] { height: 420vh; }
+.motion [data-pin="areas"] .areas { position: sticky; top: 96px; }
 .stage__caption { margin-top: var(--s-4); }
 
 /* S5 Choice */
-.choice { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gutter); align-items: start; }
+.choice { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-7); align-items: start; }
 .choice__dir { display: flex; flex-direction: column; gap: var(--s-3); }
 .choice__ph { aspect-ratio: 16 / 10; }
 .choice__verdict { color: var(--ink); font-weight: 500; }
 
-.flow { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--gutter); counter-reset: none; }
+/* The chosen model: one line across, small numbers on it, text centred under each */
+.flow {
+  --flow: 1;
+  position: relative;
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--s-4);
+}
+.flow::before, .flow::after {
+  content: ""; position: absolute; top: 9px; left: 10%; right: 10%; height: 1px;
+  background: var(--line-2);
+}
+.flow::after { background: var(--ink); transform: scaleX(var(--flow)); transform-origin: 0 50%; }
 .flow__step {
-  display: flex; flex-direction: column; gap: var(--s-3);
-  padding-top: var(--s-4);
-  border-top: 1px solid var(--line-strong);
+  display: flex; flex-direction: column; align-items: center; gap: var(--s-3);
+  padding-inline: var(--s-3);
+  text-align: center;
   color: var(--ink); font-weight: 500; line-height: 1.35;
 }
 .flow__n {
+  position: relative; z-index: 1;
   display: grid; place-items: center;
-  width: 24px; height: 24px; border-radius: 50%;
-  background: currentColor;
-  -webkit-text-fill-color: #fff;  /* badge follows the step colour; digit stays white */
-  font-family: var(--font-mono); font-size: 11px;
+  width: 19px; height: 19px; border-radius: 50%;
+  background: var(--bg-2); border: 1px solid currentColor;
+  font-family: var(--font-mono); font-size: 10px; line-height: 1;
 }
 
 /* S6 Areas */
@@ -185,15 +201,16 @@
 .areas__list { margin-top: var(--s-5); }
 .areas__item {
   display: flex; align-items: baseline; gap: var(--s-4);
-  padding-block: var(--s-5);
+  padding-block: var(--s-4);
   border-top: 1px solid var(--line);
-  font-family: var(--font-display); font-size: var(--fs-statement); line-height: 1.1;
+  font-family: var(--font-display); font-size: clamp(20px, calc(15.43px + .446vw), 24px); line-height: 1.2;
   color: var(--ink-3);
   cursor: pointer;
+  transition: color .4s ease, border-color .4s ease;
 }
 .areas__item:last-child { border-bottom: 1px solid var(--line); }
-.areas__item.is-active { color: var(--ink); border-top: 2px solid var(--line-strong); padding-top: calc(var(--s-5) - 1px); }
-.areas__n { font-family: var(--font-mono); font-size: var(--fs-meta); color: var(--ink-3); }
+.areas__item.is-active { color: var(--ink); border-top-color: var(--ink); }
+.areas__n { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); }
 .areas__progress { margin-top: auto; padding-top: var(--s-5); }
 .areas__progress span { color: var(--ink); }
 .areas__view { grid-column: 6 / span 7; align-self: center; aspect-ratio: 4 / 3; max-height: 100%; border-radius: var(--radius-l); }

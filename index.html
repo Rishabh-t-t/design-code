@@ -517,36 +517,52 @@ html.notes-off .note { display: none; }
 .carousel__item .shot__img { max-width: 100cqw; max-height: 100cqh; border-radius: 6px; box-shadow: 0 2px 6px rgb(20 20 40 / .06), 0 24px 48px -16px rgb(20 20 40 / .22); }
 .carousel__caption { margin-top: var(--s-2); }
 
-/* ---------- Pinned stages (S5, S6) ---------- */
+/* ---------- Sticky stages (S5, S6) ----------
+   With motion on, each stage is a tall track and its content sticks under the nav with
+   position: sticky, so it stops exactly at its line with no snap. Without motion it is laid out flat. */
 .stage { margin-top: var(--s-9); }
 .stage__frame {
-  display: grid; grid-template-rows: 1fr auto; gap: var(--s-7);
+  display: grid; grid-template-rows: 1fr auto; gap: var(--s-8);
   min-height: max(640px, calc(100vh - 160px));
-  padding: var(--s-7);
+  padding: var(--s-7) var(--s-8) var(--s-8);
   border-radius: var(--radius-l);
   background: var(--bg-2);
 }
+.motion [data-pin="choice"] .stage__track { height: 260vh; }
+.motion [data-pin="choice"] .stage__frame { position: sticky; top: 96px; }
+.motion [data-pin="areas"] { height: 420vh; }
+.motion [data-pin="areas"] .areas { position: sticky; top: 96px; }
 .stage__caption { margin-top: var(--s-4); }
 
 /* S5 Choice */
-.choice { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gutter); align-items: start; }
+.choice { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-7); align-items: start; }
 .choice__dir { display: flex; flex-direction: column; gap: var(--s-3); }
 .choice__ph { aspect-ratio: 16 / 10; }
 .choice__verdict { color: var(--ink); font-weight: 500; }
 
-.flow { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--gutter); counter-reset: none; }
+/* The chosen model: one line across, small numbers on it, text centred under each */
+.flow {
+  --flow: 1;
+  position: relative;
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--s-4);
+}
+.flow::before, .flow::after {
+  content: ""; position: absolute; top: 9px; left: 10%; right: 10%; height: 1px;
+  background: var(--line-2);
+}
+.flow::after { background: var(--ink); transform: scaleX(var(--flow)); transform-origin: 0 50%; }
 .flow__step {
-  display: flex; flex-direction: column; gap: var(--s-3);
-  padding-top: var(--s-4);
-  border-top: 1px solid var(--line-strong);
+  display: flex; flex-direction: column; align-items: center; gap: var(--s-3);
+  padding-inline: var(--s-3);
+  text-align: center;
   color: var(--ink); font-weight: 500; line-height: 1.35;
 }
 .flow__n {
+  position: relative; z-index: 1;
   display: grid; place-items: center;
-  width: 24px; height: 24px; border-radius: 50%;
-  background: currentColor;
-  -webkit-text-fill-color: #fff;  /* badge follows the step colour; digit stays white */
-  font-family: var(--font-mono); font-size: 11px;
+  width: 19px; height: 19px; border-radius: 50%;
+  background: var(--bg-2); border: 1px solid currentColor;
+  font-family: var(--font-mono); font-size: 10px; line-height: 1;
 }
 
 /* S6 Areas */
@@ -555,15 +571,16 @@ html.notes-off .note { display: none; }
 .areas__list { margin-top: var(--s-5); }
 .areas__item {
   display: flex; align-items: baseline; gap: var(--s-4);
-  padding-block: var(--s-5);
+  padding-block: var(--s-4);
   border-top: 1px solid var(--line);
-  font-family: var(--font-display); font-size: var(--fs-statement); line-height: 1.1;
+  font-family: var(--font-display); font-size: clamp(20px, calc(15.43px + .446vw), 24px); line-height: 1.2;
   color: var(--ink-3);
   cursor: pointer;
+  transition: color .4s ease, border-color .4s ease;
 }
 .areas__item:last-child { border-bottom: 1px solid var(--line); }
-.areas__item.is-active { color: var(--ink); border-top: 2px solid var(--line-strong); padding-top: calc(var(--s-5) - 1px); }
-.areas__n { font-family: var(--font-mono); font-size: var(--fs-meta); color: var(--ink-3); }
+.areas__item.is-active { color: var(--ink); border-top-color: var(--ink); }
+.areas__n { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); }
 .areas__progress { margin-top: auto; padding-top: var(--s-5); }
 .areas__progress span { color: var(--ink); }
 .areas__view { grid-column: 6 / span 7; align-self: center; aspect-ratio: 4 / 3; max-height: 100%; border-radius: var(--radius-l); }
@@ -1651,6 +1668,7 @@ html.lenis, html.lenis body { height: auto; }
 
   <div class="stage" data-pin="choice">
     <div class="wrap">
+      <div class="stage__track">
       <div class="stage__frame">
         <div class="choice">
           <div class="choice__dir">
@@ -1678,7 +1696,7 @@ html.lenis, html.lenis body { height: auto; }
                 </div>
               </div>
             </div>
-            <p class="choice__verdict">Familiar, but the interface stayed largely fixed.</p>
+            <p class="choice__verdict">Familiar, but the screen stays the same for every question.</p>
           </div>
           <div class="choice__dir">
             <p class="t-meta">Direction B</p>
@@ -1700,7 +1718,7 @@ html.lenis, html.lenis body { height: auto; }
                 </div>
               </div>
             </div>
-            <p class="choice__verdict">Adapted more deeply, but nowhere to keep working.</p>
+            <p class="choice__verdict">Adapts to the question, but leaves nowhere to keep working.</p>
           </div>
           <div class="choice__merged" aria-hidden="true">
             <p class="t-meta">Chosen model</p>
@@ -1721,20 +1739,21 @@ html.lenis, html.lenis body { height: auto; }
                 </div>
               </div>
             </div>
-            <p class="choice__verdict">Conversation identifies the work. The workspace stays open.</p>
+            <p class="choice__verdict">Conversation finds the work. The workspace stays open.</p>
           </div>
         </div>
 
         <ol class="flow" aria-label="The chosen model">
-          <li class="flow__step"><span class="flow__n">1</span>Conversation identifies the work</li>
-          <li class="flow__step"><span class="flow__n">2</span>The system matches a known situation</li>
-          <li class="flow__step"><span class="flow__n">3</span>Permitted tools retrieve the data</li>
-          <li class="flow__step"><span class="flow__n">4</span>The product assembles modules and the twin view</li>
-          <li class="flow__step"><span class="flow__n">5</span>The workspace stays open</li>
+          <li class="flow__step"><span class="flow__n">1</span>Ask in plain words</li>
+          <li class="flow__step"><span class="flow__n">2</span>Match a known situation</li>
+          <li class="flow__step"><span class="flow__n">3</span>Fetch the data with permitted tools</li>
+          <li class="flow__step"><span class="flow__n">4</span>Assemble modules and the twin view</li>
+          <li class="flow__step"><span class="flow__n">5</span>Keep working in the workspace</li>
         </ol>
       </div>
+      </div>
       <p class="t-caption stage__caption">Conversation creates the workspace. The modules let people keep working with the result.</p>
-      <p class="note">C2 + C3 · Phase 3 ✓ product UI. Pinned ≈ 250vh · Phase 2 ✓ beats: (1) A + B side by side, grey → (2) slide together → (3) merge into one workspace, turning product blue → (4) C3 flow draws its 5 steps, closing line appears.</p>
+      <p class="note">R2 ✓ native sticky (no snap). Beats: (1) A + B side by side, grey → (2) slide together → (3) merge into one workspace, turning product blue → (4) C3 flow draws its 5 steps, closing line appears.</p>
     </div>
   </div>
 
@@ -1825,7 +1844,7 @@ html.lenis, html.lenis body { height: auto; }
           </div>
         </div>
       </div>
-      <p class="note areas__note">C4 · Phase 3 ✓ twin highlights per area. Pinned ≈ 300vh · Phase 2 ✓ active area turns --ink with a black rule, others --ink-3; C4 modules cross-fade and re-arrange; click an area to scroll to its step. IMP-01: extend to the 8 named scenarios later.</p>
+      <p class="note areas__note">R2 ✓ native sticky. R5: the live twin replaces this mock and plays each scenario. active area turns --ink with a black rule, others --ink-3; C4 modules cross-fade and re-arrange; click an area to scroll to its step. IMP-01: extend to the 8 named scenarios later.</p>
     </div>
   </div>
 
@@ -2706,33 +2725,41 @@ html.lenis, html.lenis body { height: auto; }
 })();
 </script>
 <script>
-/* ConnectX case study — pinned scenes (Phase 2, on grey boxes).
+/* ConnectX case study — sticky scenes.
+   Each scene is a tall track whose content sticks under the nav with CSS position: sticky
+   (see sections.css). Nothing is pinned here: ScrollTrigger only reads progress through the track,
+   so the scene stops exactly at its line and moves exactly with the scroll.
    Called by motion.js once fonts are ready: window.cxScenes.init({ lenis, EASE }). */
 window.cxScenes = {
   init({ lenis }) {
     const $ = (s, c = document) => c.querySelector(s);
     const $$ = (s, c = document) => [...c.querySelectorAll(s)];
-    const NAV_CLEAR = 88; // pinned stages sit just under the floating nav
+    const STICK = 96; // matches `top` on the sticky elements
+    const ink = getComputedStyle(document.documentElement);
+    const color = (name) => ink.getPropertyValue(name).trim();
+
+    /* Progress runs from "content reaches its sticky line" to "track ends and it scrolls away" */
+    const span = (track, sticky) => ({
+      trigger: track,
+      start: `top ${STICK}px`,
+      end: () => `bottom ${STICK + sticky.offsetHeight}px`,
+      invalidateOnRefresh: true,
+    });
 
     /* ---------- S5 The choice: two directions merge into the chosen model ---------- */
-    const frame = $('[data-pin="choice"] .stage__frame');
-    if (frame) {
+    const track = $('[data-pin="choice"] .stage__track');
+    if (track) {
+      const frame = $('.stage__frame', track);
       const [dirA, dirB] = $$('.choice__dir', frame);
       const verdicts = $$('.choice__dir .choice__verdict', frame);
       const merged = $('.choice__merged', frame);
+      const flow = $('.flow', frame);
       const steps = $$('.flow__step', frame);
-      steps.forEach((el) => el.classList.add('draw'));
       // steps wait in legible grey (4.6:1) and turn black as the line reaches them
-      const ink = getComputedStyle(document.documentElement);
-      gsap.set(steps, { color: ink.getPropertyValue('--ink-3').trim(), '--draw': 0, '--draw-c': 'var(--line-strong)' });
+      gsap.set(steps, { color: color('--ink-3') });
+      gsap.set(flow, { '--flow': 0 });
 
-      gsap.timeline({
-        defaults: { ease: 'none' },
-        scrollTrigger: {
-          trigger: frame, start: `top ${NAV_CLEAR}px`, end: '+=160%',
-          pin: true, scrub: 0.6, anticipatePin: 1, refreshPriority: 2,
-        },
-      })
+      gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { ...span(track, frame), scrub: 0.4 } })
         // beat 1 → 2: verdicts step aside, the directions slide together
         .to(verdicts, { opacity: 0, y: -8, duration: 0.4 }, 0.2)
         .to(dirA, { xPercent: 26, scale: 0.9, duration: 1 }, 0.2)
@@ -2742,13 +2769,15 @@ window.cxScenes = {
         .fromTo(merged, { autoAlpha: 0, scale: 0.92, y: 24 }, { autoAlpha: 1, scale: 1, y: 0, duration: 0.7 }, 1.05)
         // the merged workspace assembles its modules around the question
         .from($$('[data-mod]', merged), { opacity: 0, y: 14, scale: 0.97, stagger: 0.1, duration: 0.45 }, 1.3)
-        // beat 4: the chosen model's five steps draw in
-        .to(steps, { color: ink.getPropertyValue('--ink').trim(), '--draw': 1, stagger: 0.22, duration: 0.6 }, 1.7)
+        // beat 4: the line runs through the five steps and each one darkens as it is reached
+        .to(flow, { '--flow': 1, duration: 1.1 }, 1.7)
+        .to(steps, { color: color('--ink'), stagger: 0.22, duration: 0.3 }, 1.7)
         .to({}, { duration: 0.4 });
     }
 
-    /* ---------- S6 Scenario areas: pinned list drives the workspace view ---------- */
-    const areas = $('[data-pin="areas"] .areas');
+    /* ---------- S6 Scenario areas: the sticky list drives the workspace view ---------- */
+    const stage = $('[data-pin="areas"]');
+    const areas = stage && $('.areas', stage);
     if (areas) {
       const items = $$('.areas__item', areas);
       let current = -1;
@@ -2758,8 +2787,7 @@ window.cxScenes = {
         window.cxSetArea(i);
       };
       const st = ScrollTrigger.create({
-        trigger: areas, start: `top ${NAV_CLEAR}px`, end: `+=${items.length * 60}%`,
-        pin: true, anticipatePin: 1, refreshPriority: 1,
+        ...span(stage, areas),
         onUpdate: (self) => setArea(Math.min(items.length - 1, Math.floor(self.progress * items.length))),
       });
       setArea(0);
