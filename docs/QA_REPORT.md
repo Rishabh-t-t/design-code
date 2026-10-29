@@ -64,3 +64,30 @@ The QA scripts used for this pass live outside the repo, in the session scratchp
 ```bash
 npx lighthouse https://rishabh-t-t.github.io/design-code/ --preset=desktop --view
 ```
+
+
+---
+
+# Revision v2 — QA (R6)
+
+Tested on the live build after revision rounds R1–R5. Chromium, headless, with software WebGL.
+
+| Check | Result |
+|---|---|
+| Lighthouse, desktop preset (3 runs) | Performance **87–95** · Accessibility **100** · Best practices **100** · SEO **100** |
+| Core timings | First paint 0.9–1.5 s · Largest paint 1.3–1.7 s · Blocking time **20–30 ms** · Layout shift 0.001 |
+| axe-core | **0 violations** |
+| Keyboard | 69 stops, every one visible with a focus ring |
+| Reduced motion | Complete static page; the hero twin still goes live |
+| Widths 1024 → 2560 | No horizontal overflow, no console errors |
+| Sticky scenes | Choice and scenarios hold at exactly 96 px through their tracks; **0 jumps** between 40 px scroll samples |
+| Live twins | The picture shows instantly; live in ~4 s with software GL (expect ~1–2 s on a GPU); wheel over any twin scrolls the page; areas play anomaly · clouds · EV rush · outage; the peak block resolves into Peak tariff; twins far away unload |
+
+## What made the difference
+
+At first the twins ran in the page's own process. Lighthouse's Chrome has no GPU, so every frame of 3D rendering counted as blocking the page (Performance 51–56, blocking time 4–6 s). Each twin now runs in a **sandboxed** frame. A sandboxed frame has an opaque origin, so Chrome runs it in its own process and the page's thread stays free. A 100 ms timer on the page fires within 1 ms while the hero twin draws. postMessage control is unchanged.
+
+## Still to check by hand
+- The twins on a real GPU: frame rate, and how quickly the picture hands over to live.
+- Safari and Firefox: both isolate sandboxed frames differently from Chrome, so check scroll pass-through over the twins.
+- A trackpad pinch to zoom over the hero twin.
