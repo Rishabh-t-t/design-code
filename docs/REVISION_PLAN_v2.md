@@ -178,9 +178,9 @@ All of this still passes AA contrast; it will be rechecked in R6.
 |---|---|---|
 | **R1 Layout and design pass** ✅ | Title, credits row, intro summary, links, At a glance, chapter labels, spacing, centred pulls, carousel styling, horizontal facts, testimonial cards, removing the services row, type scale v2. The hero keeps a placeholder until R4. | Visual review at 1024 / 1440 / 1920 |
 | **R2 Sticky scenes** ✅ | Choice and scenarios move to `position: sticky`; the flow redesign; the new choice copy | No snap, no lag: scripted scroll checks at three widths |
-| **R3 Twin engine** | Embed modes (hero, scenario, ask), wheel pass-through, +/− zoom and pinch, ready and frame events, page-side manager (lazy create, pause, unload, picture fade), picture generation in the build | Scroll passes through every twin; one twin drawing at a time |
-| **R4 Hero twin** | The hero twin is live; the twin and its controls are removed from chapter 04 | First paint shows the picture; live within about 2 s; no layout shift |
-| **R5 Scenario and peak twins** | Areas drive the scenario twin; the ask flow plays on entry, with Replay | Each area shows its scenario; peak flow completes |
+| **R3 Twin engine** ✅ | Embed modes (hero, scenario, ask), wheel pass-through, +/− zoom and pinch, ready and frame events, page-side manager (lazy create, pause, unload, picture fade), picture generation in the build | Scroll passes through every twin; one twin drawing at a time |
+| **R4 Hero twin** ✅ | The hero twin is live; the twin and its controls are removed from chapter 04 | First paint shows the picture; live within about 2 s; no layout shift |
+| **R5 Scenario and peak twins** ✅ | Areas drive the scenario twin; the ask flow plays on entry, with Replay | Each area shows its scenario; peak flow completes |
 | **R6 QA** | The earlier suite again (axe, contrast, keyboard, reduced motion, five widths, Lighthouse) plus twin memory and frame checks | Same bar as before: Accessibility, Best practices and SEO at 100; Performance ≥ 80 with three twins |
 
 Each round is committed to the default branch, so it goes live on GitHub Pages straight away.

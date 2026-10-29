@@ -15,34 +15,20 @@
     setNotes(root.classList.contains('notes-off'));
   });
 
-  /* Scenario areas: one setter shared by the click fallback and the pinned scene (scenes.js).
-     Each area also changes what the mini twin highlights. */
+  /* Scenario areas: one setter shared by the click fallback and the sticky scene (scenes.js).
+     Each area plays its scenario on the live twin next to the list. */
   const areas = [...document.querySelectorAll('.areas__item')];
   const areaIndex = document.querySelector('.areas__progress span');
-  const areaStates = [...document.querySelectorAll('.areas__state')];
-  const areaApp = document.querySelector('.areas__view .cx-app');
-  const areaTwin = areaApp && areaApp.querySelector('.cx-twin');
-  const AREA_TWIN = [
-    { hot: 'hvac' },                      // System status: the exception
-    { blue: 'solar' },                    // Forecasting: generation ahead
-    { blue: 'battery', dim: true },       // Asset performance: one asset in focus
-    {},                                   // Operational conditions: whole building, weather shown
-  ];
+  const AREA_SCENARIO = ['anomaly', 'clouds', 'ev', 'outage'];  // status · forecasting · asset performance · operating conditions
   function setArea(n) {
     areas.forEach((a, m) => a.classList.toggle('is-active', m === n));
-    areaStates.forEach((a, m) => a.classList.toggle('is-active', m === n));
     areaIndex.textContent = String(n + 1);
-    if (!areaApp) return;
-    areaApp.dataset.area = String(n);
-    const t = AREA_TWIN[n] || {};
-    ['hot', 'blue', 'dim'].forEach((k) => {
-      if (t[k]) areaTwin.setAttribute('data-' + k, t[k] === true ? '' : t[k]);
-      else areaTwin.removeAttribute('data-' + k);
-    });
+    const twin = window.cxTwin && window.cxTwin('scenario');
+    if (twin) twin.send({ cx: 'scenario', id: AREA_SCENARIO[n] });
   }
   window.cxSetArea = setArea;
-  setArea(0);
   areas.forEach((el, n) => el.addEventListener('click', () => setArea(n)));
+  document.addEventListener('DOMContentLoaded', () => setArea(0));
 
   /* Enquiry form: stub submit (IMP-06), keeps the entered data */
   const form = document.querySelector('[data-enquiry]');
