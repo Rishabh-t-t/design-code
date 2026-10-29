@@ -150,34 +150,14 @@
   const yieldToBrowser = () => new Promise((r) => setTimeout(r, 0));
 
   function startHero() {
-    /* Hero: title by character, credits, then the media */
-    const media = $('.hero__media');
-    const gutter = () => parseFloat(getComputedStyle($('.hero .wrap')).paddingLeft);
-    gsap.set(media, { clipPath: `inset(0px ${gutter()}px 0px ${gutter()}px round 24px)` });
-    $$('.hero__credit').forEach((el) => el.classList.add('draw'));
-    gsap.set('.hero__credit', { '--draw': 0 });
+    /* Hero: eyebrow, title line by line, the credits line, then the media */
     root.classList.remove('is-loading');
-
-    const name = SplitText.create('.hero__name', { type: 'lines,chars', mask: 'lines', aria: 'none' });
+    const title = SplitText.create('.hero__title', { type: 'lines', mask: 'lines', aria: 'none' });
     gsap.timeline({ defaults: { ease: EASE } })
-      .from(name.chars, { yPercent: 110, duration: 1.2, stagger: 0.035 }, 0)
-      .from('.hero__eyebrow', { opacity: 0, y: 12, duration: 0.8 }, 0.1)
-      .to('.hero__credit', { '--draw': 1, duration: 1.2, stagger: 0.08 }, 0.35)
-      .from('.hero__credit > *', { opacity: 0, y: 14, duration: 0.8, stagger: 0.04 }, 0.45)
-      .from('.hero__h1', { opacity: 0, y: 14, duration: 0.8 }, 0.6)
-      .from(media, { opacity: 0, y: 48, duration: 1.4 }, 0.55);
-
-    /* Hero media opens to full-bleed as the page scrolls */
-    gsap.fromTo(media,
-      { clipPath: () => `inset(0px ${gutter()}px 0px ${gutter()}px round 24px)` },
-      {
-        clipPath: 'inset(0px 0px 0px 0px round 0px)', ease: 'none',
-        scrollTrigger: { start: 0, end: () => innerHeight * 0.75, scrub: true, invalidateOnRefresh: true },
-      });
-    gsap.fromTo('.hero__media .shot__img', { scale: 0.94 }, {
-      scale: 1, ease: 'none',
-      scrollTrigger: { start: 0, end: () => innerHeight * 0.75, scrub: true },
-    });
+      .from('.hero__eyebrow', { opacity: 0, y: 12, duration: 0.8 }, 0)
+      .from(title.lines, { yPercent: 105, duration: 1.2, stagger: 0.09 }, 0.1)
+      .from('.hero__credits > div', { opacity: 0, y: 10, duration: 0.8, stagger: 0.06 }, 0.5)
+      .from('.hero__media', { opacity: 0, y: 40, duration: 1.4 }, 0.6);
   }
 
   /* Line breaks depend on the web fonts, so text splitting waits for them */
@@ -191,21 +171,21 @@
     /* Line reveals */
     $$([
       '.chapter__head .t-statement', '.chapter__pull', '.sub__head h3', '.glance__row--key dd',
-      '.facts__title', '.faq__title', '.related__title', '.enquiry__title', '.quote.is-active blockquote p',
+      '.facts__title', '.faq__title', '.related__title', '.enquiry__title', '.intro__summary', '.glance__key',
     ].join(',')).forEach((el) => revealLines(el));
     await yieldToBrowser();
 
     /* Big reads brighten word by word, scrubbed */
-    $$('.intro__text .t-intro, .decide__lead').forEach(brighten);
+    $$('.decide__lead').forEach(brighten);
     await yieldToBrowser();
 
     /* Fade-up for supporting elements */
     const fades = $$([
-      '.intro__links', '.glance__head', '.glance__row dt', '.glance__row:not(.glance__row--key) dd', '.glance__services',
+      '.intro__text p', '.intro__links', '.glance__head', '.glance__row > *',
       '.chapter__label', '.chapter__body > p', '.role-card', '.carousel__caption', '.stage__caption',
       '.areas__nav > .t-meta', '.sub__body > p', '.compare__item > .t-meta', '.compare__item figcaption',
       '.demo__media figcaption', '.timeline__title', '.timeline__step > p', '.decide__h2', '.decide__defs > .t-meta',
-      '.defs li > *', '.decide__body > p', '.facts__row > *', '.quotes__title', '.quote__by', '.quotes__controls',
+      '.defs li > *', '.decide__body > p', '.facts__item > *', '.quotes__title', '.quote',
       '.trust__list li', '.related__lead', '.related__row > *', '.enquiry__sub', '.field', '.enquiry__actions',
     ].join(','));
     gsap.set(fades, { opacity: 0, y: 24 });
@@ -222,7 +202,7 @@
     });
 
     /* Hairline rules draw left to right */
-    const rules = $$('.glance__row, .defs li, .facts__row, .faq__item, .related__row, .timeline__step');
+    const rules = $$('.glance__row, .defs li, .faq__item, .related__row, .timeline__step');
     rules.forEach((el) => el.classList.add('draw'));
     gsap.set(rules, { '--draw': 0 });
     ScrollTrigger.batch(rules, {
@@ -254,7 +234,7 @@
       .fromTo('.compare__item--chosen', { y: 64 }, { y: 0, ease: 'none' }, 0);
 
     /* Numbers count up */
-    $$('.facts__row .t-stat').forEach(countUp);
+    $$('.facts__item .t-stat').forEach(countUp);
     $$('.trust__v').filter((el) => !/^\s*\d{4}\s*$/.test(el.textContent)).forEach(countUp);
 
     /* Next case study marquee: drifts, speeds up with scroll velocity */

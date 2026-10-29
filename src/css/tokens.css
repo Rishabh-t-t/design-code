@@ -15,7 +15,8 @@
   --ink-3: #696965;          /* labels: ≥4.5:1 on the page and every panel tint */
   --ink-4: #B5B5B2;          /* decorative only (rules, inactive dots) */
   --ink-dim: #8A8A86;        /* words before they brighten: 3.1:1, large text only */
-  --line: #DCDCD8;
+  --line: #E7E7E3;           /* default hairline: quiet */
+  --line-2: #DCDCD8;         /* structural lines, inputs */
   --line-strong: #0B0B0B;
   --brand: #04EC50;
   --brand-ink: #000000;
@@ -52,19 +53,22 @@
   --font-product: 'Instrument Sans', system-ui, sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --fs-display:   clamp(104px, calc(30.86px + 7.143vw), 168px);
+  --fs-display:   clamp(88px,  calc(33.14px + 5.357vw), 136px);
+  --fs-summary:   clamp(40px,  calc(21.71px + 1.786vw), 56px);
+  --fs-chapter:   clamp(40px,  calc(21.71px + 1.786vw), 56px);
   --fs-intro:     clamp(40px,  calc(12.57px + 2.679vw), 64px);
-  --fs-statement: clamp(30px,  calc(9.43px  + 2.009vw), 48px);
+  --fs-statement: clamp(28px,  calc(14.29px + 1.339vw), 40px);
   --fs-stat:      clamp(72px,  calc(26.29px + 4.464vw), 112px);
-  --fs-label:     clamp(17px,  calc(11.29px + 0.558vw), 22px);
-  --fs-body:      clamp(16px,  calc(13.71px + 0.223vw), 18px);
+  --fs-label:     clamp(17px,  calc(13.57px + 0.335vw), 20px);
+  --fs-body:      clamp(16px,  calc(14.86px + 0.112vw), 17px);
+  --fs-small:     clamp(14px,  calc(12.86px + 0.112vw), 15px);
   --fs-meta:      clamp(12px,  calc(10.86px + 0.112vw), 13px);
 
   /* ---- Layout ---- */
   --margin: clamp(32px, 3.2vw, 64px);
   --gutter: clamp(16px, 1.4vw, 28px);
   --content-max: 1760px;
-  --chapter-gap: clamp(128px, 12vw, 224px);
+  --chapter-gap: clamp(160px, 14vw, 280px);
 
   /* ---- Spacing scale ---- */
   --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;  --s-5: 24px;  --s-6: 32px;

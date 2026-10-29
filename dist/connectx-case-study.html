@@ -50,7 +50,8 @@
   --ink-3: #696965;          /* labels: ≥4.5:1 on the page and every panel tint */
   --ink-4: #B5B5B2;          /* decorative only (rules, inactive dots) */
   --ink-dim: #8A8A86;        /* words before they brighten: 3.1:1, large text only */
-  --line: #DCDCD8;
+  --line: #E7E7E3;           /* default hairline: quiet */
+  --line-2: #DCDCD8;         /* structural lines, inputs */
   --line-strong: #0B0B0B;
   --brand: #04EC50;
   --brand-ink: #000000;
@@ -87,19 +88,22 @@
   --font-product: 'Instrument Sans', system-ui, sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --fs-display:   clamp(104px, calc(30.86px + 7.143vw), 168px);
+  --fs-display:   clamp(88px,  calc(33.14px + 5.357vw), 136px);
+  --fs-summary:   clamp(40px,  calc(21.71px + 1.786vw), 56px);
+  --fs-chapter:   clamp(40px,  calc(21.71px + 1.786vw), 56px);
   --fs-intro:     clamp(40px,  calc(12.57px + 2.679vw), 64px);
-  --fs-statement: clamp(30px,  calc(9.43px  + 2.009vw), 48px);
+  --fs-statement: clamp(28px,  calc(14.29px + 1.339vw), 40px);
   --fs-stat:      clamp(72px,  calc(26.29px + 4.464vw), 112px);
-  --fs-label:     clamp(17px,  calc(11.29px + 0.558vw), 22px);
-  --fs-body:      clamp(16px,  calc(13.71px + 0.223vw), 18px);
+  --fs-label:     clamp(17px,  calc(13.57px + 0.335vw), 20px);
+  --fs-body:      clamp(16px,  calc(14.86px + 0.112vw), 17px);
+  --fs-small:     clamp(14px,  calc(12.86px + 0.112vw), 15px);
   --fs-meta:      clamp(12px,  calc(10.86px + 0.112vw), 13px);
 
   /* ---- Layout ---- */
   --margin: clamp(32px, 3.2vw, 64px);
   --gutter: clamp(16px, 1.4vw, 28px);
   --content-max: 1760px;
-  --chapter-gap: clamp(128px, 12vw, 224px);
+  --chapter-gap: clamp(160px, 14vw, 280px);
 
   /* ---- Spacing scale ---- */
   --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;  --s-5: 24px;  --s-6: 32px;
@@ -178,8 +182,9 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
   font-size: var(--fs-display);
   font-weight: 500;
   line-height: .95;
-  letter-spacing: -.035em;
+  letter-spacing: -.04em;
   color: var(--ink);
+  text-wrap: balance;
 }
 .t-intro {
   font-family: var(--font-display);
@@ -196,7 +201,18 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
   line-height: 1.16;
   letter-spacing: -.015em;
   color: var(--ink);
+  text-wrap: balance;
 }
+.t-summary {
+  font-family: var(--font-display);
+  font-size: var(--fs-summary);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -.022em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.t-small { font-size: var(--fs-small); line-height: 1.6; color: var(--ink-2); }
 .t-stat {
   font-family: var(--font-display);
   font-size: var(--fs-stat);
@@ -237,6 +253,16 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
   padding-bottom: 2px;
 }
 .link:hover { background-size: 0 1px; background-position: 100% 100%; }
+/* Marker link: a soft Tcules-green highlight behind the lower half; fills on hover */
+.link--mark {
+  font-weight: 500;
+  padding: 0 .15em;
+  background-image: linear-gradient(rgb(4 236 80 / .32), rgb(4 236 80 / .32));
+  background-size: 100% .5em;
+  background-position: 0 92%;
+  transition: background-size .35s var(--ease-out);
+}
+.link--mark:hover { background-size: 100% 100%; background-position: 0 100%; }
 
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
@@ -371,14 +397,23 @@ html.notes-off .note { display: none; }
 /* ---------- Shared chapter module ---------- */
 .chapter { padding-top: var(--chapter-gap); }
 .chapter__head { grid-column: 1 / span 9; }
-.chapter__label { display: flex; align-items: baseline; gap: 12px; margin-bottom: var(--s-5); }
-.chapter__num { font-family: var(--font-mono); font-size: var(--fs-meta); color: var(--ink-3); letter-spacing: .04em; }
-.chapter__body { margin-top: var(--s-8); }
-.chapter__pull { grid-column: 3 / span 8; margin-top: var(--s-10); }
+/* "01 — Starting point": a quiet mono eyebrow led by a short rule */
+.chapter__label {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: var(--s-5);
+  font-family: var(--font-mono); font-size: var(--fs-meta); font-weight: 400;
+  letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3);
+}
+.chapter__label::before { content: ""; width: 24px; height: 1px; background: var(--ink-3); }
+.chapter__num { color: var(--ink); }
+.chapter__num::after { content: " —"; color: var(--ink-3); }
+.chapter__head .t-statement { font-size: var(--fs-chapter); line-height: 1.08; letter-spacing: -.025em; max-width: 20ch; }
+.chapter__body { margin-top: var(--s-7); }
+.chapter__pull { grid-column: 2 / span 10; margin-top: var(--s-10); text-align: center; justify-self: center; max-width: 30ch; }
 
 /* Variant A: body left, media right */
 .chapter--a .chapter__body { grid-column: 1 / span 4; }
-.chapter--a .chapter__media { grid-column: 6 / span 7; margin-top: var(--s-8); }
+.chapter--a .chapter__media { grid-column: 6 / span 7; margin-top: var(--s-7); }
 
 /* Variant B: body sits in a narrow right column, media runs full width below */
 .chapter--b .chapter__body { grid-column: 8 / span 5; }
@@ -389,86 +424,98 @@ html.notes-off .note { display: none; }
 /* ---------- S1 Hero ---------- */
 .hero { padding-top: 168px; }
 .hero__eyebrow { margin-bottom: var(--s-5); }
-.hero__name { margin-left: -.04em; }
-.hero__credits { margin-top: var(--s-8); row-gap: var(--s-5); }
-.hero__credit { grid-column: span 3; padding-top: var(--s-3); border-top: 1px solid var(--line); }
-.hero__credit dt { margin-bottom: var(--s-2); }
-.hero__credit dd { color: var(--ink); font-weight: 500; max-width: 28ch; }
-.hero__status { display: flex; align-items: center; gap: 10px; }
-.hero__h1 { grid-column: 1 / span 7; margin-top: var(--s-7); max-width: 46ch; color: var(--ink-2); font-weight: 400; }
+.hero__title { max-width: 23ch; margin-left: -.03em; }
+/* One quiet line of credits, like the meta column on tcules.com */
+.hero__credits {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-3) var(--s-7);
+  margin-top: var(--s-7);
+  font-size: var(--fs-small);
+}
+.hero__credits > div { display: flex; align-items: baseline; gap: 10px; }
+.hero__credits dt { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+.hero__credits dd { color: var(--ink); }
+.hero__status { display: inline-flex; align-items: center; gap: 8px; }
+.hero__status .pill-live { height: 20px; font-size: 10.5px; }
 .hero__media-wrap {
   position: relative;
   max-width: calc(var(--content-max) + var(--margin) * 2);
   margin: var(--s-8) auto 0;
   padding-inline: var(--margin);
 }
-.hero__media { aspect-ratio: 16 / 9; max-height: 92vh; width: 100%; border-radius: var(--radius-l); }
-.hero__media .shot__img { max-width: 80cqw; max-height: 84cqh; box-shadow: var(--shadow-lift); }
+.hero__media { aspect-ratio: 16 / 9; max-height: 86vh; width: 100%; background: none; }
+.hero__media .shot__img { max-width: 92cqw; max-height: 92cqh; box-shadow: var(--shadow-lift); }
 .hero__note { left: calc(var(--margin) + 16px); bottom: 16px; }
 
 /* ---------- S2 Intro ---------- */
-.intro { padding-top: var(--chapter-gap); }
-.intro__text { grid-column: 1 / span 11; }
-.intro__text .t-intro + .t-intro { margin-top: .6em; }
-.intro__links { grid-column: 1 / span 11; display: flex; gap: var(--s-6); margin-top: var(--s-7); font-size: var(--fs-label); }
+.intro { padding-top: var(--chapter-gap); row-gap: 0; }
+.intro__summary { grid-column: 1 / span 10; max-width: 24ch; }
+.intro__text { grid-column: 1 / span 9; columns: 2; column-gap: var(--s-8); margin-top: var(--s-7); }
+.intro__text p { break-inside: avoid; margin-bottom: 1em; }
+.intro__links { grid-column: 1 / span 11; display: flex; gap: var(--s-6); margin-top: var(--s-6); font-size: var(--fs-label); }
 
 /* ---------- S3 At a glance ---------- */
 .glance { padding-top: var(--chapter-gap); }
-.glance__head { grid-column: 1 / span 3; }
-.glance__head h2 { margin-top: var(--s-3); }
-.glance__list { grid-column: 4 / span 9; border-bottom: 1px solid var(--line); }
+.glance > .grid { row-gap: var(--s-8); }
+.glance__head { grid-column: 1 / -1; }
+.glance__head h2 { margin-top: var(--s-2); }
+.glance__key { grid-column: 1 / span 5; align-self: start; font-size: var(--fs-statement); }
+.glance__key .t-meta { display: block; margin-bottom: var(--s-4); }
+.glance__list { grid-column: 7 / span 6; }
 .glance__row {
-  display: grid; grid-template-columns: minmax(140px, 3fr) 9fr; column-gap: var(--gutter);
-  padding-block: var(--s-5);
+  display: grid; grid-template-columns: 9.5em minmax(0, 1fr); column-gap: var(--s-5);
+  padding-block: var(--s-4);
   border-top: 1px solid var(--line);
 }
-.glance__row dt { padding-top: .3em; }
-.glance__row dd { color: var(--ink); font-size: var(--fs-label); line-height: 1.4; max-width: 56ch; }
-.glance__row--key { padding-block: var(--s-7); }
-.glance__row--key dd { font-size: var(--fs-statement); max-width: 28ch; }
-.glance__services {
-  grid-column: 4 / span 9;
-  display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-3) var(--s-5);
-  margin-top: var(--s-6);
-}
-.glance__services .t-meta { margin-right: var(--s-2); }
-.glance__note { grid-column: 4 / span 9; }
+.glance__row:last-child { border-bottom: 1px solid var(--line); }
+.glance__row dt { padding-top: .25em; }
+.glance__row dd { color: var(--ink); font-size: var(--fs-body); line-height: 1.5; }
 
 /* ---------- S4 Starting point ---------- */
-.roles__list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gutter); }
+/* Role cards use the twin's own suggestion-card style */
+.roles__list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-4); }
 .role-card {
-  display: flex; flex-direction: column; gap: var(--s-3);
-  min-height: 220px; padding: var(--s-5);
-  background: var(--surface);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-float);
+  display: flex; flex-direction: column; gap: 10px;
+  padding: 16px 18px 18px;
+  background: rgb(255 255 255 / .9);
+  border: 1px solid #DFDCD4;
+  border-radius: 3px;
+  transition: transform .2s ease, box-shadow .2s ease;
 }
-.role-card__avatar {
-  display: grid; place-items: center;
-  width: 36px; height: 36px; margin-bottom: auto;
-  border-radius: 50%;
-  background: var(--cx-blue-soft); color: var(--cx-blue);
-  font-family: var(--font-mono); font-size: 12px; font-weight: 500;
-}
-.role-card__q { font-family: var(--font-display); font-size: calc(var(--fs-label) * 1.15); line-height: 1.25; color: var(--ink); }
+.role-card:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgb(60 58 52 / .10); }
 
-.carousel { margin-top: var(--s-10); }
+.carousel { margin-top: var(--s-10); position: relative; }
+/* soft fade and blur on the right edge: more to see */
+.carousel::after {
+  content: ""; position: absolute; top: 0; right: 0; bottom: 64px;
+  width: clamp(48px, 7vw, 120px);
+  background: linear-gradient(90deg, rgb(243 243 241 / 0), var(--bg) 85%);
+  -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 60%);
+  mask-image: linear-gradient(90deg, transparent, #000 60%);
+  pointer-events: none;
+}
 .carousel__track {
-  display: flex; gap: var(--gutter);
+  display: flex; gap: var(--s-8);
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   --track-pad: max(var(--margin), calc((100vw - var(--content-max)) / 2));
-  padding-inline: var(--track-pad);
+  padding: var(--s-6) var(--track-pad) var(--s-7);
   scroll-padding-inline: var(--track-pad);
   scrollbar-width: thin;
+  scrollbar-color: var(--ink-4) transparent;
 }
+.carousel__track::-webkit-scrollbar { height: 3px; }
+.carousel__track::-webkit-scrollbar-thumb { background: var(--ink-4); border-radius: 3px; }
+.carousel__track::-webkit-scrollbar-track { background: transparent; }
 .carousel__item {
   flex: 0 0 clamp(520px, 46vw, 900px);
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 3 / 2;
   scroll-snap-align: start;
-  border-radius: var(--radius-l);
+  background: none;
+  overflow: visible;
 }
-.carousel__caption { margin-top: var(--s-4); }
+.carousel__item .shot__img { max-width: 100cqw; max-height: 100cqh; border-radius: 6px; box-shadow: 0 2px 6px rgb(20 20 40 / .06), 0 24px 48px -16px rgb(20 20 40 / .22); }
+.carousel__caption { margin-top: var(--s-2); }
 
 /* ---------- Pinned stages (S5, S6) ---------- */
 .stage { margin-top: var(--s-9); }
@@ -635,36 +682,45 @@ html.notes-off .note { display: none; }
 .decide__body { grid-column: 7 / span 5; margin-top: var(--s-9); padding-top: calc(var(--fs-meta) + var(--s-4)); }
 .decide__note { grid-column: 1 / -1; }
 
-/* ---------- S10 Facts ---------- */
+/* ---------- S10 Facts: one horizontal row ---------- */
 .facts { padding-top: var(--chapter-gap); }
-.facts__title { grid-column: 1 / span 4; }
-.facts__list { grid-column: 5 / span 8; border-bottom: 1px solid var(--line); }
-.facts__row {
-  display: grid; grid-template-columns: 5fr 7fr; align-items: baseline; column-gap: var(--gutter);
-  padding-block: var(--s-7);
-  border-top: 1px solid var(--line);
+.facts__title { grid-column: 1 / -1; font-size: var(--fs-chapter); line-height: 1.08; letter-spacing: -.025em; margin-bottom: var(--s-8); }
+.facts__list { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.facts__item {
+  display: flex; flex-direction: column; gap: var(--s-3);
+  padding: var(--s-2) var(--s-6) var(--s-2) 0;
 }
+.facts__item + .facts__item { padding-left: var(--s-6); border-left: 1px solid var(--line); }
+.facts__item .t-label { color: var(--ink-2); font-weight: 400; max-width: 22ch; }
 .facts__ph {
   display: inline-flex; align-items: center; height: 22px; margin-left: 8px; padding: 0 8px;
   border: 1px dashed var(--ink-3); border-radius: 999px;
   font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-3);
   vertical-align: 3px;
 }
-.facts__note { grid-column: 5 / span 8; }
+.facts__note { grid-column: 1 / -1; }
 
-/* ---------- S11 Quotes ---------- */
+/* ---------- S11 Quotes: two cards side by side ---------- */
 .quotes { padding-top: var(--chapter-gap); }
-.quotes__title { grid-column: 1 / -1; margin-bottom: var(--s-6); }
-.quotes__stage { grid-column: 1 / span 10; }
-.quote blockquote { margin: 0; }
-.quote blockquote p { text-indent: -.4em; }
-.quote__by { display: flex; flex-direction: column; gap: 2px; margin-top: var(--s-6); }
-.quotes__controls { grid-column: 1 / -1; display: flex; align-items: center; gap: var(--s-4); margin-top: var(--s-7); }
-.quotes__btn {
-  display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
-  box-shadow: inset 0 0 0 1px var(--line); color: var(--ink); font-size: 18px;
+.quotes__title { grid-column: 1 / -1; margin-bottom: var(--s-8); }
+.quotes__grid { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gutter); }
+.quote {
+  display: flex; flex-direction: column; justify-content: space-between; gap: var(--s-7);
+  padding: clamp(28px, 3vw, 48px);
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: 0 1px 2px rgb(0 0 0 / .04);
 }
-.quotes__btn:hover { box-shadow: inset 0 0 0 1px var(--ink); }
+.quote blockquote { margin: 0; }
+.quote blockquote p { font-family: var(--font-display); font-size: clamp(20px, calc(12.14px + .768vw), 26px); line-height: 1.35; letter-spacing: -.01em; color: var(--ink); text-indent: -.4em; }
+.quote__by { display: flex; align-items: center; gap: var(--s-3); }
+.quote__by b { display: block; font-weight: 600; color: var(--ink); }
+.quote__mark {
+  display: grid; place-items: center; flex: none;
+  width: 36px; height: 36px; border-radius: 8px;
+  background: var(--cx-ink); color: #fff;
+  font-family: var(--font-mono); font-size: 14px;
+}
 .quotes__note { grid-column: 1 / -1; }
 
 /* ---------- S12 FAQ ---------- */
@@ -810,8 +866,6 @@ html.notes-off .note { display: none; }
 @media (max-width: 1279px) {
   .chapter--a .chapter__body { grid-column: 1 / span 5; }
   .chapter--a .chapter__media { grid-column: 6 / span 7; }
-  .roles__list { gap: var(--s-3); }
-  .role-card { min-height: 200px; padding: var(--s-4); }
   .footer__cols { grid-column: 4 / span 9; }
   .footer__sub { grid-column: 4 / span 9; }
   .areas__nav { grid-column: 1 / span 5; }
@@ -1003,28 +1057,19 @@ html.notes-off .note { display: none; }
 }
 @keyframes cx-glow { 50% { opacity: .6; } }
 
-/* ---------- C1 Role cards ---------- */
-.role-card .role-card__avatar { color: var(--cx-blue-ink); }
-.role-card.cx {
-  min-height: 0;
-  gap: var(--s-3);
-  font-size: clamp(13px, calc(9px + .4vw), 16px);
-  border-radius: 6px;
+/* ---------- C1 Role cards (the twin's suggestion-card style) ---------- */
+.role-card.cx { font-size: clamp(13px, calc(9px + .4vw), 16px); }
+.role-card__tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono); font-size: .66em; letter-spacing: .09em;
 }
-.role-card__top { display: flex; align-items: center; gap: .6em; margin-bottom: .6em; }
-.role-card .role-card__avatar { margin-bottom: 0; width: 2.2em; height: 2.2em; font-size: .78em; }
-.role-card[data-tone="orange"] .role-card__avatar { background: var(--cx-orange-soft); color: var(--cx-orange-ink); }
-.role-card[data-tone="ink"] .role-card__avatar { background: #F1EFEA; color: var(--cx-ink); }
-.role-card__role { font-weight: 600; font-size: .9em; }
-.role-card__ask {
-  margin-top: auto;
-  min-height: 4.4em;
-  padding: .65em .75em;
-  background: var(--cx-panel);
-  border: 1px solid #DCD9D1;
-  border-radius: 3px;
-}
-.role-card .role-card__q { font-family: var(--font-product); font-size: 1.05em; line-height: 1.3; color: var(--cx-ink); }
+.role-card__tag i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.role-card[data-tone="orange"] .role-card__tag { color: var(--cx-orange-ink); }
+.role-card[data-tone="blue"] .role-card__tag { color: var(--cx-blue-ink); }
+.role-card[data-tone="sage"] .role-card__tag { color: #3F7A5C; }
+.role-card__role { font-size: .82em; color: var(--cx-ink-2); }
+.role-card__ask { min-height: 2.8em; }
+.role-card .role-card__q { font-size: 1.02em; font-weight: 500; line-height: 1.4; color: var(--cx-ink); }
 .role-card .t-off { color: transparent; }
 
 /* ---------- C2 Direction A: dashboard + assistant ---------- */
@@ -1477,35 +1522,21 @@ html.lenis, html.lenis body { height: auto; }
 <section class="hero" aria-labelledby="hero-title">
   <div class="wrap">
     <p class="hero__eyebrow t-meta">Case study <span aria-hidden="true">·</span> ConnectX</p>
-    <p class="hero__name t-display" aria-hidden="true">ConnectX</p>
+    <h1 id="hero-title" class="hero__title t-display">Designing an AI workspace that answers building energy questions</h1>
 
-    <dl class="hero__credits grid">
-      <div class="hero__credit">
-        <dt class="t-meta">Company</dt>
-        <dd>ConnectX</dd>
-      </div>
-      <div class="hero__credit">
-        <dt class="t-meta">Sector</dt>
-        <dd>Building energy</dd>
-      </div>
-      <div class="hero__credit">
-        <dt class="t-meta">Our role</dt>
-        <dd>Product definition, interaction design, coded demo to production</dd>
-      </div>
-      <div class="hero__credit">
-        <dt class="t-meta">Status</dt>
-        <dd class="hero__status"><span class="pill-live">Live</span> since late 2025</dd>
-      </div>
+    <dl class="hero__credits">
+      <div><dt>Company</dt><dd>ConnectX</dd></div>
+      <div><dt>Sector</dt><dd>Building energy</dd></div>
+      <div><dt>Our role</dt><dd>Product definition, interaction design, coded demo to production</dd></div>
+      <div><dt>Status</dt><dd class="hero__status"><span class="pill-live">Live</span> since late 2025</dd></div>
     </dl>
-
-    <h1 id="hero-title" class="hero__h1 t-label">ConnectX AI energy product: a plain-language question opens the right workspace</h1>
   </div>
 
   <div class="hero__media-wrap">
-    <figure class="hero__media shot shot--blue">
+    <figure class="hero__media shot">
       <img class="shot__img" src="https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_930,y_40,w_2904,h_1930/f_auto,q_auto,w_1920/v1786972085/CX_Hero_4800x2000_Full_2b91f4442f.png" srcset="https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_930,y_40,w_2904,h_1930/f_auto,q_auto,w_960/v1786972085/CX_Hero_4800x2000_Full_2b91f4442f.png 960w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_930,y_40,w_2904,h_1930/f_auto,q_auto,w_1440/v1786972085/CX_Hero_4800x2000_Full_2b91f4442f.png 1440w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_930,y_40,w_2904,h_1930/f_auto,q_auto,w_1920/v1786972085/CX_Hero_4800x2000_Full_2b91f4442f.png 1920w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_930,y_40,w_2904,h_1930/f_auto,q_auto,w_2560/v1786972085/CX_Hero_4800x2000_Full_2b91f4442f.png 2560w" sizes="(min-width: 1920px) 1700px, 88vw" width="2904" height="1930" alt="ConnectX workspace: a portfolio overview with live readings, a 3D map of the buildings and their energy charts" fetchpriority="high" decoding="async">
     </figure>
-    <p class="note note--float hero__note">Phase 2 ✓ media scales 0.86 → 1 and radius 24 → 0 on scroll, ending full-bleed. Title reveals per character on load.</p>
+    <p class="note note--float hero__note">R4: this image is replaced by the live twin (hero mode) with an instant picture.</p>
   </div>
 </section>
 
@@ -1514,15 +1545,15 @@ html.lenis, html.lenis body { height: auto; }
      ====================================================================== -->
 <section class="intro" aria-label="Introduction">
   <div class="wrap grid">
-    <div class="intro__text">
-      <p class="t-intro">ConnectX wanted facilities, finance and sustainability teams to ask about a building in plain words. They would get a working view back, with the right data, the right assets and a digital twin.</p>
-      <p class="t-intro">Tcules shaped the product around eight scenarios drawn from the questions those teams ask. We proved it in a coded demo, then took the demo through to a production-ready module, live since late 2025.</p>
-      <p class="t-intro">One question in plain words now opens a working view of the building, with the data, modules and assets that matter already in place.</p>
-      <p class="note">Phase 2 ✓ line reveal, then words brighten --ink-4 → --ink, scrubbed with scroll.</p>
+    <h2 class="intro__summary t-summary">AI-first SaaS for all your energy needs that generates UI according to the user’s requirements.</h2>
+    <div class="intro__text t-small">
+      <p>ConnectX wanted facilities, finance and sustainability teams to ask about a building in plain words. They would get a working view back, with the right data, the right assets and a digital twin.</p>
+      <p>Tcules shaped the product around eight scenarios drawn from the questions those teams ask. We proved it in a coded demo, then took the demo through to a production-ready module, live since late 2025.</p>
+      <p>One question in plain words now opens a working view of the building, with the data, modules and assets that matter already in place.</p>
     </div>
     <div class="intro__links">
-      <a class="link" href="#choice">Follow the product choice <span aria-hidden="true">↓</span></a>
-      <a class="link" href="https://www.tcules.com/case-studies">Browse all case studies <span aria-hidden="true">↗</span></a>
+      <a class="link link--mark" href="#choice">Follow the product choice <span aria-hidden="true">↓</span></a>
+      <a class="link link--mark" href="https://www.tcules.com/case-studies">Browse all case studies <span aria-hidden="true">↗</span></a>
     </div>
   </div>
 </section>
@@ -1537,41 +1568,14 @@ html.lenis, html.lenis body { height: auto; }
       <h2 id="glance-title" class="t-label">ConnectX at a glance</h2>
     </header>
 
+    <p class="glance__key t-statement"><span class="t-meta">The key question</span>How could a question asked in plain words open a working view of the building, with the right data and assets on screen, instead of a chat reply?</p>
     <dl class="glance__list">
-      <div class="glance__row">
-        <dt class="t-meta">Product</dt>
-        <dd>ConnectX, an AI-native building-energy product for facilities, finance and sustainability teams.</dd>
-      </div>
-      <div class="glance__row">
-        <dt class="t-meta">Our role</dt>
-        <dd>Product definition, interaction design, eight scenarios and a coded demo, which we then took through to a production-ready module.</dd>
-      </div>
-      <div class="glance__row glance__row--key">
-        <dt class="t-meta">The key question</dt>
-        <dd class="t-statement">How could a question asked in plain words open a working view of the building, with the right data and assets on screen, instead of a chat reply?</dd>
-      </div>
-      <div class="glance__row">
-        <dt class="t-meta">What we delivered</dt>
-        <dd>Eight scenarios, an adaptive interaction model, a digital twin and a coded demo on sample data, then the production-ready module, live since late 2025.</dd>
-      </div>
-      <div class="glance__row">
-        <dt class="t-meta">Scenario areas</dt>
-        <dd>System status, forecasting, asset performance and operational conditions.</dd>
-      </div>
-      <div class="glance__row">
-        <dt class="t-meta">Digital twin</dt>
-        <dd>A simplified 2.5D view that highlights, dims or brings an asset into focus for each scenario.</dd>
-      </div>
+      <div class="glance__row"><dt class="t-meta">Product</dt><dd>ConnectX, an AI-native building-energy product for facilities, finance and sustainability teams.</dd></div>
+      <div class="glance__row"><dt class="t-meta">Our role</dt><dd>Product definition, interaction design, eight scenarios and a coded demo, which we then took through to a production-ready module.</dd></div>
+      <div class="glance__row"><dt class="t-meta">What we delivered</dt><dd>Eight scenarios, an adaptive interaction model, a digital twin and a coded demo on sample data, then the production-ready module, live since late 2025.</dd></div>
+      <div class="glance__row"><dt class="t-meta">Scenario areas</dt><dd>System status, forecasting, asset performance and operational conditions.</dd></div>
+      <div class="glance__row"><dt class="t-meta">Digital twin</dt><dd>A simplified 2.5D view that highlights, dims or brings an asset into focus for each scenario.</dd></div>
     </dl>
-
-    <p class="glance__services">
-      <span class="t-meta">Related Tcules services</span>
-      <a class="link" href="https://www.tcules.com/services/product-design">Product Design</a>
-      <a class="link" href="https://www.tcules.com/services/ai-product-ux">AI Product UX</a>
-      <a class="link" href="https://www.tcules.com/services/design-engineering/coded-prototyping">Coded Prototyping</a>
-      <a class="link" href="https://www.tcules.com/services/software-development/ai-product-engineering">AI Product Engineering</a>
-    </p>
-    <p class="note glance__note">Phase 2 ✓ rules draw left → right, rows stagger in.</p>
   </div>
 </section>
 
@@ -1592,29 +1596,20 @@ html.lenis, html.lenis body { height: auto; }
     </div>
 
     <div class="chapter__media roles">
-      <ul class="roles__list" aria-label="Three teams, three questions">
+      <ul class="roles__list" aria-label="Three teams, three needs">
         <li class="role-card cx" data-tone="orange">
-          <div class="role-card__top">
-            <span class="role-card__avatar" aria-hidden="true">FO</span>
-            <span class="role-card__role">Facilities operator</span>
-          </div>
-          <p class="cx-k">Needs to see</p>
+          <span class="role-card__tag"><i aria-hidden="true"></i>FACILITIES</span>
+          <p class="role-card__role">Facilities operator</p>
           <p class="role-card__ask"><span class="role-card__q" data-type>An exception that requires action</span><span class="cx-caret" aria-hidden="true"></span></p>
         </li>
         <li class="role-card cx" data-tone="blue">
-          <div class="role-card__top">
-            <span class="role-card__avatar" aria-hidden="true">FL</span>
-            <span class="role-card__role">Finance leader</span>
-          </div>
-          <p class="cx-k">Needs to see</p>
+          <span class="role-card__tag"><i aria-hidden="true"></i>FINANCE</span>
+          <p class="role-card__role">Finance leader</p>
           <p class="role-card__ask"><span class="role-card__q" data-type>Cost or a forecast</span><span class="cx-caret" aria-hidden="true"></span></p>
         </li>
-        <li class="role-card cx" data-tone="ink">
-          <div class="role-card__top">
-            <span class="role-card__avatar" aria-hidden="true">ST</span>
-            <span class="role-card__role">Sustainability team</span>
-          </div>
-          <p class="cx-k">Needs to see</p>
+        <li class="role-card cx" data-tone="sage">
+          <span class="role-card__tag"><i aria-hidden="true"></i>SUSTAINABILITY</span>
+          <p class="role-card__role">Sustainability team</p>
           <p class="role-card__ask"><span class="role-card__q" data-type>Progress against an environmental target</span><span class="cx-caret" aria-hidden="true"></span></p>
         </li>
       </ul>
@@ -2041,15 +2036,15 @@ html.lenis, html.lenis body { height: auto; }
   <div class="wrap grid">
     <h2 id="facts-title" class="facts__title t-statement">What the work delivered</h2>
     <ul class="facts__list">
-      <li class="facts__row">
+      <li class="facts__item">
         <span class="t-stat">8</span>
         <span class="t-label">Scenarios defined</span>
       </li>
-      <li class="facts__row">
+      <li class="facts__item">
         <span class="t-stat">4</span>
         <span class="t-label">Scenario areas covered</span>
       </li>
-      <li class="facts__row" data-placeholder="IMP-03">
+      <li class="facts__item" data-placeholder="IMP-03">
         <span class="t-stat">60%</span>
         <span class="t-label">Faster to the right view <span class="facts__ph">Placeholder</span></span>
       </li>
@@ -2064,22 +2059,11 @@ html.lenis, html.lenis body { height: auto; }
 <section class="quotes" id="testimonials" aria-labelledby="quotes-title">
   <div class="wrap grid">
     <h2 id="quotes-title" class="quotes__title t-meta">What ConnectX says about the AI workspace</h2>
-    <div class="quotes__stage" data-quotes>
-      <figure class="quote is-active">
-        <blockquote class="t-statement"><p>“We didn't want another AI chat window. Tcules designed a dashboard where you ask a question and the digital twin of your building answers, with the right data and assets in view. They proved it in a working demo, then made it production-ready.”</p></blockquote>
-        <figcaption class="quote__by"><span class="t-label">Pratik Ghoshal</span><span class="t-caption">CEO, ConnectX</span></figcaption>
-      </figure>
-      <figure class="quote" hidden>
-        <blockquote class="t-statement"><p>“Tcules turned our early ideas into eight scenarios, built around the questions our operators, finance leaders and sustainability leads actually ask. Their coded demo let us see each question with its data and the digital twin in one view, before any live integration.”</p></blockquote>
-        <figcaption class="quote__by"><span class="t-label">Pratik Ghoshal</span><span class="t-caption">CEO, ConnectX</span></figcaption>
-      </figure>
+    <div class="quotes__grid">
+      <figure class="quote"><blockquote><p>“We didn't want another AI chat window. Tcules designed a dashboard where you ask a question and the digital twin of your building answers, with the right data and assets in view. They proved it in a working demo, then made it production-ready.”</p></blockquote><figcaption class="quote__by"><span class="quote__mark" aria-hidden="true">C</span><span><b>Pratik Ghoshal</b><span class="t-caption">CEO, ConnectX</span></span></figcaption></figure>
+      <figure class="quote"><blockquote><p>“Tcules turned our early ideas into eight scenarios, built around the questions our operators, finance leaders and sustainability leads actually ask. Their coded demo let us see each question with its data and the digital twin in one view, before any live integration.”</p></blockquote><figcaption class="quote__by"><span class="quote__mark" aria-hidden="true">C</span><span><b>Pratik Ghoshal</b><span class="t-caption">CEO, ConnectX</span></span></figcaption></figure>
     </div>
-    <div class="quotes__controls">
-      <button class="quotes__btn" type="button" data-quotes-prev aria-label="Previous quote">←</button>
-      <p class="t-meta" aria-live="polite"><span data-quotes-index>1</span> / 2</p>
-      <button class="quotes__btn" type="button" data-quotes-next aria-label="Next quote">→</button>
-    </div>
-    <p class="note quotes__note">Phase 2 ✓ crossfade with line reveal between quotes.</p>
+    <p class="note quotes__note">R1 ✓ both quotes side by side as cards.</p>
   </div>
 </section>
 
@@ -2345,35 +2329,6 @@ html.lenis, html.lenis body { height: auto; }
     setNotes(root.classList.contains('notes-off'));
   });
 
-  /* Testimonials: previous / next */
-  const quotes = [...document.querySelectorAll('[data-quotes] .quote')];
-  const quoteIndex = document.querySelector('[data-quotes-index]');
-  let q = 0;
-  function swapQuote() {
-    quotes.forEach((el, n) => { el.hidden = n !== q; el.classList.toggle('is-active', n === q); });
-    quoteIndex.textContent = String(q + 1);
-  }
-  function showQuote(i) {
-    const prev = quotes[q];
-    q = (i + quotes.length) % quotes.length;
-    if (!root.classList.contains('motion')) { swapQuote(); return; }
-    /* Crossfade: the old quote lifts away, the new one reveals line by line */
-    gsap.killTweensOf(prev);
-    gsap.to(prev, {
-      opacity: 0, y: -16, duration: 0.35, ease: 'power2.in',
-      onComplete() {
-        gsap.set(prev, { clearProps: 'opacity,transform' });
-        swapQuote();
-        const p = quotes[q].querySelector('blockquote p');
-        const split = SplitText.create(p, { type: 'lines', mask: 'lines', aria: 'none' });
-        gsap.from(split.lines, { yPercent: 105, duration: 0.9, ease: 'expo.out', stagger: 0.06, onComplete: () => split.revert() });
-        gsap.from(quotes[q].querySelector('.quote__by'), { opacity: 0, y: 12, duration: 0.6, delay: 0.25, ease: 'expo.out' });
-      },
-    });
-  }
-  document.querySelector('[data-quotes-prev]').addEventListener('click', () => showQuote(q - 1));
-  document.querySelector('[data-quotes-next]').addEventListener('click', () => showQuote(q + 1));
-
   /* Scenario areas: one setter shared by the click fallback and the pinned scene (scenes.js).
      Each area also changes what the mini twin highlights. */
   const areas = [...document.querySelectorAll('.areas__item')];
@@ -2577,34 +2532,14 @@ html.lenis, html.lenis body { height: auto; }
   const yieldToBrowser = () => new Promise((r) => setTimeout(r, 0));
 
   function startHero() {
-    /* Hero: title by character, credits, then the media */
-    const media = $('.hero__media');
-    const gutter = () => parseFloat(getComputedStyle($('.hero .wrap')).paddingLeft);
-    gsap.set(media, { clipPath: `inset(0px ${gutter()}px 0px ${gutter()}px round 24px)` });
-    $$('.hero__credit').forEach((el) => el.classList.add('draw'));
-    gsap.set('.hero__credit', { '--draw': 0 });
+    /* Hero: eyebrow, title line by line, the credits line, then the media */
     root.classList.remove('is-loading');
-
-    const name = SplitText.create('.hero__name', { type: 'lines,chars', mask: 'lines', aria: 'none' });
+    const title = SplitText.create('.hero__title', { type: 'lines', mask: 'lines', aria: 'none' });
     gsap.timeline({ defaults: { ease: EASE } })
-      .from(name.chars, { yPercent: 110, duration: 1.2, stagger: 0.035 }, 0)
-      .from('.hero__eyebrow', { opacity: 0, y: 12, duration: 0.8 }, 0.1)
-      .to('.hero__credit', { '--draw': 1, duration: 1.2, stagger: 0.08 }, 0.35)
-      .from('.hero__credit > *', { opacity: 0, y: 14, duration: 0.8, stagger: 0.04 }, 0.45)
-      .from('.hero__h1', { opacity: 0, y: 14, duration: 0.8 }, 0.6)
-      .from(media, { opacity: 0, y: 48, duration: 1.4 }, 0.55);
-
-    /* Hero media opens to full-bleed as the page scrolls */
-    gsap.fromTo(media,
-      { clipPath: () => `inset(0px ${gutter()}px 0px ${gutter()}px round 24px)` },
-      {
-        clipPath: 'inset(0px 0px 0px 0px round 0px)', ease: 'none',
-        scrollTrigger: { start: 0, end: () => innerHeight * 0.75, scrub: true, invalidateOnRefresh: true },
-      });
-    gsap.fromTo('.hero__media .shot__img', { scale: 0.94 }, {
-      scale: 1, ease: 'none',
-      scrollTrigger: { start: 0, end: () => innerHeight * 0.75, scrub: true },
-    });
+      .from('.hero__eyebrow', { opacity: 0, y: 12, duration: 0.8 }, 0)
+      .from(title.lines, { yPercent: 105, duration: 1.2, stagger: 0.09 }, 0.1)
+      .from('.hero__credits > div', { opacity: 0, y: 10, duration: 0.8, stagger: 0.06 }, 0.5)
+      .from('.hero__media', { opacity: 0, y: 40, duration: 1.4 }, 0.6);
   }
 
   /* Line breaks depend on the web fonts, so text splitting waits for them */
@@ -2618,21 +2553,21 @@ html.lenis, html.lenis body { height: auto; }
     /* Line reveals */
     $$([
       '.chapter__head .t-statement', '.chapter__pull', '.sub__head h3', '.glance__row--key dd',
-      '.facts__title', '.faq__title', '.related__title', '.enquiry__title', '.quote.is-active blockquote p',
+      '.facts__title', '.faq__title', '.related__title', '.enquiry__title', '.intro__summary', '.glance__key',
     ].join(',')).forEach((el) => revealLines(el));
     await yieldToBrowser();
 
     /* Big reads brighten word by word, scrubbed */
-    $$('.intro__text .t-intro, .decide__lead').forEach(brighten);
+    $$('.decide__lead').forEach(brighten);
     await yieldToBrowser();
 
     /* Fade-up for supporting elements */
     const fades = $$([
-      '.intro__links', '.glance__head', '.glance__row dt', '.glance__row:not(.glance__row--key) dd', '.glance__services',
+      '.intro__text p', '.intro__links', '.glance__head', '.glance__row > *',
       '.chapter__label', '.chapter__body > p', '.role-card', '.carousel__caption', '.stage__caption',
       '.areas__nav > .t-meta', '.sub__body > p', '.compare__item > .t-meta', '.compare__item figcaption',
       '.demo__media figcaption', '.timeline__title', '.timeline__step > p', '.decide__h2', '.decide__defs > .t-meta',
-      '.defs li > *', '.decide__body > p', '.facts__row > *', '.quotes__title', '.quote__by', '.quotes__controls',
+      '.defs li > *', '.decide__body > p', '.facts__item > *', '.quotes__title', '.quote',
       '.trust__list li', '.related__lead', '.related__row > *', '.enquiry__sub', '.field', '.enquiry__actions',
     ].join(','));
     gsap.set(fades, { opacity: 0, y: 24 });
@@ -2649,7 +2584,7 @@ html.lenis, html.lenis body { height: auto; }
     });
 
     /* Hairline rules draw left to right */
-    const rules = $$('.glance__row, .defs li, .facts__row, .faq__item, .related__row, .timeline__step');
+    const rules = $$('.glance__row, .defs li, .faq__item, .related__row, .timeline__step');
     rules.forEach((el) => el.classList.add('draw'));
     gsap.set(rules, { '--draw': 0 });
     ScrollTrigger.batch(rules, {
@@ -2681,7 +2616,7 @@ html.lenis, html.lenis body { height: auto; }
       .fromTo('.compare__item--chosen', { y: 64 }, { y: 0, ease: 'none' }, 0);
 
     /* Numbers count up */
-    $$('.facts__row .t-stat').forEach(countUp);
+    $$('.facts__item .t-stat').forEach(countUp);
     $$('.trust__v').filter((el) => !/^\s*\d{4}\s*$/.test(el.textContent)).forEach(countUp);
 
     /* Next case study marquee: drifts, speeds up with scroll velocity */

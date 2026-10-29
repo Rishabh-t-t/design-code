@@ -55,8 +55,9 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
   font-size: var(--fs-display);
   font-weight: 500;
   line-height: .95;
-  letter-spacing: -.035em;
+  letter-spacing: -.04em;
   color: var(--ink);
+  text-wrap: balance;
 }
 .t-intro {
   font-family: var(--font-display);
@@ -73,7 +74,18 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
   line-height: 1.16;
   letter-spacing: -.015em;
   color: var(--ink);
+  text-wrap: balance;
 }
+.t-summary {
+  font-family: var(--font-display);
+  font-size: var(--fs-summary);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -.022em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.t-small { font-size: var(--fs-small); line-height: 1.6; color: var(--ink-2); }
 .t-stat {
   font-family: var(--font-display);
   font-size: var(--fs-stat);
@@ -114,6 +126,16 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
   padding-bottom: 2px;
 }
 .link:hover { background-size: 0 1px; background-position: 100% 100%; }
+/* Marker link: a soft Tcules-green highlight behind the lower half; fills on hover */
+.link--mark {
+  font-weight: 500;
+  padding: 0 .15em;
+  background-image: linear-gradient(rgb(4 236 80 / .32), rgb(4 236 80 / .32));
+  background-size: 100% .5em;
+  background-position: 0 92%;
+  transition: background-size .35s var(--ease-out);
+}
+.link--mark:hover { background-size: 100% 100%; background-position: 0 100%; }
 
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;

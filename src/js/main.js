@@ -15,35 +15,6 @@
     setNotes(root.classList.contains('notes-off'));
   });
 
-  /* Testimonials: previous / next */
-  const quotes = [...document.querySelectorAll('[data-quotes] .quote')];
-  const quoteIndex = document.querySelector('[data-quotes-index]');
-  let q = 0;
-  function swapQuote() {
-    quotes.forEach((el, n) => { el.hidden = n !== q; el.classList.toggle('is-active', n === q); });
-    quoteIndex.textContent = String(q + 1);
-  }
-  function showQuote(i) {
-    const prev = quotes[q];
-    q = (i + quotes.length) % quotes.length;
-    if (!root.classList.contains('motion')) { swapQuote(); return; }
-    /* Crossfade: the old quote lifts away, the new one reveals line by line */
-    gsap.killTweensOf(prev);
-    gsap.to(prev, {
-      opacity: 0, y: -16, duration: 0.35, ease: 'power2.in',
-      onComplete() {
-        gsap.set(prev, { clearProps: 'opacity,transform' });
-        swapQuote();
-        const p = quotes[q].querySelector('blockquote p');
-        const split = SplitText.create(p, { type: 'lines', mask: 'lines', aria: 'none' });
-        gsap.from(split.lines, { yPercent: 105, duration: 0.9, ease: 'expo.out', stagger: 0.06, onComplete: () => split.revert() });
-        gsap.from(quotes[q].querySelector('.quote__by'), { opacity: 0, y: 12, duration: 0.6, delay: 0.25, ease: 'expo.out' });
-      },
-    });
-  }
-  document.querySelector('[data-quotes-prev]').addEventListener('click', () => showQuote(q - 1));
-  document.querySelector('[data-quotes-next]').addEventListener('click', () => showQuote(q + 1));
-
   /* Scenario areas: one setter shared by the click fallback and the pinned scene (scenes.js).
      Each area also changes what the mini twin highlights. */
   const areas = [...document.querySelectorAll('.areas__item')];
