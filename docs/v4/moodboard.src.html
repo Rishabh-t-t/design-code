@@ -1,0 +1,963 @@
+<title>ConnectX Story Moodboard</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..700&family=Figtree:ital,wght@0,400..700;1,400&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a light studio board; every visual sample sits in its own framed "plate", the stage plates are dark dusk scenes. Deliberately single-theme (light board, dark plates). */
+:root {
+  color-scheme: light;
+  --board: #F1F1EE;
+  --plate: #FFFFFF;
+  --ink: #0B0B0B;
+  --ink-2: #464646;
+  --ink-3: #696965;
+  --line: #DEDEDA;
+  --brand: #04EC50;
+
+  /* light across the story */
+  --dawn: linear-gradient(180deg, #D9E0EA 0%, #EEE6E0 62%, #F6E2CF 100%);
+  --day: linear-gradient(180deg, #E4ECF5 0%, #F4F7FA 60%, #FFFFFF 100%);
+  --dusk: linear-gradient(180deg, #0A1020 0%, #18213D 38%, #3E3C5E 64%, #8E6A72 82%, #E2955E 100%);
+  --night-ground: #0B0F1B;
+
+  /* state colours inside the product */
+  --live: #4A6FE3;
+  --alert: #E8603C;
+  --ok: #3E8E63;
+  --idle: #9A9A96;
+
+  /* roles */
+  --facilities: #C74420;
+  --finance: #3453BC;
+  --sustain: #447E61;
+
+  --f-display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Figtree", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --twin: url(%%TWIN%%);
+  --twin-ratio: 835 / 730;
+}
+* { box-sizing: border-box; }
+body { background: var(--board); color: var(--ink); font-family: var(--f-body); font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 1440px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+@media (min-width: 900px) { .wrap { padding-left: max(40px, env(safe-area-inset-left, 0px)); padding-right: max(40px, env(safe-area-inset-right, 0px)); } }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--live); outline-offset: 3px; }
+
+/* ---------- board header ---------- */
+.mast { padding-block: 56px 40px; display: grid; gap: 28px; }
+.eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+.mast h1 { font-family: var(--f-display); font-weight: 400; font-size: clamp(44px, 7vw, 104px); line-height: .95; letter-spacing: -.03em; margin: 0; text-wrap: balance; max-width: 14ch; }
+.mast__line { font-family: var(--f-display); font-weight: 300; font-size: clamp(20px, 2.2vw, 30px); line-height: 1.25; color: var(--ink-2); max-width: 34ch; margin: 0; text-wrap: balance; }
+.words { display: flex; flex-wrap: wrap; gap: 8px; }
+.words span { font-family: var(--f-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; padding: 7px 12px; border: 1px solid var(--line); border-radius: 99px; background: var(--plate); }
+
+/* ---------- sections ---------- */
+.sec { padding-block: 72px 24px; border-top: 1px solid var(--line); display: grid; gap: 28px; }
+.sec__head { display: grid; gap: 10px; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .sec__head { grid-template-columns: 280px 1fr; gap: 24px; align-items: baseline; } }
+.sec__head h2 { font-family: var(--f-display); font-weight: 400; font-size: clamp(28px, 3vw, 44px); line-height: 1.05; letter-spacing: -.02em; margin: 0; text-wrap: balance; }
+.sec__why { color: var(--ink-2); margin: 6px 0 0; max-width: 62ch; }
+.cap { font-size: 14px; line-height: 1.45; color: var(--ink-2); margin: 10px 2px 0; max-width: 62ch; }
+.cap b { color: var(--ink); font-weight: 600; }
+.tag { font-family: var(--f-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+
+/* ---------- the collage ---------- */
+.collage { display: grid; gap: 14px; grid-template-columns: 1fr; }
+@media (min-width: 900px) {
+  .collage { grid-template-columns: repeat(12, 1fr); grid-auto-rows: minmax(0, auto); }
+  .c-hero { grid-column: 1 / 9; grid-row: span 2; }
+  .c-sketch { grid-column: 9 / 13; }
+  .c-type { grid-column: 9 / 13; }
+  .c-swatch { grid-column: 1 / 5; }
+  .c-glass { grid-column: 5 / 9; }
+  .c-rail { grid-column: 9 / 13; }
+}
+.tile { background: var(--plate); border-radius: 10px; overflow: hidden; position: relative; min-width: 0; }
+.tile--pad { padding: 20px; }
+
+/* ---------- the stage (dusk scene) ---------- */
+.stage { position: relative; aspect-ratio: 16 / 9; max-width: 100%; border-radius: 10px; overflow: hidden; container-type: inline-size; background: var(--dusk); isolation: isolate; }
+.stage--tall { aspect-ratio: 4 / 3; }
+.stage--day { background: var(--day); }
+.stage--dawn { background: var(--dawn); }
+.stage--paper { background: #F7F6F2; }
+.skyline { position: absolute; left: 0; right: 0; bottom: 11%; height: 38%; z-index: 0; opacity: .5; }
+.skyline svg { width: 100%; height: 100%; display: block; }
+.ground { position: absolute; left: 0; right: 0; bottom: 0; height: 16%; background: linear-gradient(180deg, rgba(11,15,27,0) 0%, var(--night-ground) 70%); z-index: 1; }
+.stage--day .ground, .stage--dawn .ground { background: linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,.7)); }
+.stage--day .skyline, .stage--dawn .skyline { opacity: .22; }
+
+.twin { position: absolute; z-index: 2; aspect-ratio: var(--twin-ratio); height: 86%; left: 50%; bottom: 3%; transform: translateX(-50%); background: var(--twin) center / contain no-repeat; }
+.twin--left { left: 39%; }
+/* realistic: graded into dusk, warm interior light masked to the building only */
+.twin--real { filter: brightness(.7) contrast(1.15) saturate(.85); }
+.twin--real::after { content: ""; position: absolute; inset: 0; -webkit-mask: var(--twin) center / contain no-repeat; mask: var(--twin) center / contain no-repeat;
+  background: radial-gradient(60% 50% at 46% 40%, rgba(255,190,120,.95), rgba(255,170,100,.25) 60%, transparent 75%), linear-gradient(180deg, rgba(120,150,255,.25), rgba(255,160,90,.35));
+  mix-blend-mode: screen; filter: brightness(1.5) saturate(1.2); }
+.twin--real::before { content: ""; position: absolute; left: 6%; right: 6%; bottom: -3%; height: 12%; background: radial-gradient(50% 50% at 50% 50%, rgba(255,170,100,.32), transparent 70%); filter: blur(8px); }
+.twin--sketch { filter: url(#sketch); opacity: .9; }
+.twin--flat { filter: none; }
+.stage--paper .grid-paper, .grid-paper { position: absolute; inset: 0; background-image: linear-gradient(rgba(60,80,140,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(60,80,140,.07) 1px, transparent 1px); background-size: 3.2cqi 3.2cqi; z-index: 0; }
+
+/* glass, two finishes */
+.glass { position: absolute; z-index: 4; border-radius: 1.1cqi; padding: 1.2cqi 1.4cqi; color: #fff; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); -webkit-backdrop-filter: blur(18px) saturate(1.4); backdrop-filter: blur(18px) saturate(1.4); box-shadow: 0 1.6cqi 3.2cqi -1.6cqi rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.18); font-size: 1.05cqi; line-height: 1.35; }
+.glass--light { color: var(--ink); background: rgba(255,255,255,.66); border-color: rgba(255,255,255,.9); box-shadow: 0 1.4cqi 3cqi -1.6cqi rgba(30,40,70,.35); }
+.g-label { font-family: var(--f-mono); font-size: .82cqi; letter-spacing: .06em; text-transform: uppercase; opacity: .72; }
+.g-value { font-family: var(--f-display); font-size: 2.3cqi; line-height: 1.05; letter-spacing: -.02em; margin-top: .3cqi; }
+.g-value small { font-size: 1.1cqi; opacity: .7; font-family: var(--f-mono); letter-spacing: 0; }
+.g-title { font-weight: 600; font-size: 1.2cqi; }
+
+/* question bar */
+.ask { position: absolute; z-index: 5; left: 50%; bottom: 5.5%; transform: translateX(-50%); width: 46cqi; display: flex; align-items: center; gap: 1cqi; padding: 1cqi 1cqi 1cqi 1.8cqi; border-radius: 99px; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.26); -webkit-backdrop-filter: blur(20px) saturate(1.5); backdrop-filter: blur(20px) saturate(1.5); color: #fff; font-size: 1.45cqi; box-shadow: 0 2cqi 4cqi -2cqi rgba(0,0,0,.6); }
+.ask--light { background: rgba(255,255,255,.8); color: var(--ink); border-color: #fff; }
+.ask__text { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; }
+.ask__text.is-empty { opacity: .6; }
+.caret { display: inline-block; width: .12em; height: 1em; background: currentColor; vertical-align: -.12em; margin-left: .06em; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.ask__go { width: 3cqi; height: 3cqi; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; font-size: 1.4cqi; flex: none; }
+.ask--light .ask__go { background: var(--ink); color: #fff; }
+.chips { position: absolute; z-index: 5; left: 50%; bottom: 16.5%; transform: translateX(-50%); display: flex; gap: .8cqi; white-space: nowrap; }
+.chips span { font-size: 1.05cqi; padding: .6cqi 1.1cqi; border-radius: 99px; color: #fff; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.22); }
+
+/* headline on the stage */
+.s-head { position: absolute; z-index: 5; left: 4cqi; top: 4cqi; color: #fff; max-width: 34cqi; }
+.s-head h3 { font-family: var(--f-display); font-weight: 300; font-size: 4.6cqi; line-height: .98; letter-spacing: -.03em; margin: 0; text-wrap: balance; }
+.s-head .tbd { display: inline-block; margin-top: 1.2cqi; font-family: var(--f-mono); font-size: .9cqi; letter-spacing: .08em; text-transform: uppercase; padding: .35cqi .8cqi; border: 1px dashed rgba(255,255,255,.5); border-radius: 4px; opacity: .8; }
+.s-facts { position: absolute; z-index: 5; left: 4cqi; bottom: 5cqi; display: flex; gap: 2.4cqi; color: #fff; font-family: var(--f-mono); font-size: .95cqi; letter-spacing: .06em; text-transform: uppercase; }
+.s-facts b { display: block; font-family: var(--f-display); font-weight: 400; font-size: 2.2cqi; letter-spacing: -.02em; text-transform: none; }
+.s-facts span { opacity: .8; }
+.s-nav { position: absolute; z-index: 6; left: 2.4cqi; right: 2.4cqi; top: 1.8cqi; display: flex; justify-content: space-between; align-items: center; color: #fff; font-size: 1cqi; }
+.s-nav .logo { font-family: var(--f-display); font-weight: 600; font-size: 1.4cqi; letter-spacing: -.01em; }
+.s-nav .pill { padding: .5cqi 1.2cqi; border-radius: 99px; border: 1px solid rgba(255,255,255,.3); }
+.s-head--below-nav { top: 7cqi; }
+
+/* the progress rail (felt time) */
+.rail { position: absolute; z-index: 5; right: 3cqi; top: 14%; bottom: 14%; width: 10cqi; }
+.rail::before { content: ""; position: absolute; right: 0; top: 0; bottom: 0; width: 1px; background: rgba(255,255,255,.25); }
+.rail__fill { position: absolute; right: 0; top: 0; width: 1px; background: #fff; height: var(--p, 100%); box-shadow: 0 0 8px rgba(255,255,255,.8); }
+.rail__mark { position: absolute; right: -.35cqi; transform: translateY(-50%); display: flex; align-items: center; gap: .8cqi; font-family: var(--f-mono); font-size: .8cqi; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.6); }
+.rail__mark i { order: 2; width: .8cqi; height: .8cqi; border-radius: 50%; background: rgba(255,255,255,.35); }
+.rail__mark.on { color: #fff; }
+.rail__mark.on i { background: #fff; box-shadow: 0 0 0 .4cqi rgba(255,255,255,.18); }
+.rail--ink::before { background: rgba(11,11,11,.18); }
+.rail--ink .rail__fill { background: var(--ink); box-shadow: none; }
+.rail--ink .rail__mark { color: var(--ink-3); }
+.rail--ink .rail__mark i { background: #C9C9C5; }
+.rail--ink .rail__mark.on { color: var(--ink); }
+.rail--ink .rail__mark.on i { background: var(--ink); box-shadow: 0 0 0 .4cqi rgba(11,11,11,.08); }
+
+/* twin pins */
+.pin { position: absolute; z-index: 4; display: flex; align-items: center; gap: .6cqi; padding: .5cqi .9cqi; border-radius: .6cqi; background: rgba(255,255,255,.92); color: var(--ink); font-size: .95cqi; font-weight: 600; box-shadow: 0 .6cqi 1.4cqi -.6cqi rgba(0,0,0,.4); white-space: nowrap; }
+.pin i { width: .7cqi; height: .7cqi; border-radius: 50%; background: var(--live); }
+.pin em { font-style: normal; font-family: var(--f-mono); font-weight: 400; color: var(--live); }
+.pin--alert i { background: var(--alert); box-shadow: 0 0 0 .5cqi rgba(232,96,60,.25); animation: pulse 1.8s ease-out infinite; }
+.pin--alert em { color: var(--alert); }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(232,96,60,.55); } 100% { box-shadow: 0 0 0 1.4cqi rgba(232,96,60,0); } }
+
+/* mini chart inside glass */
+.spark { width: 100%; height: 6cqi; display: block; margin-top: .6cqi; }
+
+/* ---------- key frames ---------- */
+.frames { display: grid; gap: 40px; }
+.frame { display: grid; gap: 14px; }
+@media (min-width: 900px) { .frame { grid-template-columns: 1fr 300px; gap: 28px; align-items: start; } }
+.frame__meta { display: grid; gap: 8px; padding-top: 4px; }
+.frame__meta h3 { font-family: var(--f-display); font-weight: 400; font-size: 26px; line-height: 1.1; letter-spacing: -.01em; margin: 0; }
+.frame__meta p { margin: 0; color: var(--ink-2); font-size: 15px; }
+.frame__meta dl { margin: 6px 0 0; display: grid; gap: 8px; font-size: 14px; }
+.frame__meta dt { font-family: var(--f-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+.frame__meta dd { margin: 0; color: var(--ink-2); }
+
+/* rewind slices */
+.slice { position: absolute; inset: 0; container-type: inline-size; }
+.slice > .bg { position: absolute; inset: 0; }
+.slice__label { position: absolute; z-index: 6; bottom: 3cqi; font-family: var(--f-mono); font-size: 1cqi; letter-spacing: .08em; text-transform: uppercase; padding: .5cqi .9cqi; border-radius: 4px; background: rgba(255,255,255,.88); color: var(--ink); }
+.slice--1 { clip-path: inset(0 75% 0 0); } .slice--1 .slice__label { left: 3cqi; }
+.slice--2 { clip-path: inset(0 50% 0 25%); } .slice--2 .slice__label { left: 28cqi; }
+.slice--3 { clip-path: inset(0 25% 0 50%); } .slice--3 .slice__label { left: 53cqi; }
+.slice--4 { clip-path: inset(0 0 0 75%); } .slice--4 .slice__label { left: 78cqi; }
+.seam { position: absolute; top: 0; bottom: 0; width: 1px; background: rgba(255,255,255,.7); z-index: 7; box-shadow: 0 0 12px rgba(255,255,255,.7); }
+.rewind-arrow { position: absolute; z-index: 7; top: 4cqi; left: 4cqi; right: 4cqi; display: flex; align-items: center; gap: 1cqi; color: #fff; font-family: var(--f-mono); font-size: 1cqi; letter-spacing: .08em; text-transform: uppercase; }
+.rewind-arrow::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(255,255,255,.8), rgba(255,255,255,.1)); }
+.day0-line { position: absolute; z-index: 5; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 70cqi; text-align: center; font-family: var(--f-display); font-weight: 300; font-size: 3.6cqi; line-height: 1.12; letter-spacing: -.02em; color: var(--ink); text-wrap: balance; }
+.day0-tag { position: absolute; z-index: 5; left: 50%; top: 30%; transform: translateX(-50%); font-family: var(--f-mono); font-size: 1cqi; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
+
+/* ---------- the x-ray stack ---------- */
+.xray { position: relative; aspect-ratio: 16 / 9; max-width: 100%; border-radius: 10px; overflow: hidden; container-type: inline-size; background: radial-gradient(80% 70% at 50% 60%, #1B2546 0%, #0A1020 70%); }
+.xray__scene { position: absolute; inset: 0; perspective: 140cqi; perspective-origin: 50% 20%; }
+.xray__stack { position: absolute; left: 46%; top: 64%; width: 48cqi; height: 27cqi; transform-style: preserve-3d; transform: translate(-50%, -50%) rotateX(58deg) rotateZ(-34deg); }
+.layer { position: absolute; inset: 0; border-radius: 1cqi; border: 1px solid rgba(160,185,255,.45); background: rgba(70,100,210,.16); transform: translateZ(calc(var(--i) * var(--gap, 0cqi))); transition: transform 1.4s cubic-bezier(.65,0,.35,1); display: grid; place-items: center; color: #fff; }
+.layer--render { background: var(--twin) center / 62% no-repeat, linear-gradient(180deg, rgba(25,35,70,.95), rgba(60,50,80,.95)); border-color: rgba(255,200,150,.6); }
+.layer__body { transform: rotateZ(34deg); font-size: 1.4cqi; text-align: center; display: grid; gap: .6cqi; justify-items: center; }
+.layer__body code { font-family: var(--f-mono); font-size: 1.1cqi; color: #BFD0FF; background: rgba(0,0,0,.25); padding: .4cqi .8cqi; border-radius: .5cqi; white-space: nowrap; }
+.chipz { display: flex; gap: .5cqi; flex-wrap: wrap; justify-content: center; max-width: 34cqi; }
+.chipz span { font-family: var(--f-mono); font-size: 1cqi; padding: .3cqi .7cqi; border-radius: 99px; border: 1px solid rgba(255,255,255,.3); }
+.chipz .miss { border-style: dashed; color: #FFC9A8; border-color: #FFA67A; }
+.xray.is-open .layer { --gap: 5.2cqi; }
+.xray__labels { position: absolute; z-index: 3; right: 4cqi; top: 50%; transform: translateY(-50%); display: grid; gap: 1.5cqi; }
+.xray__labels li { list-style: none; display: flex; align-items: center; gap: 1cqi; font-family: var(--f-mono); font-size: 1.1cqi; letter-spacing: .06em; text-transform: uppercase; color: rgba(255,255,255,.45); transition: color .3s; }
+.xray__labels li b { font-family: var(--f-display); font-weight: 400; font-size: 1.6cqi; letter-spacing: -.01em; text-transform: none; color: inherit; }
+.xray__labels li.on { color: #fff; }
+.xray__labels ol { margin: 0; padding: 0; display: grid; gap: 1.6cqi; }
+.pulse-dot { position: absolute; width: 1.6cqi; height: 1.6cqi; border-radius: 50%; left: 50%; top: 50%; margin: -.8cqi; background: #fff; box-shadow: 0 0 2cqi 0.6cqi rgba(160,190,255,.9); transform: translateZ(calc(var(--z, 5) * var(--gap, 0cqi))); transition: transform .5s ease; }
+.xray .s-head { max-width: 30cqi; }
+.xray .s-head h3 { font-size: 3.4cqi; }
+
+/* ---------- stage layers (parallax depth) ---------- */
+.depth { position: relative; aspect-ratio: 16 / 9; max-width: 100%; border-radius: 10px; overflow: hidden; container-type: inline-size; background: #FFFFFF; }
+.depth__scene { position: absolute; inset: 0; perspective: 160cqi; }
+.depth__stack { position: absolute; left: 40%; top: 50%; width: 40cqi; height: 22.5cqi; transform-style: preserve-3d; transform: translate(-50%, -50%) rotateY(52deg) rotateX(8deg); animation: sway 9s ease-in-out infinite alternate; }
+@keyframes sway { to { transform: translate(-50%, -50%) rotateY(40deg) rotateX(4deg); } }
+.dl { position: absolute; inset: 0; border-radius: .8cqi; transform: translateZ(calc(var(--i) * 6cqi)); border: 1px solid rgba(20,30,60,.18); }
+.dl--sky { background: var(--dusk); }
+.dl--haze { background: linear-gradient(180deg, transparent 55%, rgba(30,40,80,.65) 56%, rgba(30,40,80,.65) 100%); -webkit-mask: linear-gradient(#000,#000); }
+.dl--build { background: var(--twin) 50% 90% / 45% no-repeat; }
+.dl--ui { background: transparent; }
+.dl--ui::before, .dl--ui::after { content: ""; position: absolute; border-radius: .6cqi; background: rgba(255,255,255,.55); border: 1px solid rgba(255,255,255,.9); }
+.dl--ui::before { left: 6%; top: 18%; width: 24%; height: 22%; }
+.dl--ui::after { right: 6%; top: 30%; width: 26%; height: 32%; }
+.dl--copy { background: transparent; display: grid; align-items: start; padding: 2.4cqi; font-family: var(--f-display); font-size: 2.4cqi; color: #fff; line-height: 1; letter-spacing: -.02em; text-shadow: 0 2px 10px rgba(0,0,0,.4); }
+.depth__key { position: absolute; right: 3cqi; top: 50%; transform: translateY(-50%); display: grid; gap: 1.6cqi; }
+.depth__key div { display: grid; grid-template-columns: 7cqi 1fr; align-items: baseline; gap: 1cqi; font-size: 1.3cqi; color: var(--ink-2); }
+.depth__key b { font-family: var(--f-mono); font-weight: 500; font-size: 1.2cqi; color: var(--ink); }
+
+/* ---------- three looks ---------- */
+.looks { display: grid; gap: 14px; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .looks { grid-template-columns: repeat(3, 1fr); } }
+.look .stage { aspect-ratio: 1 / 1; }
+.look .twin { height: 78%; bottom: 8%; }
+.look h3 { font-family: var(--f-display); font-weight: 400; font-size: 22px; margin: 14px 2px 0; letter-spacing: -.01em; }
+.look .cap { margin-top: 6px; }
+.looks__arrow { display: none; }
+
+/* ---------- UI kit board ---------- */
+.kit { display: grid; gap: 14px; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .kit { grid-template-columns: repeat(6, 1fr); } .k-a { grid-column: span 3; } .k-b { grid-column: span 3; } .k-c { grid-column: span 2; } .k-d { grid-column: span 2; } .k-e { grid-column: span 2; } .k-f { grid-column: span 6; } }
+.kit .plate { border-radius: 10px; overflow: hidden; min-width: 0; }
+.plate__stage { position: relative; aspect-ratio: 16 / 10; max-width: 100%; container-type: inline-size; background: var(--dusk); overflow: hidden; }
+.plate__stage--light { background: var(--day); }
+.plate__stage--short { aspect-ratio: 16 / 7; }
+.plate__stage--wide { aspect-ratio: 16 / 4.2; }
+.plate__name { display: flex; justify-content: space-between; gap: 12px; padding: 12px 14px; background: var(--plate); font-size: 14px; }
+.plate__name b { font-weight: 600; }
+.plate__name span { color: var(--ink-3); text-align: right; }
+/* components re-scaled for the kit plates */
+.kit .glass { position: absolute; font-size: 2.1cqi; padding: 2.6cqi 3cqi; border-radius: 2.2cqi; }
+.kit .g-label { font-size: 1.7cqi; }
+.kit .g-value { font-size: 4.8cqi; }
+.kit .g-value small { font-size: 2.1cqi; }
+.kit .g-title { font-size: 2.6cqi; }
+.kit .spark { height: 13cqi; margin-top: 1.4cqi; }
+.kit .ask { width: 82cqi; font-size: 3cqi; padding: 1.8cqi 1.8cqi 1.8cqi 3.4cqi; bottom: auto; top: 50%; transform: translate(-50%, -50%); }
+.kit .ask__go { width: 6cqi; height: 6cqi; font-size: 2.6cqi; }
+.kit .chips { bottom: 12%; gap: 1.6cqi; }
+.kit .chips span { font-size: 2.1cqi; padding: 1.2cqi 2.2cqi; }
+.kit .pin { font-size: 2.4cqi; padding: 1.2cqi 2cqi; border-radius: 1.4cqi; gap: 1.4cqi; }
+.kit .pin i { width: 1.6cqi; height: 1.6cqi; }
+.btns { display: flex; gap: 1.2cqi; margin-top: 2cqi; }
+.btn { font-size: 2cqi; padding: 1.2cqi 2.4cqi; border-radius: 99px; background: #fff; color: var(--ink); font-weight: 600; }
+.btn--ghost { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.35); }
+.est { display: inline-flex; align-items: center; gap: 1cqi; margin-top: 1.4cqi; font-family: var(--f-mono); font-size: 1.6cqi; padding: .8cqi 1.4cqi; border-radius: 99px; border: 1px dashed #FFA67A; color: #FFD2B8; }
+.roles-row { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 2.4cqi; padding: 0 3cqi; }
+.role { background: #FAFAFA; border: 1px solid #DEDCD5; border-radius: 3px; box-shadow: 2px 4px 13.6px rgba(164,183,219,.5); padding: 1.8cqi 2cqi; width: 28cqi; font-size: 1.8cqi; color: var(--ink); }
+.role:nth-child(2) { transform: translateY(-3cqi); }
+.role:nth-child(3) { transform: translateY(2cqi); }
+.role__tag { display: inline-block; font-family: var(--f-mono); font-size: 1.3cqi; letter-spacing: .08em; padding: .4cqi .8cqi; border-radius: 3px; color: #fff; margin-bottom: 1.2cqi; }
+.role__q { font-family: var(--f-display); font-size: 2.2cqi; line-height: 1.2; letter-spacing: -.01em; min-height: 5.4cqi; }
+.kit .rail { right: auto; left: 8cqi; width: auto; top: 50%; bottom: auto; height: 1px; width: 84cqi; }
+.kit .rail::before { left: 0; right: 0; top: 0; bottom: auto; width: auto; height: 1px; }
+.kit .rail__fill { top: 0; left: 0; right: auto; height: 1px; width: var(--p, 60%); transition: width 1.2s cubic-bezier(.65,0,.35,1); }
+.kit .rail__mark { right: auto; top: 0; flex-direction: column-reverse; transform: translate(-50%, -.8cqi); gap: 1.4cqi; font-size: 1.5cqi; }
+.kit .rail__mark i { width: 1.6cqi; height: 1.6cqi; order: 0; }
+.kit .rail__mark.on i { box-shadow: 0 0 0 .8cqi rgba(255,255,255,.18); }
+
+/* ---------- type & colour ---------- */
+.typecol { display: grid; gap: 14px; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .typecol { grid-template-columns: 7fr 5fr; } }
+.spec { display: grid; gap: 22px; }
+.spec__row { display: grid; gap: 4px; border-top: 1px solid var(--line); padding-top: 14px; }
+.spec__row:first-child { border-top: 0; padding-top: 0; }
+.spec__meta { font-family: var(--f-mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.sp-display { font-family: var(--f-display); font-weight: 300; font-size: clamp(48px, 7vw, 104px); line-height: .95; letter-spacing: -.035em; }
+.sp-heading { font-family: var(--f-display); font-weight: 400; font-size: clamp(26px, 3vw, 44px); line-height: 1.08; letter-spacing: -.02em; }
+.sp-body { font-size: 18px; line-height: 1.55; color: var(--ink-2); max-width: 52ch; }
+.sp-mono { font-family: var(--f-mono); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+.swatches { display: grid; gap: 18px; }
+.sw-group { display: grid; gap: 8px; }
+.sw-row { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); }
+.sw { border-radius: 8px; overflow: hidden; background: var(--plate); border: 1px solid var(--line); }
+.sw i { display: block; height: 56px; }
+.sw span { display: block; padding: 7px 9px; font-size: 12px; line-height: 1.3; }
+.sw span em { display: block; font-style: normal; font-family: var(--f-mono); font-size: 11px; color: var(--ink-3); }
+.sw--wide { grid-column: span 2; }
+.lightbar { height: 70px; border-radius: 8px; background: linear-gradient(90deg, #D9E0EA 0%, #F6E2CF 18%, #F4F7FA 40%, #E4ECF5 55%, #3E3C5E 78%, #18213D 90%, #0A1020 100%); position: relative; }
+.lightbar__k { display: flex; justify-content: space-between; font-family: var(--f-mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin-top: 6px; }
+
+/* ---------- motion tiles ---------- */
+.motion { display: grid; gap: 14px; grid-template-columns: 1fr; }
+@media (min-width: 700px) { .motion { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .motion { grid-template-columns: repeat(3, 1fr); } }
+.mt { background: var(--plate); border-radius: 10px; overflow: hidden; min-width: 0; }
+.mt__view { position: relative; aspect-ratio: 4 / 3; max-width: 100%; container-type: inline-size; overflow: hidden; }
+.mt__body { padding: 14px 16px 16px; display: grid; gap: 6px; }
+.mt__body h3 { margin: 0; font-family: var(--f-display); font-weight: 400; font-size: 20px; letter-spacing: -.01em; }
+.mt__body p { margin: 0; font-size: 14px; color: var(--ink-2); }
+.mt__spec { font-family: var(--f-mono); font-size: 12px; color: var(--ink); background: var(--board); padding: 8px 10px; border-radius: 6px; line-height: 1.5; }
+
+/* morph tile */
+.morph .bgL { position: absolute; inset: 0; transition: opacity 1.2s ease; }
+.morph .twin { height: 80%; bottom: 6%; transition: opacity 1.2s ease; }
+.morph .lbl { position: absolute; left: 4cqi; top: 4cqi; z-index: 6; font-family: var(--f-mono); font-size: 3cqi; letter-spacing: .08em; text-transform: uppercase; padding: 1cqi 2cqi; border-radius: 6px; background: rgba(255,255,255,.9); color: var(--ink); }
+/* assemble tile */
+.assemble .twin { height: 82%; bottom: 4%; }
+.assemble .glass { font-size: 2.6cqi; padding: 2.6cqi 3cqi; border-radius: 2.4cqi; opacity: 0; transform: translateY(5cqi) scale(.96); transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1); }
+.assemble .glass .g-label { font-size: 2cqi; } .assemble .glass .g-value { font-size: 5.4cqi; }
+.assemble.is-in .glass { opacity: 1; transform: none; }
+.assemble .hl { position: absolute; z-index: 3; left: 39%; top: 31%; width: 26%; height: 9%; background: rgba(232,96,60,.45); filter: blur(6px); border-radius: 4px; opacity: 0; transition: opacity .6s ease .2s; mix-blend-mode: screen; }
+.assemble.is-in .hl { opacity: 1; }
+/* type tile */
+.typing { background: var(--dusk); }
+.typing .ask { width: 86cqi; font-size: 3.6cqi; padding: 2cqi 2cqi 2cqi 4cqi; top: 44%; bottom: auto; transform: translate(-50%, -50%); }
+.typing .ask__go { width: 7.4cqi; height: 7.4cqi; font-size: 3.4cqi; transition: transform .3s; }
+.typing .answer { position: absolute; left: 7cqi; right: 7cqi; top: 60%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2cqi; }
+.typing .answer i { height: 16cqi; border-radius: 2cqi; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2); opacity: 0; transform: translateY(3cqi); transition: opacity .5s cubic-bezier(.16,1,.3,1), transform .5s cubic-bezier(.16,1,.3,1); }
+.typing.is-ans .answer i { opacity: 1; transform: none; }
+.typing.is-ans .answer i:nth-child(2) { transition-delay: .08s; } .typing.is-ans .answer i:nth-child(3) { transition-delay: .16s; }
+/* explode tile */
+.mt .xray { aspect-ratio: auto; position: absolute; inset: 0; border-radius: 0; }
+.mt .xray__stack { width: 64cqi; height: 36cqi; }
+.mt .xray.is-open .layer { --gap: 6.5cqi; }
+/* wave tile */
+.wave { background: #0D1426; display: grid; place-items: center; }
+.wall { display: grid; grid-template-columns: repeat(8, 1fr); gap: 1.4cqi; width: 88cqi; }
+.wall i { aspect-ratio: 1; border-radius: 1cqi; background: var(--twin) center 30% / 210% no-repeat, #1A2442; filter: brightness(.45) saturate(.4); transition: filter .5s ease, transform .5s cubic-bezier(.16,1,.3,1), box-shadow .5s; }
+.wall i.on { filter: brightness(1.05) saturate(1); transform: translateY(-.6cqi); box-shadow: 0 0 0 1px rgba(255,255,255,.6), 0 1.4cqi 2.4cqi -1cqi rgba(120,150,255,.7); }
+.wall__rows { position: absolute; left: 3cqi; top: 50%; transform: translateY(-50%); display: grid; gap: 7.5cqi; }
+/* light tile */
+.lightshift { background: var(--dawn); }
+.lightshift .sky { position: absolute; inset: 0; transition: opacity 2s ease; }
+.lightshift .twin { height: 80%; bottom: 6%; transition: filter 2s ease; }
+.lightshift .lbl { position: absolute; right: 4cqi; top: 4cqi; z-index: 6; font-family: var(--f-mono); font-size: 3cqi; letter-spacing: .08em; text-transform: uppercase; color: var(--ink); background: rgba(255,255,255,.85); padding: 1cqi 2cqi; border-radius: 6px; }
+
+/* scroll-speed table */
+.speeds { width: 100%; border-collapse: collapse; font-size: 14px; background: var(--plate); border-radius: 10px; overflow: hidden; }
+.speeds th, .speeds td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.speeds th { font-family: var(--f-mono); font-weight: 500; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+.speeds td:first-child { font-weight: 600; white-space: nowrap; }
+.speeds td.mono { font-family: var(--f-mono); font-size: 13px; white-space: nowrap; }
+.tablewrap { overflow-x: auto; border-radius: 10px; }
+
+/* ---------- references ---------- */
+.refs { display: grid; gap: 0; grid-template-columns: 1fr; background: var(--plate); border-radius: 10px; overflow: hidden; }
+@media (min-width: 900px) { .refs { grid-template-columns: repeat(2, 1fr); } }
+.ref { display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; padding: 18px 20px; border-bottom: 1px solid var(--line); text-decoration: none; transition: background .2s; min-width: 0; }
+@media (min-width: 900px) { .ref:nth-child(odd) { border-right: 1px solid var(--line); } }
+.ref:hover { background: #F7F7F5; }
+.ref h3 { margin: 0; font-family: var(--f-display); font-weight: 400; font-size: 22px; letter-spacing: -.01em; }
+.ref p { grid-column: 1 / -1; margin: 0; font-size: 14px; color: var(--ink-2); }
+.ref .arrow { font-size: 18px; color: var(--ink-3); }
+.ref .host { grid-column: 1 / -1; font-family: var(--f-mono); font-size: 11px; color: var(--ink-3); }
+
+/* ---------- notes ---------- */
+.notes { display: grid; gap: 14px; grid-template-columns: 1fr; padding-bottom: 96px; }
+@media (min-width: 900px) { .notes { grid-template-columns: repeat(3, 1fr); } }
+.note { background: var(--plate); border-radius: 10px; padding: 18px 20px; display: grid; gap: 8px; align-content: start; }
+.note h3 { margin: 0; font-size: 15px; font-weight: 600; }
+.note ul { margin: 0; padding-left: 18px; color: var(--ink-2); font-size: 14px; display: grid; gap: 6px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="sketch" color-interpolation-filters="sRGB" x="0" y="0" width="100%" height="100%">
+    <feColorMatrix type="saturate" values="0" result="g"/>
+    <feConvolveMatrix in="g" order="3" kernelMatrix="-1 -1 -1 -1 8 -1 -1 -1 -1" preserveAlpha="true" result="e"/>
+    <feComponentTransfer in="e" result="inv">
+      <feFuncR type="linear" slope="-2.6" intercept="1"/>
+      <feFuncG type="linear" slope="-2.6" intercept="1"/>
+      <feFuncB type="linear" slope="-2.4" intercept="1"/>
+    </feComponentTransfer>
+    <feColorMatrix in="inv" type="matrix" values="0.92 0 0 0 0.02  0 0.94 0 0 0.03  0 0 1 0 0.06  -1 -1 -1 3 0" result="lines"/>
+  </filter>
+</svg>
+
+<header class="wrap mast">
+  <div class="eyebrow">Tcules · ConnectX case study · Visual direction, draft 1</div>
+  <h1>One building, from an idea to an answer.</h1>
+  <p class="mast__line">Architectural cinema: a real building, lit like a film still, with precise glass UI floating in front of it.</p>
+  <div class="words" aria-label="Direction words"><span>Cinematic</span><span>Precise</span><span>Quiet</span><span>Alive</span></div>
+</header>
+
+<main>
+<!-- ============ THE DIRECTION ============ -->
+<section class="wrap sec" aria-labelledby="h-dir">
+  <div class="sec__head">
+    <span class="tag">The board at a glance</span>
+    <div><h2 id="h-dir">The feeling in one look</h2><p class="sec__why">The finished product at dusk, the sketch it started as, the type, the light and the glass. Everything below expands one of these pieces.</p></div>
+  </div>
+  <div class="collage">
+    <div class="c-hero">
+      <div class="stage" data-skyline>
+        <div class="twin twin--real twin--left"></div>
+        <div class="pin" style="left:46%;top:20%"><i></i>Roof solar <em>0 kW</em></div>
+        <div class="pin pin--alert" style="left:52%;top:34%"><i></i>HVAC, floors 6–8 <em>+38%</em></div>
+        <div class="pin" style="left:57%;top:61%"><i></i>Battery <em>81%</em></div>
+        <div class="glass" style="right:3.5cqi;top:12cqi;width:22cqi">
+          <div class="g-label">Load vs price · today</div>
+          <svg class="spark" data-spark viewBox="0 0 220 60" preserveAspectRatio="none" aria-hidden="true"></svg>
+        </div>
+        <div class="glass" style="right:3.5cqi;top:28.5cqi;width:22cqi">
+          <div class="g-label">Suggested action</div>
+          <div class="g-title" style="margin-top:.4cqi">Carry the 17:00 peak on the battery</div>
+        </div>
+        <div class="ask"><span class="ask__text" data-type="Why is cost spiking today?"></span><span class="ask__go" aria-hidden="true">↑</span></div>
+      </div>
+    </div>
+    <div class="c-sketch tile">
+      <div class="stage stage--paper" style="aspect-ratio:16/10">
+        <div class="grid-paper"></div>
+        <div class="twin twin--sketch" style="height:92%;bottom:2%"></div>
+      </div>
+    </div>
+    <div class="c-type tile tile--pad" style="display:grid;gap:10px;align-content:center">
+      <div class="tag">Bricolage Grotesque · Figtree · Geist Mono</div>
+      <div style="font-family:var(--f-display);font-weight:300;font-size:clamp(40px,4.4vw,64px);line-height:.95;letter-spacing:-.035em">Ask the building.</div>
+      <div style="font-size:15px;color:var(--ink-2)">Huge, quiet headlines. Small, exact labels.</div>
+      <div class="sp-mono" style="font-size:11px">LIVE · 17:42 · 318 KW</div>
+    </div>
+    <div class="c-swatch tile" style="display:grid;grid-template-rows:1fr auto">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;min-height:150px">
+        <i style="background:var(--dawn)"></i><i style="background:var(--day)"></i><i style="background:var(--dusk)"></i>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:10px 14px" class="tag"><span>Dawn · idea</span><span>Day · build</span><span>Dusk · live</span></div>
+    </div>
+    <div class="c-glass tile">
+      <div class="plate__stage" style="aspect-ratio:auto;height:100%;min-height:190px;background:var(--dusk)">
+        <div class="twin twin--real" style="height:120%;bottom:-30%;opacity:.8"></div>
+        <div class="glass" style="left:8%;top:18%;width:52%;font-size:2.2cqi;padding:3cqi;border-radius:2.4cqi">
+          <div class="g-label" style="font-size:1.8cqi">Live load</div>
+          <div class="g-value" style="font-size:7cqi">318 <small style="font-size:2.6cqi">kW</small></div>
+        </div>
+        <div class="glass glass--light" style="right:6%;bottom:14%;width:42%;font-size:2.2cqi;padding:3cqi;border-radius:2.4cqi">
+          <div class="g-label" style="font-size:1.8cqi">Tariff</div>
+          <div class="g-value" style="font-size:6cqi">Peak</div>
+        </div>
+      </div>
+    </div>
+    <div class="c-rail tile">
+      <div class="plate__stage plate__stage--light" style="aspect-ratio:auto;height:100%;min-height:190px;background:#FAFAFA">
+        <div class="rail rail--ink" style="--p:100%;right:auto;left:14cqi;top:12%;bottom:12%;width:auto">
+          <div class="rail__fill"></div>
+        </div>
+        <div data-rail-v></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KEY FRAMES ============ -->
+<section class="wrap sec" aria-labelledby="h-frames">
+  <div class="sec__head">
+    <span class="tag">Key frames</span>
+    <div><h2 id="h-frames">Five moments of the story, as they could look</h2><p class="sec__why">Rough compositions of the frames that carry the story. The other frames reuse these pieces.</p></div>
+  </div>
+  <div class="frames">
+
+    <article class="frame">
+      <div class="stage" data-skyline>
+        <div class="s-nav"><span class="logo">tcules</span><span class="pill">Start a project</span></div>
+        <div class="s-head s-head--below-nav"><h3>Ask the building. Watch it answer.</h3><span class="tbd">Headline to be decided</span></div>
+        <div class="twin twin--real"></div>
+        <div class="pin" style="left:44%;top:20%"><i></i>Roof solar <em>0 kW</em></div>
+        <div class="pin pin--alert" style="left:56%;top:34%"><i></i>HVAC, floors 6–8 <em>+38%</em></div>
+        <div class="pin" style="left:31%;top:58%"><i></i>EV chargers <em>12/16</em></div>
+        <div class="pin" style="left:61%;top:60%"><i></i>Battery <em>81%</em></div>
+        <div class="glass" style="right:14cqi;top:16cqi;width:20cqi">
+          <div class="g-label">Load vs price · today</div>
+          <svg class="spark" data-spark viewBox="0 0 220 60" preserveAspectRatio="none" aria-hidden="true"></svg>
+        </div>
+        <div class="glass" style="right:14cqi;top:31cqi;width:20cqi">
+          <div class="g-label">Suggested action</div>
+          <div class="g-title" style="margin-top:.4cqi">Carry the 17:00 peak on the battery</div>
+        </div>
+        <div class="s-facts"><div><b>3</b><span>people</span></div><div><b>5</b><span>screens</span></div><div><b>24+</b><span>scenarios</span></div></div>
+        <div class="ask"><span class="ask__text" data-type="Why is cost spiking today?"></span><span class="ask__go" aria-hidden="true">↑</span></div>
+        <div class="rail" style="--p:100%"><div class="rail__fill"></div></div>
+        <div data-rail></div>
+      </div>
+      <div class="frame__meta">
+        <span class="tag">F1 · Hero</span>
+        <h3>The end product, first</h3>
+        <p>Open on the finished product at dusk. A question types itself, the twin lights up what matters and the answer lands around it in glass.</p>
+        <dl><dt>Light</dt><dd>Dusk. Warm interior light, cool sky.</dd><dt>Motion</dt><dd>Live loop of 2–3 questions. The visitor can tap a suggestion.</dd><dt>Why</dt><dd>A founder sees the bar before the story.</dd></dl>
+      </div>
+    </article>
+
+    <article class="frame">
+      <div class="stage" style="background:#000">
+        <div class="slice slice--1"><div class="bg" style="background:var(--dusk)"></div><div class="twin twin--real"></div><span class="slice__label">Live render</span></div>
+        <div class="slice slice--2"><div class="bg" style="background:var(--day)"></div><div class="twin twin--flat"></div><span class="slice__label">2.5D</span></div>
+        <div class="slice slice--3"><div class="bg" style="background:#F7F6F2"></div><div class="grid-paper"></div><div class="twin twin--sketch"></div><span class="slice__label">Sketch</span></div>
+        <div class="slice slice--4"><div class="bg" style="background:#F7F6F2"></div><div class="grid-paper"></div><span class="slice__label">Blank</span></div>
+        <div class="seam" style="left:25%"></div><div class="seam" style="left:50%"></div><div class="seam" style="left:75%"></div>
+        <div class="rewind-arrow">Scroll plays the build backwards</div>
+      </div>
+      <div class="frame__meta">
+        <span class="tag">F2 · The rewind</span>
+        <h3>It didn't start like this</h3>
+        <p>One scrubbed transition, about 1.5 screens long. The panels retract, the light runs from dusk back to dawn and the building loses detail until the page is empty.</p>
+        <dl><dt>Shown here</dt><dd>The four states side by side. On the page they play one after another, in place.</dd><dt>Why</dt><dd>It turns a product shot into a story with one gesture.</dd></dl>
+      </div>
+    </article>
+
+    <article class="frame">
+      <div class="stage stage--paper">
+        <div class="grid-paper"></div>
+        <div class="day0-tag">Day zero</div>
+        <div class="day0-line">All there was: AI, and the energy of a building.<span class="caret"></span></div>
+        <div class="rail rail--ink" style="--p:2%"><div class="rail__fill"></div></div>
+        <div data-rail data-at="0" data-ink></div>
+      </div>
+      <div class="frame__meta">
+        <span class="tag">F3 · Day zero</span>
+        <h3>Just an idea</h3>
+        <p>Paper, a faint grid and one sentence. Almost no motion after the rewind, so the pause lands.</p>
+        <dl><dt>Light</dt><dd>Dawn, nearly white.</dd><dt>Why</dt><dd>Founders see themselves here. This is where they are today.</dd></dl>
+      </div>
+    </article>
+
+    <article class="frame">
+      <div class="xray" data-xray data-auto>
+        <div class="s-head"><h3>Every answer is assembled, not drawn.</h3></div>
+        <div class="xray__scene">
+          <div class="xray__stack">
+            <div class="layer layer--render" style="--i:0"></div>
+            <div class="layer" style="--i:1"><div class="layer__body"><span class="tag" style="color:#BFD0FF">Modules + twin</span><code>focus(battery) · dim(roof)</code></div></div>
+            <div class="layer" style="--i:2"><div class="layer__body"><span class="tag" style="color:#BFD0FF">Layout</span><code>{ modules: ["loadVsPrice", "action"] }</code></div></div>
+            <div class="layer" style="--i:3"><div class="layer__body"><div class="chipz"><span>Meters</span><span>BMS</span><span>Tariff</span><span>Weather</span><span class="miss">Floor 7 · estimated</span></div></div></div>
+            <div class="layer" style="--i:4"><div class="layer__body"><code>get_tariff() · get_load() · get_battery()</code></div></div>
+            <div class="layer" style="--i:5"><div class="layer__body"><span style="font-family:var(--f-display);font-size:2cqi">Peak price · Finance</span></div></div>
+            <div class="layer" style="--i:6"><div class="layer__body"><span style="font-family:var(--f-display);font-size:2cqi">“Why is cost spiking today?”</span></div></div>
+            <div class="pulse-dot"></div>
+          </div>
+        </div>
+        <div class="xray__labels"><ol>
+          <li data-l="6"><b>Question</b></li><li data-l="5"><b>Intent</b></li><li data-l="4"><b>Tools</b></li><li data-l="3"><b>Data</b></li><li data-l="2"><b>Layout</b></li><li data-l="1"><b>Modules</b></li><li data-l="0"><b>Render</b></li>
+        </ol></div>
+      </div>
+      <div class="frame__meta">
+        <span class="tag">F9 · The machinery</span>
+        <h3>X-ray</h3>
+        <p>The finished screen comes apart into its layers. One pulse carries the question down through them, then the stack closes back into the screen.</p>
+        <dl><dt>Motion</dt><dd>Scrubbed with scroll. Here it loops on its own.</dd><dt>Detail</dt><dd>Missing data shows as a dashed, estimated source.</dd><dt>Why</dt><dd>It proves this is a working system, not a mock-up.</dd></dl>
+      </div>
+    </article>
+
+    <article class="frame">
+      <div class="stage" data-skyline>
+        <div class="s-nav"><span class="logo">tcules</span><span class="pill">Start a project</span></div>
+        <div class="s-head s-head--below-nav"><h3>Same building. Now it answers.</h3></div>
+        <div class="twin twin--real"></div>
+        <div class="pin" style="left:61%;top:60%"><i></i>Battery <em>81%</em></div>
+        <div class="chips"><span>What's driving cost today?</span><span>Where is energy wasted?</span><span>Are we on target?</span></div>
+        <div class="ask"><span class="ask__text is-empty">Ask it something…<span class="caret"></span></span><span class="ask__go" aria-hidden="true">↑</span></div>
+        <div class="rail" style="--p:100%"><div class="rail__fill"></div></div>
+        <div data-rail data-at="4"></div>
+      </div>
+      <div class="frame__meta">
+        <span class="tag">F12 · Full circle</span>
+        <h3>It works</h3>
+        <p>The rail reaches the last mark, the light returns to dusk and the stage lands on exactly the hero frame. This time the question bar waits for the visitor.</p>
+        <dl><dt>Why</dt><dd>It closes the loop: from nothing to working, on the same building. The visitor's own question is the payoff.</dd></dl>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ============ LIGHT & STAGE ============ -->
+<section class="wrap sec" aria-labelledby="h-light">
+  <div class="sec__head">
+    <span class="tag">Light and the stage</span>
+    <div><h2 id="h-light">Time is shown through light</h2><p class="sec__why">The page never says how long it took. The light moves from dawn (the idea) through day (the build) to dusk (the live product), and the stage is built from layers that move at different speeds.</p></div>
+  </div>
+  <div>
+    <div class="lightbar" role="img" aria-label="The page's light from dawn to dusk"></div>
+    <div class="lightbar__k"><span>Dawn · idea</span><span>Day · shape and render</span><span>Dusk · demo and product</span></div>
+  </div>
+  <div class="depth">
+    <div class="depth__scene">
+      <div class="depth__stack">
+        <div class="dl dl--sky" style="--i:0"></div>
+        <div class="dl dl--haze" style="--i:1"></div>
+        <div class="dl dl--build" style="--i:2"></div>
+        <div class="dl dl--ui" style="--i:3"></div>
+        <div class="dl dl--copy" style="--i:4">Ask the building.</div>
+      </div>
+    </div>
+    <div class="depth__key">
+      <div><b>0.2×</b>Sky gradient</div>
+      <div><b>0.45×</b>Haze and far city</div>
+      <div><b>1×</b>The building</div>
+      <div><b>1.15×</b>Glass UI</div>
+      <div><b>1.3×</b>Copy</div>
+    </div>
+  </div>
+  <p class="cap"><b>Parallax depth.</b> Five layers, each moving at its own speed relative to scroll. The building is the anchor at 1×; UI and copy drift slightly faster, so they float in front of it.</p>
+</section>
+
+<!-- ============ THREE LOOKS ============ -->
+<section class="wrap sec" aria-labelledby="h-looks">
+  <div class="sec__head">
+    <span class="tag">The twin</span>
+    <div><h2 id="h-looks">One building in three looks</h2><p class="sec__why">The progression is the backbone of the story. Each look morphs into the next in place, on the same stage, so it reads as one object growing up.</p></div>
+  </div>
+  <div class="looks">
+    <div class="look">
+      <div class="stage stage--paper"><div class="grid-paper"></div><div class="twin twin--sketch"></div></div>
+      <h3>Sketch</h3>
+      <p class="cap">Pencil lines on a faint grid, with handwritten notes around it. Loose and fast.</p>
+    </div>
+    <div class="look">
+      <div class="stage stage--day"><div class="twin twin--flat"></div></div>
+      <h3>2.5D</h3>
+      <p class="cap">Clean blocks with the systems lit by state. Clarity first: what's connected and what matters now.</p>
+    </div>
+    <div class="look">
+      <div class="stage" data-skyline><div class="twin twin--real"></div></div>
+      <h3>Realistic render</h3>
+      <p class="cap">Glass, materials and real light. Highlight and dim still work on top. <b>Mood only:</b> your new render replaces this.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ UI KIT ============ -->
+<section class="wrap sec" aria-labelledby="h-kit">
+  <div class="sec__head">
+    <span class="tag">UI on the stage</span>
+    <div><h2 id="h-kit">Glass over the building</h2><p class="sec__why">The product UI floats in front of the render as frosted glass. Smoke glass for dusk, light glass for day. State colours stay the twin's own: blue for live data, orange for alerts.</p></div>
+  </div>
+  <div class="kit">
+    <div class="plate k-a">
+      <div class="plate__stage plate__stage--short">
+        <div class="ask"><span class="ask__text" data-type="What's driving cost today?"></span><span class="ask__go" aria-hidden="true">↑</span></div>
+        <div class="chips"><span>Where is energy wasted?</span><span>Are we on target?</span></div>
+      </div>
+      <div class="plate__name"><b>Question bar</b><span>Smoke glass · types at 28 ms a character</span></div>
+    </div>
+    <div class="plate k-b">
+      <div class="plate__stage plate__stage--short">
+        <div class="twin twin--real" style="height:150%;bottom:-48%;left:30%"></div>
+        <div class="pin" style="left:44%;top:30%"><i></i>Battery <em>81%</em></div>
+        <div class="pin pin--alert" style="left:52%;top:62%"><i></i>HVAC, floors 6–8 <em>+38%</em></div>
+      </div>
+      <div class="plate__name"><b>Twin pins</b><span>Live in blue, alerts in orange with a pulse</span></div>
+    </div>
+    <div class="plate k-c">
+      <div class="plate__stage">
+        <div class="glass" style="left:6cqi;right:6cqi;top:8cqi">
+          <div class="g-label">Load vs price · today</div>
+          <svg class="spark" data-spark data-est viewBox="0 0 220 60" preserveAspectRatio="none" aria-hidden="true"></svg>
+          <span class="est">Floor 7 · estimated from 14 days</span>
+        </div>
+      </div>
+      <div class="plate__name"><b>Data module</b><span>Gaps shown honestly</span></div>
+    </div>
+    <div class="plate k-d">
+      <div class="plate__stage">
+        <div class="glass" style="left:6cqi;right:6cqi;top:10cqi">
+          <div class="g-label">Suggested action</div>
+          <div class="g-title" style="margin-top:1cqi;font-size:3.4cqi;line-height:1.2">Carry the 17:00 peak on the battery</div>
+          <div class="btns"><span class="btn">Schedule</span><span class="btn btn--ghost">Adjust</span></div>
+        </div>
+      </div>
+      <div class="plate__name"><b>Action card</b><span>One clear next step</span></div>
+    </div>
+    <div class="plate k-e">
+      <div class="plate__stage plate__stage--light">
+        <div class="twin twin--flat" style="height:120%;bottom:-36%;opacity:.5"></div>
+        <div class="glass glass--light" style="left:6cqi;top:8cqi;width:40cqi"><div class="g-label">Live load</div><div class="g-value">318 <small>kW</small></div></div>
+        <div class="glass glass--light" style="right:6cqi;top:30cqi;width:40cqi"><div class="g-label">Battery</div><div class="g-value">81<small>%</small></div></div>
+      </div>
+      <div class="plate__name"><b>Light glass</b><span>For the daytime frames</span></div>
+    </div>
+    <div class="plate k-f">
+      <div class="plate__stage plate__stage--light plate__stage--wide" style="background:#F6F7F9">
+        <div class="roles-row">
+          <div class="role"><span class="role__tag" style="background:var(--facilities)">FACILITIES</span><div class="role__q" data-type="Which floor is wasting energy?"></div></div>
+          <div class="role"><span class="role__tag" style="background:var(--finance)">FINANCE</span><div class="role__q" data-type="What will this month cost?"></div></div>
+          <div class="role"><span class="role__tag" style="background:var(--sustain)">SUSTAINABILITY</span><div class="role__q" data-type="Are we on track for our target?"></div></div>
+        </div>
+      </div>
+      <div class="plate__name"><b>Role cards</b><span>Three people, three questions · staggered, typing</span></div>
+    </div>
+    <div class="plate k-f">
+      <div class="plate__stage plate__stage--wide" data-railplate>
+        <div class="rail" style="--p:0%"><div class="rail__fill"></div></div>
+        <div data-rail-h></div>
+      </div>
+      <div class="plate__name"><b>Progress rail</b><span>Marks spaced by real time, so the early stages feel quick. Weeks are never labelled.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TYPE & COLOUR ============ -->
+<section class="wrap sec" aria-labelledby="h-type">
+  <div class="sec__head">
+    <span class="tag">Type and colour</span>
+    <div><h2 id="h-type">Few words, big and quiet</h2><p class="sec__why">The Tcules fonts at story scale. Headlines are large, light and short; labels are small and exact. Nothing in between shouts.</p></div>
+  </div>
+  <div class="typecol">
+    <div class="tile tile--pad spec">
+      <div class="spec__row"><span class="spec__meta">Story headline · Bricolage Grotesque Light · 96–120</span><div class="sp-display">It didn't start like this.</div></div>
+      <div class="spec__row"><span class="spec__meta">Beat line · Bricolage Grotesque Regular · 40–48</span><div class="sp-heading">Three people asked three different questions.</div></div>
+      <div class="spec__row"><span class="spec__meta">Body · Figtree Regular · 18</span><div class="sp-body">Used sparingly. Most beats carry one or two lines; the visuals do the rest.</div></div>
+      <div class="spec__row"><span class="spec__meta">Labels and data · Geist Mono · 11–13</span><div class="sp-mono">Live · 17:42 · 318 kW · Peak tariff</div></div>
+    </div>
+    <div class="tile tile--pad swatches">
+      <div class="sw-group"><span class="tag">Neutrals</span><div class="sw-row">
+        <div class="sw"><i style="background:#FFFFFF"></i><span>Page<em>#FFFFFF</em></span></div>
+        <div class="sw"><i style="background:#F7F6F2"></i><span>Paper<em>#F7F6F2</em></span></div>
+        <div class="sw"><i style="background:#0B0B0B"></i><span>Ink<em>#0B0B0B</em></span></div>
+        <div class="sw"><i style="background:#0A1020"></i><span>Night<em>#0A1020</em></span></div>
+      </div></div>
+      <div class="sw-group"><span class="tag">Product states</span><div class="sw-row">
+        <div class="sw"><i style="background:var(--live)"></i><span>Live data<em>#4A6FE3</em></span></div>
+        <div class="sw"><i style="background:var(--alert)"></i><span>Alert<em>#E8603C</em></span></div>
+        <div class="sw"><i style="background:var(--ok)"></i><span>Healthy<em>#3E8E63</em></span></div>
+        <div class="sw"><i style="background:var(--brand)"></i><span>Live badge<em>#04EC50</em></span></div>
+      </div></div>
+      <div class="sw-group"><span class="tag">Roles</span><div class="sw-row">
+        <div class="sw"><i style="background:var(--facilities)"></i><span>Facilities<em>#C74420</em></span></div>
+        <div class="sw"><i style="background:var(--finance)"></i><span>Finance<em>#3453BC</em></span></div>
+        <div class="sw"><i style="background:var(--sustain)"></i><span>Sustainability<em>#447E61</em></span></div>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MOTION ============ -->
+<section class="wrap sec" aria-labelledby="h-motion">
+  <div class="sec__head">
+    <span class="tag">Motion language</span>
+    <div><h2 id="h-motion">Six motions carry the whole story</h2><p class="sec__why">Each loop below is a working sample. On the page, the big ones are tied to scroll, so the visitor controls the pace.</p></div>
+  </div>
+  <div class="motion">
+    <div class="mt">
+      <div class="mt__view morph" data-morph>
+        <div class="bgL" style="background:#F7F6F2"></div><div class="bgL grid-paper"></div>
+        <div class="bgL" style="background:var(--day)" data-m="1"></div>
+        <div class="bgL" style="background:var(--dusk)" data-m="2"></div>
+        <div class="twin twin--sketch" data-m="0"></div>
+        <div class="twin twin--flat" data-m="1"></div>
+        <div class="twin twin--real" data-m="2"></div>
+        <span class="lbl" data-mlabel>Sketch</span>
+      </div>
+      <div class="mt__body"><h3>The progression</h3><p>Sketch hardens into 2.5D, then materials and light bloom in. Played in reverse for the rewind.</p><div class="mt__spec">Scrubbed 1:1 with scroll · cross-dissolve plus a light sweep</div></div>
+    </div>
+    <div class="mt">
+      <div class="mt__view assemble" style="background:var(--dusk)" data-assemble>
+        <div class="twin twin--real" style="left:42%"></div>
+        <div class="hl"></div>
+        <div class="glass" style="right:4cqi;top:8cqi;width:36cqi"><div class="g-label">Live load</div><div class="g-value">318 <small>kW</small></div></div>
+        <div class="glass" style="right:4cqi;top:34cqi;width:36cqi;transition-delay:.08s"><div class="g-label">Tariff</div><div class="g-value">Peak</div></div>
+        <div class="glass" style="right:4cqi;top:60cqi;width:36cqi;transition-delay:.16s"><div class="g-label">Action</div><div class="g-title" style="font-size:3cqi">Use the battery</div></div>
+      </div>
+      <div class="mt__body"><h3>Panels assemble</h3><p>The answer lands as glass panels around the twin, while the affected part of the building lights up.</p><div class="mt__spec">600 ms · expo out · 80 ms stagger · from 24 px below, 96% scale</div></div>
+    </div>
+    <div class="mt">
+      <div class="mt__view typing" data-typing>
+        <div class="ask"><span class="ask__text"></span><span class="ask__go" aria-hidden="true">↑</span></div>
+        <div class="answer"><i></i><i></i><i></i></div>
+      </div>
+      <div class="mt__body"><h3>Question to answer</h3><p>The question types, then the answer starts building 300 ms after the last character.</p><div class="mt__spec">28 ms a character · caret blinks at 1 Hz · answer at +300 ms</div></div>
+    </div>
+    <div class="mt">
+      <div class="mt__view">
+        <div class="xray" data-xray data-auto data-small>
+          <div class="xray__scene"><div class="xray__stack">
+            <div class="layer layer--render" style="--i:0"></div><div class="layer" style="--i:1"></div><div class="layer" style="--i:2"></div><div class="layer" style="--i:3"></div><div class="layer" style="--i:4"></div><div class="layer" style="--i:5"></div><div class="layer" style="--i:6"></div>
+            <div class="pulse-dot"></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="mt__body"><h3>Explode and collapse</h3><p>The screen separates into layers in depth, a pulse travels through them, then they close.</p><div class="mt__spec">Scrubbed · tilt 58° · layers spread to about 60 px apart</div></div>
+    </div>
+    <div class="mt">
+      <div class="mt__view wave" data-wave><div class="wall"></div></div>
+      <div class="mt__body"><h3>The scenario wall</h3><p>24 scenarios, 8 for each of the 3 roles, light up in a diagonal wave. One expands into the full view.</p><div class="mt__spec">40 ms diagonal stagger · lift 4 px · glow on</div></div>
+    </div>
+    <div class="mt">
+      <div class="mt__view lightshift" data-light>
+        <div class="sky" style="background:var(--day);opacity:0" data-sky="1"></div>
+        <div class="sky" style="background:var(--dusk);opacity:0" data-sky="2"></div>
+        <div class="twin twin--flat"></div>
+        <span class="lbl" data-llabel>Dawn</span>
+      </div>
+      <div class="mt__body"><h3>The light shift</h3><p>The whole page's light follows the progress rail, from dawn to dusk. It is the only clock in the story.</p><div class="mt__spec">Tied to overall scroll progress · no easing</div></div>
+    </div>
+  </div>
+  <div class="tablewrap">
+    <table class="speeds">
+      <thead><tr><th>Motion</th><th>Timing</th><th>Feel</th></tr></thead>
+      <tbody>
+        <tr><td>Arrivals (panels, cards)</td><td class="mono">600 ms · expo out</td><td>Fast in, soft landing. Nothing bounces.</td></tr>
+        <tr><td>Morphs (twin states)</td><td class="mono">scrubbed</td><td>Moves only while the visitor scrolls, so they set the pace.</td></tr>
+        <tr><td>Camera on the twin</td><td class="mono">1.2 s · power2 in-out</td><td>Slow glides, like a drone shot. Never a cut.</td></tr>
+        <tr><td>Text reveals</td><td class="mono">line by line · 60 ms</td><td>Headlines rise line by line; body text fades.</td></tr>
+        <tr><td>Smooth scroll</td><td class="mono">Lenis · 1.1 lerp</td><td>One continuous glide from top to form.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ REFERENCES ============ -->
+<section class="wrap sec" aria-labelledby="h-refs">
+  <div class="sec__head">
+    <span class="tag">References</span>
+    <div><h2 id="h-refs">What we're borrowing, and from where</h2><p class="sec__why">Open these for the feel. Each note says exactly which quality we're taking; we're not copying layouts.</p></div>
+  </div>
+  <div class="refs">
+    <a class="ref" href="https://www.apple.com/airpods-pro/" target="_blank" rel="noopener"><h3>Apple product pages</h3><span class="arrow">↗</span><p>One object transformed by scroll. The model for the sketch → 2.5D → render progression and the rewind.</p><span class="host">apple.com</span></a>
+    <a class="ref" href="https://igloo.inc/" target="_blank" rel="noopener"><h3>Igloo Inc</h3><span class="arrow">↗</span><p>One continuous 3D world you travel through by scrolling. The model for the single stage.</p><span class="host">igloo.inc</span></a>
+    <a class="ref" href="https://lusion.co/" target="_blank" rel="noopener"><h3>Lusion</h3><span class="arrow">↗</span><p>Light, depth and polish in WebGL transitions. The bar for how the render should feel.</p><span class="host">lusion.co</span></a>
+    <a class="ref" href="https://linear.app/" target="_blank" rel="noopener"><h3>Linear</h3><span class="arrow">↗</span><p>UI precision and restraint: small type, exact spacing, quiet confidence. The bar for the glass UI.</p><span class="host">linear.app</span></a>
+    <a class="ref" href="https://stripe.com/" target="_blank" rel="noopener"><h3>Stripe</h3><span class="arrow">↗</span><p>Product UI layered in depth over colour and light. The model for the x-ray and floating panels.</p><span class="host">stripe.com</span></a>
+    <a class="ref" href="https://www.raycast.com/" target="_blank" rel="noopener"><h3>Raycast</h3><span class="arrow">↗</span><p>Frosted panels holding real, working UI on dark backdrops. The model for smoke glass.</p><span class="host">raycast.com</span></a>
+    <a class="ref" href="https://activetheory.net/" target="_blank" rel="noopener"><h3>Active Theory</h3><span class="arrow">↗</span><p>Immersive scenes with fluid camera moves. The model for the camera on the twin.</p><span class="host">activetheory.net</span></a>
+    <a class="ref" href="https://family.co/" target="_blank" rel="noopener"><h3>Family</h3><span class="arrow">↗</span><p>Micro-interactions with personality. The model for typing, chips and the form's small moments.</p><span class="host">family.co</span></a>
+  </div>
+</section>
+
+<!-- ============ NOTES ============ -->
+<section class="wrap sec" aria-labelledby="h-notes">
+  <div class="sec__head">
+    <span class="tag">Read before reacting</span>
+    <div><h2 id="h-notes">What's real and what's a stand-in</h2></div>
+  </div>
+  <div class="notes">
+    <div class="note"><h3>Stand-ins</h3><ul><li>The realistic render is a colour grade of today's 2.5D picture. Your new render replaces it.</li><li>The sketch is generated from the same picture. Real sketches will be drawn.</li><li>The headline is a placeholder.</li></ul></div>
+    <div class="note"><h3>Assumed</h3><ul><li>The question bar, glass panels and pins as the product's UI language.</li><li>Scenario wall as 8 × 3 tiles.</li><li>Readings in the UI (318 kW, 81%) are sample values.</li></ul></div>
+    <div class="note"><h3>Your call</h3><ul><li>Smoke glass or light glass at dusk.</li><li>How dark the dusk is.</li><li>Whether the rail shows its labels or only marks.</li><li>Which references feel closest.</li></ul></div>
+  </div>
+</section>
+</main>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+
+  /* far city skyline, drawn once per dusk stage */
+  const skyline = () => {
+    let x = 0, d = '';
+    while (x < 1000) { const w = 18 + Math.random() * 46, h = 20 + Math.random() * 90; d += `M${x} 140V${140 - h}h${w}V140z`; x += w + Math.random() * 8; }
+    return `<svg viewBox="0 0 1000 140" preserveAspectRatio="none" aria-hidden="true"><path d="${d}" fill="#0E1426"/></svg>`;
+  };
+  $$('[data-skyline]').forEach(s => { const el = document.createElement('div'); el.className = 'skyline'; el.innerHTML = skyline(); s.prepend(el); const g = document.createElement('div'); g.className = 'ground'; s.insertBefore(g, s.children[1]); });
+
+  /* load vs price spark */
+  const load = [40,38,36,35,36,42,55,66,72,70,68,66,64,63,66,72,84,92,88,76,62,52,46,42];
+  const price = [1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,3,3,3,2,2,1,1,1];
+  $$('[data-spark]').forEach(svg => {
+    const X = i => i * (220 / 23), Y = v => 58 - v * .55;
+    const line = load.map((v, i) => `${i ? 'L' : 'M'}${X(i).toFixed(1)} ${Y(v).toFixed(1)}`).join('');
+    const est = svg.hasAttribute('data-est');
+    const solid = est ? load.slice(0, 14) : load;
+    const sl = solid.map((v, i) => `${i ? 'L' : 'M'}${X(i).toFixed(1)} ${Y(v).toFixed(1)}`).join('');
+    const dl = est ? load.slice(13).map((v, i) => `${i ? 'L' : 'M'}${X(i + 13).toFixed(1)} ${Y(v).toFixed(1)}`).join('') : '';
+    let step = ''; price.forEach((p, i) => { const y = 58 - p * 9; step += `${i ? 'L' : 'M'}${X(i).toFixed(1)} ${y}L${X(i + 1).toFixed(1)} ${y}`; });
+    svg.innerHTML = `
+      <rect x="${X(16)}" y="0" width="${X(3)}" height="60" fill="rgba(232,96,60,.22)"/>
+      <path d="${line}L220 60L0 60Z" fill="rgba(140,170,255,.18)"/>
+      <path d="${step}" fill="none" stroke="#FFB48A" stroke-width="1.2" stroke-dasharray="none" opacity=".9"/>
+      <path d="${sl}" fill="none" stroke="#fff" stroke-width="1.6"/>
+      ${dl ? `<path d="${dl}" fill="none" stroke="#FFD2B8" stroke-width="1.6" stroke-dasharray="3 3"/>` : ''}
+      <circle cx="${X(17)}" cy="${Y(92)}" r="2.6" fill="#fff"/>`;
+  });
+
+  /* progress rails: marks spaced by real time (idea, shape, render close together) */
+  const MARKS = [['Idea', 0], ['Shape', .125], ['Render', .25], ['Demo', .5], ['Product', 1]];
+  $$('[data-rail]').forEach(host => {
+    const rail = host.previousElementSibling; const at = host.dataset.at ? +host.dataset.at : 4;
+    MARKS.forEach(([n, p], i) => { const m = document.createElement('span'); m.className = 'rail__mark' + (i <= at ? ' on' : ''); m.style.top = (p * 100) + '%'; m.innerHTML = `${n}<i></i>`; rail.append(m); });
+    rail.style.setProperty('--p', (MARKS[at][1] * 100 || 2) + '%'); host.remove();
+  });
+  $$('[data-rail-v]').forEach(host => {
+    const rail = host.previousElementSibling;
+    rail.style.right = 'auto';
+    MARKS.forEach(([n, p]) => { const m = document.createElement('span'); m.className = 'rail__mark on'; m.style.top = (p * 100) + '%'; m.style.right = 'auto'; m.style.left = '-.5cqi'; m.style.flexDirection = 'row'; m.innerHTML = `<i style="order:0;width:1.8cqi;height:1.8cqi"></i><span style="font-size:3.2cqi;letter-spacing:.06em">${n}</span>`; rail.append(m); });
+    host.remove();
+  });
+  $$('[data-rail-h]').forEach(host => {
+    const rail = host.previousElementSibling; const marks = [];
+    MARKS.forEach(([n, p]) => { const m = document.createElement('span'); m.className = 'rail__mark'; m.style.left = (p * 100) + '%'; m.innerHTML = `${n}<i></i>`; rail.append(m); marks.push(m); });
+    host.remove();
+    let k = 0;
+    const tick = () => { k = (k + 1) % (MARKS.length + 1); const idx = Math.min(k, MARKS.length - 1); rail.style.setProperty('--p', (k === 0 ? 0 : MARKS[idx][1] * 100) + '%'); marks.forEach((m, i) => m.classList.toggle('on', k > 0 && i <= idx)); };
+    if (reduce) { k = MARKS.length - 1; tick(); } else { tick(); setInterval(tick, 1300); }
+  });
+
+  /* typing loops */
+  const typeLoop = (el, text, { after, reset, hold = 2600 } = {}) => {
+    el.innerHTML = '<span class="t"></span><span class="caret"></span>';
+    const t = el.querySelector('.t');
+    if (reduce) { t.textContent = text; after && after(); return; }
+    const run = () => { let i = 0; t.textContent = ''; reset && reset();
+      const step = () => { t.textContent = text.slice(0, ++i); if (i < text.length) setTimeout(step, 28 + Math.random() * 40); else { after && setTimeout(after, 300); setTimeout(run, hold + 1400); } };
+      setTimeout(step, 500); };
+    run();
+  };
+  $$('[data-type]').forEach((el, n) => setTimeout(() => typeLoop(el, el.dataset.type), n * 250));
+  const ty = document.querySelector('[data-typing]');
+  if (ty) typeLoop(ty.querySelector('.ask__text'), 'Why is cost spiking today?', { after: () => ty.classList.add('is-ans'), reset: () => ty.classList.remove('is-ans') });
+
+  /* x-ray: open, pulse down the layers, close */
+  $$('[data-xray]').forEach(x => {
+    const dot = x.querySelector('.pulse-dot'); const labels = $$('.xray__labels li', x);
+    const setZ = z => { dot.style.setProperty('--z', z); labels.forEach(l => l.classList.toggle('on', +l.dataset.l >= z)); };
+    if (reduce) { x.classList.add('is-open'); setZ(0); return; }
+    const cycle = () => {
+      x.classList.add('is-open'); setZ(6);
+      [5,4,3,2,1,0].forEach((z, i) => setTimeout(() => setZ(z), 1600 + i * 520));
+      setTimeout(() => { x.classList.remove('is-open'); }, 1600 + 6 * 520 + 900);
+      setTimeout(() => setZ(6), 1600 + 6 * 520 + 2400);
+    };
+    cycle(); setInterval(cycle, 8200);
+  });
+
+  /* progression morph */
+  const mo = document.querySelector('[data-morph]');
+  if (mo) {
+    const names = ['Sketch', '2.5D', 'Render'], lab = mo.querySelector('[data-mlabel]');
+    let s = 0;
+    const show = () => { $$('[data-m]', mo).forEach(e => e.style.opacity = (+e.dataset.m === s || (e.classList.contains('bgL') && +e.dataset.m < s)) ? 1 : 0); lab.textContent = names[s]; };
+    show(); if (!reduce) setInterval(() => { s = (s + 1) % 3; show(); }, 2200);
+  }
+
+  /* panels assemble */
+  const as = document.querySelector('[data-assemble]');
+  if (as) { if (reduce) as.classList.add('is-in'); else { const c = () => { as.classList.add('is-in'); setTimeout(() => as.classList.remove('is-in'), 2600); }; c(); setInterval(c, 3600); } }
+
+  /* scenario wall wave */
+  const wall = document.querySelector('[data-wave] .wall');
+  if (wall) {
+    const tiles = []; for (let r = 0; r < 3; r++) for (let c = 0; c < 8; c++) { const i = document.createElement('i'); i.style.backgroundPosition = `${10 + c * 11}% ${20 + r * 22}%`; wall.append(i); tiles.push([i, r + c]); }
+    const wave = () => { tiles.forEach(([el, d]) => { setTimeout(() => el.classList.add('on'), d * 40 * 3); setTimeout(() => el.classList.remove('on'), d * 40 * 3 + 900); }); };
+    if (reduce) tiles.forEach(([el]) => el.classList.add('on')); else { wave(); setInterval(wave, 2800); }
+  }
+
+  /* light shift */
+  const ls = document.querySelector('[data-light]');
+  if (ls) {
+    const names = ['Dawn', 'Day', 'Dusk'], lab = ls.querySelector('[data-llabel]'), tw = ls.querySelector('.twin');
+    let s = 0;
+    const show = () => { $$('[data-sky]', ls).forEach(e => e.style.opacity = +e.dataset.sky <= s ? 1 : 0); tw.style.filter = s === 2 ? 'brightness(.6) contrast(1.15) saturate(.8)' : s === 0 ? 'sepia(.15) brightness(1.04)' : 'none'; lab.textContent = names[s]; };
+    show(); if (!reduce) setInterval(() => { s = (s + 1) % 3; show(); }, 2400);
+  }
+})();
+</script>
