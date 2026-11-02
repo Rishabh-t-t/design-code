@@ -101,6 +101,15 @@
   }
 
   /* ---------- Helpers ---------- */
+  /* A batch can hold everything a long jump skipped past: show those at once,
+     and stagger only what is on screen, capped so nothing waits long */
+  function staggerIn(els, vars) {
+    const onScreen = els.filter((el) => el.getBoundingClientRect().bottom > 0);
+    const passed = els.filter((el) => !onScreen.includes(el));
+    if (passed.length) gsap.set(passed, Object.fromEntries(Object.keys(vars).filter((k) => !['duration', 'ease', 'stagger', 'overwrite'].includes(k)).map((k) => [k, vars[k]])));
+    if (onScreen.length) gsap.to(onScreen, { ...vars, stagger: Math.min(vars.stagger || 0, 0.6 / onScreen.length) });
+  }
+
   function revealLines(el, { start = 'top 85%', stagger = 0.08 } = {}) {
     let played = false;
     SplitText.create(el, {
@@ -163,7 +172,7 @@
         return gsap.timeline({ defaults: { ease: EASE } })
           .from('.hero__eyebrow', { opacity: 0, y: 12, duration: 0.8 }, 0)
           .from(self.lines, { yPercent: 105, duration: 1.2, stagger: 0.09 }, 0.1)
-          .from('.hero__credits > div', { opacity: 0, y: 10, duration: 0.8, stagger: 0.06 }, 0.5);
+          .from('.details > .detail', { opacity: 0, y: 10, duration: 0.8, stagger: 0.06 }, 0.5);
       },
     });
   }
@@ -178,8 +187,8 @@
 
     /* Line reveals */
     $$([
-      '.chapter__head .t-statement', '.chapter__pull', '.sub__head h3', '.glance__row--key dd',
-      '.facts__title', '.faq__title', '.related__title', '.enquiry__title', '.intro__summary', '.glance__key',
+      '.chapter__heading:not(.decide__lead)', '.banner__text', '.peak__text h3', '.glance__key .t-heading-m',
+      '.facts__title', '.faq__title', '.related__title', '.enquiry__title', '.intro__summary',
     ].join(',')).forEach((el) => revealLines(el));
     await yieldToBrowser();
 
@@ -189,17 +198,16 @@
 
     /* Fade-up for supporting elements */
     const fades = $$([
-      '.intro__text p', '.intro__links', '.glance__head', '.glance__row > *',
-      '.chapter__label', '.chapter__body > p', '.role-card', '.carousel__caption', '.stage__caption',
-      '.areas__nav > .t-meta', '.sub__body > p', '.compare__item > .t-meta', '.compare__item figcaption',
-      '.demo__media figcaption', '.timeline__title', '.timeline__step > p', '.decide__h2', '.decide__defs > .t-meta',
-      '.defs li > *', '.decide__body > p', '.facts__item > *', '.quotes__title', '.quote',
+      '.hero__eyebrow', '.intro__links', '.glance__head > *', '.glance__key > .t-body-l', '.summary__row > *',
+      '.chapter__label', '.split .copy > *', '.role-card', '.banner__cite', '.shell__caption',
+      '.areas__label', '.peak__text .copy > *', '.timeline-row__title', '.timeline__step > p', '.rules__label',
+      '.rules__list li > *', '.facts__item > *', '.quotes__title', '.quote',
       '.trust__list li', '.related__lead', '.related__row > *', '.enquiry__sub', '.field', '.enquiry__actions',
     ].join(','));
     gsap.set(fades, { opacity: 0, y: 24 });
     ScrollTrigger.batch(fades, {
       start: 'top 90%', once: true,
-      onEnter: (els) => gsap.to(els, { opacity: 1, y: 0, duration: 0.9, ease: EASE, stagger: 0.07, overwrite: true }),
+      onEnter: (els) => staggerIn(els, { opacity: 1, y: 0, duration: 0.9, ease: EASE, stagger: 0.07, overwrite: true }),
     });
 
     /* Footer: columns rise together once its top is on screen */
@@ -210,36 +218,31 @@
     });
 
     /* Hairline rules draw left to right */
-    const rules = $$('.glance__row, .defs li, .faq__item, .related__row, .timeline__step');
+    const rules = $$('.summary__row, .rules__list li, .faq__item, .related__row');
     rules.forEach((el) => el.classList.add('draw'));
     gsap.set(rules, { '--draw': 0 });
     ScrollTrigger.batch(rules, {
       start: 'top 92%', once: true,
-      onEnter: (els) => gsap.to(els, { '--draw': 1, duration: 1.3, ease: 'expo.inOut', stagger: 0.08 }),
+      onEnter: (els) => staggerIn(els, { '--draw': 1, duration: 1.3, ease: 'expo.inOut', stagger: 0.08 }),
     });
 
     await yieldToBrowser();
 
     /* Media: clip wipe open, inner screen settles */
-    $$('.carousel__item, .sub__media, .compare__ph, .demo__ph, .areas__view').forEach((el) => {
+    $$('.shell__frame').forEach((el) => {
       const trigger = { trigger: el, start: 'top 88%', once: true };
-      gsap.fromTo(el, { clipPath: 'inset(12% 5% 12% 5% round 24px)' }, {
-        clipPath: 'inset(0% 0% 0% 0% round 24px)', duration: 1.5, ease: EASE, scrollTrigger: trigger,
+      gsap.fromTo(el, { clipPath: 'inset(10% 6% 10% 6%)' }, {
+        clipPath: 'inset(0% 0% 0% 0%)', duration: 1.5, ease: EASE, scrollTrigger: trigger,
       });
-      const inner = !el.classList.contains('areas__view') && el.querySelector('.ph__screen, .cx-app, .shot__img');
+      const inner = el.querySelector('.shell__img');
       if (inner) gsap.from(inner, { scale: 1.08, duration: 1.8, ease: EASE, scrollTrigger: trigger });
     });
 
-    /* Demo image: light parallax */
-    $$('.demo__ph .shot__img').forEach((img) => gsap.fromTo(img, { y: -24 }, {
-      y: 24, ease: 'none',
+    /* Image shells: a light parallax inside each square */
+    $$('.shell__img').forEach((img) => gsap.fromTo(img, { yPercent: -4, scale: 1.08 }, {
+      yPercent: 4, scale: 1.08, ease: 'none',
       scrollTrigger: { trigger: img.parentElement, start: 'top bottom', end: 'bottom top', scrub: true },
     }));
-
-    /* Digital twin: the explored direction steps back, the chosen one comes forward */
-    gsap.timeline({ scrollTrigger: { trigger: '.compare', start: 'top 80%', end: 'bottom 50%', scrub: true } })
-      .to('.compare__item--explored', { opacity: 0.55, scale: 0.95, y: 24, transformOrigin: '50% 100%', ease: 'none' }, 0)
-      .fromTo('.compare__item--chosen', { y: 64 }, { y: 0, ease: 'none' }, 0);
 
     /* Numbers count up */
     $$('.facts__item .t-stat').forEach(countUp);
@@ -271,6 +274,7 @@
   /* ---------- Carousel: drag with the mouse, arrow keys ---------- */
   const track = $('.carousel__track');
   let drag = null;
+  if (track) {
   track.addEventListener('pointerdown', (e) => {
     if (e.pointerType !== 'mouse' || e.button !== 0) return;
     drag = { x: e.clientX, left: track.scrollLeft, moved: false };
@@ -292,6 +296,7 @@
     const step = item.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 0);
     track.scrollBy({ left: e.key === 'ArrowRight' ? step : -step, behavior: 'smooth' });
   });
+  }
 
   /* ---------- FAQ: animated height ---------- */
   $$('.faq__item').forEach((item) => {

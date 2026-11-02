@@ -36,6 +36,7 @@
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/sections.css">
 <link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/page.css">
 <link rel="stylesheet" href="css/motion.css">
 
 <script type="application/ld+json">
@@ -118,142 +119,141 @@
 <main id="main">
 
 <!-- ======================================================================
-     S1 HERO
+     HERO  (Figma: hero-section)
      ====================================================================== -->
 <section class="hero" aria-labelledby="hero-title">
-  <div class="wrap">
-    <p class="hero__eyebrow t-meta">Case study <span aria-hidden="true">·</span> ConnectX</p>
-    <h1 id="hero-title" class="hero__title t-display">Designing an AI workspace that answers building energy questions</h1>
-
-    <dl class="hero__credits">
-      <div><dt>Company</dt><dd>ConnectX</dd></div>
-      <div><dt>Sector</dt><dd>Building energy</dd></div>
-      <div><dt>Our role</dt><dd>Product definition, interaction design, coded demo to production</dd></div>
-      <div><dt>Status</dt><dd class="hero__status"><span class="pill-live">Live</span> since late 2025</dd></div>
-    </dl>
+  <div class="sec hero__label-row">
+    <p class="hero__eyebrow t-label-s">Case study · ConnectX</p>
   </div>
-
+  <div class="sec hero__title-row">
+    <h1 id="hero-title" class="hero__title t-display-s">Designing an AI workspace that answers building energy questions</h1>
+  </div>
+  <dl class="sec details">
+    <div class="detail detail--grow"><dt>Company</dt><dd>ConnectX</dd></div>
+    <div class="detail"><dt>Sector</dt><dd>Building energy</dd></div>
+    <div class="detail"><dt>Our role</dt><dd>Product definition, interaction design, coded demo to production</dd></div>
+    <div class="detail"><dt>Status</dt><dd class="detail__status"><span class="badge-live">Live</span> since late 2025</dd></div>
+  </dl>
+  <div class="hero__media">
   <div class="hero__twin twin-host" data-twin="hero" data-twin-title="ConnectX live digital twin of Meridian Tower. Drag to turn, click an asset, use + and − to zoom.">
-    <img class="twin-poster" src="@datauri:assets/twin/poster-hero.jpg" alt="" width="1600" height="820" fetchpriority="high">
+    <img class="twin-poster" src="@datauri:assets/twin/poster-hero.webp" alt="" width="1600" height="790" fetchpriority="high">
   </div>
-  <div class="wrap hero__under">
-    <p class="hero__hint t-caption">Live twin of Meridian Tower · drag to turn · click an asset · pinch or + / − to zoom · scroll to read on</p>
   </div>
 </section>
 
 <!-- ======================================================================
-     S2 INTRO
+     INTRO  (Figma: intro-section — sand → white, ellipse horizon)
      ====================================================================== -->
 <section class="intro" aria-label="Introduction">
-  <div class="wrap grid">
-    <h2 class="intro__summary t-summary">AI-first SaaS for all your energy needs that generates UI according to the user’s requirements.</h2>
-    <div class="intro__text t-small">
-      <p>ConnectX wanted facilities, finance and sustainability teams to ask about a building in plain words. They would get a working view back, with the right data, the right assets and a digital twin.</p>
-      <p>Tcules shaped the product around eight scenarios drawn from the questions those teams ask. We proved it in a coded demo, then took the demo through to a production-ready module, live since late 2025.</p>
-      <p>One question in plain words now opens a working view of the building, with the data, modules and assets that matter already in place.</p>
+  <div class="intro__horizon" aria-hidden="true"></div>
+  <div class="sec intro__summary-row">
+    <h2 class="intro__summary t-heading-l">AI-first SaaS for all your energy needs that generates UI according to the user’s requirements.</h2>
+  </div>
+  <div class="sec split intro__split">
+    <div class="split__left"></div>
+    <div class="split__right">
+      <div class="copy copy--m">
+      <p>ConnectX wanted facilities, finance and sustainability teams to ask about a building in plain words. They would get a working view back, with the right data, the right assets and a digital twin. Tcules shaped the product around eight scenarios drawn from the questions those teams ask. We proved it in a coded demo, then took the demo through to a production-ready module, live since late 2025. One question in plain words now opens a working view of the building, with the data, modules and assets that matter already in place.</p>
+      </div>
     </div>
-    <div class="intro__links">
-      <a class="link link--mark" href="#choice">Follow the product choice <span aria-hidden="true">↓</span></a>
-      <a class="link link--mark" href="https://www.tcules.com/case-studies">Browse all case studies <span aria-hidden="true">↗</span></a>
-    </div>
+  </div>
+  <div class="sec intro__links">
+    <a class="arrow-link" href="#choice">Follow the product choice <span class="arrow-link__arrow" aria-hidden="true">↓</span></a>
+    <a class="arrow-link" href="https://www.tcules.com/case-studies">Browse all case studies <span class="arrow-link__arrow" aria-hidden="true">↗</span></a>
   </div>
 </section>
 
 <!-- ======================================================================
-     S3 AT A GLANCE
+     AT A GLANCE  (Figma: glance-section)
      ====================================================================== -->
 <section class="glance" id="case-context" aria-labelledby="glance-title">
-  <div class="wrap grid">
-    <header class="glance__head">
-      <p class="t-meta">At a glance</p>
-      <h2 id="glance-title" class="t-label">ConnectX at a glance</h2>
-    </header>
-
-    <p class="glance__key t-statement"><span class="t-meta">The key question</span>How could a question asked in plain words open a working view of the building, with the right data and assets on screen, instead of a chat reply?</p>
-    <dl class="glance__list">
-      <div class="glance__row"><dt class="t-meta">Product</dt><dd>ConnectX, an AI-native building-energy product for facilities, finance and sustainability teams.</dd></div>
-      <div class="glance__row"><dt class="t-meta">Our role</dt><dd>Product definition, interaction design, eight scenarios and a coded demo, which we then took through to a production-ready module.</dd></div>
-      <div class="glance__row"><dt class="t-meta">What we delivered</dt><dd>Eight scenarios, an adaptive interaction model, a digital twin and a coded demo on sample data, then the production-ready module, live since late 2025.</dd></div>
-      <div class="glance__row"><dt class="t-meta">Scenario areas</dt><dd>System status, forecasting, asset performance and operational conditions.</dd></div>
-      <div class="glance__row"><dt class="t-meta">Digital twin</dt><dd>A simplified 2.5D view that highlights, dims or brings an asset into focus for each scenario.</dd></div>
+  <div class="sec glance__head">
+    <p class="t-label-s glance__eyebrow">At a glance</p>
+    <h2 id="glance-title" class="t-label-l">ConnectX at a glance</h2>
+    <p class="t-label-s glance__eyebrow">The key question</p>
+  </div>
+  <div class="sec split glance__split">
+    <div class="glance__key">
+      <p class="t-body-l">How could a question asked in plain words:</p>
+      <p class="t-heading-m">open a working view of the building with the right data and assets on screen, instead of a chat reply?</p>
+    </div>
+    <dl class="summary">
+      <div class="summary__row"><dt>Product</dt><dd>ConnectX, an AI-native building-energy product for facilities, finance and sustainability teams.</dd></div>
+      <div class="summary__row"><dt>Our role</dt><dd>Product definition, interaction design, eight scenarios and a coded demo, which we then took through to a production-ready module.</dd></div>
+      <div class="summary__row"><dt>What we delivered</dt><dd>Eight scenarios, an adaptive interaction model, a digital twin and a coded demo on sample data, then the production-ready module, live since late 2025.</dd></div>
+      <div class="summary__row"><dt>Scenario areas</dt><dd>System status, forecasting, asset performance and operational conditions.</dd></div>
+      <div class="summary__row"><dt>Digital twin</dt><dd>A simplified 2.5D view that highlights, dims or brings an asset into focus for each scenario.</dd></div>
     </dl>
   </div>
 </section>
 
 <!-- ======================================================================
-     S4 CHAPTER 01 — STARTING POINT (variant A)
+     01 STARTING POINT  (Figma: item-1-section)
      ====================================================================== -->
-<section class="chapter chapter--a" id="starting-point" data-chapter="01 · Starting point" aria-labelledby="ch1-title">
-  <div class="wrap grid">
-    <header class="chapter__head">
-      <p class="chapter__label t-label"><span class="chapter__num">01</span> Starting point</p>
-      <h2 id="ch1-title" class="t-statement">Where ConnectX started: three teams asking different energy questions</h2>
-    </header>
-
-    <div class="chapter__body t-body">
+<section class="chapter" id="starting-point" data-chapter="01 · Starting point" aria-labelledby="ch1-title">
+  <div class="sec chapter__label-row chapter__label-row--first">
+    <p class="chapter__label"><span class="chapter__num">01</span> — Starting point</p>
+  </div>
+  <div class="sec chapter__heading-row">
+    <h2 id="ch1-title" class="t-heading-l chapter__heading">Where ConnectX started:<br> three teams asking different energy questions</h2>
+  </div>
+  <div class="sec split split--start">
+    <div class="copy copy--l">
       <p>A facilities operator, a finance leader and a sustainability team can enter the same energy system with very different questions. One needs an exception that requires action. Another needs to see cost or a forecast. A third needs progress against an environmental target.</p>
       <p>The early concepts held much of the right material. The opportunity was a dependable path from a person's request to the data, the view and the action they needed.</p>
       <p>One dashboard for everyone would keep everything available by showing too much. Separate fixed dashboards would multiply product structures and still fail whenever a situation crossed roles.</p>
     </div>
-
-    <div class="chapter__media roles">
-      <ul class="roles__list" aria-label="Three teams, three needs">
-        <li class="role-card cx" data-tone="orange">
-          <span class="role-card__tag"><i aria-hidden="true"></i>FACILITIES</span>
-          <p class="role-card__role">Facilities operator</p>
-          <p class="role-card__ask"><span class="role-card__q" data-type>An exception that requires action</span><span class="cx-caret" aria-hidden="true"></span></p>
-        </li>
-        <li class="role-card cx" data-tone="blue">
-          <span class="role-card__tag"><i aria-hidden="true"></i>FINANCE</span>
-          <p class="role-card__role">Finance leader</p>
-          <p class="role-card__ask"><span class="role-card__q" data-type>Cost or a forecast</span><span class="cx-caret" aria-hidden="true"></span></p>
-        </li>
-        <li class="role-card cx" data-tone="sage">
-          <span class="role-card__tag"><i aria-hidden="true"></i>SUSTAINABILITY</span>
-          <p class="role-card__role">Sustainability team</p>
-          <p class="role-card__ask"><span class="role-card__q" data-type>Progress against an environmental target</span><span class="cx-caret" aria-hidden="true"></span></p>
-        </li>
-      </ul>
-      <p class="note">C1 Role cards · Phase 3 ✓ product-styled cards; each need types in, staggered.</p>
-    </div>
-
-    <p class="chapter__pull t-statement">The ingredients were there. The work was to give them a structure that responds to what a person is trying to do.</p>
+    <ul class="roles" aria-label="Three teams, three needs">
+      <li class="role-card cx" data-tone="sage"><span class="role-card__tag"><i aria-hidden="true"></i>SUSTAINABILITY</span><p class="role-card__role">Sustainability team</p><p class="role-card__ask"><span class="role-card__q" data-type>Progress against an environmental target</span><span class="cx-caret" aria-hidden="true"></span></p></li>
+      <li class="role-card cx" data-tone="blue"><span class="role-card__tag"><i aria-hidden="true"></i>FINANCE</span><p class="role-card__role">Finance leader</p><p class="role-card__ask"><span class="role-card__q" data-type>Cost or a forecast</span><span class="cx-caret" aria-hidden="true"></span></p></li>
+      <li class="role-card cx" data-tone="orange"><span class="role-card__tag"><i aria-hidden="true"></i>FACILITIES</span><p class="role-card__role">Facilities operator</p><p class="role-card__ask"><span class="role-card__q" data-type>An exception that requires action</span><span class="cx-caret" aria-hidden="true"></span></p></li>
+    </ul>
   </div>
+</section>
 
-  <div class="carousel" aria-label="ConnectX's early product concepts">
-    <div class="carousel__track" tabindex="0" data-cursor="Drag" aria-label="Early concepts, scroll sideways or use the arrow keys">
-      <figure class="carousel__item shot shot--stone"><img class="shot__img" src="https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_92,y_436,w_1960,h_1308/f_auto,q_auto,w_1080/v1786970109/Section_2_Image_1_47c624bd49.webp" srcset="https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_92,y_436,w_1960,h_1308/f_auto,q_auto,w_720/v1786970109/Section_2_Image_1_47c624bd49.webp 720w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_92,y_436,w_1960,h_1308/f_auto,q_auto,w_1080/v1786970109/Section_2_Image_1_47c624bd49.webp 1080w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_92,y_436,w_1960,h_1308/f_auto,q_auto,w_1440/v1786970109/Section_2_Image_1_47c624bd49.webp 1440w" sizes="(min-width: 1024px) 46vw, 90vw" width="1960" height="1308" alt="ConnectX concept: an energy dashboard with an AI assistant panel beside a 3D building" loading="lazy" decoding="async"></figure>
-      <figure class="carousel__item shot shot--stone"><img class="shot__img" src="https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_92,y_434,w_1960,h_1308/f_auto,q_auto,w_1080/v1786970108/Section_2_Image_2_4838809b57.webp" srcset="https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_92,y_434,w_1960,h_1308/f_auto,q_auto,w_720/v1786970108/Section_2_Image_2_4838809b57.webp 720w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_92,y_434,w_1960,h_1308/f_auto,q_auto,w_1080/v1786970108/Section_2_Image_2_4838809b57.webp 1080w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_92,y_434,w_1960,h_1308/f_auto,q_auto,w_1440/v1786970108/Section_2_Image_2_4838809b57.webp 1440w" sizes="(min-width: 1024px) 46vw, 90vw" width="1960" height="1308" alt="ConnectX concept: an AI-led workspace that assembles building energy data and charts on request" loading="lazy" decoding="async"></figure>
-      <figure class="carousel__item shot shot--stone"><img class="shot__img" src="@datauri:assets/concepts/concept-home.webp" width="1329" height="940" alt="ConnectX concept: a home screen that greets the user and starts with an AI prompt, frequent actions and high-priority alerts" loading="lazy" decoding="async"></figure>
-      <figure class="carousel__item shot shot--stone"><img class="shot__img" src="@datauri:assets/concepts/concept-hardware.webp" width="1120" height="540" alt="ConnectX concept: an onboarding step for choosing the hardware installed in a building" loading="lazy" decoding="async"></figure>
-    </div>
-    <div class="wrap">
-      <p class="t-caption carousel__caption">ConnectX’s early product concepts.</p>
-      <p class="note">Phase 2 ✓ drag carousel, "Drag" cursor, arrow keys; items reveal with a clip wipe. Phase 5 ✓ two live-page concepts + two Figma frames (embedded).</p>
-    </div>
+<section class="banner" aria-label="Pull quote">
+  <div class="banner__inner">
+    <p class="banner__text t-heading-l">The ingredients were there. The work was to give them a structure that responds to what a person is trying to do.</p>
+    <p class="banner__cite">01 · Starting point</p>
+  </div>
+</section>
+
+<section class="media-sec" aria-label="ConnectX’s early product concepts">
+  <div class="sec shells" aria-label="Early product concepts">
+    <figure class="shell">
+      <div class="shell__frame"><img class="shell__img" src="https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_92,y_436,w_1960,h_1308/f_auto,q_auto,w_1080/v1786970109/Section_2_Image_1_47c624bd49.webp" srcset="https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_92,y_436,w_1960,h_1308/f_auto,q_auto,w_720/v1786970109/Section_2_Image_1_47c624bd49.webp 720w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_92,y_436,w_1960,h_1308/f_auto,q_auto,w_1080/v1786970109/Section_2_Image_1_47c624bd49.webp 1080w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_92,y_436,w_1960,h_1308/f_auto,q_auto,w_1440/v1786970109/Section_2_Image_1_47c624bd49.webp 1440w" sizes="(min-width: 1024px) 46vw, 90vw" width="1960" height="1308" alt="ConnectX concept: an energy dashboard with an AI assistant panel beside a 3D building" loading="lazy" decoding="async"></div>
+      <figcaption class="shell__caption">Early concept: an energy dashboard with an AI assistant beside a 3D building.</figcaption>
+    </figure>
+    <figure class="shell">
+      <div class="shell__frame"><img class="shell__img" src="https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_92,y_434,w_1960,h_1308/f_auto,q_auto,w_1080/v1786970108/Section_2_Image_2_4838809b57.webp" srcset="https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_92,y_434,w_1960,h_1308/f_auto,q_auto,w_720/v1786970108/Section_2_Image_2_4838809b57.webp 720w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_92,y_434,w_1960,h_1308/f_auto,q_auto,w_1080/v1786970108/Section_2_Image_2_4838809b57.webp 1080w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_92,y_434,w_1960,h_1308/f_auto,q_auto,w_1440/v1786970108/Section_2_Image_2_4838809b57.webp 1440w" sizes="(min-width: 1024px) 46vw, 90vw" width="1960" height="1308" alt="ConnectX concept: an AI-led workspace that assembles building energy data and charts on request" loading="lazy" decoding="async"></div>
+      <figcaption class="shell__caption">Early concept: a building overview with an assistant column beside the KPIs.</figcaption>
+    </figure>
   </div>
 </section>
 
 <!-- ======================================================================
-     S5 CHAPTER 02 — THE CHOICE (pinned scene)
+     02 THE CHOICE  (Figma: item-2-section + full-viewport band)
      ====================================================================== -->
-<section class="chapter chapter--b" id="choice" data-chapter="02 · The choice" aria-labelledby="ch2-title">
-  <div class="wrap grid">
-    <header class="chapter__head">
-      <p class="chapter__label t-label"><span class="chapter__num">02</span> The choice</p>
-      <h2 id="ch2-title" class="t-statement">Two directions: an assistant beside the dashboard, or conversation that builds it</h2>
-    </header>
-    <div class="chapter__body t-body">
+<section class="chapter" id="choice" data-chapter="02 · The choice" aria-labelledby="ch2-title">
+  <div class="sec chapter__label-row">
+    <p class="chapter__label"><span class="chapter__num">02</span> — The choice</p>
+  </div>
+  <div class="sec chapter__heading-row">
+    <h2 id="ch2-title" class="t-heading-l chapter__heading">Two directions: an assistant beside the dashboard, or conversation that builds it</h2>
+  </div>
+  <div class="sec split">
+    <div class="split__left"></div>
+    <div class="split__right">
+      <div class="copy copy--m">
       <p>Two directions were on the table. The first kept a conventional dashboard and added an AI assistant. It was familiar, but the interface stayed largely fixed.</p>
       <p>The second let conversation decide which KPIs, assets, charts and twin views appeared. It adapted more deeply, yet people still needed somewhere to keep comparing and to work with the data directly.</p>
       <p>The chosen model combined both. Conversation identifies the work. The system matches the request to a known situation. Permitted tools retrieve the data. The product assembles the relevant modules and twin view, and the workspace stays open for ordinary use.</p>
+      </div>
     </div>
   </div>
-
-  <div class="stage" data-pin="choice">
-    <div class="wrap">
-      <div class="stage__track">
-      <div class="stage__frame">
+  <div class="band" data-pin="choice">
+    <div class="band__track stage__track">
+      <div class="band__frame stage__frame">
         <div class="choice">
           <div class="choice__dir">
             <p class="t-meta">Direction A</p>
@@ -326,7 +326,6 @@
             <p class="choice__verdict">Conversation finds the work. The workspace stays open.</p>
           </div>
         </div>
-
         <ol class="flow" aria-label="The chosen model">
           <li class="flow__step"><span class="flow__n">1</span>Ask in plain words</li>
           <li class="flow__step"><span class="flow__n">2</span>Match a known situation</li>
@@ -335,183 +334,172 @@
           <li class="flow__step"><span class="flow__n">5</span>Keep working in the workspace</li>
         </ol>
       </div>
-      </div>
-      <p class="t-caption stage__caption">Conversation creates the workspace. The modules let people keep working with the result.</p>
-      <p class="note">R2 ✓ native sticky (no snap). Beats: (1) A + B side by side, grey → (2) slide together → (3) merge into one workspace, turning product blue → (4) C3 flow draws its 5 steps, closing line appears.</p>
     </div>
   </div>
+</section>
 
-  <div class="wrap grid">
-    <p class="chapter__pull t-statement">The dashboard stayed, and chat became one way to build the right version of it for the work at hand.</p>
+<section class="banner" aria-label="Pull quote">
+  <div class="banner__inner">
+    <p class="banner__text t-heading-l">The dashboard stayed, and chat became one way to build the right version of it for the work at hand.</p>
+    <p class="banner__cite">02 · The choice</p>
   </div>
 </section>
 
 <!-- ======================================================================
-     S6 CHAPTER 03 — SCENARIOS (pinned split)
+     03 SCENARIOS  (Figma: item-3-section)
      ====================================================================== -->
-<section class="chapter chapter--a" id="turning-adaptation-into-scenarios" data-chapter="03 · Scenarios" aria-labelledby="ch3-title">
-  <div class="wrap grid">
-    <header class="chapter__head">
-      <p class="chapter__label t-label"><span class="chapter__num">03</span> Scenarios</p>
-      <h2 id="ch3-title" class="t-statement">Eight scenarios that made the adaptive workspace testable</h2>
-    </header>
-    <div class="chapter__body t-body">
+<section class="chapter" id="turning-adaptation-into-scenarios" data-chapter="03 · Scenarios" aria-labelledby="ch3-title">
+  <div class="sec chapter__label-row">
+    <p class="chapter__label"><span class="chapter__num">03</span> — Scenarios</p>
+  </div>
+  <div class="sec chapter__heading-row">
+    <h2 id="ch3-title" class="t-heading-l chapter__heading">Eight scenarios that made the adaptive workspace testable</h2>
+  </div>
+  <div class="sec split">
+    <div class="split__left"></div>
+    <div class="split__right">
+      <div class="copy copy--m">
       <p>An interface that can assemble anything is hard to specify, test or trust. Tcules and ConnectX defined eight representative situations across system status, forecasting, asset performance and operational conditions.</p>
       <p>Each scenario named the request that starts it, the intent detected, the data required, the interface modules, the twin's behaviour and the next action available. The model could adapt, but only within those product rules.</p>
+      </div>
     </div>
   </div>
-
-  <div class="stage" data-pin="areas">
-    <div class="wrap grid areas">
+  <div class="areas-track" data-pin="areas">
+    <div class="sec areas">
       <div class="areas__nav">
-        <p class="t-meta">Scenario areas</p>
+        <p class="t-label-s areas__label">Scenario areas</p>
         <ol class="areas__list">
           <li class="areas__item is-active"><button type="button"><span class="areas__n">01</span>System status</button></li>
           <li class="areas__item"><button type="button"><span class="areas__n">02</span>Forecasting</button></li>
           <li class="areas__item"><button type="button"><span class="areas__n">03</span>Asset performance</button></li>
           <li class="areas__item"><button type="button"><span class="areas__n">04</span>Operational conditions</button></li>
         </ol>
-        <p class="areas__progress t-meta"><span>1</span> / 4</p>
+        <p class="areas__progress"><span>1</span> / 4</p>
       </div>
       <div class="areas__view twin-host" data-twin="scenario" data-twin-title="ConnectX live twin playing the scenario for the selected area">
         <img class="twin-poster" src="@datauri:assets/twin/poster-scenario.jpg" alt="" width="1100" height="900" decoding="async">
       </div>
-      <p class="note areas__note">R5 ✓ the real twin plays each area: anomaly · clouds &amp; rain · EV rush · grid outage. R2 ✓ native sticky. active area turns --ink with a black rule, others --ink-3; C4 modules cross-fade and re-arrange; click an area to scroll to its step. IMP-01: extend to the 8 named scenarios later.</p>
     </div>
   </div>
-
-  <div class="wrap grid sub" id="one-request-a-complete-decision-context">
-    <header class="sub__head">
-      <h3 class="t-statement">A peak-price request, with everything needed to act</h3>
-    </header>
-    <div class="sub__body t-body">
-      <p>An operator asking about a peak-price event needs more than a suggested battery action. They need to see the affected assets, the data behind the suggestion and what the action would change.</p>
-      <p>The scenario work connected the request to everything around it. That meant the information to display, the controls to offer and what the workspace should keep in place. Each scenario gave the adaptive interface a specific job.</p>
-          <button class="twin-replay" type="button" data-ask-replay>Replay the request</button>
-    </div>
+  <div class="sec peak" id="one-request-a-complete-decision-context">
     <div class="sub__media twin-host" data-twin="ask" data-twin-title="ConnectX live twin answering a peak-price question">
       <img class="twin-poster" src="@datauri:assets/twin/poster-ask.jpg" alt="" width="1200" height="900" decoding="async">
     </div>
-    <p class="note sub__note">R5 ✓ the real twin: the question types into its ask box, it resolves, then plays the Peak tariff scenario. Replay restarts it.</p>
+    <div class="peak__text">
+      <h3 class="t-heading-m">A peak-price request, with everything needed to act</h3>
+      <div class="copy copy--l">
+        <p>An operator asking about a peak-price event needs more than a suggested battery action. They need to see the affected assets, the data behind the suggestion and what the action would change.</p>
+        <p>The scenario work connected the request to everything around it. That meant the information to display, the controls to offer and what the workspace should keep in place. Each scenario gave the adaptive interface a specific job.</p>
+        <button class="twin-replay" type="button" data-ask-replay>Replay the request</button>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- ======================================================================
-     S7 CHAPTER 04 — DIGITAL TWIN (variant C) + LIVE TWIN
+     04 DIGITAL TWIN
      ====================================================================== -->
-<section class="chapter chapter--c" id="designing-the-digital-twin" data-chapter="04 · Digital twin" aria-labelledby="ch4-title">
-  <div class="wrap grid">
-    <header class="chapter__head">
-      <p class="chapter__label t-label"><span class="chapter__num">04</span> Digital twin</p>
-      <h2 id="ch4-title" class="t-statement">Building energy digital twin UX: a 2.5D view that explains the system</h2>
-    </header>
-    <div class="chapter__body t-body">
+<section class="chapter" id="designing-the-digital-twin" data-chapter="04 · Digital twin" aria-labelledby="ch4-title">
+  <div class="sec chapter__label-row">
+    <p class="chapter__label"><span class="chapter__num">04</span> — Digital twin</p>
+  </div>
+  <div class="sec chapter__heading-row">
+    <h2 id="ch4-title" class="t-heading-l chapter__heading">Building energy digital twin UX: a 2.5D view that explains the system</h2>
+  </div>
+  <div class="sec split">
+    <div class="split__left"></div>
+    <div class="split__right">
+      <div class="copy copy--m">
       <p>Early directions explored detailed 3D buildings, maps and realistic representation. Realism was tempting, so the team tested it against a harder question: does it help someone understand the energy system?</p>
       <p>The useful questions were narrower: which assets are connected, where are they, what state are they in, and which one matters now? The chosen 2.5D direction treated the twin as an explanation layer. It could highlight, dim or bring an asset into focus depending on the scenario.</p>
+      </div>
     </div>
-
-    <div class="compare">
-      <figure class="compare__item compare__item--explored">
-        <p class="t-meta">Explored</p>
-        <div class="compare__ph shot shot--stone shot--blend"><img class="shot__img" src="https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_0,y_392,w_2560,h_2168/f_auto,q_auto,w_960/v1788500895/Section_5_Image_1_corrected_21ce1fe680.webp" srcset="https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_0,y_392,w_2560,h_2168/f_auto,q_auto,w_640/v1788500895/Section_5_Image_1_corrected_21ce1fe680.webp 640w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_0,y_392,w_2560,h_2168/f_auto,q_auto,w_960/v1788500895/Section_5_Image_1_corrected_21ce1fe680.webp 960w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_0,y_392,w_2560,h_2168/f_auto,q_auto,w_1280/v1788500895/Section_5_Image_1_corrected_21ce1fe680.webp 1280w" sizes="(min-width: 1024px) 40vw, 90vw" width="2560" height="2168" alt="ConnectX map view locating buildings and their energy alerts" loading="lazy" decoding="async"></div>
-        <figcaption class="t-caption">Detailed 3D buildings, maps and realistic representation.</figcaption>
-      </figure>
-      <figure class="compare__item compare__item--chosen">
-        <p class="t-meta">Chosen</p>
-        <div class="compare__ph shot shot--blue shot--blend"><img class="shot__img" src="https://res.cloudinary.com/dbay1gb0s/image/upload/f_auto,q_auto,w_1080/v1786970108/Section_5_Image_2_649381043c.webp" srcset="https://res.cloudinary.com/dbay1gb0s/image/upload/f_auto,q_auto,w_720/v1786970108/Section_5_Image_2_649381043c.webp 720w, https://res.cloudinary.com/dbay1gb0s/image/upload/f_auto,q_auto,w_1080/v1786970108/Section_5_Image_2_649381043c.webp 1080w, https://res.cloudinary.com/dbay1gb0s/image/upload/f_auto,q_auto,w_1440/v1786970108/Section_5_Image_2_649381043c.webp 1440w" sizes="(min-width: 1024px) 56vw, 90vw" width="2144" height="1204" alt="Simplified ConnectX digital twin showing a building's HVAC, lighting, solar and EV charging systems" loading="lazy" decoding="async"></div>
-        <figcaption class="t-caption">The twin leaves out detail on purpose, so the connected assets and why they matter stand out in the concept.</figcaption>
-      </figure>
-    </div>
-
-    <p class="chapter__pull t-statement">The simpler look followed from the twin's job: to explain how the energy system works.</p>
-    <p class="note compare__note">Phase 2 ✓ explored side dims and slides back as the chosen side comes forward.</p>
   </div>
+  <div class="sec shells" aria-label="Explored and chosen twin directions">
+    <figure class="shell">
+      <div class="shell__frame"><img class="shell__img" src="https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_0,y_392,w_2560,h_2168/f_auto,q_auto,w_960/v1788500895/Section_5_Image_1_corrected_21ce1fe680.webp" srcset="https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_0,y_392,w_2560,h_2168/f_auto,q_auto,w_640/v1788500895/Section_5_Image_1_corrected_21ce1fe680.webp 640w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_0,y_392,w_2560,h_2168/f_auto,q_auto,w_960/v1788500895/Section_5_Image_1_corrected_21ce1fe680.webp 960w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_0,y_392,w_2560,h_2168/f_auto,q_auto,w_1280/v1788500895/Section_5_Image_1_corrected_21ce1fe680.webp 1280w" sizes="(min-width: 1024px) 40vw, 90vw" width="2560" height="2168" alt="ConnectX map view locating buildings and their energy alerts" loading="lazy" decoding="async"></div>
+      <figcaption class="shell__caption">Explored: a map view locating buildings and their energy alerts.</figcaption>
+    </figure>
+    <figure class="shell">
+      <div class="shell__frame"><img class="shell__img" src="https://res.cloudinary.com/dbay1gb0s/image/upload/f_auto,q_auto,w_1080/v1786970108/Section_5_Image_2_649381043c.webp" srcset="https://res.cloudinary.com/dbay1gb0s/image/upload/f_auto,q_auto,w_720/v1786970108/Section_5_Image_2_649381043c.webp 720w, https://res.cloudinary.com/dbay1gb0s/image/upload/f_auto,q_auto,w_1080/v1786970108/Section_5_Image_2_649381043c.webp 1080w, https://res.cloudinary.com/dbay1gb0s/image/upload/f_auto,q_auto,w_1440/v1786970108/Section_5_Image_2_649381043c.webp 1440w" sizes="(min-width: 1024px) 56vw, 90vw" width="2144" height="1204" alt="Simplified ConnectX digital twin showing a building's HVAC, lighting, solar and EV charging systems" loading="lazy" decoding="async"></div>
+      <figcaption class="shell__caption">Chosen: the twin leaves out detail on purpose, so the connected assets and why they matter stand out.</figcaption>
+    </figure>
+  </div>
+</section>
 
+<section class="banner" aria-label="Pull quote">
+  <div class="banner__inner">
+    <p class="banner__text t-heading-l">The simpler look followed from the twin’s job: to explain how the energy system works.</p>
+    <p class="banner__cite">04 · Digital twin</p>
+  </div>
 </section>
 
 <!-- ======================================================================
-     S8 CHAPTER 05 — DEMO TO PRODUCTION (variant B)
+     05 DEMO TO PRODUCTION
      ====================================================================== -->
-<section class="chapter chapter--b" id="the-demonstration-ran-in-code-on-interim-data" data-chapter="05 · Demo to production" aria-labelledby="ch5-title">
-  <div class="wrap grid">
-    <header class="chapter__head">
-      <p class="chapter__label t-label"><span class="chapter__num">05</span> Demo to production</p>
-      <h2 id="ch5-title" class="t-statement">From coded demonstration to production-ready module</h2>
-    </header>
-    <div class="chapter__body t-body">
+<section class="chapter" id="the-demonstration-ran-in-code-on-interim-data" data-chapter="05 · Demo to production" aria-labelledby="ch5-title">
+  <div class="sec chapter__label-row">
+    <p class="chapter__label"><span class="chapter__num">05</span> — Demo to production</p>
+  </div>
+  <div class="sec chapter__heading-row">
+    <h2 id="ch5-title" class="t-heading-l chapter__heading">From coded demonstration to production-ready module</h2>
+  </div>
+  <div class="sec split">
+    <div class="split__left"></div>
+    <div class="split__right">
+      <div class="copy copy--m">
       <p>The coded demo ran on sample data and made the product direction concrete enough to review as a whole. ConnectX could see how a request, the relevant information and the twin worked together as one product. Tcules then took the demo through to a production-ready module, live since late 2025.</p>
+      </div>
     </div>
   </div>
-
-  <div class="wrap">
-    <figure class="demo__media">
-      <div class="demo__pair">
-        <div class="demo__item">
-          <div class="demo__ph shot shot--blue"><img class="shot__img" src="https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_280,y_185,w_3840,h_2561/f_auto,q_auto,w_1440/v1786970109/Section_4_Image_7ae363fefe.webp" srcset="https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_280,y_185,w_3840,h_2561/f_auto,q_auto,w_720/v1786970109/Section_4_Image_7ae363fefe.webp 720w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_280,y_185,w_3840,h_2561/f_auto,q_auto,w_1080/v1786970109/Section_4_Image_7ae363fefe.webp 1080w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_280,y_185,w_3840,h_2561/f_auto,q_auto,w_1440/v1786970109/Section_4_Image_7ae363fefe.webp 1440w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_280,y_185,w_3840,h_2561/f_auto,q_auto,w_1920/v1786970109/Section_4_Image_7ae363fefe.webp 1920w" sizes="(min-width: 1024px) 46vw, 90vw" width="3840" height="2561" alt="Coded ConnectX workspace demonstrating an AI-assisted building-energy scenario" loading="lazy" decoding="async"></div>
-          <p class="demo__step"><span>01</span>The request, in plain words</p>
-        </div>
-        <div class="demo__item">
-          <div class="demo__ph shot shot--blue"><img class="shot__img" src="https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_279,y_206,w_3842,h_2520/f_auto,q_auto,w_1440/v1786970109/Section_6_Image_cee0d48ae8.webp" srcset="https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_279,y_206,w_3842,h_2520/f_auto,q_auto,w_720/v1786970109/Section_6_Image_cee0d48ae8.webp 720w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_279,y_206,w_3842,h_2520/f_auto,q_auto,w_1080/v1786970109/Section_6_Image_cee0d48ae8.webp 1080w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_279,y_206,w_3842,h_2520/f_auto,q_auto,w_1440/v1786970109/Section_6_Image_cee0d48ae8.webp 1440w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_279,y_206,w_3842,h_2520/f_auto,q_auto,w_1920/v1786970109/Section_6_Image_cee0d48ae8.webp 1920w" sizes="(min-width: 1024px) 46vw, 90vw" width="3842" height="2520" alt="ConnectX workspace combining a building model with energy readings and charts" loading="lazy" decoding="async"></div>
-          <p class="demo__step"><span>02</span>The workspace it opens</p>
-        </div>
-      </div>
-      <figcaption class="t-caption">The coded demo, shown with sample data.</figcaption>
+  <div class="sec shells" aria-label="The coded demo">
+    <figure class="shell">
+      <div class="shell__frame"><img class="shell__img" src="https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_280,y_185,w_3840,h_2561/f_auto,q_auto,w_1440/v1786970109/Section_4_Image_7ae363fefe.webp" srcset="https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_280,y_185,w_3840,h_2561/f_auto,q_auto,w_720/v1786970109/Section_4_Image_7ae363fefe.webp 720w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_280,y_185,w_3840,h_2561/f_auto,q_auto,w_1080/v1786970109/Section_4_Image_7ae363fefe.webp 1080w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_280,y_185,w_3840,h_2561/f_auto,q_auto,w_1440/v1786970109/Section_4_Image_7ae363fefe.webp 1440w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_280,y_185,w_3840,h_2561/f_auto,q_auto,w_1920/v1786970109/Section_4_Image_7ae363fefe.webp 1920w" sizes="(min-width: 1024px) 46vw, 90vw" width="3840" height="2561" alt="Coded ConnectX workspace demonstrating an AI-assisted building-energy scenario" loading="lazy" decoding="async"></div>
+      <figcaption class="shell__caption">The coded demo, shown with sample data: one question in plain words.</figcaption>
     </figure>
-    <p class="note">Phase 2 ✓ clip-path reveal + light parallax. Phase 5 ✓ the demo's request screen and the workspace it opens.</p>
+    <figure class="shell">
+      <div class="shell__frame"><img class="shell__img" src="https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_279,y_206,w_3842,h_2520/f_auto,q_auto,w_1440/v1786970109/Section_6_Image_cee0d48ae8.webp" srcset="https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_279,y_206,w_3842,h_2520/f_auto,q_auto,w_720/v1786970109/Section_6_Image_cee0d48ae8.webp 720w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_279,y_206,w_3842,h_2520/f_auto,q_auto,w_1080/v1786970109/Section_6_Image_cee0d48ae8.webp 1080w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_279,y_206,w_3842,h_2520/f_auto,q_auto,w_1440/v1786970109/Section_6_Image_cee0d48ae8.webp 1440w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_279,y_206,w_3842,h_2520/f_auto,q_auto,w_1920/v1786970109/Section_6_Image_cee0d48ae8.webp 1920w" sizes="(min-width: 1024px) 46vw, 90vw" width="3842" height="2520" alt="ConnectX workspace combining a building model with energy readings and charts" loading="lazy" decoding="async"></div>
+      <figcaption class="shell__caption">The workspace it opens: the twin, live readings and the floor in focus.</figcaption>
+    </figure>
   </div>
-
-  <div class="wrap grid timeline-wrap" id="what-did-the-coded-demonstration-actually-establish">
-    <h3 class="timeline__title t-label">What the work covered, from definition to production</h3>
+  <div class="sec timeline-row" id="what-did-the-coded-demonstration-actually-establish">
+    <h3 class="timeline-row__title t-label-l">What the work covered, from definition to production</h3>
     <ol class="timeline">
       <li class="timeline__track" aria-hidden="true"><span class="timeline__fill"></span></li>
-      <li class="timeline__step">
-        <span class="timeline__node" aria-hidden="true"></span>
-        <p class="t-meta">Product work</p>
-        <p>Product definition, interaction design, eight scenario descriptions and the digital-twin direction.</p>
-      </li>
-      <li class="timeline__step">
-        <span class="timeline__node" aria-hidden="true"></span>
-        <p class="t-meta">Demo</p>
-        <p>A coded demo running on sample data, shown here as still screens.</p>
-      </li>
-      <li class="timeline__step timeline__step--live">
-        <span class="timeline__node" aria-hidden="true"></span>
-        <p class="t-meta">Production</p>
-        <p>The demo taken through to a production-ready module, <span class="pill-live">Live</span> since late 2025.</p>
-      </li>
+      <li class="timeline__step"><span class="timeline__node" aria-hidden="true"></span><p class="timeline__label">Product work</p><p class="timeline__copy">Product definition, interaction design, eight scenario descriptions and the digital-twin direction.</p></li>
+      <li class="timeline__step"><span class="timeline__node" aria-hidden="true"></span><p class="timeline__label">Demo</p><p class="timeline__copy">A coded demo running on sample data, shown here as still screens.</p></li>
+      <li class="timeline__step timeline__step--live"><span class="timeline__node" aria-hidden="true"></span><p class="timeline__label">Production</p><p class="timeline__copy">The demo taken through to a production-ready module, <span class="badge-live">Live</span> since late 2025.</p></li>
     </ol>
-    <p class="note timeline__note">C6 · Phase 3 ✓ line fills black with scroll, nodes fill as it reaches them, the last one turns green with a pulse.</p>
   </div>
 </section>
 
 <!-- ======================================================================
-     S9 CHAPTER 06 — HOW WE DECIDE
+     06 HOW WE DECIDE
      ====================================================================== -->
-<section class="chapter chapter--statement" id="chat-is-an-interaction-mode-not-a-complete-produ" data-chapter="06 · How we decide" aria-labelledby="ch6-title">
-  <div class="wrap grid">
-    <header class="chapter__head">
-      <p class="chapter__label t-label"><span class="chapter__num">06</span> How we decide</p>
-      <h2 id="ch6-title" class="t-label decide__h2">How we decide what chat controls in an AI workspace</h2>
-    </header>
-    <p class="decide__lead t-intro">When people need to inspect, compare and act on changing information, we decide what the conversation controls and what stays on screen. We begin with a small set of consequential scenarios.</p>
-
-    <div class="decide__defs">
-      <p class="t-meta">For each scenario we define</p>
-      <ol class="defs">
-        <li><span class="defs__n">01</span>The request</li>
-        <li><span class="defs__n">02</span>The data behind it</li>
-        <li><span class="defs__n">03</span>The permitted tools</li>
-        <li><span class="defs__n">04</span>What the screen shows</li>
-        <li><span class="defs__n">05</span>The action</li>
-        <li><span class="defs__n">06</span>The way back from a mistake</li>
+<section class="chapter" id="chat-is-an-interaction-mode-not-a-complete-produ" data-chapter="06 · How we decide" aria-labelledby="ch6-title">
+  <div class="sec chapter__label-row">
+    <p class="chapter__label"><span class="chapter__num">06</span> — How we decide</p>
+  </div>
+  <div class="sec chapter__heading-row">
+    <h2 id="ch6-title" class="sr-only">How we decide what chat controls in an AI workspace</h2>
+    <p class="t-heading-l chapter__heading decide__lead">When people need to inspect, compare and act on changing information, we decide what the conversation controls and what stays on screen. We begin with a small set of consequential scenarios.</p>
+  </div>
+  <div class="sec split decide__split">
+    <div class="rules">
+      <p class="t-label-s rules__label">For each scenario we define</p>
+      <ol class="rules__list">
+        <li><span>01</span>The request</li>
+        <li><span>02</span>The data behind it</li>
+        <li><span>03</span>The permitted tools</li>
+        <li><span>04</span>What the screen shows</li>
+        <li><span>05</span>The action</li>
+        <li><span>06</span>The way back from a mistake</li>
       </ol>
     </div>
-
-    <div class="decide__body t-body">
-      <p>For each, we define the request, the data behind it, the permitted tools, what the screen shows, the action and the way back from a mistake. The AI gets room to be useful inside limits the product team sets.</p>
+    <div class="copy copy--m">
       <p>That structure is what the work opened up for ConnectX. Each new question its customers bring can become one more scenario, with its own data, tools and view, so the product grows by adding situations it understands. We think it is where AI products are heading: interfaces that assemble around the question, with the product team still setting the rules.</p>
+      <p>For each, we define the request, the data behind it, the permitted tools, what the screen shows, the action and the way back from a mistake. The AI gets room to be useful inside limits the product team sets.</p>
     </div>
-    <p class="note decide__note">Phase 2 ✓ lead words brighten with scroll; list rules draw in with stagger.</p>
   </div>
 </section>
 

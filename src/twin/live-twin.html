@@ -510,6 +510,8 @@ main{position:relative;flex:1;min-height:0}
 #app.embed .loader{display:none!important}
 #app.embed[data-emb=hero] .ov-b,#app.embed[data-emb=hero] .ov-tl,#app.embed[data-emb=hero] .dcard{display:none}
 #app.embed[data-emb=hero] .role{display:none}
+/* hero (case-study v3): just the building on the page's own gradient — no top bar, KPI cards or sky */
+#app.embed[data-emb=hero] .top,#app.embed[data-emb=hero] .emb-kpis,#app.embed[data-emb=hero] .sky{display:none!important}
 .emb{position:absolute;z-index:7;display:flex;gap:10px;pointer-events:none}
 .emb>*{pointer-events:auto}
 #app:not(.embed) .emb,#app.embed:not([data-view=live]) .emb{display:none}
@@ -3039,7 +3041,8 @@ let embTick = () => {};
 if (EMBED) {
   app.classList.add('embed');
   app.dataset.emb = EMB.mode;
-  document.documentElement.style.setProperty('--ground', '#F3F3F1');
+  // hero: transparent, so the building sits on the page's sand gradient; other modes: the page's light grey
+  document.documentElement.style.setProperty('--ground', EMB.mode === 'hero' ? 'transparent' : '#F3F3F1');
   const cw = $('#cw');
   const mk = (cls) => { const d = document.createElement('div'); d.className = 'emb ' + cls; cw.appendChild(d); return d; };
   const kpis = mk('emb-kpis'), side = mk('emb-side'), zoom = mk('emb-zoom');
@@ -3113,6 +3116,9 @@ if (EMBED) {
     if (m.cx === 'scenario') { EMB.loopUntil = 0; if (m.id === 'live') exitScenario(); else startScenario(m.id); }
     if (m.cx === 'ask') embAsk(m.q);
   });
+
+  /* Hero: frame the building closer, as in the Figma hero */
+  if (EMB.mode === 'hero') SHOTS.site = Object.assign({}, SHOTS.site, { d: 16, t: [1.45, 0.85, 1.7] });
 
   /* No loader when embedded: the page shows a picture of the first frame meanwhile */
   L.t = LTOT;

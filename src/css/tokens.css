@@ -21,6 +21,42 @@
   --brand: #04EC50;
   --brand-ink: #000000;
 
+  /* ---- v3: Figma "ConnectX" variables (exact at 1440, scaled 1024 → 1920+) ---- */
+  --page: #FFFFFF;
+  --ink-meta: #767676;       /* Figma #999; darkened to pass AA on white */
+  --ink-soft: #666666;
+  --brand-arrow: #00C23F;
+  --sand: #F4EDE2;
+  --paper: #FAFAFA;
+  --band: #ECECE9;
+  --tone-facilities: #C74420;
+  --tone-finance: #3453BC;
+  --tone-sustain: #447E61;
+
+  --t-display-l: clamp(150px, 13.889vw, 260px);   /* 200/200 */
+  --t-display-s: clamp(58px,  5.278vw,  96px);    /* 76/80 Medium */
+  --t-heading-l: clamp(38px,  3.333vw,  60px);    /* 48/52 */
+  --t-heading-m: clamp(26px,  2.222vw,  40px);    /* 32/40 */
+  --t-heading-s: clamp(20px,  1.667vw,  30px);    /* 24/32 */
+  --t-data-l:    clamp(72px,  6.389vw, 112px);    /* 92/96 */
+  --t-label-l:   clamp(18px,  1.389vw,  24px);    /* 20/24 SemiBold */
+  --t-label-m:   clamp(15px,  1.111vw,  19px);    /* 16/20 SemiBold */
+  --t-label-s:   clamp(12px,  .833vw,   14px);    /* 12/16 SemiBold */
+  --t-body-l:    clamp(15px,  1.111vw,  19px);    /* 16/24 */
+  --t-body-m:    clamp(14px,  .972vw,   17px);    /* 14/20 */
+  --t-body-s:    clamp(12px,  .833vw,   14px);    /* 12/18 */
+  --t-mono-m:    clamp(12px,  .833vw,   14px);    /* 12/16 */
+  --t-mono-s:    clamp(10px,  .694vw,   12px);    /* 10/16 */
+
+  --pad-x:  clamp(32px, 3.889vw, 80px);   /* 56 side padding */
+  --sp-24:  clamp(20px, 1.667vw, 32px);
+  --sp-56:  clamp(44px, 3.889vw, 72px);
+  --sp-72:  clamp(56px, 5vw,     96px);
+  --sp-112: clamp(88px, 7.778vw, 144px);
+  --sp-128: clamp(96px, 8.889vw, 168px);
+  --sp-240: clamp(120px, 16.667vw, 320px);
+  --sec-max: 1680px;
+
   /* ---- Media backdrops ---- */
   --tint-blue: #E6ECF8;
   --tint-stone: #ECEAE4;

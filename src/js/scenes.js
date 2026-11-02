@@ -7,15 +7,15 @@ window.cxScenes = {
   init({ lenis }) {
     const $ = (s, c = document) => c.querySelector(s);
     const $$ = (s, c = document) => [...c.querySelectorAll(s)];
-    const STICK = 96; // matches `top` on the sticky elements
+    const STICK = { choice: 0, areas: 96 }; // matches `top` on the sticky elements (page.css)
     const ink = getComputedStyle(document.documentElement);
     const color = (name) => ink.getPropertyValue(name).trim();
 
     /* Progress runs from "content reaches its sticky line" to "track ends and it scrolls away" */
-    const span = (track, sticky) => ({
+    const span = (track, sticky, top) => ({
       trigger: track,
-      start: `top ${STICK}px`,
-      end: () => `bottom ${STICK + sticky.offsetHeight}px`,
+      start: `top ${top}px`,
+      end: () => `bottom ${top + sticky.offsetHeight}px`,
       invalidateOnRefresh: true,
     });
 
@@ -32,7 +32,7 @@ window.cxScenes = {
       gsap.set(steps, { color: color('--ink-3') });
       gsap.set(flow, { '--flow': 0 });
 
-      gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { ...span(track, frame), scrub: 0.4 } })
+      gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { ...span(track, frame, STICK.choice), scrub: 0.4 } })
         // beat 1 → 2: verdicts step aside, the directions slide together
         .to(verdicts, { opacity: 0, y: -8, duration: 0.4 }, 0.2)
         .to(dirA, { xPercent: 26, scale: 0.9, duration: 1 }, 0.2)
@@ -60,7 +60,7 @@ window.cxScenes = {
         window.cxSetArea(i);
       };
       const st = ScrollTrigger.create({
-        ...span(stage, areas),
+        ...span(stage, areas, STICK.areas),
         onUpdate: (self) => setArea(Math.min(items.length - 1, Math.floor(self.progress * items.length))),
       });
       setArea(0);

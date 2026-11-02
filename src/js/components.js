@@ -30,7 +30,7 @@ window.cxComponents = {
         n: t.length, duration: t.length * 0.035, ease: 'none', delay: 0.5 + i * 0.35,
         onUpdate: () => t.render(Math.round(proxy.n)),
         onComplete: () => setTimeout(() => card.classList.add('is-typed'), 1200),
-        scrollTrigger: { trigger: '.roles__list', start: 'top 80%', once: true },
+        scrollTrigger: { trigger: '.roles', start: 'top 80%', once: true },
       });
     });
 
