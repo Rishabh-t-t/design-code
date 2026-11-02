@@ -119,7 +119,7 @@ nav → hero → intro → glance → 01 Starting point → banner ("The ingredi
 | **F3 Chapters 01–02** ✅ | Starting point with staggered role cards, banner, image shells, the choice band (sticky, full viewport) | Sticky holds at its line with 0 jumps |
 | **F4 Chapters 03–06** ✅ | Scenarios (357 + twin, sticky), flipped peak block, Digital twin and Demo shells, banners, timeline row, How we decide | Twins live, scenarios switch |
 | **F5 Faded sections** ✅ | Delivered → Enquiry: tokens and padding only | Visual pass |
-| **F6 Motion re-wire and QA** | Point reveals at the new markup; axe, keyboard, reduced motion, 1024–2560 widths, Lighthouse, sticky and twin regression | Same bar as v2: Accessibility/Best practices/SEO 100, Performance ≥ 85 |
+| **F6 Motion re-wire and QA** ✅ | Point reveals at the new markup; axe, keyboard, reduced motion, 1024–2560 widths, Lighthouse, sticky and twin regression | Same bar as v2: Accessibility/Best practices/SEO 100, Performance ≥ 85 |
 
 ---
 
@@ -127,3 +127,21 @@ nav → hero → intro → glance → 01 Starting point → banner ("The ingredi
 - The **hero meta labels** use `#767676` instead of `#999` for contrast.
 - The **scenarios and peak** grids use fixed-plus-flexible columns (`357px 1fr`, `1fr 319px`) instead of two equal columns, so the fixed widths in Figma hold across screen sizes.
 - The **media containers hold live twins**, not static images, as in v2.
+
+
+---
+
+## QA results (F6, live build)
+
+| Check | Result |
+|---|---|
+| Lighthouse desktop (2 runs) | Performance **82–84** · Accessibility **100** · Best practices **100** · SEO **100** · blocking time 20 ms |
+| Layout shift | 0.023 overall, but **0.00001 on the page itself**: the rest comes from inside the hero twin's frame (its floating cards appearing), not from page layout |
+| axe | 0 violations (after giving the three banners unique labels) |
+| Keyboard | 68 stops, all visible with focus rings |
+| Reduced motion | Static page, hero twin live |
+| Widths 1024 → 2560 | No overflow, no errors |
+| Sticky scenes | Choice band holds at the top, scenarios at 96 px, 0 jumps |
+| Live twins | Hero (transparent, building-framed), scenarios and peak all work; wheel passes through |
+
+Fixed during QA: a long jump down the page queued every skipped reveal into one staggered batch (up to ~7 s late). Skipped elements now show at once, and only what is on screen staggers (capped). Role cards no longer collide at 1024.
