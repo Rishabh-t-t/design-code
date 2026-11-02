@@ -239,8 +239,8 @@
     });
 
     /* Image shells: a light parallax inside each square */
-    $$('.shell__img').forEach((img) => gsap.fromTo(img, { yPercent: -4, scale: 1.08 }, {
-      yPercent: 4, scale: 1.08, ease: 'none',
+    $$('.shell__img').forEach((img) => gsap.fromTo(img, { yPercent: -2, scale: 1.04 }, {
+      yPercent: 2, scale: 1.04, ease: 'none',
       scrollTrigger: { trigger: img.parentElement, start: 'top bottom', end: 'bottom top', scrub: true },
     }));
 

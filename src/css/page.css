@@ -48,7 +48,7 @@
 
 /* ---------- Hero (white → sand) ---------- */
 .hero { padding-top: 84px; background: linear-gradient(180deg, #FFFFFF, var(--sand)); }
-.hero__label-row { padding-top: var(--sp-24); }
+.hero__label-row { padding-top: var(--sp-72); }
 .hero__eyebrow { color: var(--ink-meta); }
 .hero__title-row { padding-bottom: var(--sp-24); }
 .hero__title { max-width: none; }
@@ -144,7 +144,12 @@
 /* ---------- Image shells: two squares with italic captions ---------- */
 .shells { display: flex; gap: var(--sp-24); align-items: flex-start; padding-block: var(--sp-128); }
 .shell { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 8px; margin: 0; }
-.shell__frame { position: relative; aspect-ratio: 1; overflow: hidden; background: var(--paper); }
+.shell__frame {
+  position: relative; aspect-ratio: 3 / 2; overflow: hidden;
+  background: var(--paper);
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgb(20 20 40 / .05), 0 10px 30px -14px rgb(20 20 40 / .16);
+}
 .shell__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
 .shell__caption { font-style: italic; font-size: var(--t-body-s); line-height: 1.5; color: var(--ink-3); }
 
