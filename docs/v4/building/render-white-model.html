@@ -1,0 +1,299 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>html,body{margin:0;background:transparent}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"./three.module.js"}}</script>
+</head><body>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from './addons/RoomEnvironment.js';
+
+const W = 1600, H = 1000;
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1); renderer.setSize(W, H); renderer.setClearColor(0x000000, 0);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.12;
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+document.body.appendChild(renderer.domElement);
+const pmrem = new THREE.PMREMGenerator(renderer);
+const envTex = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+
+// ---------- materials: a white architect's model ----------
+function blockTexture() {
+  const c = document.createElement('canvas'); c.width = 256; c.height = 256; const g = c.getContext('2d');
+  g.fillStyle = '#b3aea5'; g.fillRect(0, 0, 256, 256);
+  let seed = 7; const rnd = () => ((seed = (seed * 9301 + 49297) % 233280) / 233280);
+  for (let r = 0; r < 8; r++) for (let k = -1; k < 5; k++) {
+    const x = k * 64 + (r % 2 ? 32 : 0), y = r * 32, v = 196 + Math.floor(rnd() * 16);
+    g.fillStyle = `rgb(${v},${v - 3},${v - 9})`; g.fillRect(x + 2, y + 2, 60, 28);
+  }
+  const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.colorSpace = THREE.SRGBColorSpace; return t;
+}
+const BLK = blockTexture();
+const std = (color, roughness = 0.8, extra = {}) => new THREE.MeshStandardMaterial({ color, roughness, metalness: 0, ...extra });
+const M = {
+  white: std(0xf2f2ef, 0.7),
+  reveal: std(0xdad9d5, 0.85),
+  rawconc: std(0xcfcdc8, 0.95),
+  block: new THREE.MeshStandardMaterial({ map: BLK, roughness: 0.95 }),
+  plinth: std(0x55585c, 0.8),
+  plinthTop: std(0xb9bab8, 0.9),
+  frame: std(0x5d6166, 0.45, { metalness: 0.4 }),
+  metal: std(0xd8d9db, 0.4, { metalness: 0.5 }),
+  glass: new THREE.MeshPhysicalMaterial({ color: 0x3b4046, roughness: 0.1, metalness: 0.25, clearcoat: 1, clearcoatRoughness: 0.05, envMapIntensity: 1.7 }),
+  glassRed: new THREE.MeshPhysicalMaterial({ color: 0x8a3d2e, emissive: 0xc8553a, emissiveIntensity: 0.42, roughness: 0.1, clearcoat: 1, envMapIntensity: 1.1 }),
+  rail: new THREE.MeshPhysicalMaterial({ color: 0xc4ccd2, roughness: 0.05, transparent: true, opacity: 0.32, envMapIntensity: 1.4 }),
+  solar: new THREE.MeshPhysicalMaterial({ color: 0x5d6670, roughness: 0.18, metalness: 0.3, clearcoat: 1, envMapIntensity: 1.3 }),
+  ground: std(0xecebe8, 0.95), paving: std(0xdedddA, 0.9), asphalt: std(0xcfcfcc, 0.95), grass: std(0xd5dbcb, 1),
+  leaf: std(0xd0d8c6, 0.9, { flatShading: true }), trunk: std(0xbdbab4, 1),
+  scaff: std(0x9ea3a8, 0.5, { metalness: 0.4 }),
+  cableB: std(0x5b7bd9, 0.4, { emissive: 0x2a3f86, emissiveIntensity: 0.25 }),
+  cableG: std(0x2f8f62, 0.4, { emissive: 0x1b5a3d, emissiveIntensity: 0.25 }),
+  car: new THREE.MeshPhysicalMaterial({ color: 0xdedfe0, roughness: 0.3, metalness: 0.2, clearcoat: 1 }),
+  car2: new THREE.MeshPhysicalMaterial({ color: 0xf3f3f1, roughness: 0.3, metalness: 0.1, clearcoat: 1 }),
+  line: new THREE.LineBasicMaterial({ color: 0x2b2d31 }), lineSoft: new THREE.LineBasicMaterial({ color: 0x8d8f93 }),
+};
+
+// ---------- helpers ----------
+let scene;
+function box(w, h, d, x, y, z, mat, opts = {}) {
+  if (w <= 0.001 || h <= 0.001 || d <= 0.001) return null;
+  const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
+  m.position.set(x, y + h / 2, z); m.castShadow = opts.cast !== false; m.receiveShadow = true;
+  if (mat === M.block) { const uv = m.geometry.attributes.uv, r = [Math.max(w, d) / 4, h / 2]; for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getX(i) * r[0], uv.getY(i) * r[1]); }
+  scene.add(m); return m;
+}
+function cyl(r, h, x, y, z, mat, seg = 12) { const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, h, seg), mat); m.position.set(x, y + h / 2, z); m.castShadow = true; m.receiveShadow = true; scene.add(m); return m; }
+function tube(points, r, mat) { const curve = new THREE.CatmullRomCurve3(points.map((p) => new THREE.Vector3(...p)), false, 'catmullrom', 0.1); const m = new THREE.Mesh(new THREE.TubeGeometry(curve, 64, r, 8, false), mat); m.castShadow = true; scene.add(m); return m; }
+function lines(segs, mat) { const g = new THREE.BufferGeometry(); const a = []; segs.forEach(([p, q]) => a.push(...p, ...q)); g.setAttribute('position', new THREE.Float32BufferAttribute(a, 3)); const l = new THREE.LineSegments(g, mat); scene.add(l); return l; }
+function rectLines(x0, z0, x1, z1, y = 0.02) { return [[[x0, y, z0], [x1, y, z0]], [[x1, y, z0], [x1, y, z1]], [[x1, y, z1], [x0, y, z1]], [[x0, y, z1], [x0, y, z0]]]; }
+
+// ---------- dimensions ----------
+const TX0 = -8, TX1 = 8, TZ0 = -10, TZ1 = 6;      // tower footprint
+const PX0 = -9, PX1 = 10.6, PZ0 = -11, PZ1 = 7.4;  // two-storey podium
+const CX0 = 8, CX1 = 10.2, CZ0 = -1.2, CZ1 = 3.2;  // stair-and-lift slab on the east face
+const BX = -3, BZ = 4.2;                           // recessed balcony bay (south-west)
+const PL = 0.4, G = 4.5, FH = 3.6, NF = 8, TOP = G + FH * NF;
+const fy = (k) => G + (k - 1) * FH;
+const COLX = [TX0, -4, 0, 4, TX1 - 0.5], COLZ = [TZ0, -6, -2, 2, TZ1 - 0.5];
+
+// ---------- the site (white model) ----------
+function site(full) {
+  box(58, 0.8, 44, 0, -0.8, 0, M.ground);
+  if (!full) return;
+  box(30, 0.02, 26, 1, 0, -2, M.paving, { cast: false });
+  box(14, 0.03, 20, -21, 0, 9, M.asphalt, { cast: false });
+  box(17, 0.03, 16, 20.5, 0, 12, M.grass, { cast: false });
+  box(12, 0.03, 13, -22, 0, -13, M.grass, { cast: false });
+}
+function plinth(finished) {
+  box(PX1 - PX0 + 2.6, PL, PZ1 - PZ0 + 2.6, (PX0 + PX1) / 2, 0, (PZ0 + PZ1) / 2, finished ? M.plinth : M.rawconc);
+  if (finished) box(PX1 - PX0 + 1.8, 0.03, PZ1 - PZ0 + 1.8, (PX0 + PX1) / 2, PL, (PZ0 + PZ1) / 2, M.plinthTop, { cast: false });
+}
+function trees() {
+  [[-25, -17, 1.3], [-19, -9, 1.1], [-26, -8, 1.2], [16, 16, 1.4], [23, 18, 1.2], [27, 9, 1.1], [11, 16, 1.2], [-6, 17, 1.0], [-12, 15, 1.15]].forEach(([x, z, s]) => {
+    cyl(0.16 * s, 2.2 * s, x, 0, z, M.trunk, 8);
+    const c1 = new THREE.Mesh(new THREE.IcosahedronGeometry(1.7 * s, 2), M.leaf); c1.position.set(x, 3.3 * s, z); c1.castShadow = true; c1.receiveShadow = true; scene.add(c1);
+  });
+}
+function carport(full) {
+  [[-27, 1], [-15, 1], [-27, 17], [-15, 17]].forEach(([x, z]) => box(0.3, 3.4, 0.3, x, 0, z, M.metal));
+  if (!full) return;
+  const roof = new THREE.Mesh(new THREE.BoxGeometry(13, 0.18, 17.5), M.solar); roof.position.set(-21, 3.7, 9); roof.rotation.x = -0.06; roof.castShadow = true; scene.add(roof);
+  [[-24, 4], [-24, 10.5], [-18, 7]].forEach(([x, z], i) => { box(2.2, 1.0, 4.4, x, 0.25, z, i % 2 ? M.car2 : M.car); box(1.8, 0.6, 2.4, x, 1.25, z - 0.2, M.glass); });
+  [3, 9, 15].forEach((z) => box(0.5, 1.6, 0.4, -27.6, 0, z, M.white));
+}
+function batteryYard(full) {
+  [[13, -16], [13, -11.5], [13, -7]].forEach(([x, z]) => { box(9, 2.8, 3, x + 4.5, 0, z, M.white); if (full) for (let i = 0; i < 8; i++) box(0.08, 2.4, 0.06, x + 0.8 + i * 1.1, 0.2, z + 1.53, M.reveal, { cast: false }); });
+  box(4, 3.2, 5, 25, 0, -15, M.metal);
+}
+
+// ---------- tower parts ----------
+function columns(k) {
+  const h = k === 0 ? G - PL : FH - 0.35, y = k === 0 ? PL : fy(k);
+  for (const x of COLX) for (const z of COLZ) box(0.5, h, 0.5, x, y, z, M.rawconc);
+}
+function slab(k, mat = M.rawconc) { // slab under floor k (k = 1 sits on the podium)
+  if (k === 1) return box(PX1 - PX0, 0.35, PZ1 - PZ0, (PX0 + PX1) / 2, G - 0.35, (PZ0 + PZ1) / 2, mat);
+  return box(TX1 - TX0 + 0.3, 0.35, TZ1 - TZ0 + 0.3, 0, fy(k) - 0.35, (TZ0 + TZ1) / 2, mat);
+}
+function coreShaft(k, mat = M.rawconc) { const y = k === 0 ? PL : fy(k) - 0.35; box(CX1 - CX0, k === 0 ? G - PL : FH, CZ1 - CZ0, (CX0 + CX1) / 2, y, (CZ0 + CZ1) / 2, mat); }
+
+// a wall with punched windows. ax 'x' runs along x at z = c; ax 'z' runs along z at x = c. n = outward sign.
+function wall(ax, c, n, a0, a1, y, mat, glazing, o = {}) {
+  const h = o.h || FH - 0.35, t = 0.3, sill = o.sill ?? 0.9, wh = o.wh ?? 1.9, win = o.win ?? 1.3, mod = o.mod ?? 2.0;
+  const len = a1 - a0, nw = Math.max(1, Math.floor((len - 0.5) / mod)), st = a0 + (len - nw * mod) / 2 + mod / 2;
+  const cs = Array.from({ length: nw }, (_, i) => st + i * mod);
+  const part = (a, b, y0, y1, m = mat, depth = t, off = 0) => {
+    if (b - a < 0.01 || y1 - y0 < 0.01) return;
+    if (ax === 'x') box(b - a, y1 - y0, depth, (a + b) / 2, y + y0, c - n * (depth / 2 + off), m);
+    else box(depth, y1 - y0, b - a, c - n * (depth / 2 + off), y + y0, (a + b) / 2, m);
+  };
+  part(a0, a1, 0, sill); part(a0, a1, sill + wh, h);
+  let prev = a0; cs.forEach((x) => { part(prev, x - win / 2, sill, sill + wh); prev = x + win / 2; }); part(prev, a1, sill, sill + wh);
+  if (glazing) cs.forEach((x) => {
+    part(x - win / 2, x + win / 2, sill, sill + wh, glazing, 0.05, 0.2);                          // pane, set back
+    part(x - 0.03, x + 0.03, sill, sill + wh, M.frame, 0.07, 0.19);                               // mullion
+    part(x - win / 2, x + win / 2, sill - 0.02, sill + 0.06, M.reveal, 0.12, 0.0);                 // sill
+  });
+}
+function floorWalls(k, mat, glazing, f6) {
+  const y = fy(k), g = glazing ? (f6 ? M.glassRed : glazing) : null;
+  wall('x', TZ1, 1, BX, TX1, y, mat, g);                                   // south
+  wall('z', TX1, 1, TZ0, CZ0, y, mat, g); wall('z', TX1, 1, CZ1, TZ1, y, mat, g, { mod: 2.2 }); // east, either side of the core slab
+  wall('x', TZ0, -1, TX0, TX1, y, mat, null, { sill: FH, wh: 0 });         // north (plain)
+  wall('z', TX0, -1, TZ0, TZ1, y, mat, null, { sill: FH, wh: 0 });         // west (plain)
+  // balcony bay: recessed, tall glazing
+  wall('x', BZ, 1, TX0 + 0.3, BX, y, mat, g, { sill: 0.12, wh: 2.55, win: 1.7, mod: 2.35 });
+  box(0.3, FH - 0.35, TZ1 - BZ, BX + 0.15, y, (BZ + TZ1) / 2, mat);       // the bay's side fin
+}
+function interiorWalls(k, mat) { const y = fy(k); box(0.15, FH - 0.4, 9, -3, y, -5.5, mat); box(9, FH - 0.4, 0.15, 2.5, y, 0.5, mat); box(0.15, FH - 0.4, 5, 4, y, -7.5, mat); }
+function balcony(k) {
+  const y = fy(k);
+  box(BX - TX0 - 0.3, 1.05, 0.04, (TX0 + BX) / 2 + 0.15, y, TZ1 - 0.1, M.rail, { cast: false });
+  box(BX - TX0 - 0.3, 0.06, 0.1, (TX0 + BX) / 2 + 0.15, y + 1.05, TZ1 - 0.1, M.white);
+}
+function bands(k) { // projecting floor band on the visible faces
+  const y = fy(k) - 0.42;
+  box(TX1 - TX0 + 0.5, 0.42, 0.35, 0, y, TZ1 + 0.1, M.white);
+  box(0.35, 0.42, TZ1 - TZ0 + 0.5, TX1 + 0.1, y, (TZ0 + TZ1) / 2, M.white);
+}
+function coreFinished() {
+  box(CX1 - CX0, TOP + FH - PL, CZ1 - CZ0, (CX0 + CX1) / 2, PL, (CZ0 + CZ1) / 2, M.white);
+  box(0.06, TOP + FH - G - 1.2, 1.2, CX1 + 0.02, G + 0.6, 0.9, M.glass);                       // tall glass strip
+  box(0.08, TOP + FH - G - 1.2, 0.06, CX1 + 0.05, G + 0.6, 0.9, M.frame, { cast: false });
+  for (let k = 1; k <= NF + 1; k++) box(0.1, 0.12, 1.2, CX1 + 0.05, fy(k) - 0.1, 0.9, M.frame, { cast: false });
+  box(CX1 - CX0 + 0.3, 0.3, CZ1 - CZ0 + 0.3, (CX0 + CX1) / 2, TOP + FH, (CZ0 + CZ1) / 2, M.white); // coping
+}
+// back-left block rises one storey above the roof
+const KX0 = TX0, KX1 = -2.5, KZ0 = TZ0, KZ1 = -4;
+function topBlock(state) { // 'skel' | 'walls' | 'done'
+  const y = TOP + 0.0;
+  if (state === 'skel') { for (const x of [KX0, -4.5, KX1 - 0.5]) for (const z of [KZ0, KZ1 - 0.5]) box(0.5, FH - 0.35, 0.5, x, y, z, M.rawconc); box(KX1 - KX0, 0.35, KZ1 - KZ0, (KX0 + KX1) / 2, TOP + FH - 0.35, (KZ0 + KZ1) / 2, M.rawconc); return; }
+  const mat = state === 'done' ? M.white : M.block;
+  wall('x', KZ1, 1, KX0, KX1, y, mat, state === 'done' ? M.glass : null, { mod: 2.4 });
+  wall('z', KX1, 1, KZ0, KZ1, y, mat, state === 'done' ? M.glass : null, { mod: 2.4 });
+  wall('x', KZ0, -1, KX0, KX1, y, mat, null, { sill: FH, wh: 0 }); wall('z', KX0, -1, KZ0, KZ1, y, mat, null, { sill: FH, wh: 0 });
+  box(KX1 - KX0 + (state === 'done' ? 0.3 : 0), state === 'done' ? 0.5 : 0.35, KZ1 - KZ0 + (state === 'done' ? 0.3 : 0), (KX0 + KX1) / 2, TOP + FH - 0.35, (KZ0 + KZ1) / 2, state === 'done' ? M.white : M.rawconc);
+}
+function roofFinished() {
+  // parapet + glass rail around the terrace
+  box(TX1 - TX0 + 0.3, 0.55, 0.3, 0, TOP, TZ1, M.white); box(0.3, 0.55, TZ1 - TZ0 + 0.3, TX1, TOP, (TZ0 + TZ1) / 2, M.white);
+  box(TX1 - TX0 - 0.2, 1.0, 0.04, 0, TOP + 0.55, TZ1 - 0.05, M.rail, { cast: false }); box(0.04, 1.0, TZ1 - TZ0 - 0.2, TX1 - 0.05, TOP + 0.55, (TZ0 + TZ1) / 2, M.rail, { cast: false });
+  // pavilion set back on the roof
+  box(6.5, 2.9, 4.5, 2.3, TOP, -6.6, M.white); box(6.1, 1.5, 0.05, 2.3, TOP + 0.7, -4.33, M.glass); box(6.9, 0.25, 5.2, 2.3, TOP + 2.9, -6.5, M.white);
+  // solar on the terrace
+  for (let r = 0; r < 2; r++) for (let c2 = 0; c2 < 4; c2++) { const p = new THREE.Mesh(new THREE.BoxGeometry(2.8, 0.08, 1.7), M.solar); p.position.set(-5.3 + c2 * 3.2, TOP + 0.9, 3.4 - r * 2.6); p.rotation.x = -0.32; p.castShadow = true; scene.add(p); box(0.1, 0.7, 0.1, -5.3 + c2 * 3.2, TOP + 0.1, 3.4 - r * 2.6, M.metal, { cast: false }); }
+  box(2.4, 1.4, 2, -1.2, TOP + FH + 0.15, -7.2, M.metal); cyl(0.7, 0.15, -1.2, TOP + FH + 1.55, -7.2, M.frame, 20);
+}
+function podiumFinished(f) {
+  const y = PL, h = G - 0.35 - PL;
+  box(PX1 - PX0 - 0.6, h, 0.06, (PX0 + PX1) / 2, y, PZ1 - 0.4, M.glass);                      // south glazing
+  box(0.06, h, PZ1 - PZ0 - 0.6, PX1 - 0.4, y, (PZ0 + PZ1) / 2, M.glass);                      // east glazing
+  for (let x = PX0 + 0.3; x <= PX1 - 0.3; x += 1.6) box(0.1, h, 0.14, x, y, PZ1 - 0.36, M.frame, { cast: false });
+  for (let z = PZ0 + 0.3; z <= PZ1 - 0.3; z += 1.6) box(0.14, h, 0.1, PX1 - 0.36, y, z, M.frame, { cast: false });
+  box(PX1 - PX0 - 0.6, 0.12, 0.14, (PX0 + PX1) / 2, y + 2.0, PZ1 - 0.36, M.frame, { cast: false });
+  box(0.14, 0.12, PZ1 - PZ0 - 0.6, PX1 - 0.36, y + 2.0, (PZ0 + PZ1) / 2, M.frame, { cast: false });
+  box(PX1 - PX0 + 0.2, 0.75, PZ1 - PZ0 + 0.2, (PX0 + PX1) / 2, G - 0.75, (PZ0 + PZ1) / 2, M.white);   // fascia
+  box(0.4, h, PZ1 - PZ0, PX0 + 0.2, y, (PZ0 + PZ1) / 2, M.white); box(PX1 - PX0, h, 0.4, (PX0 + PX1) / 2, y, PZ0 + 0.2, M.white);
+  // entrance canopy on the east face
+  box(2.6, 0.22, 4.2, PX1 + 1.2, G - 1.9, 3.4, M.white); box(0.12, G - 1.9 - PL, 0.12, PX1 + 2.3, PL, 1.5, M.frame); box(0.12, G - 1.9 - PL, 0.12, PX1 + 2.3, PL, 5.3, M.frame);
+}
+function scaffold(k) {
+  const y = fy(k), segs = [], zf = TZ1 + 1, xf = CX1 + 0.8;
+  for (let x = TX0 - 0.8; x <= TX1 + 0.8; x += 2) segs.push([[x, y, zf], [x, y + FH + 1, zf]]);
+  for (let z = TZ0 - 0.8; z <= TZ1 + 1; z += 2) segs.push([[xf, y, z], [xf, y + FH + 1, z]]);
+  for (const dy of [1.2, 2.4, FH + 0.6]) { segs.push([[TX0 - 0.8, y + dy, zf], [xf, y + dy, zf]]); segs.push([[xf, y + dy, TZ0 - 0.8], [xf, y + dy, zf]]); }
+  segs.forEach(([p, q]) => { const len = Math.hypot(q[0] - p[0], q[1] - p[1], q[2] - p[2]); const m = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, len, 6), M.scaff); m.position.set((p[0] + q[0]) / 2, (p[1] + q[1]) / 2, (p[2] + q[2]) / 2); m.lookAt(q[0], q[1], q[2]); m.rotateX(Math.PI / 2); m.castShadow = true; scene.add(m); });
+}
+function cables() {
+  tube([[17.5, 0.3, -6], [12, 0.3, -4.5], [8.5, 0.6, -4.5]], 0.32, M.cableG);
+  tube([[-15, 0.3, 4], [-11, 0.3, 5], [-8.5, 0.6, 5]], 0.32, M.cableB);
+  tube([[8.45, 0.6, -4.5], [8.45, TOP, -4.5]], 0.26, M.cableG); tube([[8.45, 0.6, 4.6], [8.45, TOP, 4.6]], 0.22, M.cableB);
+  tube([[-8.45, 0.6, 5], [-8.45, TOP, 5]], 0.18, M.cableB);
+  tube([[8.45, TOP + 0.4, -4.5], [8.45, TOP + 0.4, 4.6], [-6, TOP + 0.4, 5]], 0.2, M.cableG);
+  for (let k = 1; k <= NF; k++) { tube([[-7.4, fy(k) + 2.9, 5.2], [0, fy(k) + 2.9, 5.2], [7.4, fy(k) + 2.9, 5.2]], 0.11, k % 2 ? M.cableB : M.cableG); tube([[7.4, fy(k) + 2.9, 5.2], [7.4, fy(k) + 2.9, -9]], 0.11, k % 2 ? M.cableG : M.cableB); }
+}
+
+// ---------- stages ----------
+function skeleton(n) { // podium frame + n floors of columns and slabs
+  columns(0); coreShaft(0);
+  for (let k = 1; k <= Math.min(n, NF); k++) { slab(k); columns(k); coreShaft(k); }
+  if (n >= 9) { slab(NF + 1); topBlock('skel'); }
+}
+function buildStage(s) {
+  scene = new THREE.Scene(); scene.environment = envTex;
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xd2cfc8, 0.55));
+  const sun = new THREE.DirectionalLight(0xfffaf2, 2.5);
+  sun.position.set(-40, 75, 45); sun.castShadow = true; sun.shadow.mapSize.set(4096, 4096);
+  Object.assign(sun.shadow.camera, { left: -45, right: 45, top: 45, bottom: -45, near: 1, far: 220 });
+  sun.shadow.radius = 9; sun.shadow.blurSamples = 20; sun.shadow.bias = -0.0003; scene.add(sun);
+  const fill = new THREE.DirectionalLight(0xf3f5ff, 0.35); fill.position.set(60, 30, 20); fill.intensity = 0.12; scene.add(fill);
+  const sc = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), new THREE.ShadowMaterial({ opacity: 0.16 })); sc.rotation.x = -Math.PI / 2; sc.position.y = -0.61; sc.receiveShadow = true; scene.add(sc);
+
+  const [kind, n] = s.split(':'); const v = +n || 0;
+  if (kind === 'plan') { planLines(); return; }
+  if (kind === 'found') { site(false); plinth(false); planLines(0.6, true); return; }
+  if (kind === 'skel') { site(false); plinth(false); skeleton(v); if (v >= 1 && v <= 8) scaffold(v); carport(false); return; }
+  if (kind === 'walls' || kind === 'shell' || kind === 'wire') {
+    const wv = kind === 'walls' ? v : NF;
+    site(kind !== 'walls'); plinth(false); skeleton(9);
+    for (let k = 1; k <= wv; k++) { floorWalls(k, M.block, null); interiorWalls(k, M.block); }
+    if (wv >= NF) topBlock('walls');
+    if (kind === 'walls') scaffold(Math.max(1, wv)); 
+    carport(kind === 'wire'); batteryYard(kind === 'wire');
+    if (kind === 'wire') { cables(); trees(); }
+    return;
+  }
+  if (kind === 'facade') { // v = floors clad from the top
+    site(true); plinth(v >= NF); columns(0); coreShaft(0); roofFinished(); topBlock('done');
+    for (let k = 1; k <= NF; k++) { slab(k, k > NF - v ? M.white : M.rawconc); columns(k); interiorWalls(k, M.white);
+      if (k > NF - v) { floorWalls(k, M.white, M.glass); bands(k); balcony(k); } else { floorWalls(k, M.block, null); coreShaft(k); } }
+    slab(NF + 1, M.white);
+    if (v >= NF) { coreFinished(); podiumFinished(); } else { for (let k = NF - v + 1; k <= NF; k++) coreShaft(k, M.white); }
+    cables(); carport(true); batteryYard(true); trees();
+    if (v > 0 && v < NF) scaffold(NF - v);
+    return;
+  }
+  if (kind === 'done' || kind === 'live') {
+    site(true); plinth(true); columns(0); roofFinished(); topBlock('done'); coreFinished(); podiumFinished();
+    for (let k = 1; k <= NF; k++) { slab(k, M.white); interiorWalls(k, M.white); floorWalls(k, M.white, M.glass, kind === 'live' && k === 6); bands(k); balcony(k); }
+    slab(NF + 1, M.white);
+    carport(true); batteryYard(true); trees();
+  }
+}
+function planLines(alpha = 1, onlyTower = false) {
+  const segs = [];
+  if (!onlyTower) {
+    segs.push(...rectLines(-30, -23, 30, 23));
+    segs.push(...rectLines(-28, 0, -14, 18)); for (let z = 3; z < 18; z += 3) segs.push([[-27, 0.02, z], [-15, 0.02, z]]);
+    segs.push(...rectLines(12, -18, 29, -3)); [[13, -16], [13, -11.5], [13, -7]].forEach(([x, z]) => segs.push(...rectLines(x, z, x + 9, z + 3))); segs.push(...rectLines(23, -17.5, 27, -12.5));
+    const circle = (cx, cz, r) => { for (let i = 0; i < 16; i++) { const a = i / 16 * Math.PI * 2, b = (i + 1) / 16 * Math.PI * 2; segs.push([[cx + r * Math.cos(a), 0.02, cz + r * Math.sin(a)], [cx + r * Math.cos(b), 0.02, cz + r * Math.sin(b)]]); } };
+    [[-25, -17, 2.2], [-19, -9, 1.9], [-26, -8, 2], [16, 16, 2.4], [23, 18, 2], [27, 9, 1.9], [11, 16, 2], [-6, 17, 1.7], [-12, 15, 1.9]].forEach(([x, z, r]) => circle(x, z, r));
+    segs.push([[TX0, 0.02, PZ1 + 3], [TX1, 0.02, PZ1 + 3]], [[TX0, 0.02, PZ1 + 2.4], [TX0, 0.02, PZ1 + 3.6]], [[TX1, 0.02, PZ1 + 2.4], [TX1, 0.02, PZ1 + 3.6]]);
+    segs.push([[PX0 - 3, 0.02, TZ0], [PX0 - 3, 0.02, TZ1]], [[PX0 - 3.6, 0.02, TZ0], [PX0 - 2.4, 0.02, TZ0]], [[PX0 - 3.6, 0.02, TZ1], [PX0 - 2.4, 0.02, TZ1]]);
+  }
+  segs.push(...rectLines(PX0 - 1.3, PZ0 - 1.3, PX1 + 1.3, PZ1 + 1.3));                       // plinth
+  segs.push(...rectLines(PX0, PZ0, PX1, PZ1));                                                // podium
+  segs.push(...rectLines(TX0, TZ0, TX1, TZ1), ...rectLines(TX0 + 0.3, TZ0 + 0.3, TX1 - 0.3, TZ1 - 0.3)); // tower
+  segs.push(...rectLines(CX0, CZ0, CX1, CZ1)); for (let i = 0; i < 6; i++) segs.push([[CX0 + 0.2, 0.02, CZ0 + 0.4 + i * 0.6], [CX1 - 0.2, 0.02, CZ0 + 0.4 + i * 0.6]]);
+  segs.push([[TX0, 0.02, BZ], [BX, 0.02, BZ]], [[BX, 0.02, BZ], [BX, 0.02, TZ1]]);              // balcony bay
+  segs.push(...rectLines(KX0, KZ0, KX1, KZ1));
+  segs.push([[-3, 0.02, -10], [-3, 0.02, -1]], [[-2, 0.02, 0.5], [7, 0.02, 0.5]], [[4, 0.02, -10], [4, 0.02, -5]]);
+  for (const x of COLX) for (const z of COLZ) segs.push(...rectLines(x, z, x + 0.5, z + 0.5));
+  for (const [x, z] of [[-3, -3], [2, 0.5]]) for (let i = 0; i < 6; i++) { const a = i / 6 * Math.PI / 2, b = (i + 1) / 6 * Math.PI / 2; segs.push([[x + 1.2 * Math.cos(a), 0.02, z + 1.2 * Math.sin(a)], [x + 1.2 * Math.cos(b), 0.02, z + 1.2 * Math.sin(b)]]); }
+  return lines(segs, alpha < 1 ? M.lineSoft : M.line);
+}
+
+// ---------- camera (unchanged, so the UI keeps its layout) ----------
+function camera(t) {
+  const cam = new THREE.PerspectiveCamera(18, W / H, 1, 1000);
+  const dist = THREE.MathUtils.lerp(185, 205, t), elev = THREE.MathUtils.lerp(89.5, 30, t) * Math.PI / 180, az = THREE.MathUtils.lerp(0, 38, t) * Math.PI / 180;
+  const tgt = new THREE.Vector3(THREE.MathUtils.lerp(0, 1, t), THREE.MathUtils.lerp(0, 13, t), THREE.MathUtils.lerp(0, -1, t));
+  cam.position.set(tgt.x + dist * Math.cos(elev) * Math.sin(az), tgt.y + dist * Math.sin(elev), tgt.z + dist * Math.cos(elev) * Math.cos(az));
+  cam.up.set(0, 1, 0); if (t === 0) cam.up.set(0, 0, -1); cam.lookAt(tgt); return cam;
+}
+window.renderStage = (s, t = 1) => { buildStage(s); renderer.render(scene, camera(t)); return renderer.domElement.toDataURL('image/png'); };
+window.proj = (x, y, z) => { const c = camera(1); c.updateMatrixWorld(); const p = new THREE.Vector3(x, y, z).project(c); return [(p.x + 1) / 2, (1 - p.y) / 2]; };
+window.ready = true;
+</script>
+</body></html>
