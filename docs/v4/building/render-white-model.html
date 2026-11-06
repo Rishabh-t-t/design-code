@@ -311,6 +311,27 @@ window.renderAO = (s, t = 1, radius = 1.6, scale = 1.0) => {
   const url = renderer.domElement.toDataURL('image/png');
   renderer.toneMapping = tm; renderer.setClearColor(0x000000, 0); pass.dispose(); return url;
 };
+// visible-surface masks for the scan overlay: depth prepass with the whole scene, then only the chosen
+// meshes, clipped to a height band, in grey (band) and white (top lip). Hidden faces never pass the depth test.
+window.renderMask = (stage, kind, y0, y1) => {
+  buildStage(stage); const cam = camera(1);
+  const isSite = (o) => { const b = new THREE.Box3().setFromObject(o), sz = b.getSize(new THREE.Vector3()); return sz.x > 25 || sz.z > 25 || (sz.y < 0.1 && b.max.y < 0.2); };
+  const inBld = (o) => { const b = new THREE.Box3().setFromObject(o), c = b.getCenter(new THREE.Vector3()), sz = b.getSize(new THREE.Vector3()); return sz.x < 25 && sz.z < 25 && c.x > -11 && c.x < 13.4 && c.z > -13 && c.z < 9.6; };
+  const meshes = []; scene.traverse((o) => { if (o.isMesh) meshes.push(o); });
+  const isShadow = (o) => o.material && o.material.isShadowMaterial;
+  renderer.localClippingEnabled = true; const tm = renderer.toneMapping; renderer.toneMapping = THREE.NoToneMapping;
+  renderer.setClearColor(0x000000, 0); renderer.autoClear = false; renderer.clear();
+  scene.environment = null;
+  scene.overrideMaterial = new THREE.MeshBasicMaterial({ colorWrite: false });
+  renderer.render(scene, cam);
+  const vis = new Map(meshes.map((m) => [m, m.visible]));
+  meshes.forEach((m) => { m.visible = !isShadow(m) && (kind === 'ground' ? isSite(m) : inBld(m)); });
+  scene.traverse((o) => { if (o.isLine || o.isLineSegments) o.visible = false; });
+  const draw = (lo, hi, col) => { scene.overrideMaterial = new THREE.MeshBasicMaterial({ color: col, depthFunc: THREE.LessEqualDepth, clippingPlanes: [new THREE.Plane(new THREE.Vector3(0, 1, 0), -lo), new THREE.Plane(new THREE.Vector3(0, -1, 0), hi)] }); renderer.render(scene, cam); };
+  if (kind === 'ground') draw(-5, 0.3, 0xffffff); else { draw(y0, y1, 0x8c8c8c); draw(Math.max(y0, y1 - 0.3), y1, 0xffffff); }
+  scene.overrideMaterial = null; meshes.forEach((m) => { m.visible = vis.get(m); }); renderer.autoClear = true; renderer.toneMapping = tm; scene.environment = envTex;
+  return renderer.domElement.toDataURL('image/png');
+};
 window.proj = (x, y, z) => { const c = camera(1); c.updateMatrixWorld(); const p = new THREE.Vector3(x, y, z).project(c); return [(p.x + 1) / 2, (1 - p.y) / 2]; };
 window.ready = true;
 </script>
