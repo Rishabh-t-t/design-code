@@ -6,12 +6,13 @@
 <script type="module">
 import * as THREE from 'three';
 import { RoomEnvironment } from './addons/RoomEnvironment.js';
+import { GTAOPass } from './addons/postprocessing/GTAOPass.js';
 
 const W = 1600, H = 1000;
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
 renderer.setPixelRatio(1); renderer.setSize(W, H); renderer.setClearColor(0x000000, 0);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
-renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.12;
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.04;
 renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 document.body.appendChild(renderer.domElement);
 const pmrem = new THREE.PMREMGenerator(renderer);
@@ -29,9 +30,21 @@ function blockTexture() {
   const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.colorSpace = THREE.SRGBColorSpace; return t;
 }
 const BLK = blockTexture();
+function panelTexture() { // faint panel joints on the white render
+  const c = document.createElement('canvas'); c.width = 256; c.height = 256; const g = c.getContext('2d');
+  g.fillStyle = '#f2f2ef'; g.fillRect(0, 0, 256, 256);
+  let seed = 3; const rnd = () => ((seed = (seed * 9301 + 49297) % 233280) / 233280);
+  for (let i = 0; i < 1400; i++) { const v = 236 + Math.floor(rnd() * 10); g.fillStyle = `rgba(${v},${v},${v - 2},.5)`; g.fillRect(rnd() * 256, rnd() * 256, 2, 2); }
+  g.fillStyle = 'rgba(160,160,155,.28)'; g.fillRect(0, 0, 256, 1.5); g.fillRect(0, 0, 1.5, 256); g.fillRect(128, 0, 1, 256);
+  const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; return t;
+}
+const PNL = panelTexture();
 const std = (color, roughness = 0.8, extra = {}) => new THREE.MeshStandardMaterial({ color, roughness, metalness: 0, ...extra });
 const M = {
-  white: std(0xf2f2ef, 0.7),
+  white: new THREE.MeshStandardMaterial({ map: PNL, roughness: 0.72, envMapIntensity: 0.5 }),
+  whiteS: std(0xf2f2ef, 0.7, { envMapIntensity: 0.5 }),
+  frameW: std(0xe8e8e5, 0.5),
+  planter: std(0xbcc4b2, 0.95, { flatShading: true }),
   reveal: std(0xdad9d5, 0.85),
   rawconc: std(0xcfcdc8, 0.95),
   block: new THREE.MeshStandardMaterial({ map: BLK, roughness: 0.95 }),
@@ -39,10 +52,10 @@ const M = {
   plinthTop: std(0xb9bab8, 0.9),
   frame: std(0x5d6166, 0.45, { metalness: 0.4 }),
   metal: std(0xd8d9db, 0.4, { metalness: 0.5 }),
-  glass: new THREE.MeshPhysicalMaterial({ color: 0x3b4046, roughness: 0.1, metalness: 0.25, clearcoat: 1, clearcoatRoughness: 0.05, envMapIntensity: 1.7 }),
-  glassRed: new THREE.MeshPhysicalMaterial({ color: 0x8a3d2e, emissive: 0xc8553a, emissiveIntensity: 0.42, roughness: 0.1, clearcoat: 1, envMapIntensity: 1.1 }),
+  glass: new THREE.MeshPhysicalMaterial({ color: 0x7c858e, roughness: 0.05, metalness: 0.6, clearcoat: 1, clearcoatRoughness: 0.03, envMapIntensity: 2.0 }),
+  glassRed: new THREE.MeshPhysicalMaterial({ color: 0x9a3a2f, emissive: 0xd84a3b, emissiveIntensity: 0.5, roughness: 0.1, clearcoat: 1, envMapIntensity: 1.1 }),
   rail: new THREE.MeshPhysicalMaterial({ color: 0xc4ccd2, roughness: 0.05, transparent: true, opacity: 0.32, envMapIntensity: 1.4 }),
-  solar: new THREE.MeshPhysicalMaterial({ color: 0x5d6670, roughness: 0.18, metalness: 0.3, clearcoat: 1, envMapIntensity: 1.3 }),
+  solar: new THREE.MeshPhysicalMaterial({ color: 0x7d8690, roughness: 0.18, metalness: 0.3, clearcoat: 1, envMapIntensity: 1.3 }),
   ground: std(0xecebe8, 0.95), paving: std(0xdedddA, 0.9), asphalt: std(0xcfcfcc, 0.95), grass: std(0xd5dbcb, 1),
   leaf: std(0xd0d8c6, 0.9, { flatShading: true }), trunk: std(0xbdbab4, 1),
   scaff: std(0x9ea3a8, 0.5, { metalness: 0.4 }),
@@ -59,7 +72,7 @@ function box(w, h, d, x, y, z, mat, opts = {}) {
   if (w <= 0.001 || h <= 0.001 || d <= 0.001) return null;
   const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
   m.position.set(x, y + h / 2, z); m.castShadow = opts.cast !== false; m.receiveShadow = true;
-  if (mat === M.block) { const uv = m.geometry.attributes.uv, r = [Math.max(w, d) / 4, h / 2]; for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getX(i) * r[0], uv.getY(i) * r[1]); }
+  if (mat === M.block || mat === M.white) { const uv = m.geometry.attributes.uv, r = [Math.max(w, d) / 4, h / 2]; for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getX(i) * r[0], uv.getY(i) * r[1]); }
   scene.add(m); return m;
 }
 function cyl(r, h, x, y, z, mat, seg = 12) { const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, h, seg), mat); m.position.set(x, y + h / 2, z); m.castShadow = true; m.receiveShadow = true; scene.add(m); return m; }
@@ -134,12 +147,16 @@ function wall(ax, c, n, a0, a1, y, mat, glazing, o = {}) {
     part(x - win / 2, x + win / 2, sill, sill + wh, glazing, 0.05, 0.2);                          // pane, set back
     part(x - 0.03, x + 0.03, sill, sill + wh, M.frame, 0.07, 0.19);                               // mullion
     part(x - win / 2, x + win / 2, sill - 0.02, sill + 0.06, M.reveal, 0.12, 0.0);                 // sill
+    if (mat !== M.block) {                                                                          // slim white frame + transom
+      part(x - win / 2, x - win / 2 + 0.07, sill, sill + wh, M.frameW, 0.08, 0.14); part(x + win / 2 - 0.07, x + win / 2, sill, sill + wh, M.frameW, 0.08, 0.14);
+      part(x - win / 2, x + win / 2, sill + wh - 0.07, sill + wh, M.frameW, 0.08, 0.14); part(x - win / 2, x + win / 2, sill + wh * 0.68, sill + wh * 0.68 + 0.05, M.frameW, 0.08, 0.15);
+    }
   });
 }
 function floorWalls(k, mat, glazing, f6) {
-  const y = fy(k), g = glazing ? (f6 ? M.glassRed : glazing) : null;
-  wall('x', TZ1, 1, BX, TX1, y, mat, g);                                   // south
-  wall('z', TX1, 1, TZ0, CZ0, y, mat, g); wall('z', TX1, 1, CZ1, TZ1, y, mat, g, { mod: 2.2 }); // east, either side of the core slab
+  const y = fy(k), g = glazing ? (f6 ? M.glassRed : glazing) : null, W2 = { sill: 0.55, wh: 2.25, win: 1.62, mod: 2.0 };
+  wall('x', TZ1, 1, BX, TX1, y, mat, g, W2);                               // south
+  wall('z', TX1, 1, TZ0, CZ0, y, mat, g, W2); wall('z', TX1, 1, CZ1, TZ1, y, mat, g, { ...W2, mod: 2.2 }); // east, either side of the core slab
   wall('x', TZ0, -1, TX0, TX1, y, mat, null, { sill: FH, wh: 0 });         // north (plain)
   wall('z', TX0, -1, TZ0, TZ1, y, mat, null, { sill: FH, wh: 0 });         // west (plain)
   // balcony bay: recessed, tall glazing
@@ -183,6 +200,7 @@ function roofFinished() {
   box(6.5, 2.9, 4.5, 2.3, TOP, -6.6, M.white); box(6.1, 1.5, 0.05, 2.3, TOP + 0.7, -4.33, M.glass); box(6.9, 0.25, 5.2, 2.3, TOP + 2.9, -6.5, M.white);
   // solar on the terrace
   for (let r = 0; r < 2; r++) for (let c2 = 0; c2 < 4; c2++) { const p = new THREE.Mesh(new THREE.BoxGeometry(2.8, 0.08, 1.7), M.solar); p.position.set(-5.3 + c2 * 3.2, TOP + 0.9, 3.4 - r * 2.6); p.rotation.x = -0.32; p.castShadow = true; scene.add(p); box(0.1, 0.7, 0.1, -5.3 + c2 * 3.2, TOP + 0.1, 3.4 - r * 2.6, M.metal, { cast: false }); }
+  for (let i = 0; i < 5; i++) { box(1.8, 0.55, 0.7, -6.4 + i * 3.1, TOP + 0.05, TZ1 - 0.75, M.whiteS); const sh = new THREE.Mesh(new THREE.IcosahedronGeometry(0.42, 1), M.planter); sh.scale.set(2, 0.7, 0.8); sh.position.set(-6.4 + i * 3.1, TOP + 0.75, TZ1 - 0.75); sh.castShadow = true; scene.add(sh); }
   box(2.4, 1.4, 2, -1.2, TOP + FH + 0.15, -7.2, M.metal); cyl(0.7, 0.15, -1.2, TOP + FH + 1.55, -7.2, M.frame, 20);
 }
 function podiumFinished(f) {
@@ -222,7 +240,7 @@ function skeleton(n) { // podium frame + n floors of columns and slabs
 }
 function buildStage(s) {
   scene = new THREE.Scene(); scene.environment = envTex;
-  scene.add(new THREE.HemisphereLight(0xffffff, 0xd2cfc8, 0.55));
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xc9c6c0, 0.42));
   const sun = new THREE.DirectionalLight(0xfffaf2, 2.5);
   sun.position.set(-40, 75, 45); sun.castShadow = true; sun.shadow.mapSize.set(4096, 4096);
   Object.assign(sun.shadow.camera, { left: -45, right: 45, top: 45, bottom: -45, near: 1, far: 220 });
@@ -293,6 +311,17 @@ function camera(t) {
   cam.up.set(0, 1, 0); if (t === 0) cam.up.set(0, 0, -1); cam.lookAt(tgt); return cam;
 }
 window.renderStage = (s, t = 1) => { buildStage(s); renderer.render(scene, camera(t)); return renderer.domElement.toDataURL('image/png'); };
+window.renderAO = (s, t = 1, radius = 1.6, scale = 1.0) => {
+  buildStage(s); const cam = camera(t);
+  const pass = new GTAOPass(scene, cam, W, H);
+  pass.output = GTAOPass.OUTPUT.Denoise; pass.renderToScreen = true;
+  pass.updateGtaoMaterial({ radius, distanceExponent: 1.5, thickness: 1.5, scale, samples: 24, distanceFallOff: 1 });
+  pass.updatePdMaterial({ lumaPhi: 10, depthPhi: 2, normalPhi: 3, radius: 6, rings: 2, samples: 16 });
+  const tm = renderer.toneMapping; renderer.toneMapping = THREE.NoToneMapping; renderer.setClearColor(0xffffff, 1);
+  pass.render(renderer, null, null);
+  const url = renderer.domElement.toDataURL('image/png');
+  renderer.toneMapping = tm; renderer.setClearColor(0x000000, 0); pass.dispose(); return url;
+};
 window.proj = (x, y, z) => { const c = camera(1); c.updateMatrixWorld(); const p = new THREE.Vector3(x, y, z).project(c); return [(p.x + 1) / 2, (1 - p.y) / 2]; };
 window.ready = true;
 </script>
