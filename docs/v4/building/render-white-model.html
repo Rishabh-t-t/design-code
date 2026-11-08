@@ -67,16 +67,17 @@ const M = {
 };
 
 // ---------- helpers ----------
-let scene;
+let scene, target = null;   // target: a group that receives new meshes (for partial, growing parts)
+const add = (m) => (target || scene).add(m);
 function box(w, h, d, x, y, z, mat, opts = {}) {
   if (w <= 0.001 || h <= 0.001 || d <= 0.001) return null;
   const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
   m.position.set(x, y + h / 2, z); m.castShadow = opts.cast !== false; m.receiveShadow = true;
   if (mat === M.block || mat === M.rawconc) { const uv = m.geometry.attributes.uv, big = Math.max(w, d), r = h < 1 ? [big / 5, big / 5] : [big / 4, h / 3]; for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getX(i) * r[0], uv.getY(i) * r[1]); }
-  scene.add(m); return m;
+  add(m); return m;
 }
-function cyl(r, h, x, y, z, mat, seg = 12) { const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, h, seg), mat); m.position.set(x, y + h / 2, z); m.castShadow = true; m.receiveShadow = true; scene.add(m); return m; }
-function tube(points, r, mat) { const curve = new THREE.CatmullRomCurve3(points.map((p) => new THREE.Vector3(...p)), false, 'catmullrom', 0.1); const m = new THREE.Mesh(new THREE.TubeGeometry(curve, 64, r, 8, false), mat); m.castShadow = true; scene.add(m); return m; }
+function cyl(r, h, x, y, z, mat, seg = 12) { const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, h, seg), mat); m.position.set(x, y + h / 2, z); m.castShadow = true; m.receiveShadow = true; add(m); return m; }
+function tube(points, r, mat) { const curve = new THREE.CatmullRomCurve3(points.map((p) => new THREE.Vector3(...p)), false, 'catmullrom', 0.1); const m = new THREE.Mesh(new THREE.TubeGeometry(curve, 64, r, 8, false), mat); m.castShadow = true; add(m); return m; }
 function lines(segs, mat) { const g = new THREE.BufferGeometry(); const a = []; segs.forEach(([p, q]) => a.push(...p, ...q)); g.setAttribute('position', new THREE.Float32BufferAttribute(a, 3)); const l = new THREE.LineSegments(g, mat); scene.add(l); return l; }
 function rectLines(x0, z0, x1, z1, y = 0.02) { return [[[x0, y, z0], [x1, y, z0]], [[x1, y, z0], [x1, y, z1]], [[x1, y, z1], [x0, y, z1]], [[x0, y, z1], [x0, y, z0]]]; }
 
@@ -212,13 +213,18 @@ function scaffold(k) {
   for (const dy of [1.2, 2.4, FH + 0.6]) { segs.push([[TX0 - 0.8, y + dy, zf], [xf, y + dy, zf]]); segs.push([[xf, y + dy, TZ0 - 0.8], [xf, y + dy, zf]]); }
   segs.forEach(([p, q]) => { const len = Math.hypot(q[0] - p[0], q[1] - p[1], q[2] - p[2]); const m = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, len, 6), M.scaff); m.position.set((p[0] + q[0]) / 2, (p[1] + q[1]) / 2, (p[2] + q[2]) / 2); m.lookAt(q[0], q[1], q[2]); m.rotateX(Math.PI / 2); m.castShadow = true; scene.add(m); });
 }
-function cables() {
+function cables(n = 99) {
+  const all = [];
+  { const tube = (...a) => all.push(a);
   tube([[17.5, 0.3, -6], [12, 0.3, -4.5], [8.5, 0.6, -4.5]], 0.32, M.cableG);
   tube([[-15, 0.3, 4], [-11, 0.3, 5], [-8.5, 0.6, 5]], 0.32, M.cableB);
   tube([[8.45, 0.6, -4.5], [8.45, TOP, -4.5]], 0.26, M.cableG); tube([[8.45, 0.6, 4.6], [8.45, TOP, 4.6]], 0.22, M.cableB);
   tube([[-8.45, 0.6, 5], [-8.45, TOP, 5]], 0.18, M.cableB);
   tube([[8.45, TOP + 0.4, -4.5], [8.45, TOP + 0.4, 4.6], [-6, TOP + 0.4, 5]], 0.2, M.cableG);
   for (let k = 1; k <= NF; k++) { tube([[-7.4, fy(k) + 2.9, 5.2], [0, fy(k) + 2.9, 5.2], [7.4, fy(k) + 2.9, 5.2]], 0.11, k % 2 ? M.cableB : M.cableG); tube([[7.4, fy(k) + 2.9, 5.2], [7.4, fy(k) + 2.9, -9]], 0.11, k % 2 ? M.cableG : M.cableB); }
+  }
+  all.slice(0, n).forEach((a) => tube(...a));
+  return all.length;
 }
 
 // ---------- stages ----------
@@ -299,6 +305,98 @@ function camera(t) {
   cam.position.set(tgt.x + dist * Math.cos(elev) * Math.sin(az), tgt.y + dist * Math.sin(elev), tgt.z + dist * Math.cos(elev) * Math.cos(az));
   cam.up.set(0, 1, 0); if (t === 0) cam.up.set(0, 0, -1); cam.lookAt(tgt); return cam;
 }
+
+// ---------- continuous build: frame i of 150 (+ 'live' at 150) ----------
+function part(y0, frac, fn) { // build fn's meshes in a group scaled in y about y0 (y0 = bottom grows up, y0 = top grows down)
+  if (frac <= 0.001) return; if (frac >= 0.999) { fn(); return; }
+  const g = new THREE.Group(); target = g; fn(); target = null;
+  g.children.forEach((c) => { c.position.y -= y0; }); g.position.y = y0; g.scale.y = Math.max(0.02, frac); scene.add(g);
+}
+const sm = (x) => { x = Math.max(0, Math.min(1, x)); return x * x * (3 - 2 * x); };
+function lights() {
+  scene = new THREE.Scene(); scene.environment = envTex;
+  scene.add(new THREE.HemisphereLight(0xf2f5fa, 0xc3c8cf, 0.40));
+  const sun = new THREE.DirectionalLight(0xffffff, 2.7);
+  sun.position.set(-40, 75, 45); sun.castShadow = true; sun.shadow.mapSize.set(4096, 4096);
+  Object.assign(sun.shadow.camera, { left: -45, right: 45, top: 45, bottom: -45, near: 1, far: 220 });
+  sun.shadow.radius = 9; sun.shadow.blurSamples = 20; sun.shadow.bias = -0.0003; scene.add(sun);
+  const fill = new THREE.DirectionalLight(0xe6edff, 0.12); fill.position.set(60, 30, 20); scene.add(fill);
+  const sc = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), new THREE.ShadowMaterial({ color: 0x1c2733, opacity: 0.16 })); sc.rotation.x = -Math.PI / 2; sc.position.y = -0.61; sc.receiveShadow = true; scene.add(sc);
+}
+function buildAt(i) {
+  lights();
+  if (i <= 34) { planLines(); return; }
+  if (i <= 39) { site(false); part(0, (i - 34) / 5, () => plinth(false)); planLines(0.6, true); return; }
+  if (i <= 79) { // bare skeleton rises: slab first, then columns and core grow
+    const L = 9 * (i - 39) / 40, n = Math.floor(L), f = L - n;
+    site(false); plinth(false); columns(0); coreShaft(0);
+    for (let k = 1; k <= Math.min(n, NF); k++) { slab(k); columns(k); coreShaft(k); }
+    if (n < NF) { const k = n + 1; slab(k); part(fy(k), f, () => { columns(k); coreShaft(k); }); }
+    if (n >= NF) { slab(NF + 1); part(TOP, n >= 9 ? 1 : f, () => topBlock('skel')); }
+    scaffold(Math.min(NF, Math.max(1, n + 1))); carport(false); return;
+  }
+  if (i <= 99) { // walls fill the frame, bottom up
+    const Wv = 8 * (i - 79) / 20, n = Math.floor(Wv), f = Wv - n;
+    site(false); plinth(false); skeleton(9);
+    for (let k = 1; k <= Math.min(n, NF); k++) { floorWalls(k, M.block, null); interiorWalls(k, M.block); }
+    if (n < NF) { const k = n + 1; part(fy(k), f, () => { floorWalls(k, M.block, null); interiorWalls(k, M.block); }); scaffold(k); }
+    else topBlock('walls');
+    carport(false); return;
+  }
+  if (i <= 117) { // shell, then the wiring draws in
+    site(true); plinth(false); skeleton(9);
+    for (let k = 1; k <= NF; k++) { floorWalls(k, M.block, null); interiorWalls(k, M.block); }
+    topBlock('walls'); carport(i > 103); batteryYard(i > 103);
+    if (i > 103) trees();
+    if (i >= 108) { const total = cables(0); cables(Math.round(total * (i - 107) / 10)); }
+    return;
+  }
+  if (i <= 137) { // facade closes from the top, floor by floor
+    const v = 8 * (i - 117) / 20, n = Math.floor(v), f = v - n;
+    site(true); plinth(i >= 137); columns(0); coreShaft(0); roofFinished(); topBlock('done');
+    for (let k = 1; k <= NF; k++) {
+      columns(k); interiorWalls(k, M.white);
+      if (k > NF - n) { slab(k, M.white); floorWalls(k, M.white, M.glass); bands(k); balcony(k); coreShaft(k, M.white); }
+      else if (k === NF - n && f > 0) {
+        slab(k, M.rawconc); coreShaft(k, M.white);
+        part(fy(k) + FH - 0.35, f, () => { floorWalls(k, M.white, M.glass); bands(k); balcony(k); });
+        part(fy(k), 1 - f, () => floorWalls(k, M.block, null));
+      } else { slab(k, M.rawconc); floorWalls(k, M.block, null); coreShaft(k); }
+    }
+    slab(NF + 1, M.white);
+    if (i >= 134) { coreFinished(); part(G - 0.35, (i - 133) / 4, () => podiumFinished()); }
+    cables(); carport(true); batteryYard(true); trees();
+    if (n < NF) scaffold(Math.max(1, NF - n));
+    return;
+  }
+  buildStage(i >= 150 ? 'live' : 'done');
+}
+const CK = [ // frame, elevation, azimuth, distance, target height
+  [34, 30, 38, 205, 13], [39, 30, 38, 205, 13], [79, 27, 30, 200, 14], [99, 26, 27, 188, 15], [117, 25, 24, 176, 16],
+  [137, 29, 34, 200, 13.5], [146, 30, 38, 205, 13], [150, 30, 38, 205, 13]];
+function camAt(i) {
+  if (i <= 34) return camera(i < 10 ? 0 : sm((i - 10) / 24));
+  let a = CK[0], b = CK[CK.length - 1];
+  for (let j = 0; j < CK.length - 1; j++) if (i >= CK[j][0] && i <= CK[j + 1][0]) { a = CK[j]; b = CK[j + 1]; break; }
+  const u = b[0] === a[0] ? 0 : sm((i - a[0]) / (b[0] - a[0])), L = (p, q) => p + (q - p) * u;
+  const elev = L(a[1], b[1]) * Math.PI / 180, az = L(a[2], b[2]) * Math.PI / 180, dist = L(a[3], b[3]);
+  const cam = new THREE.PerspectiveCamera(18, W / H, 1, 1000), tgt = new THREE.Vector3(1, L(a[4], b[4]), -1);
+  cam.position.set(tgt.x + dist * Math.cos(elev) * Math.sin(az), tgt.y + dist * Math.sin(elev), tgt.z + dist * Math.cos(elev) * Math.cos(az));
+  cam.lookAt(tgt); return cam;
+}
+window.renderFrame = (i) => { buildAt(i); renderer.render(scene, camAt(i)); return renderer.domElement.toDataURL('image/png'); };
+window.renderFrameAO = (i) => {
+  buildAt(i); const cam = camAt(i);
+  const pass = new GTAOPass(scene, cam, W, H);
+  pass.output = GTAOPass.OUTPUT.Denoise; pass.renderToScreen = true;
+  pass.updateGtaoMaterial({ radius: 1.6, distanceExponent: 1.5, thickness: 1.5, scale: 1.0, samples: 24, distanceFallOff: 1 });
+  pass.updatePdMaterial({ lumaPhi: 10, depthPhi: 2, normalPhi: 3, radius: 6, rings: 2, samples: 16 });
+  const tm = renderer.toneMapping; renderer.toneMapping = THREE.NoToneMapping; renderer.setClearColor(0xffffff, 1);
+  pass.render(renderer, null, null);
+  const url = renderer.domElement.toDataURL('image/png');
+  renderer.toneMapping = tm; renderer.setClearColor(0x000000, 0); pass.dispose(); return url;
+};
+
 window.renderStage = (s, t = 1) => { buildStage(s); renderer.render(scene, camera(t)); return renderer.domElement.toDataURL('image/png'); };
 window.renderAO = (s, t = 1, radius = 1.6, scale = 1.0) => {
   buildStage(s); const cam = camera(t);
