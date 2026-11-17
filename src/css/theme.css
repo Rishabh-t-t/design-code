@@ -1,0 +1,193 @@
+/* ==========================================================================
+   Theme — cool-grey studio (Iteration 4 look).
+   One family (Manrope), a light cool-grey ground, flat translucent cards with
+   a strong blur (no borders, no shadows), selected states go darker, one
+   green for the one action, red only for alerts, blue only for price.
+   Loaded after the section styles so it overrides colour, type and surface
+   only; layout is untouched.
+   ========================================================================== */
+
+:root {
+  /* ground and surfaces */
+  --ground: #E2E5E9;
+  --ground-hi: #E9EBEE;
+  --ground-lo: #DCDFE3;
+  --glass: rgb(255 255 255 / .34);
+  --glass-2: rgb(255 255 255 / .55);
+  --glass-blur: blur(24px) saturate(1.15);
+  --active: rgb(15 25 40 / .09);
+
+  /* existing tokens, remapped */
+  --bg: #E2E5E9;
+  --bg-2: #DCDFE3;
+  --page: #E2E5E9;
+  --surface: rgb(255 255 255 / .45);
+  --paper: #E9EBEE;
+  --sand: #E2E5E9;
+  --band: #DCDFE3;
+  --ink: #0F1115;
+  --ink-2: #4A4F57;
+  --ink-3: #5F646C;          /* 4.7:1 on the ground */
+  --ink-4: #B3B7BD;          /* decorative only */
+  --ink-dim: #8C9097;
+  --ink-meta: #5F646C;
+  --ink-soft: #4A4F57;
+  --line: rgb(15 25 40 / .09);
+  --line-2: rgb(15 25 40 / .14);
+  --line-strong: #0F1115;
+
+  /* one green, one red, one blue */
+  --green: #0F9160;          /* fills, dots, live */
+  --green-ink: #0A6E48;      /* green text on the ground (5.6:1) */
+  --green-btn: #0B7E53;      /* buttons with white text */
+  --green-btn-h: #096B47;
+  --green-soft: rgb(15 145 96 / .12);
+  --red: #D84A3B;
+  --red-ink: #B83A2D;
+  --blue: #4A6FE3;
+  --blue-ink: #3A5CCB;
+
+  --brand: #0F9160;
+  --brand-ink: #FFFFFF;
+  --brand-arrow: #0A6E48;
+  --tone-facilities: #B83A2D;
+  --tone-finance: #3A5CCB;
+  --tone-sustain: #0A6E48;
+  --tint-blue: rgb(74 111 227 / .10);
+  --tint-stone: rgb(255 255 255 / .34);
+  --tint-sage: rgb(15 145 96 / .10);
+
+  /* one family */
+  --font-display: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+  --font-product: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+
+  /* shape: flat */
+  --radius-s: 10px;
+  --radius: 16px;
+  --radius-l: 24px;
+  --shadow-float: none;
+  --shadow-lift: none;
+}
+
+/* ---------- Page ground: one soft studio gradient ---------- */
+html { background: var(--ground); }
+body {
+  background:
+    radial-gradient(120vw 60vw at 55% 20%, var(--ground-hi), rgb(233 235 238 / 0) 70%),
+    linear-gradient(180deg, #E4E7EB 0%, #DFE2E6 55%, #E3E6EA 100%);
+  background-attachment: fixed;
+  color: var(--ink-2);
+}
+:focus-visible { outline-color: var(--ink); box-shadow: 0 0 0 6px var(--green-soft); }
+
+/* ---------- Type: Manrope, medium headings, tight tracking ---------- */
+.t-display-s, .t-heading-l, .t-heading-m, .t-heading-s,
+.t-display, .t-intro, .t-statement, .t-summary, .enquiry__title, .facts__title,
+.banner__text, .midcta__text, .quote blockquote p, .footer__tag, .trust__v {
+  font-family: var(--font-display);
+  font-variation-settings: normal;
+  font-weight: 500;
+  letter-spacing: -.028em;
+}
+.t-heading-l, .t-heading-m, .t-statement { letter-spacing: -.025em; }
+.t-stat { font-family: var(--font-display); font-weight: 400; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+.chapter__label, .areas__n, .rules__list span, .timeline__wk, .fnote__label, .chapter__num {
+  font-family: var(--font-body); font-weight: 700; letter-spacing: .06em;
+}
+.chapter__label { color: var(--green-ink); font-size: var(--t-label-s); }
+.chapter__num { color: var(--green-ink); }
+
+/* ---------- Surfaces: flat, translucent, no borders or shadows ---------- */
+.hero, .intro, .banner, .band { background: transparent; }
+.intro__horizon { display: none; }
+.band { background: rgb(255 255 255 / .18); }
+
+.fnote, .quote, .quotes__grid--single .quote, .scope__col--in, .midcta, .enquiry__success,
+.next__card, .faq__list, .summary {
+  box-shadow: none;
+}
+.fnote {
+  background: var(--glass); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  box-shadow: none; padding-left: var(--sp-24); border-radius: var(--radius);
+}
+.fnote__label { color: var(--green-ink); }
+.quote, .quotes__grid--single .quote { background: var(--glass); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); border-radius: var(--radius-l); }
+.quote__mark { background: var(--ink); border-radius: 10px; }
+.scope__col--in { background: var(--glass); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); }
+.scope__col--out { border: 0; background: rgb(255 255 255 / .14); }
+.scope__label::before { background: var(--green); border: 0; }
+.scope__col--out .scope__label::before { background: var(--ink-4); }
+.midcta { background: var(--glass); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); border-radius: var(--radius-l); }
+
+.shell__frame { background: var(--glass); border-radius: var(--radius); box-shadow: none; }
+.shell__caption { font-style: normal; }
+.banner__cite { font-style: normal; font-weight: 600; font-size: var(--t-label-s); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+
+.roles .role-card {
+  background: var(--glass); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  border: 0; border-radius: var(--radius); box-shadow: none;
+}
+.roles .role-card__tag { font-family: var(--font-body); font-weight: 700; letter-spacing: .06em; }
+
+/* ---------- Badges, tags, timeline ---------- */
+.badge-live { background: var(--green); color: #fff; font-weight: 600; }
+.badge-live::before { background: #fff; }
+.chapter__wk { background: var(--active); color: var(--ink); font-weight: 600; letter-spacing: .02em; }
+.timeline-row .timeline__node { background: var(--ground); border-color: var(--ink-4); }
+.timeline-row .timeline__step--live .timeline__node { background: var(--green); border-color: var(--green); }
+.timeline__wk { color: var(--green-ink); }
+.facts__item + .facts__item { border-left-color: var(--line); }
+
+/* ---------- Buttons: flat, rounded rectangles; green is the one action ---------- */
+.btn { border-radius: 12px; font-weight: 600; letter-spacing: 0; }
+.btn--dark { background: var(--green-btn); color: #fff; }
+.btn--dark:hover { background: var(--green-btn-h); }
+.btn--ghost { background: var(--glass-2); box-shadow: none; color: var(--ink); }
+.btn--ghost:hover { background: rgb(255 255 255 / .78); box-shadow: none; }
+.arrow-link { color: var(--ink-2); }
+.arrow-link:hover { color: var(--ink); }
+.link--mark { background-image: linear-gradient(var(--green-soft), var(--green-soft)); }
+
+/* ---------- Nav: translucent bar, then a translucent pill ---------- */
+.nav__bar { background: transparent; }
+.nav.is-pill .nav__bar {
+  background-color: rgb(233 235 238 / .62);
+  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  box-shadow: none;
+}
+.nav__menu { background: rgb(236 238 241 / .82); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); box-shadow: none; }
+.nav__menu-icon { background: var(--ink); }
+
+/* ---------- Scenario list: selected goes darker ---------- */
+.areas__item.is-active { border-top-color: var(--ink); }
+.twin-replay { background: var(--glass-2); box-shadow: none; font-family: var(--font-body); font-weight: 600; border-radius: 12px; }
+.twin-host { background: transparent; }
+
+/* ---------- Form ---------- */
+.field input, .field textarea { background: var(--glass-2); box-shadow: none; border-radius: 12px; }
+.field input:hover, .field textarea:hover { box-shadow: none; background: rgb(255 255 255 / .72); }
+.field input:focus-visible, .field textarea:focus-visible { background: #fff; box-shadow: 0 0 0 3px var(--green-soft); }
+
+/* ---------- Related card, trust ---------- */
+.next__card { background: var(--glass-2); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); }
+.next__marquee { color: rgb(15 17 21 / .9); }
+.trust__list { border-color: var(--line); }
+
+/* ---------- Footer: a translucent card on the ground ---------- */
+.footer {
+  background: rgb(255 255 255 / .34);
+  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  color: var(--ink);
+}
+/* the logo keeps its own brand mark; only the wordmark follows the ink */
+.footer__logo svg path[fill="#222222"] { fill: var(--ink); }
+.footer__logo svg [fill="#04EC50"] { fill: #04EC50; }
+.footer__mid, .footer__bottom { border-top-color: var(--line-2); }
+.footer__sub { background: rgb(255 255 255 / .4); }
+.footer__sub-btn { box-shadow: none; background: var(--glass-2); }
+.footer__cta { background: var(--green-btn); }
+
+/* ---------- Skip link ---------- */
+.skip-link { background: var(--ink); }

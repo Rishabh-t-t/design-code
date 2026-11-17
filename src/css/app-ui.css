@@ -1,0 +1,167 @@
+/* ==========================================================================
+   App UI — the ConnectX product in the Iteration 4 look.
+   Applies to every in-page product mockup (.cx-*): a cool-grey studio panel,
+   flat translucent cards with blur, no borders or shadows, separate pill tabs,
+   selected = darker, one green action, red for alerts, blue for price.
+   ========================================================================== */
+
+:root {
+  --cx-ground: #E2E5E9;
+  --cx-panel: transparent;
+  --cx-ink: #0F1115;
+  --cx-ink-2: #4A4F57;
+  --cx-ink-3: #5F646C;
+  --cx-line: rgb(15 25 40 / .08);
+  --cx-blue: #4A6FE3;
+  --cx-blue-ink: #3A5CCB;
+  --cx-blue-soft: rgb(74 111 227 / .12);
+  --cx-orange: #D84A3B;          /* "hot" is now the alert red */
+  --cx-orange-ink: #B83A2D;
+  --cx-orange-soft: rgb(216 74 59 / .12);
+  --cx-green: #0F9160;
+  --cx-green-btn: #0B7E53;
+  --cx-amber: #D9A23A;
+  --cx-card: rgb(255 255 255 / .34);
+  --cx-tile: rgb(255 255 255 / .55);
+  --cx-active: rgb(15 25 40 / .09);
+  --cx-blur: blur(18px) saturate(1.15);
+}
+
+/* the studio panel the app sits in */
+.cx-panel,
+.cx-panel--blue,
+.cx-panel--stone {
+  background:
+    radial-gradient(70% 45% at 55% 70%, #EBEDF0, rgb(235 237 240 / 0) 70%),
+    linear-gradient(180deg, #E4E7EB 0%, #DFE2E6 60%, #E3E6EA 100%);
+  border-radius: var(--radius-l);
+}
+.cx-panel--blue { outline: 2px solid rgb(15 145 96 / .35); outline-offset: -2px; }
+
+.cx { font-family: 'Manrope', 'Helvetica Neue', Arial, sans-serif; color: var(--cx-ink); letter-spacing: -.01em; }
+
+/* the app frame floats free on the studio: no box around it */
+.cx-app {
+  inset: 5% 4.5%;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+  gap: .7em;
+}
+.cx-app--muted { filter: grayscale(1) opacity(.9); }
+
+/* top bar: logo · pills · status */
+.cx-bar {
+  padding: 0;
+  background: transparent;
+  border: 0;
+  font-size: .95em;
+  gap: .55em;
+}
+.cx-bar b { font-weight: 600; letter-spacing: -.01em; }
+.cx-logo {
+  width: 1.7em; height: 1.7em; border-radius: .5em;
+  background: var(--cx-ink); color: #fff; font-size: .78em; font-weight: 700;
+}
+.cx-bar__site {
+  padding: .45em .8em; border-radius: .6em;
+  background: var(--cx-tile); color: var(--cx-ink);
+  -webkit-backdrop-filter: var(--cx-blur); backdrop-filter: var(--cx-blur);
+}
+.cx-bar__site::before { content: none; }
+.cx-bar__r {
+  font-family: inherit; font-weight: 600; font-size: .8em; color: var(--cx-ink);
+  padding: .5em .8em; border-radius: .6em; background: var(--cx-tile);
+}
+.cx-dot { background: #B3B7BD; }
+.cx-dot--live { background: var(--cx-green); box-shadow: 0 0 0 .22em rgb(15 145 96 / .18); }
+.cx-dot--blue { background: var(--cx-blue); }
+.cx-dot--hot { background: var(--cx-orange); }
+.cx-k { font-family: inherit; font-weight: 700; letter-spacing: .06em; color: var(--cx-ink-3); }
+
+/* ask bar: a translucent input with a pill chip */
+.cx-askbar {
+  margin: 0;
+  padding: .7em .9em;
+  background: var(--cx-card);
+  border: 0; border-radius: .8em;
+  -webkit-backdrop-filter: var(--cx-blur); backdrop-filter: var(--cx-blur);
+}
+.cx-chip { border-radius: .5em; font-family: inherit; font-weight: 600; padding: .3em .6em; }
+.cx-chip--blue { color: var(--cx-blue-ink); background: var(--cx-blue-soft); border: 0; }
+
+/* cards and tiles: flat, translucent, no borders */
+.cx-card, .cx-kpi {
+  background: var(--cx-card);
+  border: 0;
+  border-radius: .8em;
+  -webkit-backdrop-filter: var(--cx-blur); backdrop-filter: var(--cx-blur);
+}
+.cx-card { padding: .85em .95em; }
+.cx-card__h { font-weight: 600; color: var(--cx-ink); }
+.cx-kpi { padding: .65em .8em; }
+.cx-kpi span { color: var(--cx-ink-3); }
+.cx-kpi b { font-family: inherit; font-weight: 400; font-size: 1.45em; letter-spacing: -.035em; }
+.cx-kpi i { color: var(--cx-ink-3); }
+.cx-kpi--hot b { color: var(--cx-orange-ink); }
+
+/* buttons: green is the one action */
+.cx-btn { border: 0; border-radius: .55em; background: var(--cx-tile); padding: .5em .9em; }
+.cx-btn--dark { background: var(--cx-green-btn); color: #fff; }
+.cx-btn--hot { background: var(--cx-orange); color: #fff; }
+
+/* assistant + chat */
+.cx-assist { background: var(--cx-card) !important; border: 0 !important; border-radius: .8em; -webkit-backdrop-filter: var(--cx-blur); backdrop-filter: var(--cx-blur); }
+.cx-assist__h { font-weight: 600; }
+.cx-assist__in { background: var(--cx-tile) !important; border: 0 !important; border-radius: .6em !important; color: var(--cx-ink-3); }
+.cx-msg { background: var(--cx-tile) !important; border: 0 !important; border-radius: .6em !important; }
+.cx-msg--me { background: var(--cx-ink) !important; color: #fff !important; }
+.cx-msg i { background: rgb(15 25 40 / .12) !important; }
+.cx-skel i { background: rgb(15 25 40 / .08) !important; }
+
+/* charts: thin, calm, one colour */
+.cx-chart__grid { stroke: rgb(15 25 40 / .07); }
+.cx-chart__line { stroke: var(--cx-ink); stroke-width: 1.4; }
+.cx-chart__area { fill: rgb(15 17 21 / .05) !important; }
+.cx-chart__band { fill: var(--cx-blue-soft) !important; }
+.cx-chart__peak { fill: var(--cx-orange-soft) !important; }
+.cx-chart__step { stroke: var(--cx-blue); }
+.cx-legend__price { background: var(--cx-blue); }
+.cx-legend__load { background: var(--cx-ink); }
+.cx-axis, .cx-legend { font-family: inherit; }
+
+/* mini twin: white clay model */
+.twin-mini polygon { stroke: rgb(15 25 40 / .10); }
+.twin-mini .ground { fill: rgb(255 255 255 / .5); }
+.twin-mini .t { fill: var(--c-t, #FFFFFF); }
+.twin-mini .l { fill: var(--c-l, #EEF0F2); }
+.twin-mini .r { fill: var(--c-r, #D5D9DE); }
+.twin-mini .panel { fill: var(--c-panel, #6E7A8C); }
+.twin-mini .floor { stroke: rgb(15 25 40 / .10); }
+.twin-mini .cable { stroke: var(--c-cable, rgb(15 25 40 / .18)); }
+.twin-mini .bay { stroke: rgb(15 25 40 / .12); }
+.cx-twin[data-blue~="solar"] .a[data-asset="solar"],
+.cx-twin[data-blue~="hvac"] .a[data-asset="hvac"],
+.cx-twin[data-blue~="battery"] .a[data-asset="battery"],
+.cx-twin[data-blue~="ev"] .a[data-asset="ev"],
+.cx-twin[data-blue~="grid"] .a[data-asset="grid"] {
+  --c-t: #DCE4FA; --c-l: #A9BCF2; --c-r: #4A6FE3; --c-panel: #4A6FE3; --c-cable: #4A6FE3;
+}
+.cx-twin[data-hot~="solar"] .a[data-asset="solar"],
+.cx-twin[data-hot~="hvac"] .a[data-asset="hvac"],
+.cx-twin[data-hot~="battery"] .a[data-asset="battery"],
+.cx-twin[data-hot~="ev"] .a[data-asset="ev"],
+.cx-twin[data-hot~="grid"] .a[data-asset="grid"] {
+  --c-t: #F6D3CF; --c-l: #E98B80; --c-r: #D84A3B; --c-panel: #D84A3B; --c-cable: #D84A3B;
+}
+
+/* role cards in chapter 01 use the same tags */
+.role-card[data-tone="orange"] .role-card__tag { color: #B83A2D; }
+.role-card[data-tone="blue"] .role-card__tag { color: #3A5CCB; }
+.role-card[data-tone="sage"] .role-card__tag { color: #0A6E48; }
+
+/* the choice band: verdicts in ink, flow line in green */
+.flow::after { background: var(--cx-green); }
+.flow__n { background: #E2E5E9; }
