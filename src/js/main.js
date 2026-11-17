@@ -2,18 +2,7 @@
 (function () {
   const root = document.documentElement;
 
-  /* Wireframe notes toggle: button or the N key */
-  const notesBtn = document.querySelector('[data-notes-toggle]');
-  function setNotes(on) {
-    root.classList.toggle('notes-off', !on);
-    notesBtn.setAttribute('aria-pressed', String(on));
-    notesBtn.textContent = on ? 'Notes: on' : 'Notes: off';
-  }
-  notesBtn.addEventListener('click', () => setNotes(root.classList.contains('notes-off')));
-  document.addEventListener('keydown', (e) => {
-    if (e.key.toLowerCase() !== 'n' || /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) return;
-    setNotes(root.classList.contains('notes-off'));
-  });
+  /* Wireframe notes are removed from the published page (html.notes-off keeps any leftovers hidden). */
 
   /* Scenario areas: one setter shared by the click fallback and the sticky scene (scenes.js).
      Each area plays its scenario on the live twin next to the list. */
@@ -47,6 +36,12 @@
       ScrollTrigger.refresh();
     }
   });
+
+  /* Small screens: the app-style twins render at 960px and scale to fit their box (responsive.css) */
+  const scaled = [...document.querySelectorAll('.areas__view.twin-host, .peak .twin-host')];
+  const fitTwins = () => scaled.forEach((el) => el.style.setProperty('--tw-s', String(el.clientWidth / 960)));
+  if (window.ResizeObserver) { const ro = new ResizeObserver(fitTwins); scaled.forEach((el) => ro.observe(el)); }
+  fitTwins();
 
   document.querySelectorAll('[data-year]').forEach((el) => { el.textContent = String(new Date().getFullYear()); });
 })();

@@ -5,6 +5,8 @@
    Called by motion.js once fonts are ready: window.cxScenes.init({ lenis, EASE }). */
 window.cxScenes = {
   init({ lenis }) {
+    /* Below 1024px the scenes are normal stacked sections (responsive.css); no scroll scenes. */
+    if (matchMedia('(max-width: 1023px)').matches) return;
     const $ = (s, c = document) => c.querySelector(s);
     const $$ = (s, c = document) => [...c.querySelectorAll(s)];
     const STICK = { choice: 0, areas: 96 }; // matches `top` on the sticky elements (page.css)

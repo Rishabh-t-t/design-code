@@ -1,0 +1,160 @@
+/* ==========================================================================
+   Responsive — tablet (≤1023px) and phone (≤640px).
+   The desktop layout (1024+) is untouched. Below 1024 every split stacks,
+   the sticky scenes (choice band, scenario areas) become normal sections
+   (scenes.js skips them on small screens) and type steps down.
+   ========================================================================== */
+
+@media (max-width: 1023px) {
+  :root {
+    --pad-x: 24px;
+    --margin: 24px;
+    --sp-240: 24px;
+    --sp-128: 72px;
+    --sp-112: 64px;
+    --sp-72: 48px;
+    --sp-56: 36px;
+    --chapter-gap: 96px;
+    --t-display-s: clamp(40px, 7.5vw, 64px);
+    --t-heading-l: clamp(30px, 5.2vw, 44px);
+    --t-heading-m: clamp(22px, 3.6vw, 30px);
+    --fs-chapter: clamp(30px, 5.2vw, 44px);
+    --fs-stat: clamp(52px, 9vw, 80px);
+    --t-body-m: 16px;
+    --t-body-l: 17px;
+  }
+
+  /* ---- Nav: logo + CTA/menu only ---- */
+  .nav__context { display: none; }
+  .nav__bar { height: 64px; padding-inline: var(--margin); }
+  .nav.is-pill .nav__bar { margin-inline: 12px; }
+  .nav__menu { top: 64px; width: calc(100vw - 24px); grid-template-columns: 1fr; }
+
+  /* ---- Generic stacking ---- */
+  .split { grid-template-columns: minmax(0, 1fr); }
+  .split__left:empty { display: none; }
+  .copy--m { font-size: 16px; line-height: 1.55; }
+  .chapter__label-row { padding-top: var(--sp-112); }
+
+  /* ---- Hero ---- */
+  .hero { padding-top: 64px; }
+  .details { flex-wrap: wrap; gap: 16px 28px; }
+  .detail { white-space: normal; }
+  .detail--grow { flex: 1 1 100%; }
+  .hero__media { height: clamp(380px, 80vw, 640px); }
+
+  /* ---- Intro ---- */
+  .intro__summary-row { padding-top: calc(var(--sp-56) + 72px); }
+  .intro__links { flex-wrap: wrap; gap: 4px 16px; }
+
+  /* ---- At a glance ---- */
+  .glance__key { max-width: none; margin-bottom: var(--sp-56); }
+  .summary__row { grid-template-columns: minmax(0, 1fr); row-gap: 6px; min-height: 0; padding-block: 14px; }
+
+  /* ---- 01 Role cards: a simple stack ---- */
+  .roles { aspect-ratio: auto !important; display: flex; flex-direction: column; gap: 12px; }
+  .roles .role-card { position: static !important; width: auto !important; }
+
+  /* ---- Banners ---- */
+  .banner__inner { padding: var(--sp-112) var(--pad-x); }
+
+  /* ---- Image pairs stack ---- */
+  .shells { flex-direction: column; gap: var(--sp-56); padding-block: var(--sp-72); }
+  .shell { width: 100%; }
+
+  /* ---- 02 Choice band: static, panels stacked ---- */
+  .motion .band__track { height: auto; }
+  .motion .band__frame { position: static; }
+  .band__frame { min-height: 0; padding: var(--sp-72) var(--pad-x); gap: var(--sp-56); }
+  .choice { grid-template-columns: minmax(0, 1fr); gap: var(--sp-56); }
+  .choice__merged {
+    position: static; inset: auto;
+    opacity: 1 !important; visibility: visible !important; transform: none !important;
+  }
+  .choice__merged [data-mod] { opacity: 1 !important; transform: none !important; }
+  .choice__ph { font-size: 11px; }
+  .flow { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .flow::before, .flow::after { top: 10px; bottom: 10px; left: 9px; right: auto; width: 1px; height: auto; }
+  .flow::after { transform: none; }
+  .flow__step { flex-direction: row; align-items: center; text-align: left; padding-inline: 0; gap: 14px; color: var(--ink) !important; }
+
+  /* ---- 03 Scenario areas: list above the twin ---- */
+  .motion .areas-track { height: auto; }
+  .motion .areas, .areas {
+    position: static; height: auto; min-height: 0;
+    grid-template-columns: minmax(0, 1fr); row-gap: 16px;
+    padding-block: var(--sp-56);
+  }
+  .areas__list { flex-direction: row; flex-wrap: wrap; gap: 8px; }
+  .areas__item { border: 1px solid var(--line); border-radius: 999px; }
+  .areas__item.is-active { border-color: var(--ink); background: var(--surface); }
+  .areas__item button { padding: 8px 14px; font-size: 14px; }
+  .areas__progress { display: none; }
+  .areas__view { height: auto; aspect-ratio: 4 / 5; }
+
+  /* ---- Peak-price block ---- */
+  .peak { grid-template-columns: minmax(0, 1fr); row-gap: var(--sp-56); padding-block: var(--sp-72); }
+  .peak .sub__media { aspect-ratio: 4 / 5; }
+
+  /* ---- 04 Scope ---- */
+  .scope { grid-template-columns: minmax(0, 1fr); row-gap: 16px; }
+  .scope__col { padding: 28px 24px; }
+
+  /* ---- 05 Timeline: vertical ---- */
+  .timeline-row { grid-template-columns: minmax(0, 1fr); row-gap: 28px; padding-block: var(--sp-72); }
+  .timeline-row__title { max-width: none; }
+  .timeline-row .timeline, .timeline-row .timeline--4 { grid-column: 1; grid-template-columns: minmax(0, 1fr); row-gap: 28px; }
+  .timeline-row .timeline__step { padding-top: 0; padding-left: 32px; }
+  .timeline-row .timeline__step::after { left: 6px; right: auto; top: 18px; bottom: -28px; width: 1px; height: auto; }
+  .timeline-row .timeline__step:last-child::after { display: none; }
+  .timeline-row .timeline__node { top: 2px; }
+  .timeline-row .timeline__track { display: none; }
+
+  /* ---- 06 Lessons ---- */
+  .decide__split { padding-block: var(--sp-72); row-gap: var(--sp-56); }
+
+  /* ---- 12-column sections collapse ---- */
+  .grid { grid-template-columns: minmax(0, 1fr); }
+  .grid > * { grid-column: 1 / -1 !important; }
+  .facts__list, .facts__list--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 32px; }
+  .facts__item + .facts__item { border-left: 0; padding-left: 0; }
+  .facts__item { padding-right: 16px; }
+  .quotes__grid, .quotes__grid--single { grid-template-columns: minmax(0, 1fr); }
+  .quotes__grid--single .quote blockquote p { font-size: clamp(21px, 4vw, 28px); }
+  .faq__list { margin-top: var(--sp-56); }
+  .trust__list { flex-wrap: wrap; gap: 24px 32px; justify-content: flex-start; }
+  .next__marquee { font-size: 96px; }
+  .next__card { width: min(320px, 78vw); }
+  .enquiry__title { font-size: clamp(40px, 8vw, 64px); }
+  .enquiry__form { margin-top: var(--sp-56); }
+  .footer__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: var(--s-7); }
+  .footer__sub { flex-wrap: wrap; margin-top: var(--s-6); }
+  .footer__bottom { flex-direction: column; }
+  .footer__bottom ul { flex-wrap: wrap; }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --pad-x: 20px;
+    --margin: 20px;
+  }
+  .nav__cta { padding-inline: 14px; }
+  .hero__media { height: 380px; }
+  .details { gap: 14px 22px; }
+  .intro__summary-row { padding-top: calc(var(--sp-56) + 40px); }
+  .choice__ph { font-size: 9px; }
+  .facts__list, .facts__list--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .trust__list li { flex: 1 1 40%; }
+  .footer__cols { grid-template-columns: minmax(0, 1fr); }
+  .enquiry__actions { flex-wrap: wrap; }
+}
+
+/* The scenario and peak-price twins carry their own app UI, which needs desktop width.
+   On small screens they render at 960px wide and are scaled down to fit (scale set in main.js). */
+@media (max-width: 1023px) {
+  .areas__view.twin-host, .peak .twin-host { aspect-ratio: 960 / 640; }
+  .areas__view .twin-frame, .peak .twin-host .twin-frame {
+    width: 960px; height: 640px; inset: 0 auto auto 0;
+    transform: scale(var(--tw-s, .4)); transform-origin: 0 0;
+  }
+}
