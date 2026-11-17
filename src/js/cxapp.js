@@ -65,6 +65,8 @@
       <div class="cx4"></div>
     </div>`;
     const stage = host.querySelector('.s4');
+    const min = 'cxMin' in host.dataset;   // hero: only the title, the building and the assistant
+    if (min) stage.classList.add('s4--min');
     const bld = host.querySelector('.s4__bld');
     const ui = host.querySelector('.cx4');
     const needed = kind === 'hero' ? FRAMES : [FRAMES[26], FRAMES[27]];
@@ -78,7 +80,7 @@
     function placeBuilding() {
       const asked = S.mode === 'answer' || S.mode === 'loading';
       bld.style.opacity = S.mode === 'home' ? 0.28 : 1;
-      bld.style.transform = asked ? `translate(${BX}cqi, ${BY}cqi) scale(${BS})` : 'none';
+      bld.style.transform = asked ? `translate(${BX}cqi, ${BY}cqi) scale(${BS})` : min ? 'translate(-3cqi, 2.4cqi) scale(1.05)' : 'none';
       if (S.ui >= 1) setFrame(S.mode === 'answer' && S.focus === 'f6' ? 27 : 26);
     }
 

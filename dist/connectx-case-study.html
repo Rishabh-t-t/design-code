@@ -2105,6 +2105,18 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
 @media (max-width: 1023px) {
   .areas__view[data-cx], .peak .sub__media[data-cx] { aspect-ratio: auto; }
 }
+
+/* ---------- hero: minimal product view ----------
+   Only Meridian Tower, the building and the AI assistant. No top bar (logo, tabs,
+   building pill, light switcher), no side rails, no back button, no bottom cards. */
+.s4--min .cx4__top,
+.s4--min .cx4__lrail,
+.s4--min .cx4__rrail,
+.s4--min .cx4__back,
+.s4--min .cx4__cards { display: none; }
+.s4--min .cx4__title { left: var(--gut); top: 5cqi; }
+.s4--min .cx4__title .h4 { font-size: 4.2cqi; }
+.s4--min .cx4__ai { top: 5cqi; left: auto; right: var(--gut); width: 27.4cqi; }
 </style>
 <style>
 /* ==========================================================================
@@ -2377,7 +2389,7 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
     <div class="detail"><dt>Status</dt><dd class="detail__status"><span class="badge-live">Live</span> since late 2025</dd></div>
   </dl>
   <div class="sec hero__media">
-    <div data-cx="hero" data-cx-label="The ConnectX product live: Meridian Tower assembles, then the dashboard builds around it. Pick a question or type one to see it answered on the building."></div>
+    <div data-cx="hero" data-cx-min data-cx-label="The ConnectX product live: Meridian Tower assembles, then the dashboard builds around it. Pick a question or type one to see it answered on the building."></div>
   </div>
 </section>
 
@@ -3144,6 +3156,8 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
       <div class="cx4"></div>
     </div>`;
     const stage = host.querySelector('.s4');
+    const min = 'cxMin' in host.dataset;   // hero: only the title, the building and the assistant
+    if (min) stage.classList.add('s4--min');
     const bld = host.querySelector('.s4__bld');
     const ui = host.querySelector('.cx4');
     const needed = kind === 'hero' ? FRAMES : [FRAMES[26], FRAMES[27]];
@@ -3157,7 +3171,7 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
     function placeBuilding() {
       const asked = S.mode === 'answer' || S.mode === 'loading';
       bld.style.opacity = S.mode === 'home' ? 0.28 : 1;
-      bld.style.transform = asked ? `translate(${BX}cqi, ${BY}cqi) scale(${BS})` : 'none';
+      bld.style.transform = asked ? `translate(${BX}cqi, ${BY}cqi) scale(${BS})` : min ? 'translate(-3cqi, 2.4cqi) scale(1.05)' : 'none';
       if (S.ui >= 1) setFrame(S.mode === 'answer' && S.focus === 'f6' ? 27 : 26);
     }
 

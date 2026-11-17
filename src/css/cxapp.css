@@ -127,3 +127,15 @@
 @media (max-width: 1023px) {
   .areas__view[data-cx], .peak .sub__media[data-cx] { aspect-ratio: auto; }
 }
+
+/* ---------- hero: minimal product view ----------
+   Only Meridian Tower, the building and the AI assistant. No top bar (logo, tabs,
+   building pill, light switcher), no side rails, no back button, no bottom cards. */
+.s4--min .cx4__top,
+.s4--min .cx4__lrail,
+.s4--min .cx4__rrail,
+.s4--min .cx4__back,
+.s4--min .cx4__cards { display: none; }
+.s4--min .cx4__title { left: var(--gut); top: 5cqi; }
+.s4--min .cx4__title .h4 { font-size: 4.2cqi; }
+.s4--min .cx4__ai { top: 5cqi; left: auto; right: var(--gut); width: 27.4cqi; }
