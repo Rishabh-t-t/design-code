@@ -1003,7 +1003,7 @@ const CX = (function () {
     const lobby = new T.MeshStandardMaterial({ envMap: env, envMapIntensity: 1.1, emissive: 0xffc98a, emissiveIntensity: 0, color: 0x4b5361, transparent: true, opacity: 0.82, roughness: 0.1, metalness: 0.2, depthWrite: false });
     B(0, 0, 0.02, tBot - 0.06, 1.35, 1.35, lobby, null, false);
 
-    const glow = {}, slabEdge = {}, glassF = {}, nodes = {}, warm = {};
+    const glow = {}, slabEdge = {}, glassF = {}, nodes = {}, warm = {}, facM = {};
     const deskM = M('desk', 0xffffff);
     for (let i = 1; i <= NF; i++) {
       CUR = G.floors[i]; PICK = 'floor:' + i;
@@ -1025,6 +1025,11 @@ const CX = (function () {
       const shell = new T.Mesh(new T.BoxGeometry(2 * R, fh, 2 * R, 1, 1, 1), glm);
       shell.geometry.groups = shell.geometry.groups.filter((gp, k) => k !== 2 && k !== 3);
       shell.position.set(0, z + fh / 2, 0); putIn(shell); glassF[i] = glm;
+      // solid facade: a white spandrel (sill band) wraps each floor below the window band; it fades with the x-ray view
+      const fm = new T.MeshStandardMaterial({ color: 0xf8f9fa, roughness: 0.85, transparent: true, opacity: 1 }); facM[i] = fm;
+      const sb = z + 0.02, st = z + 0.17, so = R + 0.016;
+      [[0, so], [0, -so]].forEach((q) => B(q[0], q[1], sb, st, so, 0.016, fm));
+      [[so, 0], [-so, 0]].forEach((q) => B(q[0], q[1], sb, st, 0.016, so, fm));
       const bandY = z + fh;
       if (i < NF) { [[0, R], [0, -R]].forEach((q) => B(q[0], q[1], bandY - 0.025, bandY + 0.025, R, 0.012, white, null, false)); [[R, 0], [-R, 0]].forEach((q) => B(q[0], q[1], bandY - 0.025, bandY + 0.025, 0.012, R, white, null, false)); }
       const nm = new T.MeshBasicMaterial({ color: 0x4a6fe3 });
@@ -1032,10 +1037,12 @@ const CX = (function () {
       n.position.copy(V3(R + 0.03, R + 0.03, z + fh / 2)); putIn(n); nodes[i] = n;
     }
     CUR = G.frame; PICK = null;
-    [[R, R], [R, -R], [-R, R], [-R, -R]].forEach((c) => B(c[0], c[1], tBot, tTop, 0.025, 0.025, dark));
+    const pierM = M('pier', 0xf8f9fa, { roughness: 0.85 });
+    [[R, R], [R, -R], [-R, R], [-R, -R]].forEach((c) => B(c[0], c[1], tBot, tTop, 0.07, 0.07, pierM));
     for (let j = 1; j < 5; j++) {
       const q = -R + j * (2 * R / 5);
-      [[R, q], [-R, q], [q, R], [q, -R]].forEach((c) => B(c[0], c[1], tBot, tTop, 0.008, 0.008, dark, null, false));
+      [[R, q], [-R, q]].forEach((c) => B(c[0], c[1], tBot, tTop, 0.03, 0.045, pierM, null, false));
+      [[q, R], [q, -R]].forEach((c) => B(c[0], c[1], tBot, tTop, 0.045, 0.03, pierM, null, false));
     }
     const roofM = new T.MeshStandardMaterial({ color: 0xf5f6f7, roughness: 0.9, transparent: true, opacity: 1 });
     B(0, 0, tTop, tTop + 0.06, R, R, roofM);
@@ -1404,7 +1411,7 @@ const CX = (function () {
       },
       _occ: {},
       slab(i, col, op) { slabEdge[i].material.color.set(col || '#4A6FE3'); slabEdge[i].material.opacity = cl(op); },
-      xray(v) { for (let i = 1; i <= NF; i++) glassF[i].opacity = 0.1 + 0.75 * (1 - cl(v)); roofM.opacity = 1 - 0.45 * cl(v); roofM.depthWrite = roofM.opacity > 0.99; },
+      xray(v) { for (let i = 1; i <= NF; i++) { glassF[i].opacity = 0.1 + 0.75 * (1 - cl(v)); facM[i].opacity = 1 - 0.85 * cl(v); facM[i].depthWrite = facM[i].opacity > 0.99; } roofM.opacity = 1 - 0.45 * cl(v); roofM.depthWrite = roofM.opacity > 0.99; },
       scan(z, op) { scan.position.y = z; scanM.opacity = cl(op); scan.visible = op > 0.01; },
       anom(a, b) { anomM.opacity = 0.32 * cl(a); fixM.opacity = 0.22 * cl(b); },
       gridFault(v) { subM.emissiveIntensity = 0.9 * cl(v); gridFaultM.opacity = cl(v); },
