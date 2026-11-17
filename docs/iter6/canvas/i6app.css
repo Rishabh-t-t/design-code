@@ -1,0 +1,118 @@
+/* Iteration 6 app theme (copy of i4.css, polished: 24px card radius, 16px inner radius, 8px spacing grid)
+   Iteration 4 theme · flat pass, matched to the reference: a mid-grey studio, flat translucent cards with a strong blur, no shadows, one flat green. Sizes in cqi so the UI scales with its stage. */
+:root {
+  --g0: #E2E5E9;        /* studio ground (page): light cool grey */
+  --g0b: #EBEDF0;       /* floor fade */
+  --g1: #E9EBEE;        /* card, as it reads over the ground */
+  --g2: #EFF1F3;        /* inner tile */
+  --g3: #F6F7F8;        /* raised tile */
+  --ink: #0F1115;
+  --ink2: #4A4F57;
+  --ink3: #6B7079;
+  --surface: rgba(255, 255, 255, .22);     /* card: lighter fill, same blur */
+  --surface-2: rgba(255, 255, 255, .5);    /* tiles, icon buttons, chips */
+  --active: rgba(15, 25, 40, .09);         /* selected tab / icon: darker, as in the reference */
+  --hair: rgba(15, 25, 40, .08);
+  --green: #0F9160;
+  --green-d: #0B7E53;
+  --green-a: rgba(15, 145, 96, .16);
+  --red: #D84A3B;
+  --blue: #4A6FE3;
+  --amber: #D9A23A;
+  --f4: "Manrope", "Helvetica Neue", Arial, sans-serif;
+  --gut: 2.2cqi;
+  --r-card: 1.67cqi;
+  --r-in: 1.11cqi;
+  --blur: blur(3cqi) saturate(1.15);
+}
+
+/* stage */
+.s4 { position: relative; width: 100%; aspect-ratio: 16 / 10; container-type: inline-size; overflow: hidden; font-family: var(--f4); color: var(--ink);
+  background: radial-gradient(70cqi 40cqi at 55% 70%, var(--g0b), rgba(235, 237, 240, 0) 70%), linear-gradient(180deg, #E4E7EB 0%, #DFE2E6 60%, #E3E6EA 100%); }
+.s4__bld { position: absolute; left: 4cqi; top: -1cqi; width: 96cqi; aspect-ratio: 16 / 10; pointer-events: none; }
+.s4__bld img { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* cards: flat translucent white + strong blur. No border, no shadow. */
+.c4, .glass4 { box-sizing: border-box; background: var(--surface); -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur); border: 0; border-radius: var(--r-card); box-shadow: none; outline: .14cqi solid transparent; outline-offset: 0; }
+.c4 { position: absolute; }
+.glass4 { position: relative; }
+.t4 { background: var(--surface-2); border-radius: var(--r-in); }
+button.t4:hover { background: rgba(255, 255, 255, .78); }
+button.c4:hover { background: rgba(255, 255, 255, .4); }
+
+/* icon buttons: flat tiles */
+.ib4 { position: relative; width: 3.4cqi; height: 3.4cqi; border-radius: var(--r-in); background: var(--surface-2); -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur); display: grid; place-items: center; flex: none; }
+.ib4 svg { width: 1.4cqi; height: 1.4cqi; }
+.ib4--on { background: var(--active); }
+
+/* tabs: separate pills, active is darker */
+.seg4 { display: inline-flex; gap: .6cqi; }
+.pill4 { font-family: var(--f4); font-size: 1.15cqi; font-weight: 500; padding: .95cqi 1.9cqi; border-radius: var(--r-in); color: var(--ink); background: var(--surface-2); -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur); }
+.pill4--on { background: var(--active); }
+.pill4--glass { background: var(--surface-2); }
+
+.h4 { font-family: var(--f4); font-weight: 500; letter-spacing: -.025em; color: var(--ink); margin: 0; }
+.sub4 { font-family: var(--f4); font-size: 1.05cqi; color: var(--ink2); margin: 0; }
+.lab4 { font-family: var(--f4); font-size: .85cqi; color: var(--ink3); }
+.num4 { font-family: var(--f4); font-weight: 400; letter-spacing: -.035em; color: var(--ink); line-height: 1; font-variant-numeric: tabular-nums; }
+.hr4 { height: .08cqi; border: 0; margin: 0; background: var(--hair); }
+
+/* buttons: flat */
+.send4 { white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; gap: .6cqi; color: #FFFFFF; font-family: var(--f4); font-weight: 600; font-size: 1.15cqi; border-radius: var(--r-in); padding: 0 2cqi; height: 3.6cqi; border: 0; cursor: pointer; background: var(--green); box-shadow: none; }
+.send4:hover { background: var(--green-d); }
+.ghost4 { white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; color: var(--ink); font-family: var(--f4); font-weight: 600; font-size: 1.05cqi; border-radius: var(--r-in); padding: 0 1.6cqi; height: 3.4cqi; border: 0; cursor: pointer; background: var(--surface-2); box-shadow: none; }
+.ghost4:hover { background: rgba(255, 255, 255, .72); }
+.chip4 { font-family: var(--f4); font-size: 1cqi; font-weight: 500; padding: .75cqi 1.2cqi; border-radius: .9cqi; border: 0; color: var(--ink); cursor: pointer; background: var(--surface-2); box-shadow: none; }
+.chip4:hover { background: rgba(255, 255, 255, .72); }
+.dot4 { display: inline-block; width: .7cqi; height: .7cqi; border-radius: 50%; background: var(--green); flex: none; }
+
+/* floor tags: true circles */
+.tag4 { display: inline-grid; place-items: center; flex: none; box-sizing: border-box; width: 2.4cqi; height: 2.4cqi; padding: 0; border-radius: 50%; font-size: .95cqi; font-weight: 600; color: var(--ink); line-height: 1; }
+.tag4--txt { width: auto; padding: 0 .9cqi; border-radius: 1.15cqi; }
+.tag4--on { background: var(--green); color: #FFFFFF; }
+.tag4--alert { position: relative; }
+.tag4--alert::after { content: ""; position: absolute; top: .05cqi; right: .05cqi; width: .55cqi; height: .55cqi; border-radius: 50%; background: var(--red); box-shadow: 0 0 0 .14cqi #EEF0F2; }
+.tags4 { display: inline-flex; align-items: center; gap: .3cqi; padding: .3cqi; border-radius: 1.6cqi; background: var(--surface-2); -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur); }
+
+.shim4 { display: block; border-radius: .5cqi; background: linear-gradient(90deg, rgba(255,255,255,.35) 0%, rgba(255,255,255,.85) 40%, rgba(255,255,255,.35) 80%); background-size: 200% 100%; animation: p4-shim 1.3s linear infinite; }
+@keyframes p4-in { from { opacity: 0; transform: translateX(-50%) translateY(1.2cqi); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+@keyframes p4-shim { to { background-position: -200% 0; } }
+@keyframes p4-scan { 0% { top: 82%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 14%; opacity: 0; } }
+@keyframes p4-spin { to { transform: rotate(360deg); } }
+@keyframes p4-pulse { 0% { box-shadow: 0 0 0 0 rgba(216, 74, 59, .45); } 100% { box-shadow: 0 0 0 1.2cqi rgba(216, 74, 59, 0); } }
+@keyframes p4-glow { 0%, 100% { outline-color: rgba(15, 145, 96, 0); } 50% { outline-color: rgba(15, 145, 96, .45); } }
+
+/* map pin: flat label + stem */
+.pin4 { position: absolute; transform: translate(-50%, -100%); display: inline-flex; align-items: center; gap: .6cqi; white-space: nowrap; font-family: var(--f4); font-size: .95cqi; font-weight: 600; border-radius: .9cqi; padding: .55cqi 1cqi; background: rgba(255, 255, 255, .72); -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur); }
+.pin4::after { content: ""; position: absolute; left: 50%; bottom: -.9cqi; width: .1cqi; height: .9cqi; background: rgba(15, 25, 40, .4); }
+.pin4 i { width: .7cqi; height: .7cqi; border-radius: 50%; background: var(--red); animation: p4-pulse 1.8s ease-out infinite; }
+.pin4 em { font-style: normal; color: var(--red); font-weight: 700; }
+
+/* loading steps: tick along with the scan */
+.stp4 { display: flex; align-items: center; gap: .9cqi; font-size: 1.05cqi; color: var(--ink3); animation: p4-stepon .3s ease var(--d) forwards; }
+.ring4 { width: 1.3cqi; height: 1.3cqi; border-radius: 50%; box-sizing: border-box; border: .14cqi solid rgba(15,25,40,.14); flex: none; animation: p4-arc .01s linear var(--d) forwards, p4-spin .9s linear var(--d) infinite, p4-done .25s ease var(--e) forwards; }
+@keyframes p4-stepon { to { color: var(--ink); } }
+@keyframes p4-arc { to { border-top-color: var(--green); } }
+@keyframes p4-done { to { border-color: var(--green); background: var(--green); } }
+
+
+/* scan overlay: visible surfaces only (masks rendered from the 3D model with occlusion). Plot fills edges → in, then floors step up. */
+@property --r { syntax: '<percentage>'; inherits: false; initial-value: 100%; }
+.scan5 { position: absolute; left: 4cqi; top: -1cqi; width: 96cqi; aspect-ratio: 16 / 10; transform: translate(6cqi, 3.4cqi) scale(1.06); transform-origin: 52% 55%; pointer-events: none; }
+.scan5 i { position: absolute; inset: 0; background: var(--green); -webkit-mask-size: 100% 100%; mask-size: 100% 100%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; opacity: 0; animation-duration: 6.4s; animation-timing-function: linear; animation-iteration-count: infinite; }
+.scan5 .sg { -webkit-mask-size: 100% 100%, 100% 100%; mask-size: 100% 100%, 100% 100%; -webkit-mask-composite: source-in; mask-composite: intersect; animation-name: p4-ground; }
+@keyframes p4-ground { 0% { --r: 100%; opacity: .5; } 23.44% { --r: 0%; opacity: .5; } 28.12% { --r: 0%; opacity: .16; } 92.19% { --r: 0%; opacity: .16; } 100% { --r: 0%; opacity: 0; } }
+@keyframes p4-f0 { 0%, 24.84% { opacity: 0; } 25.00%, 30.78% { opacity: 1; } 30.94%, 92.19% { opacity: .3; } 100% { opacity: 0; } }
+@keyframes p4-f1 { 0%, 30.78% { opacity: 0; } 30.94%, 36.72% { opacity: 1; } 36.88%, 92.19% { opacity: .3; } 100% { opacity: 0; } }
+@keyframes p4-f2 { 0%, 36.72% { opacity: 0; } 36.88%, 42.66% { opacity: 1; } 42.81%, 92.19% { opacity: .3; } 100% { opacity: 0; } }
+@keyframes p4-f3 { 0%, 42.66% { opacity: 0; } 42.81%, 48.59% { opacity: 1; } 48.75%, 92.19% { opacity: .3; } 100% { opacity: 0; } }
+@keyframes p4-f4 { 0%, 48.59% { opacity: 0; } 48.75%, 54.53% { opacity: 1; } 54.69%, 92.19% { opacity: .3; } 100% { opacity: 0; } }
+@keyframes p4-f5 { 0%, 54.53% { opacity: 0; } 54.69%, 60.47% { opacity: 1; } 60.62%, 92.19% { opacity: .3; } 100% { opacity: 0; } }
+@keyframes p4-f6 { 0%, 60.47% { opacity: 0; } 60.63%, 66.41% { opacity: 1; } 66.56%, 92.19% { opacity: .3; } 100% { opacity: 0; } }
+@keyframes p4-f7 { 0%, 66.41% { opacity: 0; } 66.56%, 72.34% { opacity: 1; } 72.50%, 92.19% { opacity: .3; } 100% { opacity: 0; } }
+@keyframes p4-f8 { 0%, 72.34% { opacity: 0; } 72.50%, 78.28% { opacity: 1; } 78.44%, 92.19% { opacity: .3; } 100% { opacity: 0; } }
+@keyframes p4-f9 { 0%, 78.28% { opacity: 0; } 78.44%, 84.22% { opacity: 1; } 84.37%, 92.19% { opacity: .3; } 100% { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) { .shim4, .pin4 i, .c4, .ring4, .stp4, .scan5 i { animation: none !important; } .scan5 .sf { opacity: .3; } }
+
+.src6::before { content: ""; position: absolute; left: 3.2cqi; bottom: -1.2cqi; width: .1cqi; height: 1.2cqi; background: rgba(15, 25, 40, .35); }

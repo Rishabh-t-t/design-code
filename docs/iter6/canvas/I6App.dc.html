@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ConnectX UI · iteration 6 polish</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="i6app.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="position: absolute; inset: 0; container-type: inline-size; font-family: var(--f4); color: var(--ink); pointer-events: none;">
+
+  <!-- loading: scan the visible surfaces only — the plot fills from its edges inward, then the building lights floor by floor (overlay on the model) -->
+  <sc-if value="{{isLoading}}" hint-placeholder-val="{{ false }}">
+    <div class="scan5" aria-hidden="true" style="opacity: {{oScan}}; transition: opacity .5s ease;">
+        <i class="sg" style="-webkit-mask-image: url(/_blob/29d405008efb7c0e60cc13897182b6e4), radial-gradient(ellipse 72% 72% at 50% 69%, transparent var(--r), #000 calc(var(--r) + 8%)); mask-image: url(/_blob/29d405008efb7c0e60cc13897182b6e4), radial-gradient(ellipse 72% 72% at 50% 69%, transparent var(--r), #000 calc(var(--r) + 8%));"></i>
+        <i class="sf" style="-webkit-mask-image: url(/_blob/f3d0989f1e28e847b77176eb2f930337); mask-image: url(/_blob/f3d0989f1e28e847b77176eb2f930337); animation-name: p4-f0;"></i>
+        <i class="sf" style="-webkit-mask-image: url(/_blob/811f46078272ace549e4e90af774f57e); mask-image: url(/_blob/811f46078272ace549e4e90af774f57e); animation-name: p4-f1;"></i>
+        <i class="sf" style="-webkit-mask-image: url(/_blob/36576a7f09d2b283b6a9c47e369b7ef5); mask-image: url(/_blob/36576a7f09d2b283b6a9c47e369b7ef5); animation-name: p4-f2;"></i>
+        <i class="sf" style="-webkit-mask-image: url(/_blob/5f7c8aba80ca7c6db8ed3cac63407bb8); mask-image: url(/_blob/5f7c8aba80ca7c6db8ed3cac63407bb8); animation-name: p4-f3;"></i>
+        <i class="sf" style="-webkit-mask-image: url(/_blob/eabd4a1d4f44faaceb7e238e5a7d4053); mask-image: url(/_blob/eabd4a1d4f44faaceb7e238e5a7d4053); animation-name: p4-f4;"></i>
+        <i class="sf" style="-webkit-mask-image: url(/_blob/71e19f6547ed9ff4c104c32497b161ed); mask-image: url(/_blob/71e19f6547ed9ff4c104c32497b161ed); animation-name: p4-f5;"></i>
+        <i class="sf" style="-webkit-mask-image: url(/_blob/ad8e317e12bbd988397f54538bcd55bb); mask-image: url(/_blob/ad8e317e12bbd988397f54538bcd55bb); animation-name: p4-f6;"></i>
+        <i class="sf" style="-webkit-mask-image: url(/_blob/da3a7b19286c24a6f4449b18f8d0126e); mask-image: url(/_blob/da3a7b19286c24a6f4449b18f8d0126e); animation-name: p4-f7;"></i>
+        <i class="sf" style="-webkit-mask-image: url(/_blob/76611eddc61b7fbca932c4bc9d8ab3bb); mask-image: url(/_blob/76611eddc61b7fbca932c4bc9d8ab3bb); animation-name: p4-f8;"></i>
+        <i class="sf" style="-webkit-mask-image: url(/_blob/b18ccbb38f7a2cb2e4c96d98f5281071); mask-image: url(/_blob/b18ccbb38f7a2cb2e4c96d98f5281071); animation-name: p4-f9;"></i>
+    </div>
+  </sc-if>
+
+  <!-- top bar: logo · tabs · building -->
+  <div style="position: absolute; left: var(--gut); right: var(--gut); top: 2.2cqi; height: 3.6cqi; display: flex; align-items: center; justify-content: space-between; opacity: {{oTop}}; transform: translateY({{a1y}}); transition: opacity .45s ease, transform .45s ease; pointer-events: auto;">
+    <span style="display: flex; align-items: center; gap: .9cqi; width: 22cqi;">
+      <svg viewBox="0 0 24 24" style="width: 2.4cqi; height: 2.4cqi;" aria-hidden="true"><path d="M4 4 L11 12 L4 20 M20 4 L13 12 L20 20" stroke="#0F1115" stroke-width="2.6" stroke-linecap="round" fill="none"></path></svg>
+      <b style="font-size: 1.45cqi; font-weight: 600; letter-spacing: -.01em;">ConnectX</b>
+    </span>
+    <span class="seg4"><span class="pill4 pill4--on">Twin</span><span class="pill4">Reports</span><span class="pill4">Alerts</span></span>
+    <span style="display: flex; gap: .6cqi; align-items: center; width: 22cqi; justify-content: flex-end;">
+      <span class="pill4" style="display: flex; align-items: center; gap: .6cqi; font-size: 1.05cqi; white-space: nowrap; padding: .95cqi 1.4cqi;"><svg viewBox="0 0 24 24" fill="none" stroke="#0F1115" stroke-width="1.7" style="width: 1.3cqi; height: 1.3cqi;" aria-hidden="true"><path d="M4 21V8l8-5 8 5v13"></path><path d="M9 21v-6h6v6"></path></svg><span style="color: var(--ink3);">Building:</span> Meridian Tower</span>
+      <span class="ib4" style="height: 3.6cqi; width: 3.6cqi;"><svg viewBox="0 0 24 24" fill="none" stroke="#0F1115" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"></path></svg></span>
+    </span>
+  </div>
+
+  <!-- left rail + title (product only) -->
+  <sc-if value="{{product}}" hint-placeholder-val="{{ false }}">
+    <span class="ib4" style="position: absolute; left: var(--gut); top: 10cqi; opacity: {{oLeft}}; transition: opacity .5s ease;"><svg viewBox="0 0 24 24" fill="none" stroke="#0F1115" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg></span>
+    <div style="position: absolute; left: var(--gut); top: 21.6cqi; display: flex; flex-direction: column; gap: 1.2cqi; opacity: {{oLeft}}; transition: opacity .5s ease;">
+      <span class="ib4"><svg viewBox="0 0 24 24" fill="none" stroke="#0F1115" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5z"></path><path d="M3 13l9 5 9-5"></path></svg></span>
+      <span class="ib4"><svg viewBox="0 0 24 24" fill="none" stroke="#0F1115" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"></path></svg></span>
+      <span class="ib4"><svg viewBox="0 0 24 24" fill="none" stroke="#0F1115" stroke-width="1.7" aria-hidden="true"><rect x="3" y="7" width="16" height="10" rx="2"></rect><path d="M21 10v4"></path><path d="M7 10v4M10 10v4"></path></svg></span>
+    </div>
+    <div style="position: absolute; left: 9.6cqi; top: 10cqi; display: flex; flex-direction: column; gap: .7cqi; opacity: {{titleOp}};">
+      <h1 class="h4" style="font-size: 3.5cqi; line-height: 1;">Meridian Tower</h1>
+      <p class="sub4" style="font-size: 1.15cqi;">Office building · 8 floors · 4,200 m²</p>
+      <div class="tags4" style="margin-top: 1.4cqi; align-self: start;" aria-label="Floor">
+        <span class="tag4">4</span><span class="tag4">5</span><span class="{{t6}}">6</span><span class="tag4">7</span><span class="tag4">8</span><span class="tag4">R</span>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- assistant + input: one stacked unit -->
+  <div style="position: absolute; left: 66.9cqi; top: 10cqi; width: 26.4cqi; display: flex; flex-direction: column; gap: 1.11cqi; opacity: {{a2c}}; transform: translateX({{a2cx}}); transition: opacity .5s ease, transform .5s ease; pointer-events: auto;">
+    <div class="c4" style="position: relative; padding: 1.67cqi; display: flex; flex-direction: column; gap: 1.11cqi; animation: {{aiAnim}}; opacity: {{oAI}}; transition: opacity .5s ease;">
+      <div style="display: flex; justify-content: space-between; align-items: start; padding-bottom: 1.11cqi; border-bottom: .07cqi solid var(--hair);">
+        <span style="display: flex; flex-direction: column; gap: .4cqi;"><b style="font-size: 1.3cqi; font-weight: 500;">AI Assistant</b><span class="lab4" style="font-size: .95cqi;">{{aiSub}}</span></span>
+        <span class="ib4" style="width: 3.4cqi; height: 3.4cqi;"><svg viewBox="0 0 24 24" fill="none" stroke="#0F1115" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"></path></svg></span>
+      </div>
+      <sc-if value="{{showTiles}}" hint-placeholder-val="{{ true }}">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: .5cqi; opacity: {{tilesOp}}; margin: -.4cqi -.6cqi;">
+          <sc-for list="{{tiles}}" as="t" hint-placeholder-count="4">
+            <button class="{{t.cls}}" onClick="{{t.pick}}" style="text-align: left; border: 0; cursor: pointer; padding: 1.1cqi 1.1cqi; display: flex; gap: .8cqi; align-items: start; font-family: var(--f4); color: var(--ink);">
+              <span style="position: relative; width: 1.6cqi; height: 1.6cqi; flex: none; margin-top: .05cqi;"><svg viewBox="0 0 24 24" fill="none" stroke="#0F1115" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 100%; height: 100%;" aria-hidden="true"><path d="{{t.icon}}"></path></svg><i style="position: absolute; right: -.25cqi; top: -.2cqi; width: .6cqi; height: .6cqi; border-radius: 50%; background: {{t.c}};"></i></span>
+              <span style="display: flex; flex-direction: column; gap: .35cqi;"><b style="font-size: 1.15cqi; font-weight: 500;">{{t.n}}</b><span class="lab4">{{t.s}}</span></span>
+            </button>
+          </sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{showChat}}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; flex-direction: column; gap: 1.11cqi;">
+          <span style="align-self: flex-end; max-width: 86%; background: var(--surface-2); border-radius: var(--r-in) var(--r-in) .3cqi var(--r-in); padding: .83cqi 1.11cqi; font-size: 1.05cqi; line-height: 1.45;">Why is floor 6 using so much cooling?</span>
+          <span style="display: flex; flex-direction: column; gap: .55cqi;"><span class="lab4">Assistant</span><span style="font-size: 1.05cqi; line-height: 1.6; color: var(--ink2);">Cooling on floor 6 has been higher than expected in recent afternoons. This could be due to occupancy patterns, HVAC scheduling, solar gain through the west façade or equipment efficiency. You may want to review the HVAC schedule, check the floor’s sensors and compare it with…</span></span>
+        </div>
+      </sc-if>
+      <sc-if value="{{showSteps}}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; flex-direction: column; gap: 1.1cqi;">
+          <span class="stp4" style="--d: 0s; --e: 1.6s;"><i class="ring4"></i>Reading the plot and its supply</span>
+          <span class="stp4" style="--d: 1.6s; --e: 5.4s;"><i class="ring4"></i>Scanning the building, floor by floor</span>
+          <span class="stp4" style="--d: 5.4s; --e: 9s;"><i class="ring4"></i>Writing the answer</span>
+        </div>
+      </sc-if>
+      <sc-if value="{{showAnswer}}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; flex-direction: column; gap: 1cqi;">
+          <span style="font-size: .9cqi; font-weight: 600; letter-spacing: .06em; color: {{ans.col}};">{{ans.tag}}</span>
+          <span class="num4" style="font-size: 3.6cqi; color: {{ans.col}};">{{ans.big}}</span>
+          <span style="font-size: 1.1cqi; line-height: 1.5; color: var(--ink2);">{{ans.text}}</span>
+          <div style="display: flex; gap: .5cqi; margin-top: .4cqi;"><button class="send4" style="height: 3.4cqi; font-size: 1.05cqi; padding: 0 1.6cqi;">{{ans.act}}</button><button class="ghost4" style="height: 3.4cqi;">Show the data</button></div>
+        </div>
+      </sc-if>
+    </div>
+    <div class="c4" style="position: relative; padding: 1.39cqi 1.67cqi 1.67cqi; display: flex; flex-direction: column; gap: 1.11cqi; opacity: {{oIN}}; transition: opacity .5s ease;">
+      <label for="i4-q" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">Ask about the building</label>
+      <input id="i4-q" value="{{q}}" onChange="{{onQ}}" onKeyDown="{{onKey}}" placeholder="Ask anything about the building…" style="border: 0; outline: 0; background: transparent; font-family: var(--f4); font-size: 1.3cqi; color: var(--ink); padding-bottom: 1.3cqi; border-bottom: .08cqi solid var(--hair);">
+      <div style="display: flex; gap: .6cqi; align-items: center;">
+        <span class="ib4"><svg viewBox="0 0 24 24" fill="none" stroke="#0F1115" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path></svg></span>
+        <span class="ib4"><svg viewBox="0 0 24 24" fill="none" stroke="#0F1115" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M20 12l-8 8a5 5 0 0 1-7-7l9-9a3.5 3.5 0 0 1 5 5l-9 9a2 2 0 0 1-3-3l8-8"></path></svg></span>
+        <span class="ib4"><svg viewBox="0 0 24 24" fill="none" stroke="#0F1115" stroke-width="1.7" aria-hidden="true"><path d="M12 3l7.5 4.5v9L12 21l-7.5-4.5v-9z"></path><circle cx="12" cy="12" r="2.5"></circle></svg></span>
+        <button class="send4" style="margin-left: auto; flex: 1; opacity: {{sendOp}};" onClick="{{onSend}}">Send <svg viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 1.3cqi; height: 1.3cqi;" aria-hidden="true"><path d="M4 12l16-8-6 16-2-7z"></path></svg></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- right rail -->
+  <div style="position: absolute; right: var(--gut); top: 21.6cqi; display: flex; flex-direction: column; gap: 1.2cqi; opacity: {{oRR}}; transition: opacity .5s ease;">
+    <span class="ib4 ib4--on"><svg viewBox="0 0 24 24" fill="none" stroke="#0F1115" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"></path></svg></span>
+    <span class="ib4"><svg viewBox="0 0 24 24" fill="none" stroke="#0F1115" stroke-width="1.7" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="2.5"></rect><path d="M8 10h8M8 14h5"></path></svg></span>
+    <span class="ib4"><svg viewBox="0 0 24 24" fill="none" stroke="#0F1115" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="8"></circle><path d="M12 8v4l3 2"></path></svg></span>
+  </div>
+
+  <!-- bottom cards -->
+  <div style="position: absolute; left: var(--gut); right: var(--gut); bottom: var(--gut); display: grid; grid-template-columns: 1fr 1.08fr 1fr; gap: 1.11cqi; opacity: {{oCards}}; transform: translateY({{a3y}}); transition: opacity .5s ease, transform .5s ease;">
+    <div class="c4" style="position: relative; padding: 1.67cqi; height: 11.67cqi; display: flex; flex-direction: column; gap: 1.11cqi; opacity: {{oC1}}; transition: opacity .5s ease;">
+      <div style="display: flex; justify-content: space-between; align-items: start; padding-bottom: 1.11cqi; border-bottom: .07cqi solid var(--hair);"><span style="display: flex; flex-direction: column; gap: .28cqi;"><b style="font-size: 1.2cqi; font-weight: 500;">Live load</b><span class="lab4">Whole building, right now</span></span><span class="ib4" style="width: 3cqi; height: 3cqi;"><svg viewBox="0 0 24 24" fill="none" stroke="#0F1115" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"></path></svg></span></div>
+      <sc-if value="{{hasData}}" hint-placeholder-val="{{ true }}"><span class="num4" style="font-size: 3cqi;">{{v1}}<small style="font-size: 1.1cqi; color: var(--ink3); letter-spacing: 0;"> kW</small></span></sc-if>
+      <sc-if value="{{noData}}" hint-placeholder-val="{{ false }}"><i class="shim4" style="height: 2.8cqi; width: 55%;"></i></sc-if>
+    </div>
+    <div class="c4" style="position: relative; padding: 1.67cqi; height: 11.67cqi; display: flex; flex-direction: column; gap: 1.11cqi; opacity: {{oC2}}; transition: opacity .5s ease;">
+      <div style="display: flex; justify-content: space-between; align-items: start; padding-bottom: 1.11cqi; border-bottom: .07cqi solid var(--hair);"><span style="display: flex; flex-direction: column; gap: .28cqi;"><b style="font-size: 1.2cqi; font-weight: 500;">{{c2t}}</b><span class="lab4">{{c2s}}</span></span><span class="ib4" style="width: 3cqi; height: 3cqi;"><svg viewBox="0 0 24 24" fill="none" stroke="#0F1115" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"></path></svg></span></div>
+      <sc-if value="{{showChart}}" hint-placeholder-val="{{ false }}">
+        <svg viewBox="0 0 400 70" preserveAspectRatio="none" style="width: 100%; height: 4.6cqi; display: block;" aria-label="Cost through the day, floor 6 is one small spike">
+          <path d="M0 62 L40 58 L80 60 L120 50 L160 54 L200 44 L240 47 L270 36 L300 40 L330 30 L360 34 L400 22" fill="none" stroke="#9AA1AB" stroke-width="2" vector-effect="non-scaling-stroke"></path>
+          <path d="M296 41 L312 31" fill="none" stroke="#D84A3B" stroke-width="3" stroke-linecap="round" vector-effect="non-scaling-stroke"></path>
+          <path d="M0 69 L400 69" stroke="rgba(15,25,40,.12)" stroke-width="1" vector-effect="non-scaling-stroke"></path>
+        </svg>
+      </sc-if>
+      <sc-if value="{{showNums}}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; gap: 1.6cqi; align-items: center;">
+          <span class="t4" style="padding: .7cqi 1.4cqi; display: flex; align-items: baseline; gap: .4cqi;"><span class="num4" style="font-size: 2.8cqi;">{{v2}}</span><span class="lab4">{{v2u}}</span></span>
+          <span class="num4" style="font-size: 2.8cqi;">{{v2b}}<small style="font-size: 1cqi; color: var(--ink3); letter-spacing: 0;"> {{v2bu}}</small></span>
+        </div>
+      </sc-if>
+      <sc-if value="{{noData}}" hint-placeholder-val="{{ false }}"><i class="shim4" style="height: 2.8cqi; width: 70%;"></i></sc-if>
+    </div>
+    <div class="c4" style="position: relative; padding: 1.67cqi; height: 11.67cqi; display: flex; flex-direction: column; gap: 1.11cqi; opacity: {{oC3}}; transition: opacity .5s ease;">
+      <div style="display: flex; justify-content: space-between; align-items: start; padding-bottom: 1.11cqi; border-bottom: .07cqi solid var(--hair);"><span style="display: flex; flex-direction: column; gap: .28cqi;"><b style="font-size: 1.2cqi; font-weight: 500;">Battery</b><span class="lab4">Basement storage</span></span><span class="ib4" style="width: 3cqi; height: 3cqi;"><svg viewBox="0 0 24 24" fill="none" stroke="#0F1115" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"></path></svg></span></div>
+      <sc-if value="{{hasData}}" hint-placeholder-val="{{ true }}">
+        <div class="t4" style="padding: .8cqi 1.2cqi; display: flex; align-items: center; justify-content: space-between;"><span style="display: flex; flex-direction: column; gap: .25cqi;"><b style="font-size: 1.1cqi; font-weight: 500;">{{v3}}% charged</b><span class="lab4">Enough for tonight’s peak</span></span><span style="width: 1.6cqi; height: 1.6cqi; border-radius: 50%; border: .2cqi solid var(--green); box-sizing: border-box; display: grid; place-items: center;"><i style="width: .8cqi; height: .8cqi; border-radius: 50%; background: var(--green);"></i></span></div>
+      </sc-if>
+      <sc-if value="{{noData}}" hint-placeholder-val="{{ false }}"><i class="shim4" style="height: 2.8cqi; width: 80%;"></i></sc-if>
+    </div>
+  </div>
+
+  <!-- MVP home -->
+  <sc-if value="{{isHome}}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; left: 50%; top: 11.4cqi; width: 52cqi; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 2.4cqi; pointer-events: auto; animation: p4-in .6s ease both;">
+      <div style="display: flex; flex-direction: column; align-items: center; gap: .9cqi; opacity: {{oHH}}; transition: opacity .5s ease;">
+        <span class="lab4" style="font-size: 1.05cqi; display: flex; align-items: center; gap: .6cqi;"><span class="dot4"></span>Meridian Tower · live</span>
+        <h2 class="h4" style="font-size: 3.2cqi; text-align: center; line-height: 1.12;">Everything’s running normally.<br><span style="color: var(--ink3);">One thing needs a look today.</span></h2>
+      </div>
+      <div class="c4" style="position: relative; width: 100%; padding: 1.67cqi; display: flex; flex-direction: column; gap: 1.39cqi; opacity: {{oHI}}; transition: opacity .5s ease;">
+        <div style="display: flex; gap: 1cqi; align-items: center;">
+          <label for="i4-home" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">Ask AI</label>
+          <input id="i4-home" value="{{q}}" onChange="{{onQ}}" onKeyDown="{{onKey}}" placeholder="Ask anything about the building…" style="flex: 1; border: 0; outline: 0; background: transparent; font-family: var(--f4); font-size: 1.4cqi; color: var(--ink);">
+          <button class="send4" onClick="{{onSend}}">Send <svg viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 1.3cqi; height: 1.3cqi;" aria-hidden="true"><path d="M4 12l16-8-6 16-2-7z"></path></svg></button>
+        </div>
+        <div style="display: flex; gap: .5cqi; flex-wrap: wrap; padding-top: 1.3cqi; border-top: .07cqi solid var(--hair); opacity: {{oCh}}; transition: opacity .5s ease;">
+          <sc-for list="{{chips}}" as="c" hint-placeholder-count="4"><button class="chip4" onClick="{{c.pick}}">{{c.t}}</button></sc-for>
+        </div>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8cqi; width: 100%; opacity: {{oHB}}; transition: opacity .5s ease;">
+        <sc-for list="{{brief}}" as="b" hint-placeholder-count="3">
+          <button class="c4" onClick="{{b.pick}}" style="position: relative; padding: 1.5cqi 1.6cqi; display: flex; flex-direction: column; gap: .7cqi; text-align: left; cursor: pointer; font-family: var(--f4); color: var(--ink);"><span style="font-size: .85cqi; font-weight: 600; letter-spacing: .06em; color: {{b.col}};">{{b.tag}}</span><span style="font-size: 1.1cqi; line-height: 1.4;">{{b.t}}</span></button>
+        </sc-for>
+      </div>
+      <span class="lab4" style="opacity: {{oHB}}; transition: opacity .5s ease;">Modelled from the last 90 days of meter data</span>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{showSrc}}" hint-placeholder-val="{{ false }}">
+    <div class="c4 src6" style="left: 34.4cqi; top: 35cqi; width: 22.2cqi; padding: 1.39cqi 1.67cqi; display: flex; flex-direction: column; gap: .83cqi; z-index: 5;">
+      <span class="lab4" style="display: flex; align-items: center; gap: .55cqi;"><span class="dot4"></span>Source</span>
+      <b style="font-size: 1.2cqi; font-weight: 500;">16 kW · meter F6-AHU-2</b>
+      <span style="font-size: .97cqi; line-height: 1.5; color: var(--ink2);">Read at 10:45 today. Floor 6 air handler, west side.</span>
+      <span style="font-size: .97cqi; font-weight: 600; color: var(--green);">Open the meter data →</span>
+    </div>
+  </sc-if>
+  <!-- answer pin -->
+  <sc-if value="{{showPin}}" hint-placeholder-val="{{ false }}">
+    <span class="pin4" style="left: {{pin.x}}; top: {{pin.y}};"><i></i>{{pin.n}} <em>{{pin.v}}</em></span>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"mode":{"editor":"enum","options":["story","home","loading","answer"],"default":"answer"},"ui":{"editor":"text","default":"1"},"fill":{"editor":"text","default":"1"},"ai":{"editor":"text","default":"1"},"q":{"editor":"text","default":""},"noai":{"editor":"text","default":""},"parts":{"editor":"text","default":""},"notitle":{"editor":"text","default":""},"chat":{"editor":"text","default":""},"chart":{"editor":"text","default":""},"src":{"editor":"text","default":""},"focus":{"editor":"enum","options":["f6","tariff","ev","solar"],"default":"f6"},"onSend":{"editor":null},"onQ":{"editor":null},"onKey":{"editor":null},"onPick":{"editor":null},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const P = this.props;
+    const mode = P.mode || 'answer';
+    const product = mode !== 'story';
+    const c = (x) => Math.max(0, Math.min(1, x));
+    const sm = (x) => { x = c(x); return x * x * (3 - 2 * x); };
+    const ui = product ? 1 : +(P.ui ?? 1);
+    const fill = product ? 1 : +(P.fill ?? 1);
+    const ai = product ? 1 : +(P.ai ?? 1);
+    const a1 = sm(ui / 0.35), a2 = sm((ui - 0.2) / 0.4), a3 = sm((ui - 0.45) / 0.45);
+    const home = mode === 'home';
+    const focus = P.focus || 'f6';
+    // pins are placed on the raw render; product view moves the building 6cqi right, 3.4cqi down and scales it 1.06 about (53.92, 32)
+    const BX = 6, BY = 3.4, BS = 1.06;
+    const T = (x, y, n, v) => ({ x: (53.92 + (x - 53.92) * BS + BX).toFixed(2) + 'cqi', y: (32 + (y - 32) * BS + BY).toFixed(2) + 'cqi', n, v });
+    const ANS = {
+      f6: { tag: 'ANOMALY · FLOOR 6', big: '+18%', col: '#D84A3B', text: 'Floor 6 has used 18% more cooling than planned for four days. Its west glass takes full sun from 14:00.', act: 'Pre-cool at 11:00', pin: T(50.5, 20.8, 'Floor 6', '+18%') },
+      tariff: { tag: 'PEAK PRICE', big: '17:00', col: '#4A6FE3', text: 'Peak pricing starts at 17:00. Running on the battery until 20:00 avoids the highest rate.', act: 'Plan discharge', pin: T(45.6, 41.4, 'Main supply', '17:00') },
+      ev: { tag: 'EV CHARGING', big: '2 / 4', col: '#0F9160', text: 'Two chargers are drawing into the evening peak. Moving them to 21:00 gives the same range.', act: 'Reschedule', pin: T(31.4, 31.6, 'EV chargers', '2/4') },
+      solar: { tag: 'SOLAR', big: '245 kW', col: '#0F9160', text: 'Roof and carport solar covered 81% of today’s midday load.', act: 'See the day', pin: T(48.6, 10.6, 'Roof solar', '245 kW') },
+    };
+    const ans = ANS[focus];
+    const k = (n) => Math.round(n * sm(fill));
+    const step = mode === 'loading' ? 1 : 0;
+    const pick = (f, q) => () => P.onPick && P.onPick(f, q);
+    const TILES = [
+      { f: 'f6', n: 'Floor 6', s: 'Cooling 18% over', c: '#D84A3B', icon: 'M12 3l9 5-9 5-9-5zM3 13l9 5 9-5', q: 'Why is floor 6 using so much cooling?' },
+      { f: 'tariff', n: 'Peak price', s: 'Starts at 17:00', c: '#4A6FE3', icon: 'M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18zM12 7v5l3 2', q: 'When does the peak price start?' },
+      { f: 'ev', n: 'EV charging', s: '2 of 4 in use', c: '#0F9160', icon: 'M9 3v4M15 3v4M7 7h10v4a5 5 0 0 1-10 0zM12 16v5', q: 'Are the EV chargers adding to the peak?' },
+      { f: 'solar', n: 'Solar', s: '245 kW right now', c: '#D9A23A', icon: 'M12 8a4 4 0 1 0 0 8a4 4 0 1 0 0-8zM12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4', q: 'How much did the solar cover today?' },
+    ];
+    const noai = Math.max(0, Math.min(1, +(P.noai || 0))), chat = P.chat === '1' || P.chat === 1, chart = P.chart === '1' || P.chart === 1;
+    const PT = (P.parts || '').split(',').map((x) => x.trim()).filter(Boolean), has = (x) => !PT.length || PT.includes(x), on = (x) => has(x) ? 1 : 0;
+    return {
+      oScan: on('scan'), oTop: (home ? 1 : a1) * on('top'), oLeft: on('left'), oAI: on('ai'), oIN: on('input'), oRR: (home ? 0 : a2) * on('right'), oCards: (home ? 0 : a3), oC1: on('card1'), oC2: on('card2'), oC3: on('card3'), oHH: on('hhead'), oHI: on('hinput'), oCh: on('chips'), oHB: on('hbrief'),
+      a2c: home ? 0 : (a2 * (1 - noai)).toFixed(3), a2cx: ((1 - a2 * (1 - noai)) * 6).toFixed(2) + 'cqi', showChat: chat, showChart: chart, showSrc: (P.src === '1' || P.src === 1) && mode === 'answer' && has('src'),
+      product, isHome: home, titleOp: (home || P.notitle === '1' || P.notitle === 1 || !has('title')) ? 0 : 1, isLoading: mode === 'loading',
+      a1: home ? 1 : a1.toFixed(3), a1y: ((1 - a1) * -4).toFixed(2) + 'cqi',
+      a2: home ? 0 : a2.toFixed(3), a2x: ((1 - a2) * 6).toFixed(2) + 'cqi',
+      a3: home ? 0 : a3.toFixed(3), a3y: ((1 - a3) * 6).toFixed(2) + 'cqi',
+      aiAnim: !product && ai > 0.3 && ai < 1 ? 'p4-glow 1.6s ease-in-out infinite' : 'none',
+      aiSub: mode === 'loading' ? 'Looking at the building…' : mode === 'answer' ? (P.q || 'Here’s what I found') : ai > 0.5 ? 'How can I help you?' : 'Coming online…',
+      showTiles: (mode === 'story' && !chat) || mode === 'home', tilesOp: (0.35 + 0.65 * c(ai)).toFixed(2),
+      tiles: TILES.map((t) => ({ ...t, cls: 't4', pick: pick(t.f, t.q) })),
+      brief: [
+        { tag: 'ANOMALY · FLOOR 6', col: '#D84A3B', t: 'Floor 6 is using 18% more cooling than planned.', pick: pick(TILES[0].f, TILES[0].q) },
+        { tag: 'PEAK PRICE', col: '#4A6FE3', t: 'Peak pricing starts at 17:00. The battery can carry it.', pick: pick(TILES[1].f, TILES[1].q) },
+        { tag: 'EV CHARGING', col: '#0F9160', t: 'Two chargers will run into the evening peak.', pick: pick(TILES[2].f, TILES[2].q) },
+      ],
+      showSteps: mode === 'loading',
+      showAnswer: mode === 'answer', ans,
+      q: P.q || '', onQ: P.onQ || (() => {}), onKey: P.onKey || (() => {}), onSend: P.onSend || (() => {}),
+      sendOp: !product && ai < 0.6 ? '0.5' : '1',
+      hasData: (mode === 'story' && fill > 0.02) || mode === 'answer', showNums: ((mode === 'story' && fill > 0.02) || mode === 'answer') && !chart, noData: (mode === 'story' && fill <= 0.02) || mode === 'loading',
+      v1: k(318), v2: mode === 'answer' && focus === 'f6' ? '16' : '£' + k(1284).toLocaleString('en-GB'), v2u: mode === 'answer' && focus === 'f6' ? 'kW' : 'today',
+      v2b: mode === 'answer' && focus === 'f6' ? '+18' : '17:00', v2bu: mode === 'answer' && focus === 'f6' ? '%' : 'peak',
+      c2t: mode === 'answer' && focus === 'f6' ? 'Cooling · floor 6' : 'Today’s cost', c2s: mode === 'answer' && focus === 'f6' ? 'Against the plan' : 'So far today',
+      v3: k(78),
+      chips: TILES.map((t) => ({ t: '#' + t.n.split(' ').map((w) => w[0].toUpperCase() + w.slice(1)).join(''), pick: pick(t.f, t.q) })),
+      showPin: mode === 'answer' && has('pin'), pin: ans.pin, t6: focus === 'f6' && mode === 'answer' ? 'tag4 tag4--on tag4--alert' : 'tag4 tag4--alert',
+      status: mode === 'answer' ? 'Live' : mode === 'loading' ? 'Analysing' : 'Live',
+    };
+  }
+}
+</script>
+</body>
+</html>

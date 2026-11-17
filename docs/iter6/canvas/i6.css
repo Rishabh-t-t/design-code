@@ -1,0 +1,99 @@
+/* Iteration 6 · story boards. Cool greys from iteration 4, Bricolage Grotesque for display, Figtree for the reading voice.
+   Grid: 1440 page, 12 columns, 60px margins, 24px gutters (88px columns). Spacing on 8px. Board = one 1440 x 900 screen. */
+:root {
+  --i6-ink: #0F1115; --i6-body: #5B616B; --i6-lab: #8A9099; --i6-rule: rgba(15, 25, 40, .14);
+  --i6-green: #0F9160; --i6-red: #D84A3B; --i6-hl: #2EE37A;
+  --i6-disp: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --i6-text: "Figtree", "Helvetica Neue", Arial, sans-serif;
+}
+.b6 { position: relative; width: 1440px; height: 900px; overflow: hidden; font-family: var(--i6-text); color: var(--i6-ink);
+  background: radial-gradient(60% 50% at 62% 64%, #ECEEF1 0%, rgba(236, 238, 241, 0) 70%), linear-gradient(180deg, #E5E8EC 0%, #DFE2E6 62%, #E3E6EA 100%); }
+.b6 * { box-sizing: border-box; }
+
+/* building: same box as the app stage (.s4__bld), so camera moves read as one continuous shot */
+.bld6 { position: absolute; left: 58px; top: -14px; width: 1382px; height: 864px; transform-origin: 52% 55%; pointer-events: none; z-index: 1; }
+.bld6 img { width: 100%; height: 100%; display: block; }
+
+/* text column: pill 128, line above 168, headline 216 */
+.col6 { position: absolute; z-index: 5; display: flex; flex-direction: column; }
+.col6 > .wk6, .col6 > .wk6-sp { margin-bottom: 10px; align-self: flex-start; }
+.wk6-sp { height: 30px; }
+.k6 { margin: 0 0 8px; font: 400 32px/40px var(--i6-text); letter-spacing: -.012em; color: var(--i6-ink); text-wrap: balance; }
+.h6 { margin: 0; font-family: var(--i6-disp); font-weight: 400; color: var(--i6-ink); text-wrap: balance; font-optical-sizing: auto; }
+.h6.xl { font-size: 128px; line-height: 112px; letter-spacing: -.045em; }
+.h6.l { font-size: 96px; line-height: 88px; letter-spacing: -.04em; }
+.h6.m { font-size: 64px; line-height: 64px; letter-spacing: -.035em; }
+.pr6 { margin-top: 56px; display: flex; flex-direction: column; gap: 8px; max-width: 560px; }
+.pr6 b { font: 500 20px/28px var(--i6-text); color: var(--i6-ink); }
+.pr6 span, .pr6 p { margin: 0; font: 400 20px/30px var(--i6-text); color: var(--i6-body); text-wrap: pretty; }
+.pr6 small { font-size: 14px; line-height: 20px; color: var(--i6-lab); margin-top: 8px; }
+.pr6.tight { margin-top: 40px; }
+
+/* highlighter: a bar behind the lower half of the word, drawn under the text so it reflows with it */
+.mk6 { background: linear-gradient(180deg, transparent 50%, var(--i6-hl) 50%, var(--i6-hl) 90%, transparent 90%); padding: 0 .04em; margin: 0 -.04em; color: inherit; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+
+/* week pill: iteration 5 liquid glass */
+.wk6 { position: relative; isolation: isolate; display: inline-flex; align-items: center; gap: 8px; height: 30px; padding: 0 14px 0 12px; border-radius: 999px; font: 600 13px/1 var(--i6-text); color: var(--i6-ink); white-space: nowrap; letter-spacing: -.005em;
+  background: linear-gradient(135deg, rgba(255, 255, 255, .62) 0%, rgba(255, 255, 255, .26) 55%, rgba(255, 255, 255, .4) 100%); -webkit-backdrop-filter: blur(9px) saturate(1.8); backdrop-filter: blur(9px) saturate(1.8);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .95), inset 0 -1px 0 rgba(15, 25, 40, .07), inset 0 0 0 1px rgba(255, 255, 255, .55), 0 0 0 1px rgba(15, 25, 40, .06); }
+.wk6 i { width: 7px; height: 7px; border-radius: 50%; background: var(--i6-green); flex: none; }
+.wk6 em { font-style: normal; font-weight: 500; color: var(--i6-lab); }
+
+/* progress line, bottom right (the only chrome) */
+.pg6 { position: absolute; right: 60px; bottom: 36px; z-index: 20; display: flex; align-items: center; gap: 12px; font: 500 12px/1 var(--i6-text); color: var(--i6-ink); font-variant-numeric: tabular-nums; }
+.pg6 span:first-child { color: var(--i6-lab); }
+.pg6 s { position: relative; width: 96px; height: 1px; background: var(--i6-rule); text-decoration: none; }
+.pg6 s i { position: absolute; left: 0; top: -.5px; height: 2px; background: var(--i6-ink); }
+
+/* chapter break: building pauses behind a blurred cool-grey veil */
+.veil6 { position: absolute; inset: 0; z-index: 3; background: rgba(214, 218, 224, .5); -webkit-backdrop-filter: blur(14px) saturate(1.05); backdrop-filter: blur(14px) saturate(1.05); }
+.cen6 { position: absolute; left: 120px; right: 120px; z-index: 5; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.cen6 > .wk6 { margin-bottom: 24px; }
+.cen6 .k6 { margin-bottom: 16px; }
+.cen6 .sub6 { margin: 32px 0 0; font: 400 32px/40px var(--i6-text); color: var(--i6-body); letter-spacing: -.012em; }
+
+/* product window: the app at real proportions, framed like iteration 5 */
+.win6 { position: absolute; z-index: 4; border-radius: 20px; overflow: hidden; background: #E4E7EB;
+  box-shadow: 0 0 0 1px rgba(15, 25, 40, .08), 0 40px 80px -40px rgba(15, 25, 40, .35), 0 12px 24px -16px rgba(15, 25, 40, .18); }
+.win6-bar { height: 36px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0 16px; background: rgba(246, 247, 249, .94); border-bottom: 1px solid rgba(15, 25, 40, .08); font: 600 12px/1 var(--i6-text); color: var(--i6-ink); }
+.win6-dots { display: flex; gap: 8px; } .win6-dots i { width: 10px; height: 10px; border-radius: 50%; background: #CBD0D6; }
+.win6-title span { font-weight: 500; color: var(--i6-lab); }
+.win6-live { justify-self: end; display: inline-flex; align-items: center; gap: 8px; font-weight: 500; color: var(--i6-body); }
+.win6-live b { width: 7px; height: 7px; border-radius: 50%; background: var(--i6-green); box-shadow: 0 0 0 3px rgba(15, 145, 96, .18); }
+.win6 .s4 { width: 100%; }
+
+/* questions list, milestones, quote, faq, button */
+.ql6 { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.ql6 li { display: flex; gap: 16px; align-items: baseline; padding: 12px 0; border-top: 1px solid var(--i6-rule); font: 400 18px/26px var(--i6-text); color: var(--i6-ink); }
+.ql6 li:last-child { border-bottom: 1px solid var(--i6-rule); }
+.ql6 li b { font: 600 13px/1 var(--i6-text); color: var(--i6-lab); font-variant-numeric: tabular-nums; width: 20px; flex: none; }
+.ms6 { display: flex; flex-direction: column; gap: 8px; padding-top: 16px; border-top: 2px solid var(--i6-ink); }
+.ms6 b { font: 600 13px/1 var(--i6-text); color: var(--i6-green); letter-spacing: .02em; }
+.ms6 span { font: 400 24px/32px var(--i6-disp); letter-spacing: -.02em; color: var(--i6-ink); }
+.qt6 { margin: 0; font: 400 40px/48px var(--i6-disp); letter-spacing: -.03em; color: var(--i6-ink); text-wrap: balance; }
+.who6 { display: flex; align-items: center; gap: 8px; font: 400 16px/24px var(--i6-text); color: var(--i6-lab); }
+.ph6 { display: inline-block; font: 700 11px/1 var(--i6-text); letter-spacing: .06em; color: #B4531F; background: #FCEBDD; border-radius: 4px; padding: 4px 6px; }
+.btn6 { display: inline-flex; align-items: center; gap: 10px; height: 56px; padding: 0 28px; border-radius: 16px; background: var(--i6-green); color: #fff; font: 600 17px/1 var(--i6-text); }
+.faq6 { display: flex; flex-direction: column; gap: 8px; padding: 20px 0; border-top: 1px solid var(--i6-rule); }
+.faq6 b { font: 500 20px/28px var(--i6-text); color: var(--i6-ink); }
+.faq6 span { font: 400 17px/26px var(--i6-text); color: var(--i6-body); }
+.tiny6 { font: 400 14px/20px var(--i6-text); color: var(--i6-lab); }
+
+/* callout pointing into the window */
+.call6 { position: absolute; z-index: 8; display: flex; align-items: center; gap: 10px; font: 600 14px/1 var(--i6-text); color: var(--i6-red); white-space: nowrap; }
+.call6 i { width: 8px; height: 8px; border-radius: 50%; background: var(--i6-red); box-shadow: 0 0 0 4px rgba(216, 74, 59, .18); }
+.lead6 { position: absolute; z-index: 8; height: 1px; background: var(--i6-red); transform-origin: 0 50%; }
+
+/* loader: a black screen whose band opens while the numbers change */
+.ld6 { background: #0F1115; }
+.band6 { position: absolute; left: 0; right: 0; z-index: 1; background: linear-gradient(180deg, #E5E8EC 0%, #DFE2E6 62%, #E3E6EA 100%); display: grid; place-items: center; }
+.ldr6 { display: flex; align-items: stretch; gap: 12px; }
+.ldr6 .c { align-self: flex-end; padding-bottom: 10px; font: 400 20px/24px var(--i6-text); color: var(--i6-ink); font-variant-numeric: tabular-nums; }
+.ldr6 .n { font: 500 128px/104px var(--i6-disp); letter-spacing: -.045em; color: var(--i6-ink); white-space: nowrap; }
+.ldr6 .l { align-self: flex-start; padding-top: 2px; font: 400 20px/24px var(--i6-text); color: var(--i6-ink); white-space: nowrap; min-width: 80px; }
+.ldp6 { position: absolute; left: 60px; right: 60px; bottom: 36px; z-index: 2; display: flex; justify-content: space-between; font: 500 12px/1 var(--i6-text); color: rgba(255, 255, 255, .5); font-variant-numeric: tabular-nums; }
+
+/* board tag (canvas only): number + name, bottom left, small */
+.tag6 { position: absolute; left: 60px; bottom: 32px; z-index: 20; display: flex; gap: 10px; align-items: center; font: 500 12px/1 var(--i6-text); color: var(--i6-lab); }
+.tag6 b { font-weight: 700; color: #fff; background: var(--i6-ink); border-radius: 4px; padding: 4px 7px; }
+.ld6 .tag6 { color: rgba(255, 255, 255, .5); } .ld6 .tag6 b { background: #fff; color: var(--i6-ink); }
