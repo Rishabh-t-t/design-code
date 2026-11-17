@@ -8,12 +8,12 @@
      Each area plays its scenario on the live twin next to the list. */
   const areas = [...document.querySelectorAll('.areas__item')];
   const areaIndex = document.querySelector('.areas__progress span');
-  const AREA_SCENARIO = ['anomaly', 'clouds', 'ev', 'outage'];  // status · forecasting · asset performance · operating conditions
+  const AREA_FOCUS = ['f6', 'tariff', 'solar', 'ev'];  // system status · forecasting · asset performance · operational conditions
   function setArea(n) {
     areas.forEach((a, m) => a.classList.toggle('is-active', m === n));
     areaIndex.textContent = String(n + 1);
-    const twin = window.cxTwin && window.cxTwin('scenario');
-    if (twin) twin.send({ cx: 'scenario', id: AREA_SCENARIO[n] });
+    const app = window.cxApp && window.cxApp('scenario');
+    if (app) app.setFocus(AREA_FOCUS[n]);
   }
   window.cxSetArea = setArea;
   areas.forEach((el, n) => el.addEventListener('click', () => setArea(n)));

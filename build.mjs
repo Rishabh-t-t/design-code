@@ -33,7 +33,8 @@ html = html.replace(/<!-- @twin-json ([^ ]+) -->/g, (_, p) =>
   `<script type="application/json" id="twin-src">${JSON.stringify(read(p)).replace(/<\//g, '<\\/')}</script>`);
 
 mkdirSync(dirname(out), { recursive: true });
-writeFileSync(out, html);
+// dist/ sits one folder down, so its asset paths step up a level
+writeFileSync(out, html.replace(/(["'(])assets\/i4\//g, '$1../assets/i4/'));
 // Root copy so GitHub Pages can serve the page at the site root
 writeFileSync(join(root, 'index.html'), html);
 console.log(`built ${out} (${(Buffer.byteLength(html) / 1024).toFixed(1)} KB)`);
