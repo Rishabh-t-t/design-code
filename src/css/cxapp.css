@@ -160,3 +160,13 @@
 
 /* static frames: no pointer, no focus */
 .cxv[inert] { pointer-events: none; }
+
+/* ---------- answer highlight painted on the render (visible-surface masks) ---------- */
+.hl4 { position: absolute; left: 4cqi; top: -1cqi; width: 96cqi; aspect-ratio: 16 / 10; transform: translate(6cqi, 3.4cqi) scale(1.06); transform-origin: 52% 55%; pointer-events: none; animation: cx4-in .6s ease both; }
+.hl4 i { position: absolute; inset: 0; -webkit-mask-size: 100% 100%; mask-size: 100% 100%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; mix-blend-mode: multiply; }
+
+/* scenario framing pans between areas */
+.cxv[data-cx="scenario"] .s4 { transition: transform .9s cubic-bezier(.2, .7, .2, 1); }
+
+/* scenario framings crop the stage: no title */
+[data-cx="scenario"] .cx4__title { display: none; }

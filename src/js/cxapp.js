@@ -59,7 +59,10 @@
     if (kind === 'scenario') S.q = TILES[0].q;
     const D = host.dataset;
     const variant = D.cxVariant || '';            // 'chatside' | 'chatonly': the two directions we did not build
-    const crop = D.cxCrop ? D.cxCrop.split(',').map(Number) : null;   // x, y (0–1 of the stage), zoom, aspect
+    let crop = D.cxCrop ? D.cxCrop.split(',').map(Number) : null;   // x, y (0–1 of the stage), zoom, aspect
+    // scenario areas: each answer gets its own framing on the product (x, y, zoom, aspect)
+    const SCN_CROP = { f6: [0.3, 0.03, 1.45, 1.6], tariff: [0.3, 0.3, 1.45, 1.6], solar: [0.4, 0, 1.7, 1.6], ev: [0.22, 0.2, 1.3, 1.6] };
+    if (kind === 'scenario') crop = SCN_CROP[S.focus];
     if (D.cxMode) S.mode = D.cxMode;
     if (D.cxFocus) { S.focus = D.cxFocus; S.q = TILES.find((t) => t.f === D.cxFocus).q; }
     if ('cxStatic' in D) S.scanDur = 6.4;
@@ -159,6 +162,7 @@
         <div class="cx4__brief">${BRIEF.map((b) => `<button type="button" class="c4 cx4__bc" data-pick="${b.f}"><span style="color:${b.col}">${b.tag}</span><span>${b.t}</span></button>`).join('')}</div>
         <span class="lab4">Modelled from the last 90 days of meter data</span>
       </div>` : ''}
+      ${answer ? `<div class="hl4 hl4--${S.focus}" aria-hidden="true">${{ solar: [['f9', '#D9A23A', 0.6]], tariff: [['ground', '#4A6FE3', 0.2], ['f0', '#4A6FE3', 0.55]], ev: [['ground', '#0F9160', 0.24]], f6: [] }[S.focus].map(([m, c, o]) => `<i style="background:${c};opacity:${o};-webkit-mask-image:url(${BASE}scan/${m}.webp);mask-image:url(${BASE}scan/${m}.webp)"></i>`).join('')}</div>` : ''}
       ${answer ? `<span class="pin4" style="left:${ans.pin.x};top:${ans.pin.y}"><i></i>${ans.pin.n} <em>${ans.pin.v}</em></span>` : ''}`;
       if (variant === 'chatonly') ui.innerHTML = `<div class="cx4__top"><span class="cx4__brand"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4 L11 12 L4 20 M20 4 L13 12 L20 20" stroke="#0F1115" stroke-width="2.6" stroke-linecap="round" fill="none"></path></svg><b>ConnectX</b></span><span></span><span></span></div>
         <div class="c4 cx4__solo"><p class="cx4__me">Battery state this morning?</p><p class="cx4__bot">The battery was at 64% at 07:00 and has charged to 78% from the roof solar since. At the current rate it will be full by 13:40…</p><p class="cx4__me">What’s driving cost today?</p><p class="cx4__bot">Most of today’s cost comes from the 17:00 peak. Load is forecast at 340 kW then, against a tariff three times the midday rate. Shifting EV charging and pre-cooling floors 5 to 7 would…</p>
@@ -224,7 +228,11 @@
 
     const api = {
       kind, ask, dash, render,
-      setFocus(f) { if (S.focus === f && S.mode === 'answer') return; ask(f, TILES.find((t) => t.f === f).q); },
+      setFocus(f) {
+        if (S.focus === f && S.mode === 'answer') return;
+        if (kind === 'scenario') { crop = SCN_CROP[f]; fit(); }
+        ask(f, TILES.find((t) => t.f === f).q);
+      },
       /* hero: the building assembles (plan → skeleton → walls → facade), then the dashboard builds around it */
       build() {
         if (reduce) { S.ui = 1; S.fill = 1; S.mode = 'dash'; render(); return; }

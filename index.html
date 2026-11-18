@@ -1535,19 +1535,19 @@ html.lenis, html.lenis body { height: auto; }
   --ground: #E2E5E9;
   --ground-hi: #E9EBEE;
   --ground-lo: #DCDFE3;
-  --glass: #F3F4F6;          /* cards on the white page */
-  --glass-2: #ECEEF1;
+  --glass: rgb(255 255 255 / .38);
+  --glass-2: rgb(255 255 255 / .6);
   --glass-blur: blur(24px) saturate(1.15);
   --active: rgb(15 25 40 / .09);
 
   /* existing tokens, remapped */
-  --bg: #F3F4F6;
-  --bg-2: #ECEEF1;
-  --page: #FFFFFF;
-  --surface: #F3F4F6;
-  --paper: #FAFAFA;
-  --sand: #E1E4E8;
-  --band: #ECEEF1;
+  --bg: #E2E5E9;
+  --bg-2: #DCDFE3;
+  --page: #E2E5E9;
+  --surface: rgb(255 255 255 / .45);
+  --paper: #E9EBEE;
+  --sand: #E2E5E9;
+  --band: #DCDFE3;
   --ink: #0F1115;
   --ink-2: #4A4F57;
   --ink-3: #5F646C;          /* 4.7:1 on the ground */
@@ -1595,8 +1595,11 @@ html.lenis, html.lenis body { height: auto; }
 }
 
 /* ---------- Page ground: one soft studio gradient ---------- */
-html { background: #FFFFFF; }
-body { background: #FFFFFF; color: var(--ink-2); }
+html { background: var(--ground); }
+body {
+  background: linear-gradient(180deg, #E4E7EB 0%, #E1E4E8 40%, #E2E5E9 100%);
+  color: var(--ink-2);
+}
 :focus-visible { outline-color: var(--ink); box-shadow: 0 0 0 6px var(--green-soft); }
 
 /* ---------- Type: Manrope, medium headings, tight tracking ---------- */
@@ -1617,10 +1620,15 @@ body { background: #FFFFFF; color: var(--ink-2); }
 .chapter__num { color: var(--green-ink); }
 
 /* ---------- Surfaces: flat, translucent, no borders or shadows ---------- */
-.hero { background: linear-gradient(180deg, #F1F3F5 0%, #E4E7EB 45%, var(--sand) 100%); }
-.intro { background: linear-gradient(180deg, var(--sand), #FFFFFF); }
-.intro__horizon { display: block; background: #FFFFFF; }
-.banner { background: linear-gradient(180deg, #FFFFFF, var(--paper)); }
+.hero { background: linear-gradient(180deg, #EEF0F2 0%, #E4E7EB 40%, #DCDFE3 100%); }
+.intro { background: #DCDFE3; }
+/* the arc: white at its rim, settling into the page grey, with a soft lift */
+.intro__horizon {
+  display: block;
+  background: linear-gradient(180deg, #FFFFFF 0, #F1F3F5 160px, #E4E7EB 420px, #E2E5E9 900px);
+  box-shadow: 0 -18px 60px rgb(15 25 40 / .10), 0 -2px 0 rgb(255 255 255 / .9);
+}
+.banner { background: transparent; }
 .band { background: var(--band); }
 
 .fnote, .quote, .quotes__grid--single .quote, .scope__col--in, .midcta, .enquiry__success,
@@ -2159,6 +2167,166 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
 
 /* static frames: no pointer, no focus */
 .cxv[inert] { pointer-events: none; }
+
+/* ---------- answer highlight painted on the render (visible-surface masks) ---------- */
+.hl4 { position: absolute; left: 4cqi; top: -1cqi; width: 96cqi; aspect-ratio: 16 / 10; transform: translate(6cqi, 3.4cqi) scale(1.06); transform-origin: 52% 55%; pointer-events: none; animation: cx4-in .6s ease both; }
+.hl4 i { position: absolute; inset: 0; -webkit-mask-size: 100% 100%; mask-size: 100% 100%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; mix-blend-mode: multiply; }
+
+/* scenario framing pans between areas */
+.cxv[data-cx="scenario"] .s4 { transition: transform .9s cubic-bezier(.2, .7, .2, 1); }
+
+/* scenario framings crop the stage: no title */
+[data-cx="scenario"] .cx4__title { display: none; }
+</style>
+<style>
+/* ==========================================================================
+   Layout — MetaLab case-study layout (metalab.com/work/midjourney), our theme.
+   A 12-column grid (24px gutter) inside the page padding. Sections place
+   their content by column: statements start at column 3, notes sit in
+   columns 7–11, media runs from column 4 (or 3) to the edge or full-bleed.
+   Type: a light display title, 56px and 40px statements, 20px sentence-case
+   labels, 16px notes, plain dt/dd meta. Generous vertical rhythm.
+   ========================================================================== */
+
+:root {
+  --gutter-ml: 24px;
+  --cw: calc(min(100vw, var(--sec-max) + 2 * var(--pad-x)) - 2 * var(--pad-x));   /* content width */
+  --colg: calc((var(--cw) + var(--gutter-ml)) / 12);                                /* one column + gutter */
+  --col3: calc(2 * var(--colg));
+  --col4: calc(3 * var(--colg));
+  --col7: calc(6 * var(--colg));
+  --rhythm: clamp(160px, 15vw, 260px);
+  --ml-display: clamp(56px, 6.7vw, 128px);
+  --ml-56: clamp(36px, 3.9vw, 56px);
+  --ml-40: clamp(28px, 2.8vw, 40px);
+  --ml-20: clamp(17px, 1.4vw, 20px);
+  --ml-16: clamp(15px, 1.11vw, 16px);
+}
+
+/* ---------- Hero: light display title, plain meta row, full-bleed product ---------- */
+.hero__label-row { padding-top: clamp(96px, 9vw, 150px); }
+.hero__eyebrow { font-size: var(--ml-20); font-weight: 400; letter-spacing: -.01em; text-transform: none; color: var(--ink-3); }
+.hero__title { font-size: clamp(52px, 5.9vw, 112px); font-weight: 300; line-height: 1.06; letter-spacing: -.035em; max-width: calc(10 * var(--colg)); margin-top: 12px; }
+.details {
+  display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); column-gap: var(--gutter-ml); row-gap: 20px;
+  align-items: start; padding-block: clamp(40px, 4vw, 64px) clamp(48px, 5vw, 80px);
+}
+.detail, .detail--grow { flex: none; gap: 4px; white-space: normal; min-width: 0; }
+.detail dt { font-size: var(--ml-16); line-height: 1.4; font-weight: 500; text-transform: none; letter-spacing: -.01em; color: var(--ink); }
+.detail dd { font-size: var(--ml-16); line-height: 1.4; font-weight: 400; color: var(--ink-3); }
+.hero__media.sec { max-width: none; padding-inline: 0; padding-bottom: 0; }
+.hero__media .cxv { border-radius: 0; }
+.hero__cap { padding: 16px var(--pad-x) 0; font-size: var(--ml-16); color: var(--ink-3); }
+
+/* ---------- Intro: one large statement, brightening as it is read ---------- */
+.intro__summary-row { padding-top: calc(var(--rhythm) + clamp(60px, 6vw, 120px)); padding-bottom: var(--rhythm); }
+.intro__label { font-size: var(--ml-20); line-height: 1.3; color: var(--ink); margin-bottom: clamp(20px, 2vw, 32px); }
+.intro__summary {
+  max-width: calc(10 * var(--colg));
+  font-family: var(--font-display); font-size: var(--ml-56); font-weight: 400; line-height: 1.21; letter-spacing: -.02em;
+  color: var(--ink); text-wrap: pretty;
+}
+
+/* ---------- Chapters: label + statement from column 3, notes in columns 7–11 ---------- */
+.chapter__label-row { padding-top: var(--rhythm); padding-bottom: 0; padding-left: calc(var(--pad-x) + var(--col3)); }
+.chapter__label-row--first { padding-top: calc(var(--rhythm) * .6); }
+.chapter__label {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px;
+  font-family: var(--font-body); font-size: var(--ml-20); line-height: 1.3; font-weight: 400; letter-spacing: -.01em; text-transform: none; color: var(--ink);
+}
+.chapter__num { font-weight: 400; letter-spacing: 0; color: var(--ink-3); }
+.chapter__cap { margin-left: 0; padding-left: 14px; font-size: var(--ml-16); }
+.chapter__wk { height: 24px; font-size: 13px; letter-spacing: 0; text-transform: none; vertical-align: 2px; }
+.chapter__heading-row { padding-top: clamp(20px, 2vw, 32px); padding-bottom: 0; padding-left: calc(var(--pad-x) + var(--col3)); }
+.chapter__heading, .t-heading-l.chapter__heading {
+  max-width: calc(6 * var(--colg));
+  font-size: var(--ml-40); font-weight: 400; line-height: 1.2; letter-spacing: -.03em; color: var(--ink);
+}
+.chapter__heading br { display: none; }
+
+/* body copy: a narrow column of notes */
+.chapter .split:not(.split--start) {
+  display: block; padding-top: clamp(32px, 3vw, 48px); padding-bottom: clamp(64px, 6vw, 112px);
+  padding-left: calc(var(--pad-x) + var(--col7));
+}
+.chapter .split:not(.split--start) .split__left { display: none; }
+.chapter .split .copy { max-width: calc(5 * var(--colg) - var(--gutter-ml)); gap: 16px; }
+.chapter .copy--m, .chapter .copy--l, .peak__text .copy { font-size: var(--ml-16); line-height: 1.5; color: var(--ink-2); }
+.chapter .copy .copy__lead { font-size: var(--ml-16); color: var(--ink); font-weight: 500; }
+
+/* 01: notes in columns 3–6, the three role cards in columns 7–12 */
+.split--start {
+  grid-template-columns: calc(4 * var(--colg) - var(--gutter-ml)) minmax(0, 1fr);
+  column-gap: var(--colg);
+  padding-top: clamp(32px, 3vw, 48px); padding-bottom: calc(var(--rhythm) * .5);
+  padding-left: calc(var(--pad-x) + var(--col3));
+}
+
+/* early concepts: two images from column 3 */
+.media-sec .shells { padding-left: calc(var(--pad-x) + var(--col3)); padding-block: 0 var(--rhythm); }
+
+/* ---------- Riskiest call: three product frames across the grid ---------- */
+.options { padding-block: 0 0; column-gap: var(--gutter-ml); }
+.option__k { font-size: var(--ml-16); font-weight: 500; }
+.option__k span { font-size: var(--ml-16); font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--ink-3); margin-bottom: 2px; }
+.option figcaption, .closeup figcaption, .shell__caption { font-size: var(--ml-16); line-height: 1.45; color: var(--ink-3); font-style: normal; }
+.option--chosen .option__k span { color: var(--ink-3); }
+.option .cxv, .closeup .cxv { border-radius: 8px; }
+
+/* ---------- Scenario areas & peak price: notes in columns 1–3, product in columns 4–12 ---------- */
+.areas { grid-template-columns: calc(3 * var(--colg) - var(--gutter-ml)) minmax(0, 1fr); column-gap: var(--gutter-ml); }
+.areas__label { font-size: var(--ml-16); font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--ink); }
+.areas__item button { font-size: var(--ml-20); font-weight: 400; padding: 14px 0; }
+.areas__n { font-size: var(--ml-16); color: var(--ink-3); }
+.areas__view[data-cx] .s4, .areas__view[data-cx] { border-radius: 8px; }
+.peak {
+  grid-template-columns: calc(3 * var(--colg) - var(--gutter-ml)) minmax(0, 1fr); column-gap: var(--gutter-ml);
+  padding-block: calc(var(--rhythm) * .6) 0;
+}
+.peak .sub__media { order: 2; }
+.peak__text { order: 1; justify-content: flex-start; gap: 20px; }
+.peak__text h3 { font-size: var(--ml-20); font-weight: 400; line-height: 1.3; letter-spacing: -.01em; }
+.peak .sub__media[data-cx], .peak .sub__media .s4 { border-radius: 8px; }
+
+/* ---------- Design that ships: scope block and close-ups on the grid ---------- */
+.scope { padding-left: calc(var(--pad-x) + var(--col3)); column-gap: var(--gutter-ml); padding-bottom: clamp(48px, 5vw, 80px); }
+.scope__label { font-size: var(--ml-20); font-weight: 400; }
+.scope li { font-size: var(--ml-16); }
+.closeups { padding-block: 0 0; column-gap: var(--gutter-ml); }
+
+/* ---------- Banner: a statement from column 3, not centred ---------- */
+.banner__inner { max-width: none; align-items: flex-start; text-align: left; padding: var(--rhythm) var(--pad-x) 0 calc(var(--pad-x) + var(--col3)); }
+.banner__text { max-width: calc(6 * var(--colg)); font-size: var(--ml-40); font-weight: 400; line-height: 1.2; letter-spacing: -.03em; }
+.banner__cite { font-size: var(--ml-16); font-weight: 400; letter-spacing: 0; text-transform: none; }
+
+/* ---------- Timeline & mid CTA ---------- */
+.timeline-row { padding-block: clamp(40px, 4vw, 64px) clamp(64px, 6vw, 112px); }
+.timeline-row__title { font-size: var(--ml-20); font-weight: 400; }
+.timeline__label { font-size: var(--ml-16); font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--ink); }
+.timeline__wk { font-size: 13px; letter-spacing: 0; text-transform: none; font-weight: 500; }
+.timeline__copy { font-size: var(--ml-16); }
+.midcta { padding: clamp(32px, 3.4vw, 56px); border-radius: 8px; }
+.midcta__text { font-size: var(--ml-40); font-weight: 400; letter-spacing: -.03em; }
+
+/* ---------- FAQ, contact: MetaLab sizes ---------- */
+.faq { padding-top: var(--rhythm); }
+.faq__title { font-size: var(--ml-40); font-weight: 400; letter-spacing: -.03em; }
+.faq__item summary .t-label { font-size: var(--ml-20); font-weight: 400; }
+.enquiry { padding-block: var(--rhythm); }
+.enquiry__title { font-size: clamp(48px, 6vw, 88px); font-weight: 300; line-height: 1.12; letter-spacing: -.02em; }
+.related__title { font-size: var(--ml-40); font-weight: 400; letter-spacing: -.03em; }
+
+/* ---------- Below 1024px: one column, no offsets ---------- */
+@media (max-width: 1023px) {
+  :root { --rhythm: 96px; }
+  .chapter__label-row, .chapter__heading-row, .split--start, .media-sec .shells, .scope,
+  .chapter .split:not(.split--start) { padding-left: var(--pad-x); }
+  .banner__inner { padding: var(--rhythm) var(--pad-x) 0; }
+  .details { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .chapter__heading, .banner__text, .intro__summary, .chapter .split .copy { max-width: none; }
+  .areas, .peak { grid-template-columns: minmax(0, 1fr); }
+  .split--start { grid-template-columns: minmax(0, 1fr); }
+}
 </style>
 <style>
 /* ==========================================================================
@@ -2440,14 +2608,15 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
 <section class="intro" aria-label="Introduction">
   <div class="intro__horizon" aria-hidden="true"></div>
   <div class="sec intro__summary-row">
-    <h2 class="intro__summary t-heading-l">An AI-first energy product, defined, designed and built by a team of 3.</h2>
+    <p class="intro__label">Introduction</p>
+    <h2 class="intro__summary">ConnectX came to us with a bold idea: ask a building anything in plain words, and get a working answer back. In 8 weeks we defined it, designed it and built it, from the first workshop to a live product.</h2>
   </div>
 </section>
 
 <!-- ======================================================================
      AT A GLANCE  (Figma: glance-section)
      ====================================================================== -->
-<section class="glance" id="case-context" aria-labelledby="glance-title">
+<section hidden class="glance" id="case-context" aria-labelledby="glance-title">
   <div class="sec glance__head">
     <p class="t-label-s glance__eyebrow">At a glance</p>
     <h2 id="glance-title" class="t-label-l">The MVP at a glance</h2>
@@ -2585,7 +2754,7 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
         </ol>
         <p class="areas__progress"><span>1</span> / 4</p>
       </div>
-      <div class="areas__view" data-cx="scenario" data-cx-label="ConnectX answering the scenario for the selected area on the building"></div>
+      <div class="areas__view" data-cx="scenario" data-cx-min data-cx-label="ConnectX answering the scenario for the selected area on the building"></div>
     </div>
   </div>
   <div class="sec peak" id="peak-price-scenario">
@@ -3087,7 +3256,10 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
     if (kind === 'scenario') S.q = TILES[0].q;
     const D = host.dataset;
     const variant = D.cxVariant || '';            // 'chatside' | 'chatonly': the two directions we did not build
-    const crop = D.cxCrop ? D.cxCrop.split(',').map(Number) : null;   // x, y (0–1 of the stage), zoom, aspect
+    let crop = D.cxCrop ? D.cxCrop.split(',').map(Number) : null;   // x, y (0–1 of the stage), zoom, aspect
+    // scenario areas: each answer gets its own framing on the product (x, y, zoom, aspect)
+    const SCN_CROP = { f6: [0.3, 0.03, 1.45, 1.6], tariff: [0.3, 0.3, 1.45, 1.6], solar: [0.4, 0, 1.7, 1.6], ev: [0.22, 0.2, 1.3, 1.6] };
+    if (kind === 'scenario') crop = SCN_CROP[S.focus];
     if (D.cxMode) S.mode = D.cxMode;
     if (D.cxFocus) { S.focus = D.cxFocus; S.q = TILES.find((t) => t.f === D.cxFocus).q; }
     if ('cxStatic' in D) S.scanDur = 6.4;
@@ -3187,6 +3359,7 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
         <div class="cx4__brief">${BRIEF.map((b) => `<button type="button" class="c4 cx4__bc" data-pick="${b.f}"><span style="color:${b.col}">${b.tag}</span><span>${b.t}</span></button>`).join('')}</div>
         <span class="lab4">Modelled from the last 90 days of meter data</span>
       </div>` : ''}
+      ${answer ? `<div class="hl4 hl4--${S.focus}" aria-hidden="true">${{ solar: [['f9', '#D9A23A', 0.6]], tariff: [['ground', '#4A6FE3', 0.2], ['f0', '#4A6FE3', 0.55]], ev: [['ground', '#0F9160', 0.24]], f6: [] }[S.focus].map(([m, c, o]) => `<i style="background:${c};opacity:${o};-webkit-mask-image:url(${BASE}scan/${m}.webp);mask-image:url(${BASE}scan/${m}.webp)"></i>`).join('')}</div>` : ''}
       ${answer ? `<span class="pin4" style="left:${ans.pin.x};top:${ans.pin.y}"><i></i>${ans.pin.n} <em>${ans.pin.v}</em></span>` : ''}`;
       if (variant === 'chatonly') ui.innerHTML = `<div class="cx4__top"><span class="cx4__brand"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4 L11 12 L4 20 M20 4 L13 12 L20 20" stroke="#0F1115" stroke-width="2.6" stroke-linecap="round" fill="none"></path></svg><b>ConnectX</b></span><span></span><span></span></div>
         <div class="c4 cx4__solo"><p class="cx4__me">Battery state this morning?</p><p class="cx4__bot">The battery was at 64% at 07:00 and has charged to 78% from the roof solar since. At the current rate it will be full by 13:40…</p><p class="cx4__me">What’s driving cost today?</p><p class="cx4__bot">Most of today’s cost comes from the 17:00 peak. Load is forecast at 340 kW then, against a tariff three times the midday rate. Shifting EV charging and pre-cooling floors 5 to 7 would…</p>
@@ -3252,7 +3425,11 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
 
     const api = {
       kind, ask, dash, render,
-      setFocus(f) { if (S.focus === f && S.mode === 'answer') return; ask(f, TILES.find((t) => t.f === f).q); },
+      setFocus(f) {
+        if (S.focus === f && S.mode === 'answer') return;
+        if (kind === 'scenario') { crop = SCN_CROP[f]; fit(); }
+        ask(f, TILES.find((t) => t.f === f).q);
+      },
       /* hero: the building assembles (plan → skeleton → walls → facade), then the dashboard builds around it */
       build() {
         if (reduce) { S.ui = 1; S.fill = 1; S.mode = 'dash'; render(); return; }
@@ -3540,12 +3717,12 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
     /* Line reveals */
     $$([
       '.chapter__heading:not(.decide__lead)', '.banner__text', '.peak__text h3', '.glance__key .t-heading-m',
-      '.facts__title', '.faq__title', '.related__title', '.enquiry__title', '.intro__summary',
+      '.facts__title', '.faq__title', '.related__title', '.enquiry__title',
     ].join(',')).forEach((el) => revealLines(el));
     await yieldToBrowser();
 
     /* Big reads brighten word by word, scrubbed */
-    $$('.decide__lead').forEach(brighten);
+    $$('.decide__lead, .intro__summary').forEach(brighten);
     await yieldToBrowser();
 
     /* Fade-up for supporting elements */

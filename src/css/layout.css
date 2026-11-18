@@ -1,0 +1,148 @@
+/* ==========================================================================
+   Layout — MetaLab case-study layout (metalab.com/work/midjourney), our theme.
+   A 12-column grid (24px gutter) inside the page padding. Sections place
+   their content by column: statements start at column 3, notes sit in
+   columns 7–11, media runs from column 4 (or 3) to the edge or full-bleed.
+   Type: a light display title, 56px and 40px statements, 20px sentence-case
+   labels, 16px notes, plain dt/dd meta. Generous vertical rhythm.
+   ========================================================================== */
+
+:root {
+  --gutter-ml: 24px;
+  --cw: calc(min(100vw, var(--sec-max) + 2 * var(--pad-x)) - 2 * var(--pad-x));   /* content width */
+  --colg: calc((var(--cw) + var(--gutter-ml)) / 12);                                /* one column + gutter */
+  --col3: calc(2 * var(--colg));
+  --col4: calc(3 * var(--colg));
+  --col7: calc(6 * var(--colg));
+  --rhythm: clamp(160px, 15vw, 260px);
+  --ml-display: clamp(56px, 6.7vw, 128px);
+  --ml-56: clamp(36px, 3.9vw, 56px);
+  --ml-40: clamp(28px, 2.8vw, 40px);
+  --ml-20: clamp(17px, 1.4vw, 20px);
+  --ml-16: clamp(15px, 1.11vw, 16px);
+}
+
+/* ---------- Hero: light display title, plain meta row, full-bleed product ---------- */
+.hero__label-row { padding-top: clamp(96px, 9vw, 150px); }
+.hero__eyebrow { font-size: var(--ml-20); font-weight: 400; letter-spacing: -.01em; text-transform: none; color: var(--ink-3); }
+.hero__title { font-size: clamp(52px, 5.9vw, 112px); font-weight: 300; line-height: 1.06; letter-spacing: -.035em; max-width: calc(10 * var(--colg)); margin-top: 12px; }
+.details {
+  display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); column-gap: var(--gutter-ml); row-gap: 20px;
+  align-items: start; padding-block: clamp(40px, 4vw, 64px) clamp(48px, 5vw, 80px);
+}
+.detail, .detail--grow { flex: none; gap: 4px; white-space: normal; min-width: 0; }
+.detail dt { font-size: var(--ml-16); line-height: 1.4; font-weight: 500; text-transform: none; letter-spacing: -.01em; color: var(--ink); }
+.detail dd { font-size: var(--ml-16); line-height: 1.4; font-weight: 400; color: var(--ink-3); }
+.hero__media.sec { max-width: none; padding-inline: 0; padding-bottom: 0; }
+.hero__media .cxv { border-radius: 0; }
+.hero__cap { padding: 16px var(--pad-x) 0; font-size: var(--ml-16); color: var(--ink-3); }
+
+/* ---------- Intro: one large statement, brightening as it is read ---------- */
+.intro__summary-row { padding-top: calc(var(--rhythm) + clamp(60px, 6vw, 120px)); padding-bottom: var(--rhythm); }
+.intro__label { font-size: var(--ml-20); line-height: 1.3; color: var(--ink); margin-bottom: clamp(20px, 2vw, 32px); }
+.intro__summary {
+  max-width: calc(10 * var(--colg));
+  font-family: var(--font-display); font-size: var(--ml-56); font-weight: 400; line-height: 1.21; letter-spacing: -.02em;
+  color: var(--ink); text-wrap: pretty;
+}
+
+/* ---------- Chapters: label + statement from column 3, notes in columns 7–11 ---------- */
+.chapter__label-row { padding-top: var(--rhythm); padding-bottom: 0; padding-left: calc(var(--pad-x) + var(--col3)); }
+.chapter__label-row--first { padding-top: calc(var(--rhythm) * .6); }
+.chapter__label {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px;
+  font-family: var(--font-body); font-size: var(--ml-20); line-height: 1.3; font-weight: 400; letter-spacing: -.01em; text-transform: none; color: var(--ink);
+}
+.chapter__num { font-weight: 400; letter-spacing: 0; color: var(--ink-3); }
+.chapter__cap { margin-left: 0; padding-left: 14px; font-size: var(--ml-16); }
+.chapter__wk { height: 24px; font-size: 13px; letter-spacing: 0; text-transform: none; vertical-align: 2px; }
+.chapter__heading-row { padding-top: clamp(20px, 2vw, 32px); padding-bottom: 0; padding-left: calc(var(--pad-x) + var(--col3)); }
+.chapter__heading, .t-heading-l.chapter__heading {
+  max-width: calc(6 * var(--colg));
+  font-size: var(--ml-40); font-weight: 400; line-height: 1.2; letter-spacing: -.03em; color: var(--ink);
+}
+.chapter__heading br { display: none; }
+
+/* body copy: a narrow column of notes */
+.chapter .split:not(.split--start) {
+  display: block; padding-top: clamp(32px, 3vw, 48px); padding-bottom: clamp(64px, 6vw, 112px);
+  padding-left: calc(var(--pad-x) + var(--col7));
+}
+.chapter .split:not(.split--start) .split__left { display: none; }
+.chapter .split .copy { max-width: calc(5 * var(--colg) - var(--gutter-ml)); gap: 16px; }
+.chapter .copy--m, .chapter .copy--l, .peak__text .copy { font-size: var(--ml-16); line-height: 1.5; color: var(--ink-2); }
+.chapter .copy .copy__lead { font-size: var(--ml-16); color: var(--ink); font-weight: 500; }
+
+/* 01: notes in columns 3–6, the three role cards in columns 7–12 */
+.split--start {
+  grid-template-columns: calc(4 * var(--colg) - var(--gutter-ml)) minmax(0, 1fr);
+  column-gap: var(--colg);
+  padding-top: clamp(32px, 3vw, 48px); padding-bottom: calc(var(--rhythm) * .5);
+  padding-left: calc(var(--pad-x) + var(--col3));
+}
+
+/* early concepts: two images from column 3 */
+.media-sec .shells { padding-left: calc(var(--pad-x) + var(--col3)); padding-block: 0 var(--rhythm); }
+
+/* ---------- Riskiest call: three product frames across the grid ---------- */
+.options { padding-block: 0 0; column-gap: var(--gutter-ml); }
+.option__k { font-size: var(--ml-16); font-weight: 500; }
+.option__k span { font-size: var(--ml-16); font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--ink-3); margin-bottom: 2px; }
+.option figcaption, .closeup figcaption, .shell__caption { font-size: var(--ml-16); line-height: 1.45; color: var(--ink-3); font-style: normal; }
+.option--chosen .option__k span { color: var(--ink-3); }
+.option .cxv, .closeup .cxv { border-radius: 8px; }
+
+/* ---------- Scenario areas & peak price: notes in columns 1–3, product in columns 4–12 ---------- */
+.areas { grid-template-columns: calc(3 * var(--colg) - var(--gutter-ml)) minmax(0, 1fr); column-gap: var(--gutter-ml); }
+.areas__label { font-size: var(--ml-16); font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--ink); }
+.areas__item button { font-size: var(--ml-20); font-weight: 400; padding: 14px 0; }
+.areas__n { font-size: var(--ml-16); color: var(--ink-3); }
+.areas__view[data-cx] .s4, .areas__view[data-cx] { border-radius: 8px; }
+.peak {
+  grid-template-columns: calc(3 * var(--colg) - var(--gutter-ml)) minmax(0, 1fr); column-gap: var(--gutter-ml);
+  padding-block: calc(var(--rhythm) * .6) 0;
+}
+.peak .sub__media { order: 2; }
+.peak__text { order: 1; justify-content: flex-start; gap: 20px; }
+.peak__text h3 { font-size: var(--ml-20); font-weight: 400; line-height: 1.3; letter-spacing: -.01em; }
+.peak .sub__media[data-cx], .peak .sub__media .s4 { border-radius: 8px; }
+
+/* ---------- Design that ships: scope block and close-ups on the grid ---------- */
+.scope { padding-left: calc(var(--pad-x) + var(--col3)); column-gap: var(--gutter-ml); padding-bottom: clamp(48px, 5vw, 80px); }
+.scope__label { font-size: var(--ml-20); font-weight: 400; }
+.scope li { font-size: var(--ml-16); }
+.closeups { padding-block: 0 0; column-gap: var(--gutter-ml); }
+
+/* ---------- Banner: a statement from column 3, not centred ---------- */
+.banner__inner { max-width: none; align-items: flex-start; text-align: left; padding: var(--rhythm) var(--pad-x) 0 calc(var(--pad-x) + var(--col3)); }
+.banner__text { max-width: calc(6 * var(--colg)); font-size: var(--ml-40); font-weight: 400; line-height: 1.2; letter-spacing: -.03em; }
+.banner__cite { font-size: var(--ml-16); font-weight: 400; letter-spacing: 0; text-transform: none; }
+
+/* ---------- Timeline & mid CTA ---------- */
+.timeline-row { padding-block: clamp(40px, 4vw, 64px) clamp(64px, 6vw, 112px); }
+.timeline-row__title { font-size: var(--ml-20); font-weight: 400; }
+.timeline__label { font-size: var(--ml-16); font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--ink); }
+.timeline__wk { font-size: 13px; letter-spacing: 0; text-transform: none; font-weight: 500; }
+.timeline__copy { font-size: var(--ml-16); }
+.midcta { padding: clamp(32px, 3.4vw, 56px); border-radius: 8px; }
+.midcta__text { font-size: var(--ml-40); font-weight: 400; letter-spacing: -.03em; }
+
+/* ---------- FAQ, contact: MetaLab sizes ---------- */
+.faq { padding-top: var(--rhythm); }
+.faq__title { font-size: var(--ml-40); font-weight: 400; letter-spacing: -.03em; }
+.faq__item summary .t-label { font-size: var(--ml-20); font-weight: 400; }
+.enquiry { padding-block: var(--rhythm); }
+.enquiry__title { font-size: clamp(48px, 6vw, 88px); font-weight: 300; line-height: 1.12; letter-spacing: -.02em; }
+.related__title { font-size: var(--ml-40); font-weight: 400; letter-spacing: -.03em; }
+
+/* ---------- Below 1024px: one column, no offsets ---------- */
+@media (max-width: 1023px) {
+  :root { --rhythm: 96px; }
+  .chapter__label-row, .chapter__heading-row, .split--start, .media-sec .shells, .scope,
+  .chapter .split:not(.split--start) { padding-left: var(--pad-x); }
+  .banner__inner { padding: var(--rhythm) var(--pad-x) 0; }
+  .details { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .chapter__heading, .banner__text, .intro__summary, .chapter .split .copy { max-width: none; }
+  .areas, .peak { grid-template-columns: minmax(0, 1fr); }
+  .split--start { grid-template-columns: minmax(0, 1fr); }
+}

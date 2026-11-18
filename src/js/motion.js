@@ -188,12 +188,12 @@
     /* Line reveals */
     $$([
       '.chapter__heading:not(.decide__lead)', '.banner__text', '.peak__text h3', '.glance__key .t-heading-m',
-      '.facts__title', '.faq__title', '.related__title', '.enquiry__title', '.intro__summary',
+      '.facts__title', '.faq__title', '.related__title', '.enquiry__title',
     ].join(',')).forEach((el) => revealLines(el));
     await yieldToBrowser();
 
     /* Big reads brighten word by word, scrubbed */
-    $$('.decide__lead').forEach(brighten);
+    $$('.decide__lead, .intro__summary').forEach(brighten);
     await yieldToBrowser();
 
     /* Fade-up for supporting elements */

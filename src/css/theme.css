@@ -12,19 +12,19 @@
   --ground: #E2E5E9;
   --ground-hi: #E9EBEE;
   --ground-lo: #DCDFE3;
-  --glass: #F3F4F6;          /* cards on the white page */
-  --glass-2: #ECEEF1;
+  --glass: rgb(255 255 255 / .38);
+  --glass-2: rgb(255 255 255 / .6);
   --glass-blur: blur(24px) saturate(1.15);
   --active: rgb(15 25 40 / .09);
 
   /* existing tokens, remapped */
-  --bg: #F3F4F6;
-  --bg-2: #ECEEF1;
-  --page: #FFFFFF;
-  --surface: #F3F4F6;
-  --paper: #FAFAFA;
-  --sand: #E1E4E8;
-  --band: #ECEEF1;
+  --bg: #E2E5E9;
+  --bg-2: #DCDFE3;
+  --page: #E2E5E9;
+  --surface: rgb(255 255 255 / .45);
+  --paper: #E9EBEE;
+  --sand: #E2E5E9;
+  --band: #DCDFE3;
   --ink: #0F1115;
   --ink-2: #4A4F57;
   --ink-3: #5F646C;          /* 4.7:1 on the ground */
@@ -72,8 +72,11 @@
 }
 
 /* ---------- Page ground: one soft studio gradient ---------- */
-html { background: #FFFFFF; }
-body { background: #FFFFFF; color: var(--ink-2); }
+html { background: var(--ground); }
+body {
+  background: linear-gradient(180deg, #E4E7EB 0%, #E1E4E8 40%, #E2E5E9 100%);
+  color: var(--ink-2);
+}
 :focus-visible { outline-color: var(--ink); box-shadow: 0 0 0 6px var(--green-soft); }
 
 /* ---------- Type: Manrope, medium headings, tight tracking ---------- */
@@ -94,10 +97,15 @@ body { background: #FFFFFF; color: var(--ink-2); }
 .chapter__num { color: var(--green-ink); }
 
 /* ---------- Surfaces: flat, translucent, no borders or shadows ---------- */
-.hero { background: linear-gradient(180deg, #F1F3F5 0%, #E4E7EB 45%, var(--sand) 100%); }
-.intro { background: linear-gradient(180deg, var(--sand), #FFFFFF); }
-.intro__horizon { display: block; background: #FFFFFF; }
-.banner { background: linear-gradient(180deg, #FFFFFF, var(--paper)); }
+.hero { background: linear-gradient(180deg, #EEF0F2 0%, #E4E7EB 40%, #DCDFE3 100%); }
+.intro { background: #DCDFE3; }
+/* the arc: white at its rim, settling into the page grey, with a soft lift */
+.intro__horizon {
+  display: block;
+  background: linear-gradient(180deg, #FFFFFF 0, #F1F3F5 160px, #E4E7EB 420px, #E2E5E9 900px);
+  box-shadow: 0 -18px 60px rgb(15 25 40 / .10), 0 -2px 0 rgb(255 255 255 / .9);
+}
+.banner { background: transparent; }
 .band { background: var(--band); }
 
 .fnote, .quote, .quotes__grid--single .quote, .scope__col--in, .midcta, .enquiry__success,

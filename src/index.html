@@ -42,6 +42,7 @@
 <link rel="stylesheet" href="css/app-ui.css">
 <link rel="stylesheet" href="css/i4.css">
 <link rel="stylesheet" href="css/cxapp.css">
+<link rel="stylesheet" href="css/layout.css">
 <link rel="stylesheet" href="css/responsive.css">
 
 <script type="application/ld+json">
@@ -152,14 +153,15 @@
 <section class="intro" aria-label="Introduction">
   <div class="intro__horizon" aria-hidden="true"></div>
   <div class="sec intro__summary-row">
-    <h2 class="intro__summary t-heading-l">An AI-first energy product, defined, designed and built by a team of 3.</h2>
+    <p class="intro__label">Introduction</p>
+    <h2 class="intro__summary">ConnectX came to us with a bold idea: ask a building anything in plain words, and get a working answer back. In 8 weeks we defined it, designed it and built it, from the first workshop to a live product.</h2>
   </div>
 </section>
 
 <!-- ======================================================================
      AT A GLANCE  (Figma: glance-section)
      ====================================================================== -->
-<section class="glance" id="case-context" aria-labelledby="glance-title">
+<section hidden class="glance" id="case-context" aria-labelledby="glance-title">
   <div class="sec glance__head">
     <p class="t-label-s glance__eyebrow">At a glance</p>
     <h2 id="glance-title" class="t-label-l">The MVP at a glance</h2>
@@ -297,7 +299,7 @@
         </ol>
         <p class="areas__progress"><span>1</span> / 4</p>
       </div>
-      <div class="areas__view" data-cx="scenario" data-cx-label="ConnectX answering the scenario for the selected area on the building"></div>
+      <div class="areas__view" data-cx="scenario" data-cx-min data-cx-label="ConnectX answering the scenario for the selected area on the building"></div>
     </div>
   </div>
   <div class="sec peak" id="peak-price-scenario">
