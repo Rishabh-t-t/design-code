@@ -69,9 +69,14 @@
     if (min) stage.classList.add('s4--min');
     const bld = host.querySelector('.s4__bld');
     const ui = host.querySelector('.cx4');
-    const needed = kind === 'hero' ? FRAMES : [FRAMES[26], FRAMES[27]];
-    bld.innerHTML = needed.map((src, i) => `<img src="${src}" alt="" decoding="async" ${kind === 'hero' && i > 0 && i < 26 ? 'loading="eager"' : ''} data-i="${kind === 'hero' ? i : 26 + i}">`).join('');
-    const imgs = [...bld.querySelectorAll('img')];
+    // only the finished render: a tiny blurred stand-in shows at once, the full render swaps in once decoded
+    bld.innerHTML = `<img class="s4__lqip" src="${BASE}frames/f26-lqip.webp" alt="" aria-hidden="true">`
+      + [FRAMES[26], FRAMES[27]].map((src, i) => `<img src="${src}" alt="" decoding="async" ${kind === 'hero' ? 'fetchpriority="high"' : 'loading="lazy"'} data-i="${26 + i}">`).join('');
+    const imgs = [...bld.querySelectorAll('img[data-i]')];
+    const full = imgs[0];
+    const ready = () => bld.classList.add('is-ready');
+    if (full.complete && full.naturalWidth) ready();
+    else full.addEventListener('load', () => (full.decode ? full.decode().catch(() => {}) : Promise.resolve()).then(ready), { once: true });
 
     function setFrame(idx) {
       S.idx = idx;
@@ -247,7 +252,6 @@
     const io = new IntersectionObserver((es) => { if (es.some((x) => x.isIntersecting)) { io.disconnect(); fn(); } }, { threshold });
     io.observe(el);
   };
-  if (apps.hero) once(document.querySelector('[data-cx="hero"]'), () => apps.hero.build(), 0.2);
   if (apps.peak) once(document.querySelector('[data-cx="peak"]'), () => apps.peak.play(), 0.45);
   document.querySelectorAll('[data-ask-replay]').forEach((b) => b.addEventListener('click', () => apps.peak && apps.peak.play()));
 })();

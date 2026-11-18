@@ -12,19 +12,19 @@
   --ground: #E2E5E9;
   --ground-hi: #E9EBEE;
   --ground-lo: #DCDFE3;
-  --glass: rgb(255 255 255 / .34);
-  --glass-2: rgb(255 255 255 / .55);
+  --glass: #F3F4F6;          /* cards on the white page */
+  --glass-2: #ECEEF1;
   --glass-blur: blur(24px) saturate(1.15);
   --active: rgb(15 25 40 / .09);
 
   /* existing tokens, remapped */
-  --bg: #E2E5E9;
-  --bg-2: #DCDFE3;
-  --page: #E2E5E9;
-  --surface: rgb(255 255 255 / .45);
-  --paper: #E9EBEE;
-  --sand: #E2E5E9;
-  --band: #DCDFE3;
+  --bg: #F3F4F6;
+  --bg-2: #ECEEF1;
+  --page: #FFFFFF;
+  --surface: #F3F4F6;
+  --paper: #FAFAFA;
+  --sand: #E1E4E8;
+  --band: #ECEEF1;
   --ink: #0F1115;
   --ink-2: #4A4F57;
   --ink-3: #5F646C;          /* 4.7:1 on the ground */
@@ -72,14 +72,8 @@
 }
 
 /* ---------- Page ground: one soft studio gradient ---------- */
-html { background: var(--ground); }
-body {
-  background:
-    radial-gradient(120vw 60vw at 55% 20%, var(--ground-hi), rgb(233 235 238 / 0) 70%),
-    linear-gradient(180deg, #E4E7EB 0%, #DFE2E6 55%, #E3E6EA 100%);
-  background-attachment: fixed;
-  color: var(--ink-2);
-}
+html { background: #FFFFFF; }
+body { background: #FFFFFF; color: var(--ink-2); }
 :focus-visible { outline-color: var(--ink); box-shadow: 0 0 0 6px var(--green-soft); }
 
 /* ---------- Type: Manrope, medium headings, tight tracking ---------- */
@@ -100,9 +94,11 @@ body {
 .chapter__num { color: var(--green-ink); }
 
 /* ---------- Surfaces: flat, translucent, no borders or shadows ---------- */
-.hero, .intro, .banner, .band { background: transparent; }
-.intro__horizon { display: none; }
-.band { background: rgb(255 255 255 / .18); }
+.hero { background: linear-gradient(180deg, #F1F3F5 0%, #E4E7EB 45%, var(--sand) 100%); }
+.intro { background: linear-gradient(180deg, var(--sand), #FFFFFF); }
+.intro__horizon { display: block; background: #FFFFFF; }
+.banner { background: linear-gradient(180deg, #FFFFFF, var(--paper)); }
+.band { background: var(--band); }
 
 .fnote, .quote, .quotes__grid--single .quote, .scope__col--in, .midcta, .enquiry__success,
 .next__card, .faq__list, .summary {
@@ -175,19 +171,18 @@ body {
 .next__marquee { color: rgb(15 17 21 / .9); }
 .trust__list { border-color: var(--line); }
 
-/* ---------- Footer: a translucent card on the ground ---------- */
+/* ---------- Footer: the original Tcules footer, unchanged ----------
+   Its own brand tokens and fonts, so the page theme never reaches it. */
 .footer {
-  background: rgb(255 255 255 / .34);
-  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
-  color: var(--ink);
+  --brand: #04EC50; --brand-ink: #000000; --ink: #0B0B0B; --radius: 14px;
+  --font-display: 'Bricolage Grotesque', 'Figtree', system-ui, sans-serif;
+  --font-body: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-family: var(--font-body);
 }
-/* the logo keeps its own brand mark; only the wordmark follows the ink */
-.footer__logo svg path[fill="#222222"] { fill: var(--ink); }
-.footer__logo svg [fill="#04EC50"] { fill: #04EC50; }
-.footer__mid, .footer__bottom { border-top-color: var(--line-2); }
-.footer__sub { background: rgb(255 255 255 / .4); }
-.footer__sub-btn { box-shadow: none; background: var(--glass-2); }
-.footer__cta { background: var(--green-btn); }
+.footer .footer__tag { font-family: var(--font-display); font-weight: 500; letter-spacing: -.01em; font-variation-settings: normal; }
+.footer .btn { border-radius: 999px; }
+.footer .btn--dark { background: #0B0B0B; color: #fff; }
+.footer .btn--dark:hover { background: #2A2A2A; }
 
 /* ---------- Skip link ---------- */
 .skip-link { background: var(--ink); }

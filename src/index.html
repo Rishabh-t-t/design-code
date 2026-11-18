@@ -23,7 +23,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230B0B0B'/%3E%3Crect x='9' y='7' width='14' height='3' rx='1.5' fill='%2304EC50'/%3E%3Cpath d='M9 13h14v3.2h-5.3V25h-3.4v-8.8H9z' fill='%23fff'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Bricolage+Grotesque:opsz,wght@12..96,500&family=Figtree:wght@400;500;600;700&display=swap">
 
 <script>
   /* Hide the hero until the intro animation starts. Skipped for reduced motion; a timeout guarantees it never stays hidden. */
@@ -111,7 +111,6 @@
       <li><a href="#scoping-the-mvp"><span>03</span>Scoping the MVP</a></li>
       <li><a href="#design-that-ships"><span>04</span>Design that ships</a></li>
       <li><a href="#eight-weeks-to-live"><span>05</span>8 weeks to live</a></li>
-      <li><a href="#for-founders"><span>06</span>For founders</a></li>
     </ol>
     <ul class="nav__site">
       <li><a href="https://www.tcules.com/case-studies">Work</a></li>
@@ -163,10 +162,6 @@
       <p>Tcules scoped the idea into 8 testable scenarios, had a coded demo running in 4 weeks and in front of investors soon after, then took it to production 4 weeks later. 1 designer, 2 developers, 8 weeks, 1 live product.</p>
       </div>
     </div>
-  </div>
-  <div class="sec intro__links">
-    <a class="arrow-link" href="#scoping-the-mvp">See how we scoped it <span class="arrow-link__arrow" aria-hidden="true">↓</span></a>
-    <a class="arrow-link" href="#enquiry">Start your MVP <span class="arrow-link__arrow" aria-hidden="true">↗</span></a>
   </div>
 </section>
 
@@ -512,7 +507,7 @@
 <!-- ======================================================================
      06 HOW WE DECIDE
      ====================================================================== -->
-<section class="chapter" id="for-founders" data-chapter="06 · For founders" aria-labelledby="ch6-title">
+<section hidden class="chapter" id="for-founders" data-chapter="06 · For founders" aria-labelledby="ch6-title">
   <div class="sec chapter__label-row">
     <p class="chapter__label"><span class="chapter__num">06</span> — For founders</p>
   </div>
@@ -540,7 +535,7 @@
 <!-- ======================================================================
      S10 WHAT THE WORK DELIVERED
      ====================================================================== -->
-<section class="facts" aria-labelledby="facts-title">
+<section hidden class="facts" aria-labelledby="facts-title">
   <div class="wrap grid">
     <h2 id="facts-title" class="facts__title t-statement">What the MVP delivered</h2>
     <ul class="facts__list facts__list--4">
@@ -585,7 +580,7 @@
 <!-- ======================================================================
      S11 TESTIMONIALS
      ====================================================================== -->
-<section class="quotes" id="testimonials" aria-labelledby="quotes-title">
+<section hidden class="quotes" id="testimonials" aria-labelledby="quotes-title">
   <div class="wrap grid">
     <h2 id="quotes-title" class="quotes__title t-meta">What ConnectX’s founder says</h2>
     <div class="quotes__grid quotes__grid--single">
@@ -626,6 +621,47 @@
         <div class="faq__a t-body"><p>Yes. We start with the questions your users need answered, scope them into a small set of scenarios, prove the idea in a coded demo, then ship the MVP.</p></div>
       </details>
     </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     S15 ENQUIRY
+     ====================================================================== -->
+<section class="enquiry" id="enquiry" aria-labelledby="enquiry-title">
+  <div class="wrap grid">
+    <div class="enquiry__head">
+      <h2 id="enquiry-title" class="enquiry__title">Have an AI product idea? Let’s prove it in code.</h2>
+      <p class="t-body enquiry__sub">Tell us the idea and the questions your users need answered. We’ll scope the scenarios, build the demo and ship the MVP.</p>
+    </div>
+
+    <form class="enquiry__form" data-enquiry novalidate>
+      <input type="hidden" name="origin_route" value="/case-studies/ai-native-building-energy-product-connectx">
+      <input type="hidden" name="placement" value="case_enquiry">
+      <input type="hidden" name="case" value="connectx">
+      <input type="hidden" name="referrer" value="">
+      <input type="hidden" name="campaign" value="">
+
+      <div class="field">
+        <label for="f-email" class="t-meta">Email</label>
+        <input id="f-email" name="email" type="email" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label for="f-work" class="t-meta">What’s your idea?</label>
+        <textarea id="f-work" name="working_on" rows="4" required></textarea>
+      </div>
+      <div class="field">
+        <label for="f-url" class="t-meta">Product or company URL <span class="field__opt">Optional</span></label>
+        <input id="f-url" name="url" type="url" inputmode="url" autocomplete="url">
+      </div>
+      <div class="enquiry__actions">
+        <button class="btn btn--dark" type="submit">Start my MVP</button>
+        <a class="link" href="https://www.tcules.com/contact">Book a 30-minute call</a>
+      </div>
+      <div class="enquiry__success" role="status" hidden>
+        <p class="t-statement">Your enquiry has reached us</p>
+        <p class="t-body">We'll reply within one business day.</p>
+      </div>
+    </form>
   </div>
 </section>
 
@@ -671,46 +707,6 @@
   </div>
 </section>
 
-<!-- ======================================================================
-     S15 ENQUIRY
-     ====================================================================== -->
-<section class="enquiry" id="enquiry" aria-labelledby="enquiry-title">
-  <div class="wrap grid">
-    <div class="enquiry__head">
-      <h2 id="enquiry-title" class="enquiry__title">Have an AI product idea? Let’s prove it in code.</h2>
-      <p class="t-body enquiry__sub">Tell us the idea and the questions your users need answered. We’ll scope the scenarios, build the demo and ship the MVP.</p>
-    </div>
-
-    <form class="enquiry__form" data-enquiry novalidate>
-      <input type="hidden" name="origin_route" value="/case-studies/ai-native-building-energy-product-connectx">
-      <input type="hidden" name="placement" value="case_enquiry">
-      <input type="hidden" name="case" value="connectx">
-      <input type="hidden" name="referrer" value="">
-      <input type="hidden" name="campaign" value="">
-
-      <div class="field">
-        <label for="f-email" class="t-meta">Email</label>
-        <input id="f-email" name="email" type="email" autocomplete="email" required>
-      </div>
-      <div class="field">
-        <label for="f-work" class="t-meta">What’s your idea?</label>
-        <textarea id="f-work" name="working_on" rows="4" required></textarea>
-      </div>
-      <div class="field">
-        <label for="f-url" class="t-meta">Product or company URL <span class="field__opt">Optional</span></label>
-        <input id="f-url" name="url" type="url" inputmode="url" autocomplete="url">
-      </div>
-      <div class="enquiry__actions">
-        <button class="btn btn--dark" type="submit">Start my MVP</button>
-        <a class="link" href="https://www.tcules.com/contact">Book a 30-minute call</a>
-      </div>
-      <div class="enquiry__success" role="status" hidden>
-        <p class="t-statement">Your enquiry has reached us</p>
-        <p class="t-body">We'll reply within one business day.</p>
-      </div>
-    </form>
-  </div>
-</section>
 
 </main>
 
