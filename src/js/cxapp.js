@@ -57,6 +57,12 @@
     const kind = host.dataset.cx;
     const S = { mode: kind === 'peak' ? 'home' : kind === 'scenario' ? 'answer' : 'dash', focus: kind === 'peak' ? 'tariff' : 'f6', q: '', fill: 1, ui: 1, idx: 27, scanDur: kind === 'hero' ? 6.4 : 4.2 };
     if (kind === 'scenario') S.q = TILES[0].q;
+    const D = host.dataset;
+    const variant = D.cxVariant || '';            // 'chatside' | 'chatonly': the two directions we did not build
+    const crop = D.cxCrop ? D.cxCrop.split(',').map(Number) : null;   // x, y (0–1 of the stage), zoom, aspect
+    if (D.cxMode) S.mode = D.cxMode;
+    if (D.cxFocus) { S.focus = D.cxFocus; S.q = TILES.find((t) => t.f === D.cxFocus).q; }
+    if ('cxStatic' in D) S.scanDur = 6.4;
     let timer = 0, raf = 0;
 
     host.classList.add('cxv');
@@ -126,7 +132,7 @@
             <span class="num4 cx4__big" style="color:${ans.col}">${ans.big}</span>
             <span class="cx4__txt">${ans.text}</span>
             <div class="cx4__btns"><button type="button" class="send4">${ans.act}</button><button type="button" class="ghost4">Show the data</button></div>
-          </div>` : `<div class="cx4__tiles">${TILES.map((t) => `<button type="button" class="t4 cx4__tile" data-pick="${t.f}"><span class="cx4__ti"><svg viewBox="0 0 24 24" fill="none" stroke="#0F1115" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${t.icon}"></path></svg><i style="background:${t.c}"></i></span><span><b>${t.n}</b><span class="lab4">${t.s}</span></span></button>`).join('')}</div>`}
+          </div>` : variant === 'chatside' ? `<div class="cx4__chat"><p class="cx4__me">What’s driving today’s load?</p><p class="cx4__bot">Today’s load is 318 kW, about 6% above a typical Tuesday. Cooling on floors 5 to 7 accounts for most of the difference, with floor 6 the largest contributor since early afternoon…</p></div>` : `<div class="cx4__tiles">${TILES.map((t) => `<button type="button" class="t4 cx4__tile" data-pick="${t.f}"><span class="cx4__ti"><svg viewBox="0 0 24 24" fill="none" stroke="#0F1115" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${t.icon}"></path></svg><i style="background:${t.c}"></i></span><span><b>${t.n}</b><span class="lab4">${t.s}</span></span></button>`).join('')}</div>`}
         </div>
         <div class="c4 cx4__in">
           <label class="cx4__sr" for="cx-q-${kind}">Ask about the building</label>
@@ -154,7 +160,10 @@
         <span class="lab4">Modelled from the last 90 days of meter data</span>
       </div>` : ''}
       ${answer ? `<span class="pin4" style="left:${ans.pin.x};top:${ans.pin.y}"><i></i>${ans.pin.n} <em>${ans.pin.v}</em></span>` : ''}`;
-      stage.dataset.mode = m;
+      if (variant === 'chatonly') ui.innerHTML = `<div class="cx4__top"><span class="cx4__brand"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4 L11 12 L4 20 M20 4 L13 12 L20 20" stroke="#0F1115" stroke-width="2.6" stroke-linecap="round" fill="none"></path></svg><b>ConnectX</b></span><span></span><span></span></div>
+        <div class="c4 cx4__solo"><p class="cx4__me">Battery state this morning?</p><p class="cx4__bot">The battery was at 64% at 07:00 and has charged to 78% from the roof solar since. At the current rate it will be full by 13:40…</p><p class="cx4__me">What’s driving cost today?</p><p class="cx4__bot">Most of today’s cost comes from the 17:00 peak. Load is forecast at 340 kW then, against a tariff three times the midday rate. Shifting EV charging and pre-cooling floors 5 to 7 would…</p>
+        <div class="cx4__soloin"><span>Ask anything about the building…</span><span class="send4">Send</span></div></div>`;
+      stage.dataset.mode = m; stage.dataset.variant = variant;
       placeBuilding();
       applyAssembly();
     }
@@ -200,6 +209,13 @@
     /* fit: below 900px the stage renders at 1280px and scales down, so the product keeps its proportions */
     const fit = () => {
       const w = host.clientWidth;
+      if (crop && w) {
+        const [cx, cy, z, ar] = crop, k = (w * z) / 1280;
+        stage.style.width = '1280px';
+        stage.style.transform = `translate(${(-cx * 1280 * k).toFixed(1)}px, ${(-cy * 800 * k).toFixed(1)}px) scale(${k.toFixed(4)})`;
+        host.style.height = (w / (ar || 1.6)) + 'px';
+        return;
+      }
       if (w && w < 900) { stage.style.width = '1280px'; stage.style.transform = `scale(${w / 1280})`; host.style.height = (w / 1.6) + 'px'; }
       else { stage.style.width = ''; stage.style.transform = ''; host.style.height = ''; }
     };
@@ -242,7 +258,7 @@
   }
 
   const apps = {};
-  document.querySelectorAll('[data-cx]').forEach((el) => { apps[el.dataset.cx] = create(el); });
+  document.querySelectorAll('[data-cx]').forEach((el) => { apps[el.dataset.cx] = create(el); if ('cxStatic' in el.dataset) el.setAttribute('inert', ''); });
   window.cxApp = (k) => apps[k];
 
   /* hero builds once it is first seen; peak plays the first time it scrolls into view */

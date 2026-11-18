@@ -298,3 +298,24 @@
 @media (max-width: 1023px) {
   .midcta { flex-direction: column; align-items: flex-start; padding: 28px 24px; }
 }
+
+/* ---------- Riskiest call: two options and what we built, as real product frames ---------- */
+.options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-24); padding-block: var(--sp-24) var(--sp-128); }
+.option { margin: 0; display: flex; flex-direction: column; gap: 14px; }
+.option__k { font-size: var(--t-label-l); font-weight: 600; color: var(--ink); line-height: 1.25; }
+.option__k span { display: block; margin-bottom: 4px; font-size: var(--t-label-s); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.option--chosen .option__k span { color: var(--green-ink, #0A6E48); }
+.option figcaption { font-size: var(--t-body-m); line-height: 1.5; color: var(--ink-2); }
+.option:not(.option--chosen) .cxv { opacity: .85; }
+.option--chosen .cxv { outline: 2px solid var(--green, #0F9160); outline-offset: 4px; }
+
+/* ---------- Design that ships: close-ups of the finished product ---------- */
+.closeups { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-24); padding-block: var(--sp-56) var(--sp-128); }
+.closeup { margin: 0; display: flex; flex-direction: column; gap: 14px; }
+.closeup figcaption { font-size: var(--t-body-m); line-height: 1.5; color: var(--ink-2); }
+@media (max-width: 1023px) {
+  .options, .closeups { grid-template-columns: minmax(0, 1fr); gap: var(--sp-56); }
+}
+
+/* close-ups show one detail each: no title */
+.closeup .cx4__title { display: none; }

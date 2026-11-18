@@ -1317,6 +1317,27 @@ html:not(.motion) .timeline__track { display: none; }
 @media (max-width: 1023px) {
   .midcta { flex-direction: column; align-items: flex-start; padding: 28px 24px; }
 }
+
+/* ---------- Riskiest call: two options and what we built, as real product frames ---------- */
+.options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-24); padding-block: var(--sp-24) var(--sp-128); }
+.option { margin: 0; display: flex; flex-direction: column; gap: 14px; }
+.option__k { font-size: var(--t-label-l); font-weight: 600; color: var(--ink); line-height: 1.25; }
+.option__k span { display: block; margin-bottom: 4px; font-size: var(--t-label-s); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.option--chosen .option__k span { color: var(--green-ink, #0A6E48); }
+.option figcaption { font-size: var(--t-body-m); line-height: 1.5; color: var(--ink-2); }
+.option:not(.option--chosen) .cxv { opacity: .85; }
+.option--chosen .cxv { outline: 2px solid var(--green, #0F9160); outline-offset: 4px; }
+
+/* ---------- Design that ships: close-ups of the finished product ---------- */
+.closeups { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-24); padding-block: var(--sp-56) var(--sp-128); }
+.closeup { margin: 0; display: flex; flex-direction: column; gap: 14px; }
+.closeup figcaption { font-size: var(--t-body-m); line-height: 1.5; color: var(--ink-2); }
+@media (max-width: 1023px) {
+  .options, .closeups { grid-template-columns: minmax(0, 1fr); gap: var(--sp-56); }
+}
+
+/* close-ups show one detail each: no title */
+.closeup .cx4__title { display: none; }
 </style>
 <style>
 /* ==========================================================================
@@ -2118,6 +2139,21 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
 .cxv .s4__bld img[data-i] { transition: opacity .5s ease; }
 .cxv .s4__bld:not(.is-ready) img[data-i] { opacity: 0 !important; }
 .cxv .s4__bld.is-ready .s4__lqip { opacity: 0; }
+
+/* ---------- the two directions we did not build ---------- */
+.cx4__chat { display: flex; flex-direction: column; gap: .8cqi; }
+.cx4__me, .cx4__bot { margin: 0; padding: .9cqi 1.1cqi; border-radius: 1cqi; font-size: 1.05cqi; line-height: 1.45; }
+.cx4__me { align-self: flex-end; background: var(--ink); color: #fff; max-width: 80%; }
+.cx4__bot { background: var(--surface-2); color: var(--ink2); }
+.s4[data-variant="chatside"] .s4__bld { filter: grayscale(1) opacity(.75); }
+.s4[data-variant="chatonly"] .s4__bld { display: none; }
+.cx4__solo { position: absolute !important; left: 50%; top: 9cqi; width: 54cqi; transform: translateX(-50%); padding: 2.2cqi; display: flex; flex-direction: column; gap: 1.1cqi; }
+.cx4__solo .cx4__bot { max-width: 92%; }
+.cx4__soloin { display: flex; align-items: center; justify-content: space-between; margin-top: 1cqi; padding: .9cqi .9cqi .9cqi 1.4cqi; border-radius: 1.1cqi; background: var(--surface-2); color: var(--ink3); font-size: 1.15cqi; }
+.cx4__soloin .send4 { height: 3.2cqi; }
+
+/* static frames: no pointer, no focus */
+.cxv[inert] { pointer-events: none; }
 </style>
 <style>
 /* ==========================================================================
@@ -2503,90 +2539,22 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
       </div>
     </div>
   </div>
-  <div class="band" data-pin="choice">
-    <div class="band__track stage__track">
-      <div class="band__frame stage__frame">
-        <div class="choice">
-          <div class="choice__dir">
-            <p class="t-meta">Direction A</p>
-            <div class="cx-panel cx-panel--stone choice__ph" aria-hidden="true">
-              <div class="cx cx-app cx-app--muted">
-                <div class="cx-bar"><span class="cx-logo" aria-hidden="true">C</span><b>ConnectX</b><span class="cx-bar__site">Meridian Tower</span><span class="cx-bar__r"><span class="cx-dot"></span>Live</span></div>
-                <div class="cx-dash">
-                  <div class="cx-dash__main">
-                    <div class="cx-kpis">
-                <div class="cx-kpi"><span>Live load</span><b>318 <i>kW</i></b></div>
-                <div class="cx-kpi"><span>Solar</span><b>245 <i>kW</i></b></div>
-                <div class="cx-kpi"><span>Battery</span><b>78 <i>%</i></b></div>
-                <div class="cx-kpi"><span>Grid import</span><b>60 <i>kW</i></b></div>
-              </div>
-                    <div class="cx-card cx-card--chart"><div class="cx-card__h">Consumption · today</div><svg class="cx-chart" viewBox="0 0 200 64" preserveAspectRatio="none" aria-hidden="true"><path class="cx-chart__grid" d="M0 16H200M0 32H200M0 48H200"/><path class="cx-chart__area" d="M0 50 C20 46 30 30 50 32 S80 18 100 22 S130 40 150 30 S180 14 200 18 V64 H0Z"/><path class="cx-chart__line" d="M0 50 C20 46 30 30 50 32 S80 18 100 22 S130 40 150 30 S180 14 200 18"/></svg></div>
-                    <div class="cx-dash__row"><div class="cx-card cx-skel"><i></i><i></i></div><div class="cx-card cx-skel"><i></i><i></i></div></div>
-                  </div>
-                  <div class="cx-assist">
-                    <div class="cx-assist__h">AI assistant</div>
-                    <p class="cx-msg cx-msg--me">What's driving today's load?</p>
-                    <p class="cx-msg"><i></i><i></i><i></i></p>
-                    <div class="cx-assist__in">Ask a question…</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <p class="choice__verdict">Familiar, but the screen stays the same for every question.</p>
-          </div>
-          <div class="choice__dir">
-            <p class="t-meta">Direction B</p>
-            <div class="cx-panel cx-panel--stone choice__ph" aria-hidden="true">
-              <div class="cx cx-app cx-app--muted">
-                <div class="cx-bar"><span class="cx-logo" aria-hidden="true">C</span><b>ConnectX</b><span class="cx-bar__site">Meridian Tower</span><span class="cx-bar__r"><span class="cx-dot"></span>Live</span></div>
-                <div class="cx-chat">
-                  <p class="cx-msg cx-msg--me cx-msg--old">Battery state this morning?</p>
-                  <p class="cx-msg cx-msg--old"><i></i><i></i></p>
-                  <p class="cx-msg cx-msg--me">What's driving cost today?</p>
-                  <div class="cx-msg cx-msg--rich">
-                    <div class="cx-kpis cx-kpis--2">
-                      <div class="cx-kpi"><span>Live load</span><b>318 <i>kW</i></b></div>
-                      <div class="cx-kpi"><span>Peak tariff</span><b>17:00</b></div>
-                    </div>
-                    <div class="cx-card cx-card--chart"><svg class="cx-chart" viewBox="0 0 200 64" preserveAspectRatio="none" aria-hidden="true"><path class="cx-chart__grid" d="M0 16H200M0 32H200M0 48H200"/><path class="cx-chart__area" d="M0 50 C20 46 30 30 50 32 S80 18 100 22 S130 40 150 30 S180 14 200 18 V64 H0Z"/><path class="cx-chart__line" d="M0 50 C20 46 30 30 50 32 S80 18 100 22 S130 40 150 30 S180 14 200 18"/></svg></div>
-                  </div>
-                  <div class="cx-assist__in">Ask a question…</div>
-                </div>
-              </div>
-            </div>
-            <p class="choice__verdict">Adapts to the question, but leaves nowhere to keep working.</p>
-          </div>
-          <div class="choice__merged" aria-hidden="true">
-            <p class="t-meta">Chosen model</p>
-            <div class="cx-panel cx-panel--blue choice__ph choice__ph--merged">
-              <div class="cx cx-app">
-                <div class="cx-bar"><span class="cx-logo" aria-hidden="true">C</span><b>ConnectX</b><span class="cx-bar__site">Meridian Tower</span><span class="cx-bar__r"><span class="cx-dot cx-dot--live"></span>Live</span></div>
-                <div class="cx-askbar"><span class="cx-askbar__q">What's driving cost today?</span><span class="cx-chip cx-chip--blue">Peak-price · 17:00</span></div>
-                <div class="cx-ws">
-                  <div class="cx-card cx-ws__twin" data-mod><div class="cx-card__h">Twin · affected assets</div><div class="cx-twin" data-blue="battery" data-hot="hvac"><svg class="twin-mini" viewBox="-118.6 -58.0 248.4 200.5" role="img" aria-label="Simplified 2.5D twin of Meridian Tower with its solar array, HVAC, battery, EV chargers and grid connection"><polygon class="ground" points="0.0,0.0 123.8,71.5 11.3,136.5 -112.6,65.0"/><g class="cables"><g class="a" data-asset="grid"><polyline class="cable" points="61.9,67.0 50.7,73.5 29.3,61.1"/></g><g class="a" data-asset="battery"><polyline class="cable" points="33.8,79.3 15.8,68.9"/></g><g class="a" data-asset="ev"><polyline class="cable" points="-34.9,74.8 -20.3,66.3"/></g></g><g class="a" data-asset="grid"><polygon class="t" points="72.1,35.1 90.1,45.5 74.3,54.6 56.3,44.2"/><polygon class="l" points="56.3,61.1 74.3,71.5 74.3,54.6 56.3,44.2"/><polygon class="r" points="90.1,62.4 74.3,71.5 74.3,54.6 90.1,45.5"/></g><g class="tower"><polygon class="t" points="0.0,-52.0 33.8,-32.5 0.0,-13.0 -33.8,-32.5"/><polygon class="l" points="-33.8,58.5 0.0,78.0 0.0,-13.0 -33.8,-32.5"/><polygon class="r" points="33.8,58.5 0.0,78.0 0.0,-13.0 33.8,-32.5"/><polyline class="floor" points="-33.8,45.5 0.0,65.0 33.8,45.5"/><polyline class="floor" points="-33.8,32.5 0.0,52.0 33.8,32.5"/><polyline class="floor" points="-33.8,19.5 0.0,39.0 33.8,19.5"/><polyline class="floor" points="-33.8,6.5 0.0,26.0 33.8,6.5"/><polyline class="floor" points="-33.8,-6.5 0.0,13.0 33.8,-6.5"/><polyline class="floor" points="-33.8,-19.5 0.0,0.0 33.8,-19.5"/></g><g class="a" data-asset="solar"><polygon class="panel" points="0.0,-48.4 18.0,-38.0 -9.0,-22.4 -27.0,-32.8"/><polyline class="panel-line" points="-6.8,-44.6 11.3,-34.2"/><polyline class="panel-line" points="-13.5,-40.7 4.5,-30.3"/><polyline class="panel-line" points="-20.3,-36.8 -2.3,-26.4"/></g><g class="a" data-asset="hvac"><polygon class="t" points="19.7,-42.6 27.0,-38.3 16.9,-32.5 9.6,-36.7"/><polygon class="l" points="9.6,-29.6 16.9,-25.3 16.9,-32.5 9.6,-36.7"/><polygon class="r" points="27.0,-31.2 16.9,-25.3 16.9,-32.5 27.0,-38.3"/></g><g class="a" data-asset="battery"><polygon class="t" points="40.5,63.7 50.7,69.5 44.5,73.1 34.3,67.3"/><polygon class="l" points="34.3,79.0 44.5,84.8 44.5,73.1 34.3,67.3"/><polygon class="r" points="50.7,81.2 44.5,84.8 44.5,73.1 50.7,69.5"/><polygon class="t" points="32.1,68.6 42.2,74.4 36.0,78.0 25.9,72.1"/><polygon class="l" points="25.9,83.8 36.0,89.7 36.0,78.0 25.9,72.1"/><polygon class="r" points="42.2,86.1 36.0,89.7 36.0,78.0 42.2,74.4"/></g><g class="a" data-asset="ev"><polygon class="t" points="-47.3,57.9 -43.7,59.9 -47.3,62.0 -50.9,59.9"/><polygon class="l" points="-50.9,71.0 -47.3,73.1 -47.3,62.0 -50.9,59.9"/><polygon class="r" points="-43.7,71.0 -47.3,73.1 -47.3,62.0 -43.7,59.9"/><polygon class="t" points="-38.3,63.1 -34.7,65.1 -38.3,67.2 -41.9,65.1"/><polygon class="l" points="-41.9,76.2 -38.3,78.3 -38.3,67.2 -41.9,65.1"/><polygon class="r" points="-34.7,76.2 -38.3,78.3 -38.3,67.2 -34.7,65.1"/><polygon class="t" points="-29.3,68.2 -25.7,70.3 -29.3,72.4 -32.9,70.3"/><polygon class="l" points="-32.9,81.4 -29.3,83.5 -29.3,72.4 -32.9,70.3"/><polygon class="r" points="-25.7,81.4 -29.3,83.5 -29.3,72.4 -25.7,70.3"/><polyline class="bay" points="-58.0,70.5 -73.7,79.6"/><polyline class="bay" points="-49.0,75.7 -64.7,84.8"/><polyline class="bay" points="-40.0,80.9 -55.7,90.0"/><polyline class="bay" points="-31.0,86.1 -46.7,95.2"/></g></svg></div></div>
-                  <div class="cx-ws__side">
-                    <div class="cx-kpis cx-kpis--2" data-mod>
-                      <div class="cx-kpi"><span>Live load</span><b>318 <i>kW</i></b></div>
-                      <div class="cx-kpi cx-kpi--hot"><span>Tariff</span><b>Peak</b></div>
-                    </div>
-                    <div class="cx-card cx-card--chart" data-mod><div class="cx-card__h">Load vs price</div><svg class="cx-chart" viewBox="0 0 200 64" preserveAspectRatio="none" aria-hidden="true"><path class="cx-chart__grid" d="M0 16H200M0 32H200M0 48H200"/><path class="cx-chart__area" d="M0 50 C20 46 30 30 50 32 S80 18 100 22 S130 40 150 30 S180 14 200 18 V64 H0Z"/><path class="cx-chart__line" d="M0 50 C20 46 30 30 50 32 S80 18 100 22 S130 40 150 30 S180 14 200 18"/></svg></div>
-                    <div class="cx-card cx-action" data-mod><span class="cx-k">Suggested action</span><b>Carry the peak on the battery</b><span class="cx-action__btns"><span class="cx-btn cx-btn--dark">Schedule</span><span class="cx-btn">Adjust</span></span></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <p class="choice__verdict">Conversation finds the work. The workspace stays open.</p>
-          </div>
-        </div>
-        <ol class="flow" aria-label="The chosen model">
-          <li class="flow__step"><span class="flow__n">1</span>Ask in plain words</li>
-          <li class="flow__step"><span class="flow__n">2</span>Match a known situation</li>
-          <li class="flow__step"><span class="flow__n">3</span>Fetch the data with permitted tools</li>
-          <li class="flow__step"><span class="flow__n">4</span>Assemble modules and the twin view</li>
-          <li class="flow__step"><span class="flow__n">5</span>Keep working in the workspace</li>
-        </ol>
-      </div>
-    </div>
+  <div class="sec options" aria-label="The two directions we weighed, and what we built">
+    <figure class="option">
+      <p class="option__k"><span>Option A</span> Assistant beside a dashboard</p>
+      <div data-cx="dirA" data-cx-static data-cx-mode="dash" data-cx-variant="chatside" data-cx-label="Option A: a fixed dashboard with a chat assistant beside it"></div>
+      <figcaption>Familiar, but the screen stays the same for every question.</figcaption>
+    </figure>
+    <figure class="option">
+      <p class="option__k"><span>Option B</span> Chat only</p>
+      <div data-cx="dirB" data-cx-static data-cx-mode="dash" data-cx-variant="chatonly" data-cx-label="Option B: a chat window that answers in paragraphs"></div>
+      <figcaption>Answers in paragraphs, with nothing to look at or act on.</figcaption>
+    </figure>
+    <figure class="option option--chosen">
+      <p class="option__k"><span>What we built</span> Both, in one workspace</p>
+      <div data-cx="chosen" data-cx-static data-cx-mode="answer" data-cx-focus="f6" data-cx-label="What we built: the answer lands on the building, with the floor marked and a next step"></div>
+      <figcaption>Ask in plain words. The answer lands on the building, ready to act on.</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -2684,14 +2652,18 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
       </ul>
     </div>
   </div>
-  <div class="sec shells" aria-label="Explored and chosen twin directions">
-    <figure class="shell">
-      <div class="shell__frame"><img class="shell__img" src="https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_0,y_392,w_2560,h_2168/f_auto,q_auto,w_960/v1788500895/Section_5_Image_1_corrected_21ce1fe680.webp" srcset="https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_0,y_392,w_2560,h_2168/f_auto,q_auto,w_640/v1788500895/Section_5_Image_1_corrected_21ce1fe680.webp 640w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_0,y_392,w_2560,h_2168/f_auto,q_auto,w_960/v1788500895/Section_5_Image_1_corrected_21ce1fe680.webp 960w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_0,y_392,w_2560,h_2168/f_auto,q_auto,w_1280/v1788500895/Section_5_Image_1_corrected_21ce1fe680.webp 1280w" sizes="(min-width: 1024px) 40vw, 90vw" width="2560" height="2168" alt="ConnectX map view locating buildings and their energy alerts" loading="lazy" decoding="async"></div>
-      <figcaption class="shell__caption">Explored, then left for later: a map view locating buildings and their energy alerts.</figcaption>
+  <div class="sec closeups" aria-label="Details from the finished product">
+    <figure class="closeup">
+      <div data-cx="cuScan" data-cx-static data-cx-min data-cx-mode="loading" data-cx-focus="f6" data-cx-crop="0.27,0.08,1.75,1.15" data-cx-label="The scan: it reads the plot, then the building floor by floor"></div>
+      <figcaption>The scan reads the plot, then the building, floor by floor.</figcaption>
     </figure>
-    <figure class="shell">
-      <div class="shell__frame"><img class="shell__img" src="https://res.cloudinary.com/dbay1gb0s/image/upload/f_auto,q_auto,w_1080/v1786970108/Section_5_Image_2_649381043c.webp" srcset="https://res.cloudinary.com/dbay1gb0s/image/upload/f_auto,q_auto,w_720/v1786970108/Section_5_Image_2_649381043c.webp 720w, https://res.cloudinary.com/dbay1gb0s/image/upload/f_auto,q_auto,w_1080/v1786970108/Section_5_Image_2_649381043c.webp 1080w, https://res.cloudinary.com/dbay1gb0s/image/upload/f_auto,q_auto,w_1440/v1786970108/Section_5_Image_2_649381043c.webp 1440w" sizes="(min-width: 1024px) 56vw, 90vw" width="2144" height="1204" alt="Simplified ConnectX digital twin showing a building's HVAC, lighting, solar and EV charging systems" loading="lazy" decoding="async"></div>
-      <figcaption class="shell__caption">Chosen: the twin leaves out detail on purpose, so the connected assets and why they matter stand out.</figcaption>
+    <figure class="closeup">
+      <div data-cx="cuAnswer" data-cx-static data-cx-min data-cx-mode="answer" data-cx-focus="f6" data-cx-crop="0.4,0.03,1.65,1.15" data-cx-label="The answer lands on the building, with the floor marked and a next step"></div>
+      <figcaption>The answer lands on the building: the floor marked, the figure, the next step.</figcaption>
+    </figure>
+    <figure class="closeup">
+      <div data-cx="cuHome" data-cx-static data-cx-min data-cx-mode="home" data-cx-crop="0.2,0.09,1.65,1.15" data-cx-label="The home screen: what is running normally, and the one thing that needs a look"></div>
+      <figcaption>Each morning opens on what needs a look, not on a wall of charts.</figcaption>
     </figure>
   </div>
 </section>
@@ -2722,16 +2694,6 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
       <p>Because the demo was real code built on the final design direction, it became the starting point for production, not a throwaway. Tcules took it through to a production module in the next 4 weeks, and it has been live since late 2025.</p>
       </div>
     </div>
-  </div>
-  <div class="sec shells" aria-label="The coded demo">
-    <figure class="shell">
-      <div class="shell__frame"><img class="shell__img" src="https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_280,y_185,w_3840,h_2561/f_auto,q_auto,w_1440/v1786970109/Section_4_Image_7ae363fefe.webp" srcset="https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_280,y_185,w_3840,h_2561/f_auto,q_auto,w_720/v1786970109/Section_4_Image_7ae363fefe.webp 720w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_280,y_185,w_3840,h_2561/f_auto,q_auto,w_1080/v1786970109/Section_4_Image_7ae363fefe.webp 1080w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_280,y_185,w_3840,h_2561/f_auto,q_auto,w_1440/v1786970109/Section_4_Image_7ae363fefe.webp 1440w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_280,y_185,w_3840,h_2561/f_auto,q_auto,w_1920/v1786970109/Section_4_Image_7ae363fefe.webp 1920w" sizes="(min-width: 1024px) 46vw, 90vw" width="3840" height="2561" alt="Coded ConnectX workspace demonstrating an AI-assisted building-energy scenario" loading="lazy" decoding="async"></div>
-      <figcaption class="shell__caption">Week 4, the coded demo on sample data: one question in plain words.</figcaption>
-    </figure>
-    <figure class="shell">
-      <div class="shell__frame"><img class="shell__img" src="https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_279,y_206,w_3842,h_2520/f_auto,q_auto,w_1440/v1786970109/Section_6_Image_cee0d48ae8.webp" srcset="https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_279,y_206,w_3842,h_2520/f_auto,q_auto,w_720/v1786970109/Section_6_Image_cee0d48ae8.webp 720w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_279,y_206,w_3842,h_2520/f_auto,q_auto,w_1080/v1786970109/Section_6_Image_cee0d48ae8.webp 1080w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_279,y_206,w_3842,h_2520/f_auto,q_auto,w_1440/v1786970109/Section_6_Image_cee0d48ae8.webp 1440w, https://res.cloudinary.com/dbay1gb0s/image/upload/c_crop,x_279,y_206,w_3842,h_2520/f_auto,q_auto,w_1920/v1786970109/Section_6_Image_cee0d48ae8.webp 1920w" sizes="(min-width: 1024px) 46vw, 90vw" width="3842" height="2520" alt="ConnectX workspace combining a building model with energy readings and charts" loading="lazy" decoding="async"></div>
-      <figcaption class="shell__caption">Week 8 and live: the twin, live readings and the floor in focus.</figcaption>
-    </figure>
   </div>
   <div class="sec timeline-row" id="timeline">
     <h3 class="timeline-row__title t-label-l">8 weeks, from kickoff to live</h3>
@@ -3145,6 +3107,12 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
     const kind = host.dataset.cx;
     const S = { mode: kind === 'peak' ? 'home' : kind === 'scenario' ? 'answer' : 'dash', focus: kind === 'peak' ? 'tariff' : 'f6', q: '', fill: 1, ui: 1, idx: 27, scanDur: kind === 'hero' ? 6.4 : 4.2 };
     if (kind === 'scenario') S.q = TILES[0].q;
+    const D = host.dataset;
+    const variant = D.cxVariant || '';            // 'chatside' | 'chatonly': the two directions we did not build
+    const crop = D.cxCrop ? D.cxCrop.split(',').map(Number) : null;   // x, y (0–1 of the stage), zoom, aspect
+    if (D.cxMode) S.mode = D.cxMode;
+    if (D.cxFocus) { S.focus = D.cxFocus; S.q = TILES.find((t) => t.f === D.cxFocus).q; }
+    if ('cxStatic' in D) S.scanDur = 6.4;
     let timer = 0, raf = 0;
 
     host.classList.add('cxv');
@@ -3214,7 +3182,7 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
             <span class="num4 cx4__big" style="color:${ans.col}">${ans.big}</span>
             <span class="cx4__txt">${ans.text}</span>
             <div class="cx4__btns"><button type="button" class="send4">${ans.act}</button><button type="button" class="ghost4">Show the data</button></div>
-          </div>` : `<div class="cx4__tiles">${TILES.map((t) => `<button type="button" class="t4 cx4__tile" data-pick="${t.f}"><span class="cx4__ti"><svg viewBox="0 0 24 24" fill="none" stroke="#0F1115" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${t.icon}"></path></svg><i style="background:${t.c}"></i></span><span><b>${t.n}</b><span class="lab4">${t.s}</span></span></button>`).join('')}</div>`}
+          </div>` : variant === 'chatside' ? `<div class="cx4__chat"><p class="cx4__me">What’s driving today’s load?</p><p class="cx4__bot">Today’s load is 318 kW, about 6% above a typical Tuesday. Cooling on floors 5 to 7 accounts for most of the difference, with floor 6 the largest contributor since early afternoon…</p></div>` : `<div class="cx4__tiles">${TILES.map((t) => `<button type="button" class="t4 cx4__tile" data-pick="${t.f}"><span class="cx4__ti"><svg viewBox="0 0 24 24" fill="none" stroke="#0F1115" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${t.icon}"></path></svg><i style="background:${t.c}"></i></span><span><b>${t.n}</b><span class="lab4">${t.s}</span></span></button>`).join('')}</div>`}
         </div>
         <div class="c4 cx4__in">
           <label class="cx4__sr" for="cx-q-${kind}">Ask about the building</label>
@@ -3242,7 +3210,10 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
         <span class="lab4">Modelled from the last 90 days of meter data</span>
       </div>` : ''}
       ${answer ? `<span class="pin4" style="left:${ans.pin.x};top:${ans.pin.y}"><i></i>${ans.pin.n} <em>${ans.pin.v}</em></span>` : ''}`;
-      stage.dataset.mode = m;
+      if (variant === 'chatonly') ui.innerHTML = `<div class="cx4__top"><span class="cx4__brand"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4 L11 12 L4 20 M20 4 L13 12 L20 20" stroke="#0F1115" stroke-width="2.6" stroke-linecap="round" fill="none"></path></svg><b>ConnectX</b></span><span></span><span></span></div>
+        <div class="c4 cx4__solo"><p class="cx4__me">Battery state this morning?</p><p class="cx4__bot">The battery was at 64% at 07:00 and has charged to 78% from the roof solar since. At the current rate it will be full by 13:40…</p><p class="cx4__me">What’s driving cost today?</p><p class="cx4__bot">Most of today’s cost comes from the 17:00 peak. Load is forecast at 340 kW then, against a tariff three times the midday rate. Shifting EV charging and pre-cooling floors 5 to 7 would…</p>
+        <div class="cx4__soloin"><span>Ask anything about the building…</span><span class="send4">Send</span></div></div>`;
+      stage.dataset.mode = m; stage.dataset.variant = variant;
       placeBuilding();
       applyAssembly();
     }
@@ -3288,6 +3259,13 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
     /* fit: below 900px the stage renders at 1280px and scales down, so the product keeps its proportions */
     const fit = () => {
       const w = host.clientWidth;
+      if (crop && w) {
+        const [cx, cy, z, ar] = crop, k = (w * z) / 1280;
+        stage.style.width = '1280px';
+        stage.style.transform = `translate(${(-cx * 1280 * k).toFixed(1)}px, ${(-cy * 800 * k).toFixed(1)}px) scale(${k.toFixed(4)})`;
+        host.style.height = (w / (ar || 1.6)) + 'px';
+        return;
+      }
       if (w && w < 900) { stage.style.width = '1280px'; stage.style.transform = `scale(${w / 1280})`; host.style.height = (w / 1.6) + 'px'; }
       else { stage.style.width = ''; stage.style.transform = ''; host.style.height = ''; }
     };
@@ -3330,7 +3308,7 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
   }
 
   const apps = {};
-  document.querySelectorAll('[data-cx]').forEach((el) => { apps[el.dataset.cx] = create(el); });
+  document.querySelectorAll('[data-cx]').forEach((el) => { apps[el.dataset.cx] = create(el); if ('cxStatic' in el.dataset) el.setAttribute('inert', ''); });
   window.cxApp = (k) => apps[k];
 
   /* hero builds once it is first seen; peak plays the first time it scrolls into view */

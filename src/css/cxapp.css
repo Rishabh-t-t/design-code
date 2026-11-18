@@ -145,3 +145,18 @@
 .cxv .s4__bld img[data-i] { transition: opacity .5s ease; }
 .cxv .s4__bld:not(.is-ready) img[data-i] { opacity: 0 !important; }
 .cxv .s4__bld.is-ready .s4__lqip { opacity: 0; }
+
+/* ---------- the two directions we did not build ---------- */
+.cx4__chat { display: flex; flex-direction: column; gap: .8cqi; }
+.cx4__me, .cx4__bot { margin: 0; padding: .9cqi 1.1cqi; border-radius: 1cqi; font-size: 1.05cqi; line-height: 1.45; }
+.cx4__me { align-self: flex-end; background: var(--ink); color: #fff; max-width: 80%; }
+.cx4__bot { background: var(--surface-2); color: var(--ink2); }
+.s4[data-variant="chatside"] .s4__bld { filter: grayscale(1) opacity(.75); }
+.s4[data-variant="chatonly"] .s4__bld { display: none; }
+.cx4__solo { position: absolute !important; left: 50%; top: 9cqi; width: 54cqi; transform: translateX(-50%); padding: 2.2cqi; display: flex; flex-direction: column; gap: 1.1cqi; }
+.cx4__solo .cx4__bot { max-width: 92%; }
+.cx4__soloin { display: flex; align-items: center; justify-content: space-between; margin-top: 1cqi; padding: .9cqi .9cqi .9cqi 1.4cqi; border-radius: 1.1cqi; background: var(--surface-2); color: var(--ink3); font-size: 1.15cqi; }
+.cx4__soloin .send4 { height: 3.2cqi; }
+
+/* static frames: no pointer, no focus */
+.cxv[inert] { pointer-events: none; }
