@@ -319,3 +319,8 @@
 
 /* close-ups show one detail each: no title */
 .closeup .cx4__title { display: none; }
+
+/* capability tag on chapter labels: quiet, implied */
+.chapter__cap { margin-left: 10px; padding-left: 10px; border-left: 1px solid var(--line-2); color: var(--ink-3); }
+/* caption under the hero product */
+.hero__cap { margin-top: 14px; font-size: var(--t-body-m); color: var(--ink-3); }

@@ -1338,6 +1338,11 @@ html:not(.motion) .timeline__track { display: none; }
 
 /* close-ups show one detail each: no title */
 .closeup .cx4__title { display: none; }
+
+/* capability tag on chapter labels: quiet, implied */
+.chapter__cap { margin-left: 10px; padding-left: 10px; border-left: 1px solid var(--line-2); color: var(--ink-3); }
+/* caption under the hero product */
+.hero__cap { margin-top: 14px; font-size: var(--t-body-m); color: var(--ink-3); }
 </style>
 <style>
 /* ==========================================================================
@@ -2346,7 +2351,6 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
         { "@type": "Question", "name": "How long did the ConnectX MVP take?", "acceptedAnswer": { "@type": "Answer", "text": "8 weeks in total. The coded demo was ready in about 4 weeks, and the production module followed 4 weeks later. It has been live since late 2025." } },
         { "@type": "Question", "name": "Who worked on the ConnectX MVP?", "acceptedAnswer": { "@type": "Answer", "text": "A team of 3 from Tcules: 1 product designer and 2 developers, working directly with the ConnectX founder." } },
         { "@type": "Question", "name": "Did Tcules only design the MVP, or build it too?", "acceptedAnswer": { "@type": "Answer", "text": "Both. Tcules defined the product, designed the interaction model and the digital twin, built a coded demo, then took that demo through to the production module that is live today." } },
-        { "@type": "Question", "name": "What was left out of the first version?", "acceptedAnswer": { "@type": "Answer", "text": "Complex, custom-built live twins. Instead, the team pre-built a set of high-quality building twins for v1. That kept the build fast and reliable, and custom live twins stay on the roadmap." } },
         { "@type": "Question", "name": "Can Tcules build an MVP like this for a pre-seed startup?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. We start with the questions your users need answered, scope them into a small set of scenarios, prove the idea in a coded demo, then ship the MVP." } }
       ]
     }
@@ -2425,7 +2429,8 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
     <div class="detail"><dt>Status</dt><dd class="detail__status"><span class="badge-live">Live</span> since late 2025</dd></div>
   </dl>
   <div class="sec hero__media">
-    <div data-cx="hero" data-cx-min data-cx-label="The ConnectX product live: Meridian Tower assembles, then the dashboard builds around it. Pick a question or type one to see it answered on the building."></div>
+    <div data-cx="hero" data-cx-min data-cx-label="The ConnectX product live: pick a question or type one to see it answered on the building."></div>
+    <p class="hero__cap">Designed and built by Tcules in 8 weeks. Live since late 2025.</p>
   </div>
 </section>
 
@@ -2435,16 +2440,7 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
 <section class="intro" aria-label="Introduction">
   <div class="intro__horizon" aria-hidden="true"></div>
   <div class="sec intro__summary-row">
-    <h2 class="intro__summary t-heading-l">An AI-first energy product, scoped, proved in code and shipped by a team of 3.</h2>
-  </div>
-  <div class="sec split intro__split">
-    <div class="split__left"></div>
-    <div class="split__right">
-      <div class="copy copy--m">
-      <p>ConnectX’s founder had a bold idea: let facilities, finance and sustainability teams ask about a building in plain words, and get back a working view of it, not a chat reply. Bold ideas are expensive to get wrong.</p>
-      <p>Tcules scoped the idea into 8 testable scenarios, had a coded demo running in 4 weeks and in front of investors soon after, then took it to production 4 weeks later. 1 designer, 2 developers, 8 weeks, 1 live product.</p>
-      </div>
-    </div>
+    <h2 class="intro__summary t-heading-l">An AI-first energy product, defined, designed and built by a team of 3.</h2>
   </div>
 </section>
 
@@ -2463,12 +2459,10 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
       <p class="t-heading-m">be proved in front of investors and live, in 8 weeks?</p>
     </div>
     <dl class="summary">
-      <div class="summary__row"><dt>Product</dt><dd>ConnectX, an AI-first building-energy product for facilities, finance and sustainability teams.</dd></div>
       <div class="summary__row"><dt>Team</dt><dd>1 product designer and 2 developers from Tcules, working directly with the founder.</dd></div>
-      <div class="summary__row"><dt>Timeline</dt><dd>8 weeks: a coded demo in 4, then production in the next 4.</dd></div>
-      <div class="summary__row"><dt>What shipped</dt><dd>8 scenarios, an adaptive workspace, a simplified 2.5D digital twin and a production module, live since late 2025.</dd></div>
-      <div class="summary__row"><dt>Left out of v1</dt><dd>Complex, custom-built live twins. v1 runs on a set of pre-built, high-quality building twins instead.</dd></div>
-      <div class="summary__row"><dt>Outcome</dt><dd>The demo led to 2 investor meetings. The product has been live since late 2025.</dd></div>
+      <div class="summary__row"><dt>Timeline</dt><dd>8 weeks: a coded demo in 4, production in the next 4.</dd></div>
+      <div class="summary__row"><dt>What we did</dt><dd>Product definition, product strategy, product design and development, from the first workshop to the live product.</dd></div>
+      <div class="summary__row"><dt>Outcome</dt><dd>2 investor meetings from the week-4 demo. Live since late 2025.</dd></div>
     </dl>
   </div>
 </section>
@@ -2478,17 +2472,15 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
      ====================================================================== -->
 <section class="chapter" id="starting-point" data-chapter="01 · The idea" aria-labelledby="ch1-title">
   <div class="sec chapter__label-row chapter__label-row--first">
-    <p class="chapter__label"><span class="chapter__num">01</span> — The idea <span class="chapter__wk">Week 1</span></p>
+    <p class="chapter__label"><span class="chapter__num">01</span> — The idea <span class="chapter__cap">Product definition</span> <span class="chapter__wk">Week 1</span></p>
   </div>
   <div class="sec chapter__heading-row">
     <h2 id="ch1-title" class="t-heading-l chapter__heading">A bold AI idea, and a real risk<br> of building the wrong thing</h2>
   </div>
   <div class="sec split split--start">
     <div class="copy copy--l">
-      <p>ConnectX’s customers were 3 very different users of the same energy system. A facilities operator needs the exception that requires action. A finance leader needs cost and a forecast. A sustainability team needs progress against a target.</p>
-      <p>The founder’s early concepts held much of the right material. What was missing was a dependable path from a person’s question to the data, the view and the action they needed.</p>
-      <p>The two obvious answers were both traps. One dashboard for everyone shows too much. A fixed dashboard per role multiplies the product, and still breaks when a situation crosses roles.</p>
-      <aside class="fnote"><p class="fnote__label">For founders</p><p>This is where most AI MVPs go wrong. “Make it adaptive” is not a spec, and building straight from the vision means months of engineering before you know whether the core interaction works.</p></aside>
+      <p>We started with the people, not the AI. Three users share one energy system and ask very different questions: the exception to act on, the cost and the forecast, the progress against a target.</p>
+      <p>The obvious answers were traps. One dashboard for everyone shows too much, and one per role multiplies the product. So we defined the MVP around the questions themselves.</p>
     </div>
     <ul class="roles" aria-label="Three teams, three needs">
       <li class="role-card cx" data-tone="sage"><span class="role-card__tag"><i aria-hidden="true"></i>SUSTAINABILITY</span><p class="role-card__role">Sustainability team</p><p class="role-card__ask"><span class="role-card__q" data-type>Progress against an environmental target</span><span class="cx-caret" aria-hidden="true"></span></p></li>
@@ -2498,7 +2490,7 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
   </div>
 </section>
 
-<section class="banner" aria-label="Pull quote: starting point">
+<section hidden class="banner" aria-label="Pull quote: starting point">
   <div class="banner__inner">
     <p class="banner__text t-heading-l">The ingredients were there. The MVP’s job was to give them a structure that responds to what a person is trying to do.</p>
     <p class="banner__cite">01 · The idea</p>
@@ -2523,7 +2515,7 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
      ====================================================================== -->
 <section class="chapter" id="choice" data-chapter="02 · The riskiest call" aria-labelledby="ch2-title">
   <div class="sec chapter__label-row">
-    <p class="chapter__label"><span class="chapter__num">02</span> — The riskiest call <span class="chapter__wk">Weeks 1–2</span></p>
+    <p class="chapter__label"><span class="chapter__num">02</span> — The riskiest call <span class="chapter__cap">Product strategy</span> <span class="chapter__wk">Weeks 1–2</span></p>
   </div>
   <div class="sec chapter__heading-row">
     <h2 id="ch2-title" class="t-heading-l chapter__heading">Chat beside the dashboard, or chat that builds it? We chose both.</h2>
@@ -2532,10 +2524,8 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
     <div class="split__left"></div>
     <div class="split__right">
       <div class="copy copy--m">
-      <p class="copy__lead">This was the decision that shaped the whole MVP: ship something users already understand, or something genuinely new? We shipped both, which meant lower adoption risk for a first release and a clearer story for investors.</p>
-      <p>Two directions were on the table. The first kept a conventional dashboard and added an AI assistant. Familiar, but the screen stayed the same for every question.</p>
-      <p>The second let the conversation decide what appeared on screen. It adapted more deeply, but left people nowhere to keep comparing and working with the data.</p>
-      <p>The chosen model combined both. The AI understands the question, pulls the right data and lays out the screen around it. From there, it is a normal workspace you keep working in.</p>
+      <p class="copy__lead">The call that shaped the MVP: give people something familiar, or something new?</p>
+      <p>We weighed both, then combined them. People ask in plain words, the answer lands on the building, and the workspace stays open to keep working. Lower adoption risk for a first release, and a clearer story for investors.</p>
       </div>
     </div>
   </div>
@@ -2558,7 +2548,7 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
   </div>
 </section>
 
-<section class="banner" aria-label="Pull quote: the choice">
+<section hidden class="banner" aria-label="Pull quote: the choice">
   <div class="banner__inner">
     <p class="banner__text t-heading-l">The dashboard stayed, and chat became one way to build the right version of it for the work at hand.</p>
     <p class="banner__cite">02 · The riskiest call</p>
@@ -2570,7 +2560,7 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
      ====================================================================== -->
 <section class="chapter" id="scoping-the-mvp" data-chapter="03 · Scoping the MVP" aria-labelledby="ch3-title">
   <div class="sec chapter__label-row">
-    <p class="chapter__label"><span class="chapter__num">03</span> — Scoping the MVP <span class="chapter__wk">Weeks 1–2</span></p>
+    <p class="chapter__label"><span class="chapter__num">03</span> — Scoping the MVP <span class="chapter__cap">Product definition</span> <span class="chapter__wk">Weeks 1–2</span></p>
   </div>
   <div class="sec chapter__heading-row">
     <h2 id="ch3-title" class="t-heading-l chapter__heading">We cut “an AI that can do anything” down to 8 scenarios</h2>
@@ -2579,9 +2569,7 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
     <div class="split__left"></div>
     <div class="split__right">
       <div class="copy copy--m">
-      <p>An interface that can assemble anything is hard to specify, hard to build and hard to trust. So the MVP didn’t try to do anything. In week 1, Tcules and ConnectX picked 8 representative situations across system status, forecasting, asset performance and operational conditions.</p>
-      <p>Each scenario was a mini-spec: the request that starts it, the intent detected, the data required, the interface modules, the twin’s behaviour and the next action available. The AI could adapt, but only within those product rules.</p>
-      <aside class="fnote"><p class="fnote__label">For founders</p><p>Scenarios turn a vague AI vision into something an engineer can build, a tester can check and an investor can watch in a demo.</p></aside>
+      <p>We cut “an AI that can do anything” into 8 scenarios across 4 areas. Each one is a mini-spec: the question, the data it needs, what the screen shows and the next action. Small enough to design, build and demo in weeks.</p>
       </div>
     </div>
   </div>
@@ -2605,8 +2593,7 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
     <div class="peak__text">
       <h3 class="t-heading-m">One scenario, end to end: a peak-price alert</h3>
       <div class="copy copy--l">
-        <p>An operator asking about a peak-price event needs more than a suggested battery action. They need to see the affected assets, the data behind the suggestion and what the action would change.</p>
-        <p>The scenario work connected the request to everything around it. That meant the information to display, the controls to offer and what the workspace should keep in place. Each scenario gave the adaptive interface a specific job.</p>
+        <p>We designed every scenario end to end, from the question to the action. Here is the peak-price alert: asked in plain words, the building scanned, the answer placed on the building with the next step.</p>
         <button class="twin-replay" type="button" data-ask-replay>Replay the request</button>
       </div>
     </div>
@@ -2618,7 +2605,7 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
      ====================================================================== -->
 <section class="chapter" id="design-that-ships" data-chapter="04 · Design that ships" aria-labelledby="ch4-title">
   <div class="sec chapter__label-row">
-    <p class="chapter__label"><span class="chapter__num">04</span> — Design that ships <span class="chapter__wk">Weeks 2–8</span></p>
+    <p class="chapter__label"><span class="chapter__num">04</span> — Design that ships <span class="chapter__cap">Product design</span> <span class="chapter__wk">Weeks 2–8</span></p>
   </div>
   <div class="sec chapter__heading-row">
     <h2 id="ch4-title" class="t-heading-l chapter__heading">Design by subtraction: a simpler twin, pre-built for v1</h2>
@@ -2627,9 +2614,8 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
     <div class="split__left"></div>
     <div class="split__right">
       <div class="copy copy--m">
-      <p>Early directions explored detailed 3D buildings, maps and realistic representation. Realism was tempting, so the team tested it against a harder question: does it help someone understand the energy system?</p>
-      <p>The useful questions were narrower: which assets are connected, where are they, what state are they in, and which one matters now? The chosen 2.5D direction treated the twin as an explanation layer. It could highlight, dim or bring an asset into focus depending on the scenario.</p>
-      <p>The same thinking set the MVP’s scope. Generating a custom live twin for every building is complex, slow and risky to build. So for v1 the team pre-built a set of high-quality building twins, designed once and reused across customers. The product could launch on schedule, and look finished doing it.</p>
+      <p>We kept the twin simple on purpose: which assets are connected, what state they are in, which one matters now. Every state of the product, from the morning view to the scan and the answer, was designed before it was built.</p>
+      <p>For v1 we pre-built high-quality building twins instead of generating custom ones, so the product launched on schedule and looked finished doing it.</p>
       </div>
     </div>
   </div>
@@ -2680,7 +2666,7 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
      ====================================================================== -->
 <section class="chapter" id="eight-weeks-to-live" data-chapter="05 · 8 weeks to live" aria-labelledby="ch5-title">
   <div class="sec chapter__label-row">
-    <p class="chapter__label"><span class="chapter__num">05</span> — 8 weeks to live <span class="chapter__wk">Weeks 3–8</span></p>
+    <p class="chapter__label"><span class="chapter__num">05</span> — 8 weeks to live <span class="chapter__cap">Development</span> <span class="chapter__wk">Weeks 3–8</span></p>
   </div>
   <div class="sec chapter__heading-row">
     <h2 id="ch5-title" class="t-heading-l chapter__heading">A coded demo in 4 weeks. Live 4 weeks later.</h2>
@@ -2689,9 +2675,9 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
     <div class="split__left"></div>
     <div class="split__right">
       <div class="copy copy--m">
-      <p>By week 4, ConnectX had a coded demo, not a clickable mock-up. It ran on sample data, so the founder could see a question, its data and the twin working together as one product before committing to live integrations.</p>
-      <p class="copy__lead">That demo did its job beyond the team. It led to 2 investor meetings, with a working product on screen instead of slides.</p>
-      <p>Because the demo was real code built on the final design direction, it became the starting point for production, not a throwaway. Tcules took it through to a production module in the next 4 weeks, and it has been live since late 2025.</p>
+      <p>We built the demo in real code by week 4, on sample data, so the founder could see the product working before committing to integrations.</p>
+      <p class="copy__lead">It went straight into 2 investor meetings, with a working product on screen instead of slides.</p>
+      <p>Then we took the same code to production in 4 weeks. The demo became the starting point, not a throwaway.</p>
       </div>
     </div>
   </div>
@@ -2816,14 +2802,6 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
       <details class="faq__item">
         <summary><h3 class="t-label">Did Tcules only design the MVP, or build it too?</h3><span class="faq__icon" aria-hidden="true"></span></summary>
         <div class="faq__a t-body"><p>Both. Tcules defined the product, designed the interaction model and the digital twin, built a coded demo, then took that demo through to the production module that is live today.</p></div>
-      </details>
-      <details class="faq__item">
-        <summary><h3 class="t-label">Why a coded demo instead of a clickable prototype?</h3><span class="faq__icon" aria-hidden="true"></span></summary>
-        <div class="faq__a t-body"><p>An AI product’s value is in how the question, the data and the interface work together. A coded demo showed that as one working product, convinced investors in a way slides can’t, and became the starting point for production rather than a throwaway.</p></div>
-      </details>
-      <details class="faq__item">
-        <summary><h3 class="t-label">What was left out of the first version?</h3><span class="faq__icon" aria-hidden="true"></span></summary>
-        <div class="faq__a t-body"><p>Complex, custom-built live twins. Instead, the team pre-built a set of high-quality building twins for v1. That kept the build fast and reliable, and custom live twins stay on the roadmap.</p></div>
       </details>
       <details class="faq__item">
         <summary><h3 class="t-label">Can you build an MVP like this for a pre-seed startup?</h3><span class="faq__icon" aria-hidden="true"></span></summary>
