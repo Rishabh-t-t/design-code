@@ -2214,9 +2214,9 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
 .detail, .detail--grow { flex: none; gap: 4px; white-space: normal; min-width: 0; }
 .detail dt { font-size: var(--ml-16); line-height: 1.4; font-weight: 500; text-transform: none; letter-spacing: -.01em; color: var(--ink); }
 .detail dd { font-size: var(--ml-16); line-height: 1.4; font-weight: 400; color: var(--ink-3); }
-.hero__media.sec { max-width: none; padding-inline: 0; padding-bottom: 0; }
-.hero__media .cxv { border-radius: 0; }
-.hero__cap { padding: 16px var(--pad-x) 0; font-size: var(--ml-16); color: var(--ink-3); }
+.hero__media.sec { padding-bottom: 0; }
+.hero__media .cxv { border-radius: 12px; }
+.hero__cap { padding-top: 16px; font-size: var(--ml-16); color: var(--ink-3); }
 
 /* ---------- Intro: one large statement, brightening as it is read ---------- */
 .intro__summary-row { padding-top: calc(var(--rhythm) + clamp(60px, 6vw, 120px)); padding-bottom: var(--rhythm); }
@@ -2228,7 +2228,7 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
 }
 
 /* ---------- Chapters: label + statement from column 3, notes in columns 7–11 ---------- */
-.chapter__label-row { padding-top: var(--rhythm); padding-bottom: 0; padding-left: calc(var(--pad-x) + var(--col3)); }
+.chapter__label-row { padding-top: var(--rhythm); padding-bottom: 0; }
 .chapter__label-row--first { padding-top: calc(var(--rhythm) * .6); }
 .chapter__label {
   display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px;
@@ -2237,9 +2237,9 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
 .chapter__num { font-weight: 400; letter-spacing: 0; color: var(--ink-3); }
 .chapter__cap { margin-left: 0; padding-left: 14px; font-size: var(--ml-16); }
 .chapter__wk { height: 24px; font-size: 13px; letter-spacing: 0; text-transform: none; vertical-align: 2px; }
-.chapter__heading-row { padding-top: clamp(20px, 2vw, 32px); padding-bottom: 0; padding-left: calc(var(--pad-x) + var(--col3)); }
+.chapter__heading-row { padding-top: clamp(20px, 2vw, 32px); padding-bottom: 0; }
 .chapter__heading, .t-heading-l.chapter__heading {
-  max-width: calc(6 * var(--colg));
+  max-width: calc(7 * var(--colg));
   font-size: var(--ml-40); font-weight: 400; line-height: 1.2; letter-spacing: -.03em; color: var(--ink);
 }
 .chapter__heading br { display: none; }
@@ -2256,14 +2256,13 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
 
 /* 01: notes in columns 3–6, the three role cards in columns 7–12 */
 .split--start {
-  grid-template-columns: calc(4 * var(--colg) - var(--gutter-ml)) minmax(0, 1fr);
-  column-gap: var(--colg);
+  grid-template-columns: calc(6 * var(--colg) - var(--gutter-ml)) minmax(0, 1fr);
+  column-gap: var(--gutter-ml);
   padding-top: clamp(32px, 3vw, 48px); padding-bottom: calc(var(--rhythm) * .5);
-  padding-left: calc(var(--pad-x) + var(--col3));
 }
 
 /* early concepts: two images from column 3 */
-.media-sec .shells { padding-left: calc(var(--pad-x) + var(--col3)); padding-block: 0 var(--rhythm); }
+.media-sec .shells { padding-block: 0 var(--rhythm); }
 
 /* ---------- Riskiest call: three product frames across the grid ---------- */
 .options { padding-block: 0 0; column-gap: var(--gutter-ml); }
@@ -2275,7 +2274,10 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
 
 /* ---------- Scenario areas & peak price: notes in columns 1–3, product in columns 4–12 ---------- */
 .areas { grid-template-columns: calc(3 * var(--colg) - var(--gutter-ml)) minmax(0, 1fr); column-gap: var(--gutter-ml); }
-.areas__label { font-size: var(--ml-16); font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--ink); }
+.areas { align-items: start; }
+.areas__nav { gap: 0; }
+.areas__label { height: 32px; margin: 0; font-size: var(--ml-16); line-height: 20px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--ink); }
+.areas__view[data-cx] { margin-top: 32px; align-self: start; }
 .areas__item button { font-size: var(--ml-20); font-weight: 400; padding: 14px 0; }
 .areas__n { font-size: var(--ml-16); color: var(--ink-3); }
 .areas__view[data-cx] .s4, .areas__view[data-cx] { border-radius: 8px; }
@@ -2289,14 +2291,14 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
 .peak .sub__media[data-cx], .peak .sub__media .s4 { border-radius: 8px; }
 
 /* ---------- Design that ships: scope block and close-ups on the grid ---------- */
-.scope { padding-left: calc(var(--pad-x) + var(--col3)); column-gap: var(--gutter-ml); padding-bottom: clamp(48px, 5vw, 80px); }
+.scope { column-gap: var(--gutter-ml); padding-bottom: clamp(48px, 5vw, 80px); }
 .scope__label { font-size: var(--ml-20); font-weight: 400; }
 .scope li { font-size: var(--ml-16); }
 .closeups { padding-block: 0 0; column-gap: var(--gutter-ml); }
 
 /* ---------- Banner: a statement from column 3, not centred ---------- */
-.banner__inner { max-width: none; align-items: flex-start; text-align: left; padding: var(--rhythm) var(--pad-x) 0 calc(var(--pad-x) + var(--col3)); }
-.banner__text { max-width: calc(6 * var(--colg)); font-size: var(--ml-40); font-weight: 400; line-height: 1.2; letter-spacing: -.03em; }
+.banner__inner { max-width: calc(var(--sec-max) + 2 * var(--pad-x)); align-items: flex-start; text-align: left; padding: var(--rhythm) var(--pad-x) 0; }
+.banner__text { max-width: calc(8 * var(--colg)); font-size: var(--ml-40); font-weight: 400; line-height: 1.2; letter-spacing: -.03em; }
 .banner__cite { font-size: var(--ml-16); font-weight: 400; letter-spacing: 0; text-transform: none; }
 
 /* ---------- Timeline & mid CTA ---------- */
@@ -2324,9 +2326,21 @@ button.c4:hover { background: rgba(255, 255, 255, .4); }
   .banner__inner { padding: var(--rhythm) var(--pad-x) 0; }
   .details { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .chapter__heading, .banner__text, .intro__summary, .chapter .split .copy { max-width: none; }
-  .areas, .peak { grid-template-columns: minmax(0, 1fr); }
+  .motion .areas, .areas, .peak { grid-template-columns: minmax(0, 1fr) !important; }
+  .motion .areas, .areas { display: block !important; }
+  .areas__view[data-cx] { width: 100%; margin-top: 20px; }
   .split--start { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* ---------- final polish: one radius for every product frame and image ---------- */
+:root { --frame-r: 12px; }
+.hero__media .cxv, .option .cxv, .closeup .cxv,
+.areas__view[data-cx], .areas__view[data-cx] .s4,
+.peak .sub__media[data-cx], .peak .sub__media .s4,
+.shell__frame, .scope__col, .midcta { border-radius: var(--frame-r); }
+.option--chosen .cxv { outline-offset: 3px; }
+.areas__progress { margin-top: 12px; font-size: var(--ml-16); color: var(--ink-3); }
+.peak__text { padding-top: 32px; }
 </style>
 <style>
 /* ==========================================================================
